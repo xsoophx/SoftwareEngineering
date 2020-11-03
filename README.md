@@ -29,7 +29,7 @@ For each tool, a functional as well as a non-functional requirement needs to be 
 | Config File   |   M01-01F  |     M01-01N    |
 | Bubble View   |   M01-02F  |     M01-02N    |
 | Code Charts   |   M01-03F  |     M01-03N    |
-| Eyetracking   |   M01-04F  |     M01-04N    |
+| Eyetracking   |   [M01-04F](./docs/snowcards/m01/functional/04F.md)  |     [M01-04N](./docs/snowcards/m01/non-functional/04N.md)    |
 | Data storage  |   [M01-05F](./docs/snowcards/m01/functional/05F.md)  |     [M01-05N](./docs/snowcards/m01/non-functional/05N.md)    |
 | Data analysis |   M01-06F  |     M01-06N    |
 
