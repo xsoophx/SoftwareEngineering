@@ -15,10 +15,11 @@ This is an assignment project for Software Engineering class at TU-Chemnitz.
 The toolbox for capturing and evaluating of visual attention consists of multiple, different parts:
 - Config File :wrench:
 - Tool: Bubble View :wind_chime:
+- Tool: Zoom Maps :mag:
 - Tool: Code Charts :chart_with_upwards_trend:
 - Tool: Webcam based Eyetracking :eyes:
 - Storage for collected data :floppy_disk:
-- Client for analysing of the data :mag:
+- Client for analysing of the data :microscope:
 
 The first task was to describe the requirements of the different parts, with the help of Volere Snow Cards.
 For each tool, a functional as well as a non-functional requirement needs to be described.
@@ -26,7 +27,7 @@ For each tool, a functional as well as a non-functional requirement needs to be 
 
 | **Req-ID's**      | functional | non-functional |
 |---------------|:----------:|:--------------:|
-| Config File   |   M01-01F  |     M01-01N    |
+| Config File   |   [M01-01F](./docs/snowcards/m01/functional/01F.md)  |     [M01-01N](./docs/snowcards/m01/non-functional/01N.md)    |
 | Bubble View   |   M01-02F  |     M01-02N    |
 | Zoom Maps     |   M01-03F  |     M01-03N    |
 | Code Charts   |   [M01-04F](./docs/snowcards/m01/functional/04F.md)  |     [M01-04N](./docs/snowcards/m01/non-functional/04N.md)    |
