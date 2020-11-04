@@ -28,7 +28,7 @@ For each tool, a functional as well as a non-functional requirement needs to be 
 | **Req-ID's**      | functional | non-functional |
 |---------------|:----------:|:--------------:|
 | Config File   |   [M01-01F](./docs/snowcards/m01/functional/01F.md)  |     [M01-01N](./docs/snowcards/m01/non-functional/01N.md)    |
-| Bubble View   |   M01-02F  |     M01-02N    |
+| Bubble View   |   [M01-02F](./docs/snowcards/m01/functional/02F.md)  |     [M01-02N](./docs/snowcards/m01/non-functional/02N.md)    |
 | Zoom Maps     |   M01-03F  |     M01-03N    |
 | Code Charts   |   [M01-04F](./docs/snowcards/m01/functional/04F.md)  |     [M01-04N](./docs/snowcards/m01/non-functional/04N.md)    |
 | Eyetracking   |   [M01-05F](./docs/snowcards/m01/functional/05F.md)  |     [M01-05N](./docs/snowcards/m01/non-functional/05N.md)    |
