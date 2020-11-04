@@ -33,6 +33,6 @@ For each tool, a functional as well as a non-functional requirement needs to be 
 | Code Charts   |   [M01-04F](./docs/snowcards/m01/functional/04F.md)  |     [M01-04N](./docs/snowcards/m01/non-functional/04N.md)    |
 | Eyetracking   |   [M01-05F](./docs/snowcards/m01/functional/05F.md)  |     [M01-05N](./docs/snowcards/m01/non-functional/05N.md)    |
 | Data storage  |   [M01-06F](./docs/snowcards/m01/functional/06F.md)  |     [M01-06N](./docs/snowcards/m01/non-functional/06N.md)    |
-| Data analysis |   M01-07F  |     M01-07N    |
+| Data analysis |   [M01-07F](./docs/snowcards/m01/functional/07F.md)  |     [M01-07N](./docs/snowcards/m01/non-functional/07N.md)    |
 
 ## Milestone :two:
