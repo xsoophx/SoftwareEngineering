@@ -46,13 +46,13 @@ The second task was to analyze all of the components of the toolbox with the hel
 
 |      Tool     |   ID   |
 |:-------------:|:------:|
-| Config File   | M02-01 |
-| Bubble View   | M02-02 |
-| Zoom Maps     | M02-03 |
-| Code Charts   | M02-04 |
-| Eyetracking   | M02-05 |
-| Data storage  | M02-06 |
-| Data analysis | M02-07 |
+| Config File   | [M02-01](docs/m02/crc_cards/01.md) |
+| Bubble View   | [M02-02](docs/m02/crc_cards/02.md) |
+| Zoom Maps     | [M02-03](docs/m02/crc_cards/03.md) |
+| Code Charts   | [M02-04](docs/m02/crc_cards/04.md) |
+| Eyetracking   | [M02-05](docs/m02/crc_cards/05.md) |
+| Data storage  | [M02-06](docs/m02/crc_cards/06.md) |
+| Data analysis | [M02-07](docs/m02/crc_cards/07.md) |
 <br />
 
 ## Milestone :three:
