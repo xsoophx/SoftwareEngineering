@@ -3,15 +3,12 @@
 This is an assignment project for Software Engineering class at TU-Chemnitz.
 
 ## Table of contents :book:
++ [Our toolbox](#which-tools-will-we-use?)
 + [Milestone 01](#milestone-one)
-    + [Our toolbox](#which-tools-will-we-use?)
     + [Enumeration of Volere Snowcard IDs](#enumeration-of-volere-snowcard-ids)
 + [Milestone 02](#milestone-two)
    
-
-## Milestone :one:
-*Deadline: 05.11.2020*
-#### Which tools will we use?
+## Which tools will we use?
 The toolbox for capturing and evaluating of visual attention consists of multiple, different parts:
 - Config File :wrench:
 - Tool: Bubble View :wind_chime:
@@ -20,6 +17,11 @@ The toolbox for capturing and evaluating of visual attention consists of multipl
 - Tool: Webcam based Eyetracking :eyes:
 - Storage for collected data :floppy_disk:
 - Client for analysing of the data :microscope:
+
+<br />
+
+## Milestone :one:
+*Deadline: 05.11.2020*
 
 The first task was to describe the requirements of the different parts, with the help of Volere Snow Cards.
 For each tool, a functional as well as a non-functional requirement needs to be described.
@@ -35,4 +37,22 @@ For each tool, a functional as well as a non-functional requirement needs to be 
 | Data storage  |   [M01-06F](docs/m01/snowcards/functional/06F.md)  |     [M01-06N](docs/m01/snowcards/non-functional/06N.md)    |
 | Data analysis |   [M01-07F](docs/m01/snowcards/functional/07F.md)  |     [M01-07N](docs/m01/snowcards/non-functional/07N.md)    |
 
+<br />
+
 ## Milestone :two:
+*Deadline: 12.11.2020*
+
+The second task was to analyze all of the components of the toolbox with the help of CRC Cards. All classes, dependencies, responsibilities, collaborations and relations, but also hierarchies (and inheritance) are supposed to be found. Also, the results need some reasing for the chosen arrangements. 
+
+|      Tool     |   ID   |
+|:-------------:|:------:|
+| Config File   | [M02-01](docs/m02/crc_cards/01.md) |
+| Bubble View   | [M02-02](docs/m02/crc_cards/02.md) |
+| Zoom Maps     | [M02-03](docs/m02/crc_cards/03.md) |
+| Code Charts   | [M02-04](docs/m02/crc_cards/04.md) |
+| Eyetracking   | [M02-05](docs/m02/crc_cards/05.md) |
+| Data storage  | [M02-06](docs/m02/crc_cards/06.md) |
+| Data analysis | [M02-07](docs/m02/crc_cards/07.md) |
+<br />
+
+## Milestone :three:
