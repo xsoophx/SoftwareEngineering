@@ -8,6 +8,8 @@ This is an assignment project for Software Engineering class at TU-Chemnitz.
 -   [Milestone 01](#milestone-one)
     -   [Enumeration of Volere Snowcard IDs](#enumeration-of-volere-snowcard-ids)
 -   [Milestone 02](#milestone-two)
+-   [Milestone 03](#milestone-three)
+-   [Milestone 03](#milestone-four)
 
 ## Which tools will we use?
 
@@ -67,3 +69,5 @@ The second task was to analyze all of the components of the toolbox with the hel
 _Deadline: 19.11.2020_
 
 The third task was to create a UML - classdiagram based on the class hierarchy of our [CRC-Cards](docs/m02/crc_cards). We were supposed to give the exact interfaces of the classes, as well as attributes, which have to be managed by this classes. The decision for this design should be describable with only a few words.
+
+## Milestone :four:
