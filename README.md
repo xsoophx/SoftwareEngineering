@@ -9,7 +9,7 @@ This is an assignment project for Software Engineering class at TU-Chemnitz.
     -   [Enumeration of Volere Snowcard IDs](#enumeration-of-volere-snowcard-ids)
 -   [Milestone 02](#milestone-two)
 -   [Milestone 03](#milestone-three)
--   [Milestone 03](#milestone-four)
+-   [Milestone 04](#milestone-four)
 
 ## Which tools will we use?
 
