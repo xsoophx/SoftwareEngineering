@@ -68,6 +68,6 @@ The second task was to analyze all of the components of the toolbox with the hel
 
 _Deadline: 19.11.2020_
 
-The third task was to create a UML - classdiagram based on the class hierarchy of our [CRC-Cards](docs/m02/crc_cards). We were supposed to give the exact interfaces of the classes, as well as attributes, which have to be managed by this classes. The decision for this design should be describable with only a few words.
+The third task was to create a UML - classdiagram based on the class hierarchy of our **CRC-Cards** ([_old version_](docs/m02/crc_cards) vs. [**new version**](docs/m03/crc_cards)). We were supposed to give the exact interfaces of the classes, as well as attributes, which have to be managed by this classes. The decision for this design should be describable with only a few words.
 
 ## Milestone :four:
