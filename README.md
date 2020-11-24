@@ -84,14 +84,14 @@ The fourth milestone was to create UML-sequence digarams, as well as UML state m
 
 We were supposed to create a sequence diagram for the act of starting a tool, as well as for using and closing it. At least one tool should be described with a sequence diagram. Moreover, a diagram for the data analysis client was wanted. Starting of this tool, but also importing data and the analysis itself should be depicted in at least one way.
 
-#### _definition UML-sequence diagram_ :bookmark_tabs:
-    The sequence diagram shows a scenario, by depicting interactions between objects within a certain time span.
+#### definition UML-sequence diagram :bookmark_tabs:
+_The sequence diagram shows a scenario, by depicting interactions between objects within a certain time span._
 
 ### UML-state machines
 
 We also had to create a state machine for at least one of the tools. Suitable states and transitions (also with possible conditions and inputs) needed to be defined, to find a model for the behaviour of the tool. Also the state machine of the data client was wanted.
 
-#### _definition UML-state-machine_ :bookmark_tabs:
-    The state machine is describing the developement of an object over time. Dependencies of interactions with other objects, which the system does not contain, are depicted.
+#### definition UML-state-machine :bookmark_tabs:
+_The state machine is describing the developement of an object over time. Dependencies of interactions with other objects, which the system does not contain, are depicted._
 
 ## Milestone :five:
