@@ -10,6 +10,7 @@ This is an assignment project for Software Engineering class at TU-Chemnitz.
 -   [Milestone 02](#milestone-two)
 -   [Milestone 03](#milestone-three)
 -   [Milestone 04](#milestone-four)
+-   [Milestone 05](#milestone-five)
 
 ## Which tools will we use?
 
@@ -71,3 +72,22 @@ _Deadline: 19.11.2020_
 The third task was to create a UML - classdiagram based on the class hierarchy of our **CRC-Cards** ([_old version_](docs/m02/crc_cards) vs. [**new version**](docs/m03/crc_cards)). We were supposed to give the exact interfaces of the classes, as well as attributes, which have to be managed by this classes. The decision for this design should be describable with only a few words.
 
 ## Milestone :four:
+_Deadline: 26.11.2020_
+
+The fourth milestone was to create UML-sequence digarams, as well as UML state machines. 
+
+### UML-sequence diagrams
+
+We were supposed to create a sequence diagram for the act of starting a tool, as well as for using and closing it. At least one tool should be described with a sequence diagram. Moreover, a diagram for the data analysis client was wanted. Starting of this tool, but also importing data and the analysis itself should be depicted in at least one way.
+
+#### definition UML-diagram
+- _The sequence diagram shows a scenario, by depicting interactions between objects within a certain time span._
+
+### UML-state machines
+
+We also had to create a state machine for at least one of the tools. Suitable states and transitions (also with possible conditions and inputs) needed to be defined, to find a model for the behaviour of the tool. Also the state machine of the data client was wanted.
+
+#### definition state-machine
+- _The state machine is describing the developement of an object over time. Dependencies of interactions with other objects, which the system does not contain, are depicted._
+
+## Milestone :five:
