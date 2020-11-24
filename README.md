@@ -11,9 +11,9 @@ This is an assignment project for Software Engineering class at TU-Chemnitz.
 -   [Milestone 03](#milestone-three)
 -   [Milestone 04](#milestone-four)
     -   [UML-sequence diagrams](#uml-sequence-diagrams)
-        -   [Definition of sequence diagrams](#definition-uml-sequence-diagram-bookmarktabs)
+        -   [Definition of sequence diagrams](#definition-uml-sequence-diagram-bookmark_tabs)
     -   [UML-state machines](#uml-state-machines)
-         -   [Definition of state machines](#definition-uml-state-machine-bookmarktabs)
+         -   [Definition of state machines](#definition-uml-state-machine-bookmark_tabs)
 -   [Milestone 05](#milestone-five)
 
 ## Which tools will we use?
