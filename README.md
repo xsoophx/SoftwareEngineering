@@ -55,7 +55,7 @@ For each tool, a functional as well as a non-functional requirement needs to be 
 
 _Deadline: 12.11.2020_
 
-The second task was to analyze all of the components of the toolbox with the help of CRC Cards. All classes, dependencies, responsibilities, collaborations and relations, but also hierarchies (and inheritance) are supposed to be found. Also, the results need some reasing for the chosen arrangements.
+The second task was to analyze all of the components of the toolbox with the help of CRC Cards. All classes, dependencies, responsibilities, collaborations and relations, but also hierarchies (and inheritance) are supposed to be found. Also, the results need some reasoning for the chosen arrangements.
 
 |     Tool      |                 ID                 |
 | :-----------: | :--------------------------------: |
@@ -73,25 +73,25 @@ The second task was to analyze all of the components of the toolbox with the hel
 
 _Deadline: 19.11.2020_
 
-The third task was to create a UML - classdiagram based on the class hierarchy of our **CRC-Cards** ([_old version_](docs/m02/crc_cards) vs. [**new version**](docs/m03/crc_cards)). We were supposed to give the exact interfaces of the classes, as well as attributes, which have to be managed by this classes. The decision for this design should be describable with only a few words.
+The third task was to create a UML - class diagram based on the class hierarchy of our **CRC-Cards** ([_old version_](docs/m02/crc_cards) vs. [**new version**](docs/m03/crc_cards)). We were supposed to give the exact interfaces of the classes, as well as attributes, which have to be managed by these classes. The decision for this design should be describable with only a few words.
 
 ## Milestone :four:
 _Deadline: 26.11.2020_
 
-The fourth milestone was to create UML-sequence digarams, as well as UML state machines. 
+The fourth milestone was to create UML-sequence diagrams, as well as UML state machines. 
 
 ### UML-sequence diagrams
 
-We were supposed to create a sequence diagram for the act of starting a tool, as well as for using and closing it. At least one tool should be described with a sequence diagram. Moreover, a diagram for the data analysis client was wanted. Starting of this tool, but also importing data and the analysis itself should be depicted in at least one way.
+We were supposed to create a sequence diagram for the act of starting a tool, as well as for using and closing it. At least one tool should be described with a sequence diagram. Moreover, a diagram for the data analysis client was wanted. Starting of this tool, but also importing data, and the analysis itself should be depicted in at least one way.
 
 #### definition UML-sequence diagram :bookmark_tabs:
 _The sequence diagram shows a scenario, by depicting interactions between objects within a certain time span._
 
 ### UML-state machines
 
-We also had to create a state machine for at least one of the tools. Suitable states and transitions (also with possible conditions and inputs) needed to be defined, to find a model for the behaviour of the tool. Also the state machine of the data client was wanted.
+We also had to create a state machine for at least one of the tools. Suitable states and transitions (also with possible conditions and inputs) needed to be defined, to find a model for the behaviour of the tool. Also, the state machine of the data client was wanted.
 
 #### definition UML-state-machine :bookmark_tabs:
-_The state machine is describing the developement of an object over time. Dependencies of interactions with other objects, which the system does not contain, are depicted._
+_The state machine is describing the development of an object over time. Dependencies of interactions with other objects, which the system does not contain, are depicted._
 
 ## Milestone :five:
