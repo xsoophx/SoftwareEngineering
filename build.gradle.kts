@@ -46,6 +46,10 @@ dependencies {
 
   testImplementation("io.kotest:kotest-assertions-core-jvm:${Version.KOTEST}")
   testImplementation("io.kotest:kotest-property-jvm:${Version.KOTEST}")
+
+  implementation("org.litote.kmongo:kmongo:4.2.2")
+
+  implementation("com.willowtreeapps.assertk:assertk:0.23")
 }
 
 project.sourceSets {
