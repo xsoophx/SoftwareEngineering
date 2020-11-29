@@ -1,8 +1,11 @@
-package de.tu_chemnitz.se.exercise.persist
+package de.tu_chemnitz.se.exercise.persist.collections
 
 import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
+import de.tu_chemnitz.se.exercise.persist.IConfig
+import org.bson.BsonDocument
 import org.bson.conversions.Bson
+import org.litote.kmongo.findOneById
 
 abstract class AbstractCollection<T : IConfig>(
   private val collection: MongoCollection<T>
@@ -10,6 +13,10 @@ abstract class AbstractCollection<T : IConfig>(
 
   open fun find(filter: Bson): FindIterable<T> {
     return collection.find(filter)
+  }
+
+  open fun findOneById(filter: Any): T? {
+    return collection.findOneById(filter)
   }
 
   open fun saveOne(data: T) {
@@ -24,7 +31,7 @@ abstract class AbstractCollection<T : IConfig>(
     collection.deleteOne(filter)
   }
 
-  open fun deleteMany(filter: Bson) {
+  open fun deleteMany(filter: Bson = BsonDocument()){
     collection.deleteMany(filter)
   }
 

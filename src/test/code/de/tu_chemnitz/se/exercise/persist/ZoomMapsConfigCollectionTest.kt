@@ -1,10 +1,13 @@
 package de.tu_chemnitz.se.exercise.persist
 
 import assertk.assertThat
-import assertk.assertions.*
+import assertk.assertions.containsOnly
+import assertk.assertions.doesNotContain
+import assertk.assertions.isEqualTo
+import assertk.assertions.isNull
 import com.mongodb.client.model.Filters
-import de.tu_chemnitz.se.exercise.persist.collections.CodeChartsConfigCollection
-import de.tu_chemnitz.se.exercise.persist.configs.CodeChartsConfig
+import de.tu_chemnitz.se.exercise.persist.collections.ZoomMapsConfigCollection
+import de.tu_chemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import org.bson.conversions.Bson
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -14,16 +17,16 @@ import org.litote.kmongo.`in`
 import org.litote.kmongo.eq
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-class CodeChartsConfigCollectionTest {
+class ZoomMapsConfigCollectionTest {
   private val client = KMongo.createClient() //get com.mongodb.MongoClient new instance
   private val database = client.getDatabase("test") //normal java driver usage
-  private val collection = CodeChartsConfigCollection(database)
+  private val collection = ZoomMapsConfigCollection(database)
 
   companion object {
     private val configs = setOf(
-      CodeChartsConfig(grid = Pair(100, 200), pictureViewTime = 1, matrixViewTime = 2),
-      CodeChartsConfig(grid = Pair(0, 0), pictureViewTime = 0, matrixViewTime = 0),
-      CodeChartsConfig(grid = Pair(400, 400), pictureViewTime = 4, matrixViewTime = 4),
+      ZoomMapsConfig(zoomSpeed = 0.5F, keyBindings = setOf("u", "d", "l", "r")),
+      ZoomMapsConfig(zoomSpeed = 0.1F, keyBindings = setOf("a", "a", "a", "a")),
+      ZoomMapsConfig(zoomSpeed = 2.3F, keyBindings = setOf("c", "d", "e", "z"))
     )
   }
 
@@ -35,7 +38,7 @@ class CodeChartsConfigCollectionTest {
   @Test
   fun `all configs should be saved properly at once`() {
     collection.saveMany(configs)
-    assertThat(collection.find(CodeChartsConfig::_id `in` configs.map(CodeChartsConfig::_id)))
+    assertThat(collection.find(ZoomMapsConfig::_id `in` configs.map(ZoomMapsConfig::_id)))
       .containsOnly(*configs.toTypedArray())
 
   }
@@ -44,15 +47,15 @@ class CodeChartsConfigCollectionTest {
   fun `every config should be saved properly`() {
     configs.forEach {
       collection.saveOne(it)
-      assertThat(collection.find(CodeChartsConfig::_id eq it._id))
+      assertThat(collection.find(ZoomMapsConfig::_id eq it._id))
     }
   }
 
   @Test
   fun `every config should be deleted properly`() {
     configs.forEach {
-      collection.deleteOne(CodeChartsConfig::_id eq it._id)
-      assertThat(collection.find(CodeChartsConfig::_id eq it._id)).doesNotContain(it)
+      collection.deleteOne(ZoomMapsConfig::_id eq it._id)
+      assertThat(collection.find(ZoomMapsConfig::_id eq it._id)).doesNotContain(it)
     }
 
   }
@@ -71,7 +74,7 @@ class CodeChartsConfigCollectionTest {
     collection.deleteMany(ids)
 
     configs.forEach {
-      collection.deleteOne(CodeChartsConfig::_id eq it._id)
+      collection.deleteOne(ZoomMapsConfig::_id eq it._id)
       assertThat(collection.findOneById(it._id)).isNull()
     }
   }
