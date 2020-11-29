@@ -1,4 +1,4 @@
-package de.tu_chemnitz.se.persist
+package de.tu_chemnitz.se.exercise.persist
 
 import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection

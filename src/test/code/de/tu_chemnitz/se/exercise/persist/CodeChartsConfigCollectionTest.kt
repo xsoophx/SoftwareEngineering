@@ -1,7 +1,7 @@
-package de.tu_chemnitz.se.persist
+package de.tu_chemnitz.se.exercise.persist
 
 import assertk.assertThat
-import de.tu_chemnitz.se.persist.configs.CodeChartsConfig
+import de.tu_chemnitz.se.exercise.persist.configs.CodeChartsConfig
 import org.junit.jupiter.api.Test
 import org.litote.kmongo.KMongo
 import org.litote.kmongo.eq
@@ -12,7 +12,7 @@ class CodeChartsConfigCollectionTest {
   private val collection = CodeChartsConfigCollection(database)
 
   companion object{
-    private val configs = setOf<CodeChartsConfig>(
+    private val configs = setOf(
       CodeChartsConfig(grid = Pair(100,200), pictureViewTime = 1, matrixViewTime = 2),
       CodeChartsConfig(grid = Pair(0,0), pictureViewTime = 0, matrixViewTime = 0),
       CodeChartsConfig(grid = Pair(400,400), pictureViewTime = 4, matrixViewTime = 4),
@@ -23,7 +23,7 @@ class CodeChartsConfigCollectionTest {
   fun `all configs should be saved properly at once`(){
     collection.saveMany(configs)
     configs.forEach {
-      assertThat(collection.find(CodeChartsConfig::grid eq it.grid))
+      assertThat(collection.find(CodeChartsConfig::_id eq it._id))
     }
   }
 
