@@ -7,6 +7,9 @@
 !.idea/codeStyles/
 !.idea/runConfigurations/
 
+#Eclipse
+.metadata
+
 # Gradle
 .gradle/
 
