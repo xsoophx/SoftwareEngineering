@@ -1,10 +1,7 @@
 package de.tu_chemnitz.se.exercise.persist
 
 import assertk.assertThat
-import assertk.assertions.containsOnly
-import assertk.assertions.doesNotContain
-import assertk.assertions.isEqualTo
-import assertk.assertions.isNull
+import assertk.assertions.*
 import com.mongodb.client.model.Filters
 import de.tu_chemnitz.se.exercise.persist.collections.ZoomMapsConfigCollection
 import de.tu_chemnitz.se.exercise.persist.configs.ZoomMapsConfig
@@ -47,7 +44,7 @@ class ZoomMapsConfigCollectionTest {
   fun `every config should be saved properly`() {
     configs.forEach {
       collection.saveOne(it)
-      assertThat(collection.find(ZoomMapsConfig::_id eq it._id))
+      assertThat(collection.find(ZoomMapsConfig::_id eq it._id)).contains(it)
     }
   }
 

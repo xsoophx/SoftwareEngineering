@@ -3,7 +3,7 @@ package de.tu_chemnitz.se.exercise.core
 import org.junit.jupiter.api.Test
 
 class ToolControllerTest {
-  private val controller = ToolController()
+ // private val controller = ToolController()
 
   @Test
   fun `start tool should successfully start tool with config manager`(){

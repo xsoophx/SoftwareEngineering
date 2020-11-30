@@ -44,7 +44,7 @@ class CodeChartsConfigCollectionTest {
   fun `every config should be saved properly`() {
     configs.forEach {
       collection.saveOne(it)
-      assertThat(collection.find(CodeChartsConfig::_id eq it._id))
+      assertThat(collection.find(CodeChartsConfig::_id eq it._id)).contains(it)
     }
   }
 

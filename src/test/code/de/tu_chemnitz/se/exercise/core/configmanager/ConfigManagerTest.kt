@@ -3,7 +3,7 @@ package de.tu_chemnitz.se.exercise.core.configmanager
 import org.junit.jupiter.api.Test
 
 class ConfigManagerTest {
-  private val manager = ConfigManager()
+  //private val manager = ConfigManager()
 
   @Test
   fun `comparing db and file content should work`(){
