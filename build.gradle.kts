@@ -14,6 +14,7 @@ repositories {
   mavenCentral()
 }
 
+
 object Version {
   const val JUNIT = "5.7.0"
   const val KOTEST = "4.3.0"
@@ -50,6 +51,12 @@ dependencies {
   implementation("org.litote.kmongo:kmongo:4.2.2")
 
   implementation("com.willowtreeapps.assertk:assertk:0.23")
+
+  implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+  implementation("no.tornado:tornadofx:1.7.19")
+
+
+
 }
 
 project.sourceSets {
