@@ -1,14 +1,33 @@
 package de.tu_chemnitz.se.exercise.core.graphics
 
-import tornadofx.App
+import javafx.scene.Node
+import javafx.scene.layout.VBox
+import tornadofx.*
+import tornadofx.Stylesheet.Companion.title
 
 
-class Picture : App(MyView::class, Style::class) {
+class Picture(private val path: String = "/cat.jpg", private val pictureTitle: String = "") : Node() {
 
-  open fun load(path: String){
+  override val root = VBox()
+
+  init {
+    title = pictureTitle
+
+    with(root) {
+      addClass(Style.wrapper)
+
+      button("Click here I'm a button")
+      label("Im a label")
+      imageview(path)
+      children.addClass(Style.row)
+    }
+  }
+
+  fun load(path: String) {
 
   }
-  open fun render(){
+
+  fun render() {
 
   }
 
