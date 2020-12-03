@@ -3,7 +3,7 @@ package de.tu_chemnitz.se.exercise.persist
 import assertk.assertThat
 import assertk.assertions.*
 import com.mongodb.client.model.Filters
-import de.tu_chemnitz.se.exercise.persist.collections.ZoomMapsConfigCollection
+import de.tu_chemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
 import de.tu_chemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import org.bson.conversions.Bson
 import org.junit.jupiter.api.BeforeEach

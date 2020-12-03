@@ -1,13 +1,12 @@
-package de.tu_chemnitz.se.exercise.persist.collections
+package de.tu_chemnitz.se.exercise.persist
 
 import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
-import de.tu_chemnitz.se.exercise.persist.IConfig
 import org.bson.BsonDocument
 import org.bson.conversions.Bson
 import org.litote.kmongo.findOneById
 
-abstract class AbstractCollection<T : IConfig>(
+abstract class AbstractCollection<T : IPersist>(
   private val collection: MongoCollection<T>
 ) {
 

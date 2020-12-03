@@ -1,6 +1,5 @@
 package de.tu_chemnitz.se.exercise.persist.configs
 
-import de.tu_chemnitz.se.exercise.persist.IConfig
 import org.litote.kmongo.Id
 import org.litote.kmongo.newId
 
