@@ -97,7 +97,7 @@ _The state machine is describing the development of an object over time. Depende
 ## Milestone :five:
 
 ### Part :one:
-_Deadline: 08.12.2020
+_Deadline: 08.12.2020_
 
 #### Project Language
 Why are we using **Kotlin**?
@@ -119,8 +119,11 @@ because it's easy to get a basic picture of the logic of the tested class or mod
 Moreover, we can see how much code is actually covered, just by running the tests with coverage. More coverage means
 fewer lines of code which could contain bugs. Our tests will be mainly built with [JUnit5](https://junit.org/junit5/docs/current/user-guide/) and [assertk](https://github.com/willowtreeapps/assertk).
 
-In a nutshell, our tests will ensure that we have a reliable engineering environment and that our code will meet quality standards.
-[*See more info TDD.*](https://fortegrp.com/the-importance-of-unit-testing/#:~:text=Developers%20write%20unit%20tests%20for,%2Ddriven%20development%20(TDD).)
+In a nutshell, our tests will ensure that we have a reliable engineering environment and that our code will meet quality standards. See more info about TDD [*here*](https://fortegrp.com/the-importance-of-unit-testing/#:~:text=Developers%20write%20unit%20tests%20for,%2Ddriven%20development%20(TDD).) and [*here*](https://blog.cleancoder.com/uncle-bob/2013/03/06/ThePragmaticsOfTDD.html).
+
+
+#### How are we documenting our code and what are our code conventions?
+
 
 ### Part :two:
-_Deadline: 12.12.2020
+_Deadline: 12.12.2020_
