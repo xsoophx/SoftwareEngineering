@@ -11,6 +11,11 @@ abstract class AbstractCollection<T : IConfig>(
   private val collection: MongoCollection<T>
 ) {
 
+  /**
+   * This class has no useful logic; it's just a documentation example.
+   *
+   * @param filter the type of a member in this group.
+   */
   open fun find(filter: Bson): FindIterable<T> {
     return collection.find(filter)
   }
@@ -31,7 +36,7 @@ abstract class AbstractCollection<T : IConfig>(
     collection.deleteOne(filter)
   }
 
-  open fun deleteMany(filter: Bson = BsonDocument()){
+  open fun deleteMany(filter: Bson = BsonDocument()) {
     collection.deleteMany(filter)
   }
 

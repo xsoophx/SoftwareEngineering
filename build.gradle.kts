@@ -55,6 +55,8 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   implementation("no.tornado:tornadofx:1.7.19")
 
+  testImplementation("org.testfx:testfx-core:4.0.15-alpha")
+  testImplementation("org.testfx:testfx-junit:4.0.15-alpha")
 
 
 }

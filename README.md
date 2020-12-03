@@ -95,3 +95,4 @@ We also had to create a state machine for at least one of the tools. Suitable st
 _The state machine is describing the development of an object over time. Dependencies of interactions with other objects, which the system does not contain, are depicted._
 
 ## Milestone :five:
+

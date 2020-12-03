@@ -8,22 +8,26 @@ import tornadofx.box
 class Style : Stylesheet() {
 
   companion object {
-    val wrapper by cssclass()
+    val pictureWrapper by cssclass()
     val row by cssclass()
+    val mainWrapper by cssclass()
   }
 
   init {
-    s(wrapper) {
-      s(imageView){
-        prefHeight = 600.px
-        prefWidth = 800.px
-      }
 
+    s(pictureWrapper) {
+      prefHeight = 1000.px
+      prefWidth = 1000.px
+      s(imageView)
       padding = box(15.px)
-
       s(row){
         padding = box(10.px, 5 .px)
       }
+    }
+
+    s(mainWrapper){
+      prefHeight = 300.px
+      prefWidth = 300.px
     }
   }
 }
