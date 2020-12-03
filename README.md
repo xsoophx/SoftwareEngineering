@@ -95,3 +95,32 @@ We also had to create a state machine for at least one of the tools. Suitable st
 _The state machine is describing the development of an object over time. Dependencies of interactions with other objects, which the system does not contain, are depicted._
 
 ## Milestone :five:
+
+### Part :one:
+_Deadline: 08.12.2020
+
+#### Project Language
+Why are we using **Kotlin**?
+-   it's easy and completely interoperable with Java. So in case, we want to code some parts in Java, it's easy to add those code parts
+-   we will be able to solve problems with a fewer amount of lines of code
+-   the code is more reliable, easier to maintain, easier to read, and it's also easier to apply changes when they're needed
+-   the compiler is smarter and safer. It detects errors at compile time and performs a lot of checks
+-   Kotlin has a good support for Functional Programming
+-   Kotlin has Null Safety, which means it eliminates the danger of null references
+
+#### Which kind of tests are we using?
+
+We decided for Kotlin Unit Tests to build our code faster and more reliable. Even though, we will have a lot more code because of the tests,
+it will be easier to find bugs and to solve them. With *Test Driven Development*, our requirements will be turned into specific 
+test cases, which will not pass in the first run. After that, our main code will be written or refactored, so the tested code will actually
+pass the tests. Thus, a lot of time will be saved, even though we're writing more code. Less or even no more debugging is needed, 
+because we already know, which part of our code is failing. Also, build-in Unit Tests are providing documentation for the code, 
+because it's easy to get a basic picture of the logic of the tested class or module just by looking at the tests.
+Moreover, we can see how much code is actually covered, just by running the tests with coverage. More coverage means
+fewer lines of code which could contain bugs. Our tests will be mainly built with [JUnit5](https://junit.org/junit5/docs/current/user-guide/) and [assertk](https://github.com/willowtreeapps/assertk).
+
+In a nutshell, our tests will ensure that we have a reliable engineering environment and that our code will meet quality standards.
+[*See more info TDD.*](https://fortegrp.com/the-importance-of-unit-testing/#:~:text=Developers%20write%20unit%20tests%20for,%2Ddriven%20development%20(TDD).)
+
+### Part :two:
+_Deadline: 12.12.2020
