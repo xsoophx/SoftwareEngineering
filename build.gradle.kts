@@ -5,6 +5,8 @@ plugins {
   java
   kotlin("jvm") version "1.4.10"
   id("org.jetbrains.kotlin.plugin.serialization") version "1.4.10"
+  id("org.openjfx.javafxplugin") version "0.0.9"
+
 }
 
 group = "de.tu_chemnitz"
@@ -23,6 +25,11 @@ object Version {
   const val LOGBACK = "1.2.3"
   const val MOCKK = "1.10.2"
   const val SLF4J = "1.7.30"
+}
+
+javafx {
+  version = "15.0.1"
+  modules = listOf("javafx.controls", "javafx.graphics")
 }
 
 dependencies {
@@ -84,7 +91,7 @@ tasks {
 
   withType<KotlinCompile> {
     kotlinOptions {
-      jvmTarget = "1.8"
+      jvmTarget = "11"
       freeCompilerArgs = listOf(
         "-Xjvm-default=enable"
       )
