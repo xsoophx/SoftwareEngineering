@@ -99,7 +99,7 @@ _The state machine is describing the development of an object over time. Depende
 ### Part :one:
 _Deadline: 08.12.2020_
 
-#### Project Language
+### Project Language
 Why are we using **Kotlin**?
 -   it's easy and completely interoperable with Java. So in case, we want to code some parts in Java, it's easy to add those code parts
 -   we will be able to solve problems with a fewer amount of lines of code
@@ -108,7 +108,7 @@ Why are we using **Kotlin**?
 -   Kotlin has a good support for Functional Programming
 -   Kotlin has Null Safety, which means it eliminates the danger of null references
 
-#### Which kind of tests are we using?
+### Which kind of tests are we using?
 
 We decided for Kotlin Unit Tests to build our code faster and more reliable. Even though, we will have a lot more code because of the tests,
 it will be easier to find bugs and to solve them. With *Test Driven Development*, our requirements will be turned into specific 
@@ -122,7 +122,7 @@ fewer lines of code which could contain bugs. Our tests will be mainly built wit
 In a nutshell, our tests will ensure that we have a reliable engineering environment and that our code will meet quality standards. See more info about TDD [*here*](https://fortegrp.com/the-importance-of-unit-testing/#:~:text=Developers%20write%20unit%20tests%20for,%2Ddriven%20development%20(TDD).) and [*here*](https://blog.cleancoder.com/uncle-bob/2013/03/06/ThePragmaticsOfTDD.html).
 
 
-#### How are we documenting our code and what are our code conventions?
+### How are we documenting our code and what are our code conventions?
 
 **Documentation and comments:** 
 -   For documentation we are using Javadoc Comments. All public classes and methods will be commented by using ```/**...*/```. While using *@param*, *@return*, *@throws* and so on, an automated API-Documentation can be created.
@@ -131,7 +131,7 @@ In a nutshell, our tests will ensure that we have a reliable engineering environ
 **Naming Conventions and types**
 -    *Language* - Everything in this project will have english naming. It's important, especially for e.g. interfaces. By providing english naming, international stakeholders, clients and so on, can understand the methods better.  
 
--   *import directives* - All imports will be in alphabetical order. Imports will always be precise, no ```.*``` annotation for imports will be used. Moreover unused imports will be removed.
+-   *Import directives* - All imports will be in alphabetical order. Imports will always be precise, no ```.*``` annotation for imports will be used. Moreover unused imports will be removed.
 
 -   *Classes and Interfaces* - Class- and Interfacenames will start with an uppercase letter, followed by lowercase letters. If the name consists out of multiple words assembled together, each word is starting with an uppercase letter (also know as camel-case).
 
@@ -139,7 +139,7 @@ In a nutshell, our tests will ensure that we have a reliable engineering environ
 
 -   *Attributes and Variables* - This is the same as for Methods. Variables and Attributes will be starting with a lowercase letter, followed by lowercase letters. If the name consists out of multiple words assembled together, each word is starting with an uppercase letter (also know as camel-case), except of the first one.
 
-- *constant parameters* - All constants will be written in Uppercase. If the name consists out of multiple words assembled together, each word is seperated through a "```_```".
+- *Constant parameters* - All constants will be written in Uppercase. If the name consists out of multiple words assembled together, each word is seperated through a "```_```".
 
     *See more info [here](https://www.oracle.com/java/technologies/javase/codeconventions-namingconventions.html) and [here](https://www.torsten-horn.de/techdocs/java-codingconventions.htm).*
 
