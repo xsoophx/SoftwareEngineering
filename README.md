@@ -101,12 +101,12 @@ _Deadline: 08.12.2020_
 
 ### Project Language
 Why are we using **Kotlin**?
--   it's easy and completely interoperable with Java. So in case, we want to code some parts in Java, it's easy to add those code parts
--   we will be able to solve problems with a fewer amount of lines of code
--   the code is more reliable, easier to maintain, easier to read, and it's also easier to apply changes when they're needed
--   the compiler is smarter and safer. It detects errors at compile time and performs a lot of checks
--   Kotlin has a good support for Functional Programming
--   Kotlin has Null Safety, which means it eliminates the danger of null references
+-   it's easy and completely interoperable with Java. So in case, we want to code some parts in Java, it's easy to add those code parts.
+-   we will be able to solve problems with a fewer amount of lines of code.
+-   the code is more reliable, easier to maintain, easier to read, and it's also easier to apply changes when they're needed.
+-   the compiler is smarter and safer. It detects errors at compile time and performs a lot of checks.
+-   Kotlin has a good support for Functional Programming.
+-   Kotlin has Null Safety, which means it eliminates the danger of null references.
 
 ### Which kind of tests are we using?
 
@@ -125,21 +125,21 @@ In a nutshell, our tests will ensure that we have a reliable engineering environ
 ### How are we documenting our code and what are our code conventions?
 
 **Documentation and comments:** 
--   For documentation we are using Javadoc Comments. All public classes and methods will be commented by using ```/**...*/```. While using *@param*, *@return*, *@throws* and so on, an automated API-Documentation can be created.
+-   For the documentation, we are using Javadoc Comments. All public classes and methods will be commented by using ```/**...*/```. While using *@param*, *@return*, *@throws* and so on, an automated API-Documentation can be created.
 -   "Normal" comments should be very short and precise, if needed. Comments will be written by ```/*...*/``` or ```//...```. They won't be used for documentation purposes.
 
 **Naming Conventions and types**
 -    *Language* - Everything in this project will have english naming. It's important, especially for e.g. interfaces. By providing english naming, international stakeholders, clients and so on, can understand the methods better.  
 
--   *Import directives* - All imports will be in alphabetical order. Imports will always be precise, no ```.*``` annotation for imports will be used. Moreover unused imports will be removed.
+-   *Import directives* - All imports will be in alphabetical order. Imports will always be precise, no ```.*``` annotation for imports will be used. Moreover, unused imports will be removed.
 
--   *Classes and Interfaces* - Class- and Interfacenames will start with an uppercase letter, followed by lowercase letters. If the name consists out of multiple words assembled together, each word is starting with an uppercase letter (also know as camel-case).
+-   *Classes and Interfaces* - Class- and Interface names will start with an uppercase letter, followed by lowercase letters. If the name consists out of multiple words assembled together, each word is starting with an uppercase letter (also known as camel-case).
 
--   *Methods* - All Methods will start with a lowercase letter, followed by lowercase letters. If the name consists out of multiple words assembled together, each word is starting with an uppercase letter (also know as camel-case), except of the first one.
+-   *Methods* - All Methods will start with a lowercase letter, followed by lowercase letters. If the name consists out of multiple words assembled together, each word is starting with an uppercase letter (also known as camel-case), except of the first one.
 
--   *Attributes and Variables* - This is the same as for Methods. Variables and Attributes will be starting with a lowercase letter, followed by lowercase letters. If the name consists out of multiple words assembled together, each word is starting with an uppercase letter (also know as camel-case), except of the first one.
+-   *Attributes and Variables* - This is the same as for Methods. Variables and Attributes will be starting with a lowercase letter, followed by lowercase letters. If the name consists out of multiple words assembled together, each word is starting with an uppercase letter (also known as camel-case), except of the first one.
 
-- *Constant parameters* - All constants will be written in Uppercase. If the name consists out of multiple words assembled together, each word is seperated through a "```_```".
+- *Constant parameters* - All constants will be written in Uppercase. If the name consists out of multiple words assembled together, each word is separated through a "```_```".
 
     *See more info [here](https://www.oracle.com/java/technologies/javase/codeconventions-namingconventions.html) and [here](https://www.torsten-horn.de/techdocs/java-codingconventions.htm).*
 
