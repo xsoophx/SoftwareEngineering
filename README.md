@@ -124,6 +124,24 @@ In a nutshell, our tests will ensure that we have a reliable engineering environ
 
 #### How are we documenting our code and what are our code conventions?
 
+**Documentation and comments:** 
+-   For documentation we are using Javadoc Comments. All public classes and methods will be commented by using ```/**...*/```. While using *@param*, *@return*, *@throws* and so on, an automated API-Documentation can be created.
+-   "Normal" comments should be very short and precise, if needed. Comments will be written by ```/*...*/``` or ```//...```. They won't be used for documentation purposes.
+
+**Naming Conventions and types**
+-    *Language* - Everything in this project will have english naming. It's important, especially for e.g. interfaces. By providing english naming, international stakeholders, clients and so on, can understand the methods better.  
+
+-   *import directives* - All imports will be in alphabetical order. Imports will always be precise, no ```.*``` annotation for imports will be used. Moreover unused imports will be removed.
+
+-   *Classes and Interfaces* - Class- and Interfacenames will start with an uppercase letter, followed by lowercase letters. If the name consists out of multiple words assembled together, each word is starting with an uppercase letter (also know as camel-case).
+
+-   *Methods* - All Methods will start with a lowercase letter, followed by lowercase letters. If the name consists out of multiple words assembled together, each word is starting with an uppercase letter (also know as camel-case), except of the first one.
+
+-   *Attributes and Variables* - This is the same as for Methods. Variables and Attributes will be starting with a lowercase letter, followed by lowercase letters. If the name consists out of multiple words assembled together, each word is starting with an uppercase letter (also know as camel-case), except of the first one.
+
+- *constant parameters* - All constants will be written in Uppercase. If the name consists out of multiple words assembled together, each word is seperated through a "```_```".
+
+    *See more info [here](https://www.oracle.com/java/technologies/javase/codeconventions-namingconventions.html) and [here](https://www.torsten-horn.de/techdocs/java-codingconventions.htm).*
 
 ### Part :two:
 _Deadline: 12.12.2020_
