@@ -109,10 +109,10 @@ _Deadline: 08.12.2020_
 
 ### Project Language
 Why are we using **Kotlin**?
--   it's easy and completely interoperable with Java. So in case, we want to code some parts in Java, it's easy to add those code parts.
--   we will be able to solve problems with a fewer amount of lines of code.
--   the code is more reliable, easier to maintain, easier to read, and it's also easier to apply changes when they're needed.
--   the compiler is smarter and safer. It detects errors at compile time and performs a lot of checks.
+-   It's easy and completely interoperable with Java. So in case, we want to code some parts in Java, it's easy to add those code parts.
+-   We will be able to solve problems with a fewer amount of lines of code.
+-   The code is more reliable, easier to maintain, easier to read, and it's also easier to apply changes when they're needed.
+-   The compiler is smarter and safer. It detects errors at compile time and performs a lot of checks.
 -   Kotlin has a good support for Functional Programming.
 -   Kotlin has Null Safety, which means it eliminates the danger of null references.
 
@@ -164,9 +164,9 @@ In the first part of this milestone, we were supposed to write automated tests, 
       fun `comparing db and file content should work`(){ 
 
        assertThat(manager.compare()).isEqualTo(someResult)
-       //assertion that expected argument is being returned, 
+       /* assertion that expected argument is being returned, 
        however currently no functionality is implemented, 
-       which will cause the test to fail
+       which will cause the test to fail */
       }
 *\*comments in this example only for explanation reasons, they cannot be found in the actual code*
 
