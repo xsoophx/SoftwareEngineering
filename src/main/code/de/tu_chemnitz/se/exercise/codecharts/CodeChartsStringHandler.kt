@@ -1,7 +1,7 @@
 package de.tu_chemnitz.se.exercise.codecharts
 
 class CodeChartsStringHandler {
-  private val generatedStrings = setOf<String>()
+  private lateinit var generatedStrings: Set<String>
 
   /**
    * @param Input Number of Chars in the generated strings.
