@@ -199,4 +199,4 @@ For the graphics framework, we decided to use [TornadoFX](https://tornadofx.io/)
 -   It has its own, built in Dependency Injection Framework, which can help to structure the code and is even usable with an already existing DI framework.
 -   Many controls, lines, grids, etc. can be easily included, which is perfect for depicting our data.
 
-*See more information on how and why to use TornadoFX [here](https://edvin.gitbooks.io/tornadofx-guide/content/).
+*See more information on how and why to use TornadoFX [here](https://edvin.gitbooks.io/tornadofx-guide/content/).*
