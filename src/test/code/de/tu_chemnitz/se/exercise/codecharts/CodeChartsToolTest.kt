@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-class CodeChartsSettingsHandlerTest {
+class CodeChartsToolTest {
 
  @Test
  fun `checks whether there are the right permissions`(){
