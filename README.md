@@ -15,6 +15,14 @@ This is an assignment project for Software Engineering class at TU-Chemnitz.
     -   [UML-state machines](#uml-state-machines)
          -   [Definition of state machines](#definition-uml-state-machine-bookmark_tabs)
 -   [Milestone 05](#milestone-five)
+    -   [Part 1](#part-one)
+        -   [Project Language](#project-language)
+        -   [Unit Testing](#which-kind-of-tests-are-we-using?)
+        -   [Documentation and Coding Conventions](#how-are-we-documenting-our-code-and-what-are-our-code-conventions?)
+    -   [Part 2](#part-two)
+        -   [Overview](#overview)
+        -   [The database](#the-database-floppy_disk)
+        -   [The graphics framework](#the-graphics-framework-art)
 
 ## Which tools will we use?
 
@@ -143,5 +151,52 @@ In a nutshell, our tests will ensure that we have a reliable engineering environ
 
     *See more info [here](https://www.oracle.com/java/technologies/javase/codeconventions-namingconventions.html) and [here](https://www.torsten-horn.de/techdocs/java-codingconventions.htm).*
 
+### Summary
+
+In the first part of this milestone, we were supposed to write automated tests, which are testing our methods. At least all public methods should already be known, since we created UML diagrams, which are showing a huge part of the classes and methods already. We agreed, that we will create all classes and public methods we already know, but also all tests, which are related to those classes. Also tests which could test private methods, of which we know the functionality, are written down in our code. To sum this up, after the first part of this milestone, we will have test declarations, which are supposed to test at least all public methods we know already. Moreover, they need the declaration of their corresponding class and the methods, so we created them too. Less to no functionality is built in here. Tests without any functionality, but only the declarations are looking like this:
+
+    class ConfigManagerTest {
+      private val manager = ConfigManager() //declaration of corresponding class
+      private val someResult = "result" //some dummy result
+
+      // description of functionality or function which is tested in the test
+      @Test
+      fun `comparing db and file content should work`(){ 
+
+       assertThat(manager.compare()).isEqualTo(someResult)
+       //assertion that expected argument is being returned, 
+       however currently no functionality is implemented, 
+       which will cause the test to fail
+      }
+*\*comments in this example only for explanation reasons, they cannot be found in the actual code*
+
+Another task of this part of the milestone was to agree on code conventions and on how we will do our documentation, which you can see [above](#how-are-we-documenting-our-code-and-what-are-our-code-conventions?).
+
 ### Part :two:
 _Deadline: 12.12.2020_
+
+### Overview
+
+The task for our second part of the 5th milestone was not given. That means, we could decide what the second part should be. We came to the result, that the second task would be the completion of our database and the corresponding tests. Also the implementation of our graphics started, and the goal was to be able to show pictures. Whoever felt like starting with the implementation for a tool, was free to actually start with that and sync up and explain what he/she did in our regular meetings.
+
+### The database :floppy_disk:
+
+We decided to use [Mongo DB](https://www.mongodb.com/) as a database. It is a document database, which is very useful for future implementations. More reasons where the following:
+-   Mongo is saving its documents in a JSON-like format, which is great for object-oriented programming and conversion of data models.
+-   The database accepts JSON-Documents as well as values, like arrays or even objects and datatypes. It's supporting flexible and dynamic schemes.
+-   Queries are very powerful, even though the data models can be very nested. Aggregations and more modern use cases are supported.
+-   Queries do have the JSON format and there's no need to chain them to create SQL-queries
+-   It is easy to install and use locally, additionally you can use a UI to see what is happening with the data.
+
+*See more information on why to use Mongo DB [here](https://www.mongodb.com/why-use-mongodb#:~:text=Companies%20and%20development%20teams%20of,of%20both%20data%20and%20traffic.).*
+
+### The graphics framework :art:
+
+For the graphics framework, we decided to use [TornadoFX](https://tornadofx.io/). We also had multiple reasons for this decision:
+-   It is easy to used with Kotlin, our Project Language
+-   JSON is supported, which will make it even easier to convert data from the database to show it in our UI.
+- Validation of input forms etc. can easily be performed.
+-   It has its own, built in Dependency Injection Framework, which can help to structure the code and is even usable with an already existing DI framework.
+-   Many controls, lines, grids, etc. can be easily included, which is perfect for depicting our data.
+
+*See more information on how and why to use TornadoFX [here](https://edvin.gitbooks.io/tornadofx-guide/content/).
