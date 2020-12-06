@@ -1,10 +1,10 @@
-package de.tu_chemnitz.se.exercise.persist
+package de.tuchemnitz.se.exercise.persist
 
 import assertk.assertThat
 import assertk.assertions.*
 import com.mongodb.client.model.Filters
-import de.tu_chemnitz.se.exercise.persist.collections.CodeChartsConfigCollection
-import de.tu_chemnitz.se.exercise.persist.configs.CodeChartsConfig
+import de.tuchemnitz.se.exercise.persist.collections.CodeChartsConfigCollection
+import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import org.bson.conversions.Bson
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
