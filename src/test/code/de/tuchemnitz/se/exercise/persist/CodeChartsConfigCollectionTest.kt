@@ -1,7 +1,11 @@
 package de.tuchemnitz.se.exercise.persist
 
 import assertk.assertThat
+import assertk.assertions.contains
 import assertk.assertions.containsOnly
+import assertk.assertions.doesNotContain
+import assertk.assertions.isEqualTo
+import assertk.assertions.isNull
 import com.mongodb.client.model.Filters
 import de.tuchemnitz.se.exercise.persist.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
@@ -23,7 +27,7 @@ class CodeChartsConfigCollectionTest {
         private val configs = setOf(
             CodeChartsConfig(grid = Pair(100, 200), pictureViewTime = 1, matrixViewTime = 2),
             CodeChartsConfig(grid = Pair(0, 0), pictureViewTime = 0, matrixViewTime = 0),
-            CodeChartsConfig(grid = Pair(400, 400), pictureViewTime = 4, matrixViewTime = 4),
+            CodeChartsConfig(grid = Pair(400, 400), pictureViewTime = 4, matrixViewTime = 4)
         )
     }
 
