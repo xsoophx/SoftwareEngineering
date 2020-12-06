@@ -1,4 +1,4 @@
-package de.tu_chemnitz.se.exercise.persist
+package de.tuchemnitz.se.exercise.persist
 
 import org.litote.kmongo.Id
 
