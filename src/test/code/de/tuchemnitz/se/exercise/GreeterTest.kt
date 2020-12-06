@@ -14,7 +14,7 @@ import org.junit.jupiter.params.provider.ValueSource
 @TestInstance(Lifecycle.PER_CLASS)
 class GreeterTest {
     private val outputDevice = mockk<OutputDevice>(relaxed = true)
-    private val greeter = _root_ide_package_.de.tuchemnitz.se.exercise.Greeter(out = outputDevice)
+    private val greeter = Greeter(out = outputDevice)
 
     @AfterEach
     fun resetMocks() {
