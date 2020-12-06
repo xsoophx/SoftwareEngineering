@@ -18,7 +18,7 @@ class Main(
     }
 
     override fun run() {
-        val greeter = _root_ide_package_.de.tuchemnitz.se.exercise.Greeter(Console)
+        val greeter = Greeter(Console)
         greeter.greet()
 
         for (target in args) {

@@ -1,10 +1,14 @@
 package de.tuchemnitz.se.exercise.persist
 
 import assertk.assertThat
-import assertk.assertions.*
+import assertk.assertions.contains
+import assertk.assertions.containsOnly
+import assertk.assertions.doesNotContain
+import assertk.assertions.isEqualTo
+import assertk.assertions.isNull
 import com.mongodb.client.model.Filters
-import de.tu_chemnitz.se.exercise.persist.collections.ZoomMapsConfigCollection
-import de.tu_chemnitz.se.exercise.persist.configs.ZoomMapsConfig
+import de.tuchemnitz.se.exercise.persist.collections.ZoomMapsConfigCollection
+import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import org.bson.conversions.Bson
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

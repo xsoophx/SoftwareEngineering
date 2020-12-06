@@ -2,7 +2,7 @@ package de.tuchemnitz.se.exercise.persist.collections
 
 import com.mongodb.client.FindIterable
 import com.mongodb.client.MongoCollection
-import de.tu_chemnitz.se.exercise.persist.IConfig
+import de.tuchemnitz.se.exercise.persist.IConfig
 import org.bson.BsonDocument
 import org.bson.conversions.Bson
 import org.litote.kmongo.findOneById
