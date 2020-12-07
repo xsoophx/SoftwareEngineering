@@ -4,7 +4,6 @@ import java.util.Random
 import kotlin.math.ln
 import kotlin.math.roundToInt
 
-
 class CodeChartsStringHandler {
     private lateinit var generatedStrings: Set<String>
 
@@ -36,7 +35,7 @@ class CodeChartsStringHandler {
         val stringLength = ((ln(input.toFloat())) / (ln(alphabetLength.toFloat()))).roundToInt() + 1
         while (i > 0) {
             val generatedString = generateOneString(stringLength, allowedChars)
-            if (generatedString !in generatedStrings) { //no duplicates in string array
+            if (generatedString !in generatedStrings) { // no duplicates in string array
                 generatedStrings += generatedString
                 i -= 1
             }
@@ -49,7 +48,7 @@ class CodeChartsStringHandler {
             return ""
         }
 
-        var charset = "" //saves allowed characters
+        var charset = "" // saves allowed characters
         if (allowedChars[0]) {
             charset += ('A'..'Z').joinToString("")
         }
@@ -62,7 +61,7 @@ class CodeChartsStringHandler {
 
         val charsetLength = charset.length
         val rand = Random()
-        return generateSequence { rand.nextInt(charsetLength - 1) } //generates String from given parameters and calculated charset
+        return generateSequence { rand.nextInt(charsetLength - 1) } // generates String from given parameters and calculated charset
             .take(stringLength)
             .map { charset[it] }
             .joinToString("")
