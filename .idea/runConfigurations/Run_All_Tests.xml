@@ -2,7 +2,7 @@
   <configuration default="false" name="Run All Tests" type="JUnit" factoryName="JUnit">
     <module name="software-engineering-exercise.test" />
     <useClassPathOnly />
-    <option name="PACKAGE_NAME" value="de.tu_chemnitz.se.exercise" />
+    <option name="PACKAGE_NAME" value="de.tuchemnitz.se.exercise" />
     <option name="MAIN_CLASS_NAME" value="" />
     <option name="METHOD_NAME" value="" />
     <option name="TEST_OBJECT" value="package" />
