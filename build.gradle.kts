@@ -5,6 +5,7 @@ plugins {
     java
     kotlin("jvm") version "1.4.10"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.4.10"
+    id("org.openjfx.javafxplugin") version "0.0.9"
 }
 
 group = "de.tu_chemnitz"
@@ -12,6 +13,11 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+}
+
+javafx {
+    version = "15.0.1"
+    modules = listOf("javafx.controls", "javafx.graphics")
 }
 
 object Version {
@@ -22,6 +28,9 @@ object Version {
     const val LOGBACK = "1.2.3"
     const val MOCKK = "1.10.2"
     const val SLF4J = "1.7.30"
+    const val KMONGO = "4.2.2"
+    const val ASSERTK = "0.23"
+    const val TORNADOFX = "1.7.20"
 }
 
 dependencies {
@@ -47,12 +56,12 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core-jvm:${Version.KOTEST}")
     testImplementation("io.kotest:kotest-property-jvm:${Version.KOTEST}")
 
-    implementation("org.litote.kmongo:kmongo:4.2.2")
+    implementation("org.litote.kmongo:kmongo:${Version.KMONGO}")
 
-    implementation("com.willowtreeapps.assertk:assertk:0.23")
+    implementation("com.willowtreeapps.assertk:assertk:${Version.ASSERTK}")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("no.tornado:tornadofx:1.7.19")
+    implementation("no.tornado:tornadofx:${Version.TORNADOFX}")
 
     testImplementation("org.testfx:testfx-core:4.0.15-alpha")
     testImplementation("org.testfx:testfx-junit:4.0.15-alpha")
@@ -81,7 +90,7 @@ tasks {
 
     withType<KotlinCompile> {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = "11"
             freeCompilerArgs = listOf(
                 "-Xjvm-default=enable"
             )
