@@ -133,7 +133,7 @@ In a nutshell, our tests will ensure that we have a reliable engineering environ
 ### How are we documenting our code and what are our code conventions?
 
 **Documentation and comments:** 
--   For the documentation, we are using Javadoc Comments. All public classes and methods will be commented by using ```/**...*/```. While using *@param*, *@return*, *@throws* and so on, an automated API-Documentation can be created.
+-   For the documentation, we are using description of parameters, just like in the Kotlin standard documentation. All public classes and methods will be commented by using ```/**...*/```. Instead of using *@param*, *@return*, *@throws* and so on, we will be using *[paramname]* plus a description, and an automated API-Documentation can be created.
 -   "Normal" comments should be very short and precise, if needed. Comments will be written by ```/*...*/``` or ```//...```. They won't be used for documentation purposes.
 
 **Naming Conventions and types**
@@ -147,9 +147,11 @@ In a nutshell, our tests will ensure that we have a reliable engineering environ
 
 -   *Attributes and Variables* - This is the same as for Methods. Variables and Attributes will be starting with a lowercase letter, followed by lowercase letters. If the name consists out of multiple words assembled together, each word is starting with an uppercase letter (also known as camel-case), except of the first one.
 
-- *Constant parameters* - All constants will be written in Uppercase. If the name consists out of multiple words assembled together, each word is separated through a "```_```".
+-   *Constant parameters* - All constants will be written in Uppercase. If the name consists out of multiple words assembled together, each word is separated through a "```_```".
 
-    *See more info [here](https://www.oracle.com/java/technologies/javase/codeconventions-namingconventions.html) and [here](https://www.torsten-horn.de/techdocs/java-codingconventions.htm).*
+-   *Trailing commas* - We will be using trailing commas to make version control diffs cleaner, to easily add and reorder elements in enumerations or to simplify code generation. This can also be found in the [Kotlin coding-conventions](https://kotlinlang.org/docs/reference/coding-conventions.html).
+
+    *See more info [here](https://www.oracle.com/java/technologies/javase/codeconventions-namingconventions.html) and [here](https://kotlinlang.org/docs/reference/coding-conventions.html).*
 
 ### Summary
 
@@ -190,13 +192,3 @@ We decided to use [Mongo DB](https://www.mongodb.com/) as a database. It is a do
 
 *See more information on why to use Mongo DB [here](https://www.mongodb.com/why-use-mongodb#:~:text=Companies%20and%20development%20teams%20of,of%20both%20data%20and%20traffic.).*
 
-### The graphics framework :art:
-
-For the graphics framework, we decided to use [TornadoFX](https://tornadofx.io/). We also had multiple reasons for this decision:
--   It is easy to used with Kotlin, our Project Language
--   JSON is supported, which will make it even easier to convert data from the database to show it in our UI.
-- Validation of input forms etc. can easily be performed.
--   It has its own, built in Dependency Injection Framework, which can help to structure the code and is even usable with an already existing DI framework.
--   Many controls, lines, grids, etc. can be easily included, which is perfect for depicting our data.
-
-*See more information on how and why to use TornadoFX [here](https://edvin.gitbooks.io/tornadofx-guide/content/).*
