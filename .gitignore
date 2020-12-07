@@ -7,6 +7,9 @@
 !.idea/codeStyles/
 !.idea/runConfigurations/
 
+#Eclipse
+.metadata
+
 # Gradle
 .gradle/
 
@@ -14,6 +17,5 @@
 build/
 out/
 
-# Test resources
-src/test/resources
+/src/test/resources/
 
