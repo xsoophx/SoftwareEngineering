@@ -7,7 +7,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "1.4.10"
 }
 
-group = "de.tu_chemnitz"
+group = "de.tuchemnitz"
 version = "1.0-SNAPSHOT"
 
 repositories {
