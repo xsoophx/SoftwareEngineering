@@ -190,8 +190,8 @@ We decided to use [Mongo DB](https://www.mongodb.com/) as a database. It is a do
 -   Queries do have the JSON format and there's no need to chain them to create SQL-queries
 -   It is easy to install and use locally, additionally you can use a UI to see what is happening with the data.
 
-**See our Database and its code [in this directory](\src\main\code\de\tuchemnitz\se\exercise\persist).**
-**All tests are [here](\src\test\code\de\tuchemnitz\se\exercise\persist).**
+**See our Database and its code [in this directory](/src/main/code/de/tuchemnitz/se/exercise/persist).**
+**All tests are [here](/src/test/code/de/tuchemnitz/se/exercise/persist).**
 
 *See more information on why to use Mongo DB [here](https://www.mongodb.com/why-use-mongodb#:~:text=Companies%20and%20development%20teams%20of,of%20both%20data%20and%20traffic.).*
 
