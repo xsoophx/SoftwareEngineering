@@ -4,18 +4,31 @@ import java.util.Random
 import kotlin.math.ln
 import kotlin.math.roundToInt
 
-class CodeChartsStringHandler {
-    private lateinit var generatedStrings: Set<String>
+class CodeChartsStringHandler() {
+    private lateinit var generatedStrings: MutableList<String>
 
-    fun getStrings() {}
+    fun getStrings(): MutableList<String> {
+        return this.generatedStrings
+    }
+
+    fun setStrings(input: Int, allowedChars: BooleanArray) {
+        val generatedList = generateStringList(input, allowedChars)
+        this.generatedStrings = generatedList
+        return
+    }
+
     /**
      * [input] Number of Chars in the generated strings.
-     * [allowedChars] ByteArray with 3 modes in the following order: Upper Letters, Lower Letters, Numbers
+     * [allowedChars] BooleanArray with 3 modes in the following order: Upper Letters, Lower Letters, Numbers
      *     where 1 is enabled and 0 is not enabled.
-     * returns StringArray
+     * returns MutableList<String>
      */
-    fun generateStringArray(input: Int, allowedChars: BooleanArray): Array<String> {
-        var generatedStrings = arrayOf<String>()
+    private fun generateStringList(input: Int, allowedChars: BooleanArray): MutableList<String> {
+        val generatedStrings = mutableListOf<String>()
+        if (allowedChars contentEquals booleanArrayOf(false, false, false)) {
+            generatedStrings.add("")
+            return generatedStrings
+        }
         var i = input
 
         var alphabetLength = 0
@@ -28,22 +41,22 @@ class CodeChartsStringHandler {
         if (allowedChars[2]) {
             alphabetLength += 10
         }
-        /*
-        Number of possible combinations c for given alphabet a and given string length p is c = a^p
-        - we want to calculate p where c is our parameter 'Input' in this case
-         */
+    /*
+    Number of possible combinations c for given alphabet a and given string length p is c = a^p
+    - we want to calculate p where c is our parameter 'Input' in this case
+     */
         val stringLength = ((ln(input.toFloat())) / (ln(alphabetLength.toFloat()))).roundToInt() + 1
         while (i > 0) {
             val generatedString = generateOneString(stringLength, allowedChars)
-            if (generatedString !in generatedStrings) { // no duplicates in string array
-                generatedStrings += generatedString
+            if (generatedString !in generatedStrings) { // no duplicates in string set
+                generatedStrings.add(generatedString)
                 i -= 1
             }
         }
         return generatedStrings
     }
 
-    fun generateOneString(stringLength: Int, allowedChars: BooleanArray): String {
+    private fun generateOneString(stringLength: Int, allowedChars: BooleanArray): String {
         if (allowedChars contentEquals booleanArrayOf(false, false, false)) {
             return ""
         }
@@ -65,5 +78,9 @@ class CodeChartsStringHandler {
             .take(stringLength)
             .map { charset[it] }
             .joinToString("")
+    }
+
+    fun orderList() {
+        this.generatedStrings = ((this.generatedStrings).sorted()).toMutableList()
     }
 }
