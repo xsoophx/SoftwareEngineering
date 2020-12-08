@@ -14,3 +14,4 @@
 build/
 out/
 
+/src/test/resources/
