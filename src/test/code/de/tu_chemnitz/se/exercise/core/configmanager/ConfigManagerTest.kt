@@ -4,6 +4,10 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
 import org.litote.kmongo.KMongo
+import java.nio.charset.StandardCharsets
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
 
 class ConfigManagerTest {
     private val manager = ConfigManager()
@@ -11,11 +15,11 @@ class ConfigManagerTest {
     private val database = client.getDatabase("test") // normal java driver usage
 
     companion object {
-        val paths = listOf(
-            Triple("TestContent1", "C:/Users/sosur/Desktop/file.txt", "TestContent1"),
-            Triple("TestContent2", "E:/se/file.txt", "TestContent2"),
-            Triple("TestContent3", "", ""),
-            Triple("TestContent4", "TestString", "TestContent4")
+        val paths = listOf<Triple<String, Path, String>>(
+            Triple("TestContent1", Paths.get("C:/Users/sosur/Desktop/file.txt"), "TestContent1"),
+            Triple("TestContent2", Paths.get("E:/se/file.txt"), "TestContent2"),
+            Triple("TestContent3", Paths.get(""), ""),
+            Triple("TestContent4", Paths.get("TestString"), "TestContent4")
         )
     }
 
@@ -33,6 +37,9 @@ class ConfigManagerTest {
 
     @Test
     fun `reading out of file should work`() {
+        paths.forEach { (content, path, _) ->
+            Files.writeString(path, content, StandardCharsets.UTF_8)
+        }
         paths.forEach { (_, path, expected) ->
             assertThat(manager.readFile(path)).isEqualTo(expected)
         }
@@ -52,9 +59,9 @@ class ConfigManagerTest {
 
     @Test
     fun `setting config path should work`() {
-       /* paths.forEach {
-            manager.setConfigPath(it.value)
-            assertThat(manager.configFilePath).isEqualTo(it.value)
-        }*/
+    /* paths.forEach {
+         manager.setConfigPath(it.value)
+         assertThat(manager.configFilePath).isEqualTo(it.value)
+     }*/
     }
 }
