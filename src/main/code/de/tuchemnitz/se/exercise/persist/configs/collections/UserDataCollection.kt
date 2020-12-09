@@ -5,6 +5,6 @@ import de.tuchemnitz.se.exercise.persist.AbstractCollection
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import org.litote.kmongo.getCollection
 
-class UserDataCollection (
-  private val db: MongoDatabase
+class UserDataCollection(
+    db: MongoDatabase
 ) : AbstractCollection<UserData>(collection = db.getCollection())

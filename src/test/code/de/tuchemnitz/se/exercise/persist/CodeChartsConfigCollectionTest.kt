@@ -10,6 +10,7 @@ import com.mongodb.client.model.Filters
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import org.bson.conversions.Bson
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -31,7 +32,7 @@ class CodeChartsConfigCollectionTest {
         )
     }
 
-    @BeforeEach
+    @AfterEach
     fun cleanUp() {
         collection.deleteMany()
     }

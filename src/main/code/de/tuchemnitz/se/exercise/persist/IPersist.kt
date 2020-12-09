@@ -1,5 +1,8 @@
 package de.tuchemnitz.se.exercise.persist
 
+import org.litote.kmongo.Id
+
 interface IPersist {
- //persist interfaces as a union
+    val _id: Id<out IPersist>
+    // persist interfaces as a union
 }

@@ -6,5 +6,5 @@ import de.tuchemnitz.se.exercise.persist.data.EyeTrackingData
 import org.litote.kmongo.getCollection
 
 class EyeTrackingDataCollection(
-    private val db: MongoDatabase
+    db: MongoDatabase
 ) : AbstractCollection<EyeTrackingData>(collection = db.getCollection())

@@ -6,5 +6,5 @@ import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
 import org.litote.kmongo.getCollection
 
 class ZoomMapsDataCollection(
-    private val db: MongoDatabase
+    db: MongoDatabase
 ) : AbstractCollection<ZoomMapsData>(collection = db.getCollection())

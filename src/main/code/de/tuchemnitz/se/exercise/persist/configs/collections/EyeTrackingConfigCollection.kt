@@ -6,5 +6,5 @@ import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
 import org.litote.kmongo.getCollection
 
 class EyeTrackingConfigCollection(
-    private val db: MongoDatabase
+    db: MongoDatabase
 ) : AbstractCollection<EyeTrackingConfig>(collection = db.getCollection())

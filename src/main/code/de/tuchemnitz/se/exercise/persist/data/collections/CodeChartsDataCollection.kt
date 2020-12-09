@@ -6,5 +6,5 @@ import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import org.litote.kmongo.getCollection
 
 class CodeChartsDataCollection(
-    private val db: MongoDatabase
+    db: MongoDatabase
 ) : AbstractCollection<CodeChartsData>(collection = db.getCollection())
