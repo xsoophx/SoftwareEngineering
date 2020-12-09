@@ -1,4 +1,4 @@
-import main.DataAnalystPicture
+import de.tuchemnitz.se.exercise.dataanalyzer.DataAnalystPicture
 
 private fun validate() {
     // should chek if tool matches method
@@ -32,7 +32,7 @@ fun createWindow(size: Pair<Number, Number>) {
 
 fun display(image: Array<DataAnalystPicture>) {
 
-    // create new main.Displayer and pass array of images with rendered data overlay
+    // create new de.tuchemnitz.se.exercise.dataanalyzer.Displayer and pass array of images with rendered data overlay
 }
 
 fun close() {

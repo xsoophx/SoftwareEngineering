@@ -1,4 +1,4 @@
-package main
+package de.tuchemnitz.se.exercise.dataanalyzer
 
 abstract class RenderData(coordinates: Array<Number>, image: Any, color: String) {
 

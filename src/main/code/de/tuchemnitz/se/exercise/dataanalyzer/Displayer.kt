@@ -1,4 +1,4 @@
-package main
+package de.tuchemnitz.se.exercise.dataanalyzer
 
 class Displayer(images: Array<DataAnalystPicture>) {
 
