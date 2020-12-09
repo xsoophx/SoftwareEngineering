@@ -1,17 +1,12 @@
 package main
 
-import main.DataAnalystPicture
-
 class Displayer(images: Array<DataAnalystPicture>) {
 
-    fun displayNext(){
+    fun displayNext() {
         // if array of images not empty, remove the first one and display it
-
     }
-    fun close(){
-
+    fun close() {
     }
-    fun hasNext(){
-
+    fun hasNext() {
     }
 }

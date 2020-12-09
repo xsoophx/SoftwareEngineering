@@ -1,9 +1,11 @@
-import import org.junit.jupiter.api.Test
+package de.tuchemnitz.se.exercise.dataanalyzer
 
-        class RenderDataTest{
+import org.junit.jupiter.api.Test
 
-            fun `rendering Data should work`() {
-                // should create an overlay on original image at passed coordinates using color
-                // should return combined image
-            }
-        }
+class RenderDataTest {
+    @Test
+    fun `rendering Data should work`() {
+        // should create an overlay on original image at passed coordinates using color
+        // should return combined image
+    }
+}

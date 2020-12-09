@@ -1,20 +1,13 @@
-import import org.junit.jupiter.api.Test
+package de.tuchemnitz.se.exercise.dataanalyzer
 
-        class DisplayerTest{
+class DisplayerTest {
 
-            fun `displaying next image should work`(){
+    fun `displaying next image should work`() {
+    }
 
-            }
-            fun `closing displayer should work`(){
+    fun `closing displayer should work`() {
+    }
 
-            }
-            fun `determining whether there is still an image to display should work`(){
-            }
-        }
-
-        class DataAnalystPictureTest{
-
-            fun `displaying picture should work`(){
-
-            }
-        }
+    fun `determining whether there is still an image to display should work`() {
+    }
+}
