@@ -133,7 +133,7 @@ In a nutshell, our tests will ensure that we have a reliable engineering environ
 ### How are we documenting our code and what are our code conventions?
 
 **Documentation and comments:** 
--   For the documentation, we are using description of parameters, just like in the Kotlin standard documentation. All public classes and methods will be commented by using ```/**...*/```. Instead of using *@param*, *@return*, *@throws* and so on, we will be using *[paramname]* plus a description, and an automated API-Documentation can be created.
+-   For the documentation, we are using description of parameters, just like in the Kotlin standard documentation (KDoc). All public classes and methods will be commented by using ```/**...*/```. Instead of using *@param*, *@return*, *@throws* and so on, we will be using *[paramname]* plus a description, and an automated API-Documentation can be created.
 -   "Normal" comments should be very short and precise, if needed. Comments will be written by ```/*...*/``` or ```//...```. They won't be used for documentation purposes.
 
 **Naming Conventions and types**
@@ -179,7 +179,7 @@ _Deadline: 12.12.2020_
 
 ### Overview
 
-The task for our second part of the 5th milestone was not given. That means, we could decide what the second part should be. We came to the result, that the second task would be the completion of our database and the corresponding tests. Also the implementation of our graphics started, and the goal was to be able to show pictures. Whoever felt like starting with the implementation for a tool, was free to actually start with that and sync up and explain what he/she did in our regular meetings.
+The task for our second part of the 5th milestone was not given. That means, we could decide what the second part should be. We came to the result, that the second task would be the completion of our database and the corresponding tests. Whoever felt like starting with the implementation for a tool, was free to actually start with that and sync up and explain what he/she did in our regular meetings.
 
 ### The database :floppy_disk:
 
@@ -189,6 +189,9 @@ We decided to use [Mongo DB](https://www.mongodb.com/) as a database. It is a do
 -   Queries are very powerful, even though the data models can be very nested. Aggregations and more modern use cases are supported.
 -   Queries do have the JSON format and there's no need to chain them to create SQL-queries
 -   It is easy to install and use locally, additionally you can use a UI to see what is happening with the data.
+
+**See our Database and its code [in this directory](/src/main/code/de/tuchemnitz/se/exercise/persist).**
+**All tests are [here](/src/test/code/de/tuchemnitz/se/exercise/persist).**
 
 *See more information on why to use Mongo DB [here](https://www.mongodb.com/why-use-mongodb#:~:text=Companies%20and%20development%20teams%20of,of%20both%20data%20and%20traffic.).*
 
