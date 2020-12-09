@@ -3,15 +3,23 @@ package de.tu_chemnitz.se.exercise.core.configmanager
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import org.litote.kmongo.KMongo
+import java.io.FileNotFoundException
 
 class ConfigManagerTest {
   private val manager = ConfigManager()
+  private val client = KMongo.createClient() //get com.mongodb.MongoClient new instance
+  private val database = client.getDatabase("test") //normal java driver usage
 
   companion object {
     val paths = mapOf<String, String>(
-      "TestContent" to "",
-      "TestContent" to "TestString",
-      "TestContent" to "E:/TUCcloud flthu/Uni/WS 20-21 SE/Projekt/ProjektTest/file.txt"
+      "TestContent1" to "C:/Users/Florian/Desktop/file.txt",
+      "TestContent2" to "E:/TUCcloud flthu/Uni/WS 20-21 SE/Projekt/ProjektTest/file.txt",
+      "TestContent3" to ""
+    )
+    val pathsinv = mapOf<String, String>(
+      "TestContent4" to "TestString"
     )
   }
 
@@ -22,15 +30,25 @@ class ConfigManagerTest {
 
   @Test
   fun `writing in file should work`() { //test valid path, invalid path, missing path
-    paths.forEach {
-      manager.writeFile(it.value, it.key)
+    pathsinv.forEach { (Content, Path) ->
+      assertThrows<FileNotFoundException> {
+        manager.writeFile(Path, Content)
+      }
+    }
+    paths.forEach { (Content, Path) ->
+      manager.writeFile(Path, Content)
     }
   }
 
   @Test
   fun `reading out of file should work`() {
-    paths.forEach {
-      assertThat(manager.readFile(it.value)).isEqualTo(it.key)
+    pathsinv.forEach { (_, Path) ->
+      assertThrows<FileNotFoundException> {
+        manager.readFile(Path)
+      }
+    }
+    paths.forEach { (_, Path) ->
+      manager.readFile(Path)
     }
   }
 
@@ -51,7 +69,7 @@ class ConfigManagerTest {
 
   @Test
   fun `setting config path should work`() {
-    paths.forEach{
+    paths.forEach {
       manager.setConfigPath(it.value)
       assertThat(manager.configFilePath).isEqualTo(it.value)
     }
