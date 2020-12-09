@@ -32,7 +32,7 @@ class InstantiationTest {
         CodeChartsData(dummyData = "dummy"),
         EyeTrackingData(dummyData = "dummy"),
         UserData(firstName = "test", surName = "user", age = 25),
-        ZoomMapsData(dummyData = "dummy"),
+        ZoomMapsData(dummyData = "dummy")
     )
 
     @Test
