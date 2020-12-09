@@ -1,6 +1,11 @@
 package de.tuchemnitz.se.exercise
 
-import io.mockk.*
+import io.mockk.confirmVerified
+import io.mockk.excludeRecords
+import io.mockk.mockkObject
+import io.mockk.unmockkObject
+import io.mockk.verify
+import io.mockk.verifyOrder
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

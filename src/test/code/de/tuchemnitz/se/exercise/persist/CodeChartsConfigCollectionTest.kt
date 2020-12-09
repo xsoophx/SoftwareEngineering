@@ -27,7 +27,7 @@ class CodeChartsConfigCollectionTest {
         private val configs = setOf(
             CodeChartsConfig(grid = Pair(100, 200), pictureViewTime = 1, matrixViewTime = 2),
             CodeChartsConfig(grid = Pair(0, 0), pictureViewTime = 0, matrixViewTime = 0),
-            CodeChartsConfig(grid = Pair(400, 400), pictureViewTime = 4, matrixViewTime = 4),
+            CodeChartsConfig(grid = Pair(400, 400), pictureViewTime = 4, matrixViewTime = 4)
         )
     }
 

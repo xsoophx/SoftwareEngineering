@@ -23,7 +23,7 @@ class InstantiationTest {
         CodeChartsDataCollection(database),
         EyeTrackingDataCollection(database),
         UserDataCollection(database),
-        ZoomMapsDataCollection(database),
+        ZoomMapsDataCollection(database)
     )
 
     @Suppress("SpellCheckingInspection")
