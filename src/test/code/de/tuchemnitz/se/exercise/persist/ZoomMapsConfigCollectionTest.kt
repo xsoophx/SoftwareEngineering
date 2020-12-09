@@ -10,7 +10,7 @@ import com.mongodb.client.model.Filters
 import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
 import org.bson.conversions.Bson
-import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.litote.kmongo.KMongo
@@ -31,7 +31,7 @@ class ZoomMapsConfigCollectionTest {
         )
     }
 
-    @BeforeEach
+    @AfterEach
     fun cleanUp() {
         collection.deleteMany()
     }
