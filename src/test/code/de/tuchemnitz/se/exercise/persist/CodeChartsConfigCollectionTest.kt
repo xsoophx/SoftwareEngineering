@@ -7,10 +7,10 @@ import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
 import com.mongodb.client.model.Filters
-import de.tuchemnitz.se.exercise.persist.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
+import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import org.bson.conversions.Bson
-import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.litote.kmongo.KMongo
@@ -31,7 +31,7 @@ class CodeChartsConfigCollectionTest {
         )
     }
 
-    @BeforeEach
+    @AfterEach
     fun cleanUp() {
         collection.deleteMany()
     }
