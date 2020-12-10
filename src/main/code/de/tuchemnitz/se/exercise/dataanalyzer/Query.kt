@@ -1,11 +1,13 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
-class Query(filter: Any) {
+import org.bson.conversions.Bson
+
+class Query() {
 
     fun connect() {
         // should connect to database
     }
-    fun query() {
+    fun query(filter: Bson) {
         // should query database :
         // if array.length > 1: database.findMany(filter)
         // else database.findOne(filter)
