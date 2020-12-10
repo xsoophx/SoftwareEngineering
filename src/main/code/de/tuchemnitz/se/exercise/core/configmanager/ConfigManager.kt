@@ -1,9 +1,7 @@
-package de.tu_chemnitz.se.exercise.core.configmanager
+package de.tuchemnitz.se.exercise.core.configmanager
 
-import de.tu_chemnitz.se.exercise.persist.collections.CodeChartsConfigCollection
-import de.tu_chemnitz.se.exercise.persist.configs.CodeChartsConfig
+import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import org.litote.kmongo.KMongo
-import org.litote.kmongo.eq
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.IOException
@@ -30,26 +28,20 @@ class ConfigManager {
         try {
             Files.writeString(path, content, StandardCharsets.UTF_8)
         } catch (e: IOException) {
-            println("Error found: File does not exist")
+            logger.error("Error found: File does not exist")
         }
     }
 
-    fun readFile(path: Path): String {
+    fun readFile(path: Path): String? {
         return try {
             Files.readString(path, StandardCharsets.UTF_8)
         } catch (e: Exception) {
-            when (e) {
-                is IOException -> logger.error("Could not read", e)
-                is AccessDeniedException -> logger.error("Access denied.", e)
-            }
-            return ""
+            logger.error("Could not read config file.", e)
+            null
         }
     }
 
-    fun assembleAllDatabases(): String {
-        val placeholder = collection.find(CodeChartsConfig::matrixViewTime eq 4)
-
-        return ""
+    fun assembleAllDatabases() {
     }
 
     fun getConfig(id: Int) {
