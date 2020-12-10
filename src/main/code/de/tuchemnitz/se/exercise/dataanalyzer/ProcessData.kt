@@ -13,7 +13,6 @@ open class ProcessData(datasets: Array<Any>, method: Number) {
 
     fun sort() {
         // should sort by image -> group together all datasets with same image: Array<Array<Dataset>>
-        
     }
 
     fun calculateCoordinates() {
