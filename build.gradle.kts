@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType // for Ktlint reports
 
 plugins {
     java
     kotlin("jvm") version "1.4.10"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.4.10"
-    id("org.jlleitschuh.gradle.ktlint") version "9.3.0"
+    id("org.jlleitschuh.gradle.ktlint-idea") version "9.4.1"
+    id("com.diffplug.spotless") version "5.8.2"
 }
 
 group = "de.tu_chemnitz"
@@ -14,7 +14,9 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    jcenter()
+    maven {
+        url = uri("https://plugins.gradle.org/m2/")
+    }
 }
 
 object Version {
@@ -25,6 +27,10 @@ object Version {
     const val LOGBACK = "1.2.3"
     const val MOCKK = "1.10.2"
     const val SLF4J = "1.7.30"
+    const val KMONGO = "4.2.2"
+    const val ASSERTK = "0.23"
+    const val SPOTLESS = "5.8.2"
+    const val KTLINT = "9.4.1"
 }
 
 dependencies {
@@ -50,9 +56,9 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core-jvm:${Version.KOTEST}")
     testImplementation("io.kotest:kotest-property-jvm:${Version.KOTEST}")
 
-    implementation("org.litote.kmongo:kmongo:4.2.2")
+    implementation("org.litote.kmongo:kmongo:${Version.KMONGO}")
 
-    implementation("com.willowtreeapps.assertk:assertk:0.23")
+    implementation("com.willowtreeapps.assertk:assertk:${Version.ASSERTK}")
 }
 
 project.sourceSets {
@@ -87,27 +93,5 @@ tasks {
 
     withType<Test> {
         useJUnitPlatform()
-    }
-}
-
-ktlint {
-    // THIS LINE IS NOT necessary and is incorrect -> version.set("9.4.0")
-    verbose.set(true)
-    outputToConsole.set(true)
-    coloredOutput.set(true)
-    debug.set(false) // in your configuration this option must be set to true
-    android.set(false)
-    outputColorName.set("RED")
-    ignoreFailures.set(false)
-    enableExperimentalRules.set(false)
-    reporters {
-        reporter(ReporterType.CHECKSTYLE)
-        reporter(ReporterType.JSON)
-        reporter(ReporterType.HTML)
-    }
-    filter {
-        exclude("**/style-violations.kt")
-        exclude("**/generated/**")
-        include("**/kotlin/**")
     }
 }
