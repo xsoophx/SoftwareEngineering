@@ -4,13 +4,13 @@ import assertk.assertThat
 import assertk.assertions.isInstanceOf
 import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.EyeTrackingConfigCollection
-import de.tuchemnitz.se.exercise.persist.configs.collections.UserDataCollection
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.data.EyeTrackingData
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
 import de.tuchemnitz.se.exercise.persist.data.collections.CodeChartsDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.EyeTrackingDataCollection
+import de.tuchemnitz.se.exercise.persist.data.collections.UserDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.ZoomMapsDataCollection
 import org.junit.jupiter.api.Test
 import org.litote.kmongo.KMongo
