@@ -1,39 +1,47 @@
 import de.tuchemnitz.se.exercise.dataanalyzer.DataAnalystPicture
+import de.tuchemnitz.se.exercise.dataanalyzer.Query
+import de.tuchemnitz.se.exercise.dataanalyzer.RenderData
 
-private fun validate() {
-    // should chek if tool matches method
-    // should return true if (tool == codeCharts || tool == zoomMaps) && (method == heatMap || method == Diagram)
-    // should return true if (tool == webcam && method == timeline)
-    // else return false
-}
+class DataAnalyst(val state: Boolean, val dataRenderer: List<RenderData>) {
+    companion object {
+        private val queryBuilder = Query()
+    }
 
-private fun getData() {
-    // should create new query object
-    // should return data
-}
+    private fun validate() {
+        // should chek if tool matches method
+        // should return true if (tool == codeCharts || tool == zoomMaps) && (method == heatMap || method == Diagram)
+        // should return true if (tool == webcam && method == timeline)
+        // else return false
+    }
 
-private fun processData(data: Any) {
-    // should create new data processor
-    // should return processed data
-}
+    private fun getData() {
+        // should create new query object
+        // should return data
+    }
 
-private fun newColor() {
-    // should return an unused color
-}
+    private fun processData(data: Any) {
+        // should create new data processor
+        // should return processed data
+    }
 
-private fun renderData(coordinates: Array<Number>, image: Any, color: String) {
-    // should create a new data renderer
-    // should return rendered data
-}
+    private fun newColor() {
+        // should return an unused color
+    }
 
-fun createWindow(size: Pair<Number, Number>) {
-    // should create new window of specified size
-}
+    private fun renderData(coordinates: Array<Number>, image: Any, color: String) {
+        // should create a new data renderer
+        // should return rendered data
+    }
 
-fun display(image: Array<DataAnalystPicture>) {
+    fun createWindow(size: Pair<Number, Number>) {
+        // should create new window of specified size
+    }
 
-    // create new de.tuchemnitz.se.exercise.dataanalyzer.Displayer and pass array of images with rendered data overlay
-}
+    fun display(image: Array<DataAnalystPicture>) {
 
-fun close() {
+        // create new de.tuchemnitz.se.exercise.dataanalyzer.Displayer and pass array of images with rendered data overlay
+    }
+
+    fun close() {
+    }
 }
