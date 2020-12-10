@@ -63,7 +63,7 @@ For each tool, a functional as well as a non-functional requirement needs to be 
 
 _Deadline: 12.11.2020_
 
-The second task was to analyze all of the components of the toolbox with the help of CRC Cards. All classes, dependencies, responsibilities, collaborations and relations, but also hierarchies (and inheritance) are supposed to be found. Also, the results need some reasoning for the chosen arrangements.
+The second task was to analyze all the components of the toolbox with the help of CRC Cards. All classes, dependencies, responsibilities, collaborations and relations, but also hierarchies (and inheritance) are supposed to be found. Also, the results need some reasoning for the chosen arrangements.
 
 |     Tool      |                 ID                 |
 | :-----------: | :--------------------------------: |

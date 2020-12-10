@@ -7,8 +7,8 @@ import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
 import com.mongodb.client.model.Filters
-import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
-import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
+import de.tuchemnitz.se.exercise.persist.data.UserData
+import de.tuchemnitz.se.exercise.persist.data.collections.UserDataCollection
 import org.bson.conversions.Bson
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
@@ -18,16 +18,17 @@ import org.litote.kmongo.`in`
 import org.litote.kmongo.eq
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-class ZoomMapsConfigCollectionTest {
+class UserDataCollectionTest {
     private val client = KMongo.createClient() // get com.mongodb.MongoClient new instance
     private val database = client.getDatabase("test") // normal java driver usage
-    private val collection = ZoomMapsConfigCollection(database)
+    private val collection = UserDataCollection(database)
 
+    @Suppress("SpellCheckingInspection")
     companion object {
         private val configs = setOf(
-            ZoomMapsConfig(zoomSpeed = 0.5F, keyBindings = setOf("u", "d", "l", "r")),
-            ZoomMapsConfig(zoomSpeed = 0.1F, keyBindings = setOf("a", "a", "a", "a")),
-            ZoomMapsConfig(zoomSpeed = 2.3F, keyBindings = setOf("c", "d", "e", "z"))
+            UserData(firstName = "Testuser", surName = "Kotlin", age = 45),
+            UserData(firstName = "anotherUser", surName = "Java", age = 25),
+            UserData(firstName = "Santa", surName = "Claus", age = 65)
         )
     }
 
@@ -39,7 +40,7 @@ class ZoomMapsConfigCollectionTest {
     @Test
     fun `all configs should be saved properly at once`() {
         collection.saveMany(configs)
-        assertThat(collection.find(ZoomMapsConfig::_id `in` configs.map(ZoomMapsConfig::_id)))
+        assertThat(collection.find(UserData::_id `in` configs.map(UserData::_id)))
             .containsOnly(*configs.toTypedArray())
     }
 
@@ -47,15 +48,15 @@ class ZoomMapsConfigCollectionTest {
     fun `every config should be saved properly`() {
         configs.forEach {
             collection.saveOne(it)
-            assertThat(collection.find(ZoomMapsConfig::_id eq it._id)).contains(it)
+            assertThat(collection.find(UserData::_id eq it._id)).contains(it)
         }
     }
 
     @Test
     fun `every config should be deleted properly`() {
         configs.forEach {
-            collection.deleteOne(ZoomMapsConfig::_id eq it._id)
-            assertThat(collection.find(ZoomMapsConfig::_id eq it._id)).doesNotContain(it)
+            collection.deleteOne(UserData::_id eq it._id)
+            assertThat(collection.find(UserData::_id eq it._id)).doesNotContain(it)
         }
     }
 
@@ -73,7 +74,7 @@ class ZoomMapsConfigCollectionTest {
         collection.deleteMany(ids)
 
         configs.forEach {
-            collection.deleteOne(ZoomMapsConfig::_id eq it._id)
+            collection.deleteOne(UserData::_id eq it._id)
             assertThat(collection.findOneById(it._id)).isNull()
         }
     }
