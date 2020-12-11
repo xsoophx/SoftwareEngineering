@@ -1,7 +1,13 @@
 package de.tuchemnitz.se.exercise.core.configmanager
 
+import de.tuchemnitz.se.exercise.persist.AbstractCollection
+import de.tuchemnitz.se.exercise.persist.configs.IConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
+import de.tuchemnitz.se.exercise.persist.configs.collections.EyeTrackingConfigCollection
+import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
+import org.bson.BsonDocument
 import org.litote.kmongo.KMongo
+import org.litote.kmongo.descending
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.IOException
@@ -14,7 +20,11 @@ class ConfigManager {
 
     private val client = KMongo.createClient() // get com.mongodb.MongoClient new instance
     private val database = client.getDatabase("test") // normal java driver usage
-    private val collection = CodeChartsConfigCollection(database)
+    private val configCollections: List<AbstractCollection<out IConfig>> = listOf(
+        ::CodeChartsConfigCollection,
+        ::ZoomMapsConfigCollection,
+        ::EyeTrackingConfigCollection
+    ).map { it(database) }
 
     companion object {
         val logger: Logger = LoggerFactory.getLogger(ConfigManager::class.java)
@@ -41,7 +51,10 @@ class ConfigManager {
         }
     }
 
-    fun assembleAllDatabases() {
+    fun assembleAllConfigurations(): List<IConfig> {
+        return configCollections.mapNotNull {
+            it.find(BsonDocument()).sort(descending(IConfig::savedAt)).firstOrNull()
+        }
     }
 
     fun getConfig(id: Int) {

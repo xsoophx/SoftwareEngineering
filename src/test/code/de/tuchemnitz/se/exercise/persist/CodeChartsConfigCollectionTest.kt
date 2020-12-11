@@ -16,6 +16,7 @@ import org.junit.jupiter.api.TestInstance
 import org.litote.kmongo.KMongo
 import org.litote.kmongo.`in`
 import org.litote.kmongo.eq
+import java.time.Instant
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class CodeChartsConfigCollectionTest {
@@ -25,9 +26,24 @@ class CodeChartsConfigCollectionTest {
 
     companion object {
         private val configs = setOf(
-            CodeChartsConfig(grid = Pair(100, 200), pictureViewTime = 1, matrixViewTime = 2),
-            CodeChartsConfig(grid = Pair(0, 0), pictureViewTime = 0, matrixViewTime = 0),
-            CodeChartsConfig(grid = Pair(400, 400), pictureViewTime = 4, matrixViewTime = 4)
+            CodeChartsConfig(
+                grid = Pair(100, 200),
+                pictureViewTime = 1,
+                matrixViewTime = 2,
+                savedAt = Instant.now()
+            ),
+            CodeChartsConfig(
+                grid = Pair(0, 0),
+                pictureViewTime = 0,
+                matrixViewTime = 0,
+                savedAt = Instant.now()
+            ),
+            CodeChartsConfig(
+                grid = Pair(400, 400),
+                pictureViewTime = 4,
+                matrixViewTime = 4,
+                savedAt = Instant.now()
+            )
         )
     }
 
