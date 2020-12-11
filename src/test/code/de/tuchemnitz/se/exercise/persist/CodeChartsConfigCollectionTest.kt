@@ -29,20 +29,17 @@ class CodeChartsConfigCollectionTest {
             CodeChartsConfig(
                 grid = Pair(100, 200),
                 pictureViewTime = 1,
-                matrixViewTime = 2,
-                savedAt = Instant.now()
+                matrixViewTime = 2
             ),
             CodeChartsConfig(
                 grid = Pair(0, 0),
                 pictureViewTime = 0,
-                matrixViewTime = 0,
-                savedAt = Instant.now()
+                matrixViewTime = 0
             ),
             CodeChartsConfig(
                 grid = Pair(400, 400),
                 pictureViewTime = 4,
-                matrixViewTime = 4,
-                savedAt = Instant.now()
+                matrixViewTime = 4
             )
         )
     }

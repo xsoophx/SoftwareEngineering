@@ -9,5 +9,5 @@ data class CodeChartsConfig(
     val grid: Pair<Int, Int>,
     val pictureViewTime: Int,
     val matrixViewTime: Int,
-    val savedAt: Instant = Instant.now()
+    override val savedAt: Instant = Instant.now()
 ) : IConfig

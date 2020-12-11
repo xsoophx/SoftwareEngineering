@@ -23,12 +23,14 @@ import org.litote.kmongo.Id
 import org.litote.kmongo.`in`
 import org.litote.kmongo.eq
 import org.litote.kmongo.newId
+import java.time.Instant
 
 @TestInstance(Lifecycle.PER_CLASS)
 class AbstractCollectionTest {
     data class DummyConfig(
         override val _id: Id<DummyConfig> = newId(),
-        val payload: String = ""
+        override val savedAt: Instant = Instant.now(),
+        val payload: String = "",
     ) : IConfig
 
     private val mockedCollection = mockk<MongoCollection<DummyConfig>>()

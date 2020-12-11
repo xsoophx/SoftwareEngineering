@@ -8,5 +8,5 @@ import java.time.Instant
 data class EyeTrackingConfig(
     override val _id: Id<EyeTrackingConfig> = newId(),
     val dummyVal: String,
-    val savedAt: Instant = Instant.now()
+    override val savedAt: Instant = Instant.now()
 ) : IConfig

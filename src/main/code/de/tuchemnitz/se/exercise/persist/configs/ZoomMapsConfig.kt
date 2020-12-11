@@ -8,5 +8,5 @@ data class ZoomMapsConfig(
     override val _id: Id<ZoomMapsConfig> = newId(),
     val zoomSpeed: Float,
     val keyBindings: Set<String>,
-    val savedAt: Instant = Instant.now()
+    override val savedAt: Instant = Instant.now()
 ) : IConfig

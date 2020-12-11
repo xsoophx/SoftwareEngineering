@@ -1,6 +1,7 @@
 package de.tuchemnitz.se.exercise.core.configmanager
 
 import assertk.assertThat
+import assertk.assertions.contains
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
 import com.mongodb.client.FindIterable
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import org.litote.kmongo.KMongo
+import org.litote.kmongo.eq
 import java.nio.file.Files
 import java.nio.file.Path
 import java.util.stream.Stream
@@ -24,7 +26,25 @@ import java.util.stream.Stream
 class ConfigManagerTest {
     private val manager = ConfigManager()
     private val client = KMongo.createClient() // get com.mongodb.MongoClient new instance
-    private val database = client.getDatabase("test") // normal java driver usage
+    private val database = client.getDatabase("test")
+    private val codeChartsConfigCollection = CodeChartsConfigCollection(database)
+    private val configs = setOf(
+        CodeChartsConfig(
+            grid = Pair(100, 200),
+            pictureViewTime = 1,
+            matrixViewTime = 2
+        ),
+        CodeChartsConfig(
+            grid = Pair(0, 0),
+            pictureViewTime = 0,
+            matrixViewTime = 0
+        ),
+        CodeChartsConfig(
+            grid = Pair(400, 400),
+            pictureViewTime = 4,
+            matrixViewTime = 4
+        )
+    )
 
     private val mockedCollection = mockk<CodeChartsConfigCollection>()
 
@@ -82,7 +102,11 @@ class ConfigManagerTest {
     }
 
     @Test
-    fun `assembling all database configs should work`() { // read and combine all Tools' config files into single config file
+    fun `assembling all database configs should work`() { // integration test
+        configs.forEach {
+            codeChartsConfigCollection.saveOne(it)
+            assertThat(codeChartsConfigCollection.find(CodeChartsConfig::_id eq it._id)).contains(it)
+        }
     }
 
     @Test
