@@ -1,10 +1,10 @@
 package de.tuchemnitz.se.exercise.core.configmanager
 
 import assertk.assertThat
-import assertk.assertions.contains
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
 import com.mongodb.client.FindIterable
+import de.tuchemnitz.se.exercise.DummyData
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import io.kotest.matchers.shouldBe
@@ -12,41 +12,21 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.bson.BsonDocument
-import org.bson.conversions.Bson
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import org.litote.kmongo.KMongo
-import org.litote.kmongo.eq
 import java.nio.file.Files
 import java.nio.file.Path
 import java.util.stream.Stream
 
 class ConfigManagerTest {
-    private val manager = ConfigManager()
-    private val client = KMongo.createClient() // get com.mongodb.MongoClient new instance
-    private val database = client.getDatabase("test")
-    private val codeChartsConfigCollection = CodeChartsConfigCollection(database)
-    private val configs = setOf(
-        CodeChartsConfig(
-            grid = Pair(100, 200),
-            pictureViewTime = 1,
-            matrixViewTime = 2
-        ),
-        CodeChartsConfig(
-            grid = Pair(0, 0),
-            pictureViewTime = 0,
-            matrixViewTime = 0
-        ),
-        CodeChartsConfig(
-            grid = Pair(400, 400),
-            pictureViewTime = 4,
-            matrixViewTime = 4
-        )
-    )
 
     private val mockedCollection = mockk<CodeChartsConfigCollection>()
+    private val dummies = DummyData()
 
     companion object {
         @JvmStatic
@@ -62,7 +42,7 @@ class ConfigManagerTest {
 
     @Test
     fun `comparing db and file content should work`() { // file content empty, file different from DB, file like DB
-        manager.checkDBSimilarity()
+        dummies.manager.checkDBSimilarity()
     }
 
     @ParameterizedTest(name = "{index} => Writing/Reading file: {0}")
@@ -71,8 +51,8 @@ class ConfigManagerTest {
         val message = "Hello world!"
 
         val content = assertDoesNotThrow {
-            manager.writeFile(validPath, message)
-            manager.readFile(validPath)
+            dummies.manager.writeFile(validPath, message)
+            dummies.manager.readFile(validPath)
         }
         assertThat(message).isEqualTo(content)
     } finally {
@@ -84,7 +64,7 @@ class ConfigManagerTest {
         val testPath = Path.of("bull/shit.txt")
 
         assertDoesNotThrow {
-            manager.writeFile(testPath, "Hello world!")
+            dummies.manager.writeFile(testPath, "Hello world!")
         }
     }
 
@@ -93,20 +73,12 @@ class ConfigManagerTest {
         val testPath = Path.of("bull/shit.txt")
 
         assertDoesNotThrow {
-            assertThat(manager.readFile(testPath)).isNull()
+            assertThat(dummies.manager.readFile(testPath)).isNull()
         }
     }
 
     @Test
     fun `reading out of file should work`() {
-    }
-
-    @Test
-    fun `assembling all database configs should work`() { // integration test
-        configs.forEach {
-            codeChartsConfigCollection.saveOne(it)
-            assertThat(codeChartsConfigCollection.find(CodeChartsConfig::_id eq it._id)).contains(it)
-        }
     }
 
     @Test
@@ -116,12 +88,39 @@ class ConfigManagerTest {
     @Test
     fun `invoking of save function of a config into the db should work`() {
         val mockedResult = mockk<FindIterable<CodeChartsConfig>>()
-        every { mockedCollection.find(any<Bson>()) } returns mockedResult
+        every { mockedCollection.find(any()) } returns mockedResult
         mockedCollection.find(BsonDocument()) shouldBe mockedResult
-        verify { mockedCollection.find(any<Bson>()) }
+        verify { mockedCollection.find(any()) }
     }
 
     @Test
     fun `setting config path should work`() {
+    }
+
+    @Nested
+    inner class DataBaseUsage {
+
+        @BeforeEach
+        @ParameterizedTest
+        @MethodSource("DummyData.companion.codeChartsConfigs")
+        fun setup(config: CodeChartsConfig) {
+            dummies.codeChartsConfigCollection.saveOne(config)
+
+            dummies.zoomMapsConfigs.forEach {
+                dummies.zoomMapsConfigCollection.saveOne(it)
+            }
+        }
+
+        @AfterEach
+        fun tearDown() {
+            dummies.codeChartsConfigCollection.deleteMany()
+            dummies.zoomMapsConfigCollection.deleteMany()
+        }
+
+        private val dummies = DummyData()
+
+        @Test
+        fun `assembling all database configs should work`() { // integration test
+        }
     }
 }

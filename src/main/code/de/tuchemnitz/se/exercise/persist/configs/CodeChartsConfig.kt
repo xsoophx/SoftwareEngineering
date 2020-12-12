@@ -1,5 +1,6 @@
 package de.tuchemnitz.se.exercise.persist.configs
 
+import de.tuchemnitz.se.exercise.persist.now
 import org.litote.kmongo.Id
 import org.litote.kmongo.newId
 import java.time.Instant
@@ -9,5 +10,5 @@ data class CodeChartsConfig(
     val grid: Pair<Int, Int>,
     val pictureViewTime: Int,
     val matrixViewTime: Int,
-    override val savedAt: Instant = Instant.now()
+    override val savedAt: Instant = now()
 ) : IConfig

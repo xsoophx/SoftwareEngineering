@@ -16,7 +16,6 @@ import org.junit.jupiter.api.TestInstance
 import org.litote.kmongo.KMongo
 import org.litote.kmongo.`in`
 import org.litote.kmongo.eq
-import java.time.Instant
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class CodeChartsConfigCollectionTest {
