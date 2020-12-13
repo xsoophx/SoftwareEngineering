@@ -5,9 +5,8 @@ import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
-import org.junit.jupiter.params.provider.Arguments
+import de.tuchemnitz.se.exercise.persist.now
 import org.litote.kmongo.KMongo
-import java.util.stream.Stream
 
 object DummyData {
     val manager = ConfigManager()
@@ -15,46 +14,53 @@ object DummyData {
     private val database = client.getDatabase("test")
     val codeChartsConfigCollection = CodeChartsConfigCollection(database)
     val zoomMapsConfigCollection = ZoomMapsConfigCollection(database)
+    val baseTime = now()
+
+    @get: JvmStatic
+    val codeChartsConfigs = setOf(
+        CodeChartsConfig(
+            grid = Pair(100, 200),
+            pictureViewTime = 1,
+            matrixViewTime = 2,
+            savedAt = baseTime.plusSeconds(1L)
+        ),
+        CodeChartsConfig(
+            grid = Pair(0, 0),
+            pictureViewTime = 0,
+            matrixViewTime = 0,
+            savedAt = baseTime.plusSeconds(2L)
+        ),
+        CodeChartsConfig(
+            grid = Pair(400, 400),
+            pictureViewTime = 4,
+            matrixViewTime = 4,
+            savedAt = baseTime.plusSeconds(3L)
+        )
+    )
 
     @JvmStatic
     @Suppress("unused")
-    fun codeChartsConfigs() = Stream.of(
-        Arguments.of(
-            CodeChartsConfig(
-                grid = Pair(100, 200),
-                pictureViewTime = 1,
-                matrixViewTime = 2
-            )
-        ),
-        Arguments.of(
-            CodeChartsConfig(
-                grid = Pair(0, 0),
-                pictureViewTime = 0,
-                matrixViewTime = 0
-            )
-        ),
-        Arguments.of(
-            CodeChartsConfig(
-                grid = Pair(400, 400),
-                pictureViewTime = 4,
-                matrixViewTime = 4
-            )
-        )
+    fun codeChartsConfigsSource() = codeChartsConfigs.stream()
 
-    )
-
+    @get: JvmStatic
     val zoomMapsConfigs = setOf(
         ZoomMapsConfig(
             zoomSpeed = 1F,
-            keyBindings = setOf("a", "b", "c", "d")
+            keyBindings = setOf("a", "b", "c", "d"),
+            savedAt = baseTime.plusSeconds(1L)
         ),
         ZoomMapsConfig(
             zoomSpeed = 2F,
-            keyBindings = setOf("d", "e", "f", "g")
+            keyBindings = setOf("d", "e", "f", "g"),
+            savedAt = baseTime.plusSeconds(2L)
         ),
         ZoomMapsConfig(
             zoomSpeed = 10F,
-            keyBindings = setOf("v", "w", "x", "y")
-        ),
+            keyBindings = setOf("v", "w", "x", "y"),
+            savedAt = baseTime.plusSeconds(3L)
+        )
     )
+
+    @JvmStatic
+    fun zoomMapsConfigs() = zoomMapsConfigs.stream()
 }

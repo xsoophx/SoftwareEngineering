@@ -94,6 +94,12 @@ class ConfigManagerTest {
 
     @Test
     fun `setting config path should work`() {
+        DummyData.manager.configFilePath = "abc"
+        assertThat(DummyData.manager.configFilePath).isEqualTo("abc")
+    }
+
+    @Test
+    fun `invoking of saving functions of config should work`() {
     }
 
     @Nested
@@ -101,11 +107,11 @@ class ConfigManagerTest {
 
         @BeforeEach
         fun setup() {
-            DummyData.codeChartsConfigs().forEach { arguments ->
-                DummyData.codeChartsConfigCollection.saveOne(arguments.get()[0] as CodeChartsConfig)
+            DummyData.codeChartsConfigs.forEach {
+                DummyData.codeChartsConfigCollection.saveOne(it)
             }
 
-            DummyData.zoomMapsConfigs.forEach {
+            DummyData.zoomMapsConfigs().forEach {
                 DummyData.zoomMapsConfigCollection.saveOne(it)
             }
         }
@@ -118,6 +124,14 @@ class ConfigManagerTest {
 
         @Test
         fun `assembling all database configs should work`() { // integration test
+            val maxTimes = setOf(maxZoomMapsTime, maxCodeChartsTime)
+            assertThat(DummyData.manager.assembleAllConfigurations()).isEqualTo(maxTimes)
         }
+
+        private val maxCodeChartsTime =
+            DummyData.codeChartsConfigs.maxByOrNull { it.savedAt }
+
+        private val maxZoomMapsTime =
+            DummyData.zoomMapsConfigs.maxByOrNull { it.savedAt }
     }
 }
