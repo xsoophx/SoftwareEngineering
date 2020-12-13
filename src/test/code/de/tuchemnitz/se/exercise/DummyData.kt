@@ -9,42 +9,39 @@ import org.junit.jupiter.params.provider.Arguments
 import org.litote.kmongo.KMongo
 import java.util.stream.Stream
 
-class DummyData {
+object DummyData {
     val manager = ConfigManager()
-    val client = KMongo.createClient() // get com.mongodb.MongoClient new instance
-    val database = client.getDatabase("test")
+    private val client = KMongo.createClient() // get com.mongodb.MongoClient new instance
+    private val database = client.getDatabase("test")
     val codeChartsConfigCollection = CodeChartsConfigCollection(database)
     val zoomMapsConfigCollection = ZoomMapsConfigCollection(database)
-    val companion = Companion
 
-    companion object {
-        @JvmStatic
-        @Suppress("unused")
-        fun codeChartsConfigs() = Stream.of(
-            Arguments.of(
-                CodeChartsConfig(
-                    grid = Pair(100, 200),
-                    pictureViewTime = 1,
-                    matrixViewTime = 2
-                )
-            ),
-            Arguments.of(
-                CodeChartsConfig(
-                    grid = Pair(0, 0),
-                    pictureViewTime = 0,
-                    matrixViewTime = 0
-                )
-            ),
-            Arguments.of(
-                CodeChartsConfig(
-                    grid = Pair(400, 400),
-                    pictureViewTime = 4,
-                    matrixViewTime = 4
-                )
+    @JvmStatic
+    @Suppress("unused")
+    fun codeChartsConfigs() = Stream.of(
+        Arguments.of(
+            CodeChartsConfig(
+                grid = Pair(100, 200),
+                pictureViewTime = 1,
+                matrixViewTime = 2
             )
-
+        ),
+        Arguments.of(
+            CodeChartsConfig(
+                grid = Pair(0, 0),
+                pictureViewTime = 0,
+                matrixViewTime = 0
+            )
+        ),
+        Arguments.of(
+            CodeChartsConfig(
+                grid = Pair(400, 400),
+                pictureViewTime = 4,
+                matrixViewTime = 4
+            )
         )
-    }
+
+    )
 
     val zoomMapsConfigs = setOf(
         ZoomMapsConfig(

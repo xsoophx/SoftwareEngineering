@@ -26,7 +26,6 @@ import java.util.stream.Stream
 class ConfigManagerTest {
 
     private val mockedCollection = mockk<CodeChartsConfigCollection>()
-    private val dummies = DummyData()
 
     companion object {
         @JvmStatic
@@ -42,7 +41,7 @@ class ConfigManagerTest {
 
     @Test
     fun `comparing db and file content should work`() { // file content empty, file different from DB, file like DB
-        dummies.manager.checkDBSimilarity()
+        DummyData.manager.checkDBSimilarity()
     }
 
     @ParameterizedTest(name = "{index} => Writing/Reading file: {0}")
@@ -51,8 +50,8 @@ class ConfigManagerTest {
         val message = "Hello world!"
 
         val content = assertDoesNotThrow {
-            dummies.manager.writeFile(validPath, message)
-            dummies.manager.readFile(validPath)
+            DummyData.manager.writeFile(validPath, message)
+            DummyData.manager.readFile(validPath)
         }
         assertThat(message).isEqualTo(content)
     } finally {
@@ -64,7 +63,7 @@ class ConfigManagerTest {
         val testPath = Path.of("bull/shit.txt")
 
         assertDoesNotThrow {
-            dummies.manager.writeFile(testPath, "Hello world!")
+            DummyData.manager.writeFile(testPath, "Hello world!")
         }
     }
 
@@ -73,7 +72,7 @@ class ConfigManagerTest {
         val testPath = Path.of("bull/shit.txt")
 
         assertDoesNotThrow {
-            assertThat(dummies.manager.readFile(testPath)).isNull()
+            assertThat(DummyData.manager.readFile(testPath)).isNull()
         }
     }
 
@@ -101,23 +100,21 @@ class ConfigManagerTest {
     inner class DataBaseUsage {
 
         @BeforeEach
-        @ParameterizedTest
-        @MethodSource("DummyData.companion.codeChartsConfigs")
-        fun setup(config: CodeChartsConfig) {
-            dummies.codeChartsConfigCollection.saveOne(config)
+        fun setup() {
+            DummyData.codeChartsConfigs().forEach { arguments ->
+                DummyData.codeChartsConfigCollection.saveOne(arguments.get()[0] as CodeChartsConfig)
+            }
 
-            dummies.zoomMapsConfigs.forEach {
-                dummies.zoomMapsConfigCollection.saveOne(it)
+            DummyData.zoomMapsConfigs.forEach {
+                DummyData.zoomMapsConfigCollection.saveOne(it)
             }
         }
 
         @AfterEach
         fun tearDown() {
-            dummies.codeChartsConfigCollection.deleteMany()
-            dummies.zoomMapsConfigCollection.deleteMany()
+            DummyData.codeChartsConfigCollection.deleteMany()
+            DummyData.zoomMapsConfigCollection.deleteMany()
         }
-
-        private val dummies = DummyData()
 
         @Test
         fun `assembling all database configs should work`() { // integration test

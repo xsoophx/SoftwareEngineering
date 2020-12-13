@@ -17,11 +17,8 @@ import org.litote.kmongo.KMongo
 import org.litote.kmongo.`in`
 import org.litote.kmongo.eq
 
-@TestInstance(TestInstance.Lifecycle.PER_METHOD)
-class CodeChartsConfigCollectionTest {
-    private val client = KMongo.createClient() // get com.mongodb.MongoClient new instance
-    private val database = client.getDatabase("test") // normal java driver usage
-    private val collection = CodeChartsConfigCollection(database)
+class CodeChartsConfigCollectionTest
+    : DatabaseTestBase<CodeChartsConfigCollection>(::CodeChartsConfigCollection) {
 
     companion object {
         private val configs = setOf(
@@ -41,11 +38,6 @@ class CodeChartsConfigCollectionTest {
                 matrixViewTime = 4
             )
         )
-    }
-
-    @AfterEach
-    fun cleanUp() {
-        collection.deleteMany()
     }
 
     @Test
@@ -81,15 +73,11 @@ class CodeChartsConfigCollectionTest {
 
     @Test
     fun `configs should be deleted properly at once`() {
-        val ids = "_id" `in` configs
-        collection.deleteMany(ids)
+        collection.deleteMany(IPersist::_id `in` configs.map(IPersist::_id))
 
         configs.forEach {
             collection.deleteOne(CodeChartsConfig::_id eq it._id)
             assertThat(collection.findOneById(it._id)).isNull()
         }
     }
-
-    private infix fun String.`in`(collection: Collection<Any>): Bson =
-        Filters.`in`(this, collection)
 }
