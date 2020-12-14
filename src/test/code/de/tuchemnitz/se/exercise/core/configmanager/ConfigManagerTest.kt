@@ -76,7 +76,6 @@ class ConfigManagerTest {
         }
     }
 
-
     @Test
     fun `invoking of get function of a config out of db by id should work`() {
     }

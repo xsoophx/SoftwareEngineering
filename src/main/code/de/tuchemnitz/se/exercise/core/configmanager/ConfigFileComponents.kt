@@ -5,13 +5,12 @@ import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
 import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.nio.file.Path
 
 @Serializable
 data class General(
     var selectionMenuEnabled: Boolean,
     var activatedTool: Int?,
-    var configPath: Path
+    var configPath: String
 )
 
 @Serializable
@@ -21,14 +20,14 @@ data class BubbleViewConfig(
 
 @Serializable
 data class DataClientConfig(
-    val colorSampleBoard: Set<Triple<Int, Int, Int>>,
+    val colorSampleBoard: Set<ColorSampleBoard>,
     val exportPath: String
 )
 
 @Serializable
 data class DatabaseConfig(
     val dataBaseName: String,
-    val databasePath: Path,
+    val dataBasePath: String,
     val username: String
 )
 
@@ -46,5 +45,12 @@ data class ConfigFile(
     val toolConfigs: ToolConfigs,
     val dataClientConfig: DataClientConfig,
     val database: DatabaseConfig
+)
+
+@Serializable
+data class ColorSampleBoard(
+    val red: Int,
+    val green: Int,
+    val blue: Int
 )
 

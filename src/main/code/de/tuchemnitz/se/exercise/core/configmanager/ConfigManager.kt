@@ -8,7 +8,7 @@ import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.collections.EyeTrackingConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
-import kotlinx.serialization.json.Json.Default.decodeFromString
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json.Default.encodeToString
 import org.bson.BsonDocument
 import org.bson.conversions.Bson
@@ -20,7 +20,6 @@ import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
 
 class ConfigManager(var configFilePath: String = "") {
     private val client = KMongo.createClient() // get com.mongodb.MongoClient new instance
@@ -41,13 +40,17 @@ class ConfigManager(var configFilePath: String = "") {
     companion object {
         val logger: Logger = LoggerFactory.getLogger(ConfigManager::class.java)
 
-        val generalSettings = General(selectionMenuEnabled = true, activatedTool = null, configPath = Paths.get(""))
+        @Serializable
+        val generalSettings = General(selectionMenuEnabled = true, activatedTool = null, configPath = "")
 
-        val dataClientConfig = DataClientConfig(colorSampleBoard = setOf(Triple(1, 2, 3)), exportPath = "exportPath")
+        val dataClientConfig = DataClientConfig(
+            colorSampleBoard = setOf(ColorSampleBoard(red = 1, green = 2, blue = 3)),
+            exportPath = "exportPath"
+        )
 
-        //TODO
+        // TODO
         val databaseConfig =
-            DatabaseConfig(dataBaseName = "test", databasePath = Paths.get("databasePath"), username = "root")
+            DatabaseConfig(dataBaseName = "test", dataBasePath = "databasePath", username = "root")
     }
 
     fun checkDBSimilarity(): Boolean {
@@ -79,9 +82,9 @@ class ConfigManager(var configFilePath: String = "") {
         return ToolConfigs(
             codeChartsConfig = configCollections.codeChartsConfigCollection.findMostRecent(),
             zoomMapsConfig = configCollections.zoomMapsConfigCollection.findMostRecent(),
-            //TODO
+            // TODO
             eyeTrackingConfig = EyeTrackingConfig(dummyVal = ""),
-            //TODO
+            // TODO
             bubbleViewConfig = BubbleViewConfig(filter = setOf(0F))
         )
     }
@@ -111,6 +114,6 @@ class ConfigManager(var configFilePath: String = "") {
     fun setGeneralSettings(selectionMenuEnabled: Boolean, activatedTool: Int?, configPath: Path) {
         generalSettings.activatedTool = activatedTool
         generalSettings.selectionMenuEnabled = selectionMenuEnabled
-        generalSettings.configPath = configPath
+        generalSettings.configPath = configPath.toString()
     }
 }
