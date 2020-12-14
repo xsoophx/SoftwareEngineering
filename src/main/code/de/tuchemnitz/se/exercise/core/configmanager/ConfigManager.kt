@@ -8,9 +8,8 @@ import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.collections.EyeTrackingConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.UnstableDefault
-import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.Json.Default.decodeFromString
+import kotlinx.serialization.json.Json.Default.encodeToString
 import org.bson.BsonDocument
 import org.bson.conversions.Bson
 import org.litote.kmongo.KMongo
@@ -26,23 +25,36 @@ import java.nio.file.Paths
 class ConfigManager(var configFilePath: String = "") {
     private val client = KMongo.createClient() // get com.mongodb.MongoClient new instance
     private val database = client.getDatabase("test") // normal java driver usage
-    private val configCollections: List<AbstractCollection<out IConfig>> = listOf(
-        ::CodeChartsConfigCollection,
-        ::ZoomMapsConfigCollection,
-        ::EyeTrackingConfigCollection
-    ).map { it(database) }
+
+    data class ConfigCollections(
+        val codeChartsConfigCollection: CodeChartsConfigCollection,
+        val zoomMapsConfigCollection: ZoomMapsConfigCollection,
+        val eyeTrackingConfigCollection: EyeTrackingConfigCollection
+    )
+
+    private val configCollections = ConfigCollections(
+        CodeChartsConfigCollection(database),
+        ZoomMapsConfigCollection(database),
+        EyeTrackingConfigCollection(database)
+    )
 
     companion object {
         val logger: Logger = LoggerFactory.getLogger(ConfigManager::class.java)
 
         val generalSettings = General(selectionMenuEnabled = true, activatedTool = null, configPath = Paths.get(""))
+
+        val dataClientConfig = DataClientConfig(colorSampleBoard = setOf(Triple(1, 2, 3)), exportPath = "exportPath")
+
+        //TODO
+        val databaseConfig =
+            DatabaseConfig(dataBaseName = "test", databasePath = Paths.get("databasePath"), username = "root")
     }
 
     fun checkDBSimilarity(): Boolean {
         return true
     }
 
-    fun writeFile(path: Path, content: String) {
+    fun writeFile(path: Path, content: String = configFile) {
         try {
             Files.writeString(path, content, StandardCharsets.UTF_8)
         } catch (e: IOException) {
@@ -59,31 +71,42 @@ class ConfigManager(var configFilePath: String = "") {
         }
     }
 
-    fun assembleAllConfigurations(): Set<IConfig> {
-        return configCollections.mapNotNull {
-            it.find(BsonDocument()).sort(descending(IConfig::savedAt)).firstOrNull()
-        }.toSet()
+    private fun <T : IConfig> AbstractCollection<T>.findMostRecent(): T? =
+        find(BsonDocument()).sort(descending(IConfig::savedAt))
+            .firstOrNull()
+
+    fun assembleAllConfigurations(): ToolConfigs {
+        return ToolConfigs(
+            codeChartsConfig = configCollections.codeChartsConfigCollection.findMostRecent(),
+            zoomMapsConfig = configCollections.zoomMapsConfigCollection.findMostRecent(),
+            //TODO
+            eyeTrackingConfig = EyeTrackingConfig(dummyVal = ""),
+            //TODO
+            bubbleViewConfig = BubbleViewConfig(filter = setOf(0F))
+        )
     }
 
     fun getConfig(id: Int, filter: Bson) {
-        configCollections[id].find(filter)
     }
 
     fun saveConfig(config: IConfig) {
         when (config) {
-            is CodeChartsConfig -> (configCollections[0] as CodeChartsConfigCollection).saveOne(config)
-            is ZoomMapsConfig -> (configCollections[1] as ZoomMapsConfigCollection).saveOne(config)
-            is EyeTrackingConfig -> (configCollections[2] as EyeTrackingConfigCollection).saveOne(config)
+            is CodeChartsConfig -> configCollections.codeChartsConfigCollection.saveOne(config)
+            is ZoomMapsConfig -> configCollections.zoomMapsConfigCollection.saveOne(config)
+            is EyeTrackingConfig -> configCollections.eyeTrackingConfigCollection.saveOne(config)
+            else -> logger.error("Couldn't fetch this Config type.")
         }
     }
 
-    @OptIn(UnstableDefault::class)
-    private fun createConfigFile(configs: Set<IConfig>) {
-        val general = Json.stringify(General.serializer(), generalSettings)
-        val bubbleView = Json.stringify(BubbleView.serializer(), BubbleView(filter = setOf(0F)))
-
-
-    }
+    private val configFile = encodeToString(
+        ConfigFile.serializer(),
+        ConfigFile(
+            general = generalSettings,
+            toolConfigs = assembleAllConfigurations(),
+            dataClientConfig = dataClientConfig,
+            database = databaseConfig
+        )
+    )
 
     fun setGeneralSettings(selectionMenuEnabled: Boolean, activatedTool: Int?, configPath: Path) {
         generalSettings.activatedTool = activatedTool

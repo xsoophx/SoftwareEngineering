@@ -9,7 +9,7 @@ plugins {
     id("com.diffplug.spotless") version "5.8.2"
 }
 
-group = "de.tu_chemnitz"
+group = "de.tuchemnitz"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -23,7 +23,7 @@ object Version {
     const val JUNIT = "5.7.0"
     const val KOTEST = "4.3.0"
     const val KOTLINX_COROUTINES = "1.3.8"
-    const val KOTLINX_SERIALIZATION = "0.20.0"
+    const val KOTLINX_SERIALIZATION = "1.0.1"
     const val LOGBACK = "1.2.3"
     const val MOCKK = "1.10.2"
     const val SLF4J = "1.7.30"
@@ -46,7 +46,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${Version.KOTLINX_COROUTINES}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-slf4j:${Version.KOTLINX_COROUTINES}")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Version.KOTLINX_SERIALIZATION}")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Version.KOTLINX_SERIALIZATION}")
 
     implementation("org.slf4j:slf4j-api:${Version.SLF4J}")
     runtimeOnly("ch.qos.logback:logback-classic:${Version.LOGBACK}")

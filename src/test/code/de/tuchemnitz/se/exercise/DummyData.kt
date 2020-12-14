@@ -14,7 +14,7 @@ object DummyData {
     private val database = client.getDatabase("test")
     val codeChartsConfigCollection = CodeChartsConfigCollection(database)
     val zoomMapsConfigCollection = ZoomMapsConfigCollection(database)
-    val baseTime = now()
+    private val baseTime = now()
 
     @get: JvmStatic
     val codeChartsConfigs = setOf(
