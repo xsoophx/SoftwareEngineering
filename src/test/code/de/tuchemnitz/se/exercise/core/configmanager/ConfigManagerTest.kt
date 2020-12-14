@@ -6,6 +6,7 @@ import assertk.assertions.isNull
 import com.mongodb.client.FindIterable
 import de.tuchemnitz.se.exercise.DummyData
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
+import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -120,14 +121,27 @@ class ConfigManagerTest {
 
         @Test
         fun `assembling all database configs should work`() { // integration test
-            val maxTimes = setOf(maxZoomMapsTime, maxCodeChartsTime)
-            assertThat(DummyData.manager.assembleAllConfigurations()).isEqualTo(maxTimes)
+            val expected = ToolConfigs(
+                codeChartsConfig = mostRecentCodeChartsConfig,
+                zoomMapsConfig = mostRecentZoomMapsConfig,
+                // TODO
+                eyeTrackingConfig = EyeTrackingConfig(dummyVal = ""),
+                // TODO
+                bubbleViewConfig = BubbleViewConfig(filter = setOf(0F))
+            )
+            val actual = DummyData.manager.assembleAllConfigurations()
+                .copy(
+                    eyeTrackingConfig = expected.eyeTrackingConfig,
+                    bubbleViewConfig = expected.bubbleViewConfig
+                )
+            assertThat(actual).isEqualTo(expected)
+            DummyData.manager.writeFile(Path.of("test.cfg"), DummyData.manager.configFile)
         }
 
-        private val maxCodeChartsTime =
+        private val mostRecentCodeChartsConfig =
             DummyData.codeChartsConfigs.maxByOrNull { it.savedAt }
 
-        private val maxZoomMapsTime =
+        private val mostRecentZoomMapsConfig =
             DummyData.zoomMapsConfigs.maxByOrNull { it.savedAt }
     }
 }

@@ -9,9 +9,9 @@ import de.tuchemnitz.se.exercise.persist.now
 import org.litote.kmongo.KMongo
 
 object DummyData {
-    val manager = ConfigManager()
-    private val client = KMongo.createClient() // get com.mongodb.MongoClient new instance
+    private val client = KMongo.createClient()
     private val database = client.getDatabase("test")
+    val manager = ConfigManager(database = database)
     val codeChartsConfigCollection = CodeChartsConfigCollection(database)
     val zoomMapsConfigCollection = ZoomMapsConfigCollection(database)
     private val baseTime = now()

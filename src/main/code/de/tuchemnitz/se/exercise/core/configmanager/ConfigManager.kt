@@ -1,5 +1,6 @@
 package de.tuchemnitz.se.exercise.core.configmanager
 
+import com.mongodb.client.MongoDatabase
 import de.tuchemnitz.se.exercise.persist.AbstractCollection
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
@@ -9,6 +10,7 @@ import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCol
 import de.tuchemnitz.se.exercise.persist.configs.collections.EyeTrackingConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.Json.Default.encodeToString
 import org.bson.BsonDocument
 import org.bson.conversions.Bson
@@ -21,9 +23,7 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 
-class ConfigManager(var configFilePath: String = "") {
-    private val client = KMongo.createClient() // get com.mongodb.MongoClient new instance
-    private val database = client.getDatabase("test") // normal java driver usage
+class ConfigManager(var configFilePath: String = "", database: MongoDatabase) {
 
     data class ConfigCollections(
         val codeChartsConfigCollection: CodeChartsConfigCollection,
@@ -101,7 +101,7 @@ class ConfigManager(var configFilePath: String = "") {
         }
     }
 
-    private val configFile = encodeToString(
+    val configFile = Json { prettyPrint = true }.encodeToString(
         ConfigFile.serializer(),
         ConfigFile(
             general = generalSettings,

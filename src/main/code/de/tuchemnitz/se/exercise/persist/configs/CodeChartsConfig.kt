@@ -9,7 +9,7 @@ import java.time.Instant
 
 @Serializable
 data class CodeChartsConfig(
-    override val _id: Id<CodeChartsConfig> = newId(),
+    @Transient override val _id: Id<CodeChartsConfig> = newId(),
     @Transient override val savedAt: Instant = now(),
     val grid: Pair<Int, Int>,
     val pictureViewTime: Int,

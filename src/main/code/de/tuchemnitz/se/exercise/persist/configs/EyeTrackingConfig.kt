@@ -9,7 +9,7 @@ import java.time.Instant
 // TODO:
 @Serializable
 data class EyeTrackingConfig(
-    override val _id: Id<EyeTrackingConfig> = newId(),
+    @Transient override val _id: Id<EyeTrackingConfig> = newId(),
     val dummyVal: String,
     @Transient override val savedAt: Instant = Instant.now()
 ) : IConfig

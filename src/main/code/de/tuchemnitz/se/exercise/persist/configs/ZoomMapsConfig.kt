@@ -9,7 +9,7 @@ import java.time.Instant
 
 @Serializable
 data class ZoomMapsConfig(
-    override val _id: Id<ZoomMapsConfig> = newId(),
+    @Transient override val _id: Id<ZoomMapsConfig> = newId(),
     @Transient override val savedAt: Instant = now(),
     val zoomSpeed: Float,
     val keyBindings: Set<String>
