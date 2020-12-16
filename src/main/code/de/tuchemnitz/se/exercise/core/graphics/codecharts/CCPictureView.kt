@@ -1,6 +1,5 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
-import de.tuchemnitz.se.exercise.core.graphics.Style
 import de.tuchemnitz.se.exercise.core.graphics.codecharts.CCStyle.Companion.ccPictureWrapper
 // import javafx.scene.layout.VBox
 import tornadofx.CssRule
