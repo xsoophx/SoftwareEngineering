@@ -4,12 +4,14 @@ import de.tuchemnitz.se.exercise.core.graphics.codecharts.CCStyle.Companion.ccPi
 // import javafx.scene.layout.VBox
 import javafx.scene.image.Image
 import tornadofx.CssRule
+import tornadofx.Stylesheet.Companion.imageView
 import tornadofx.View
 import tornadofx.addClass
 import tornadofx.imageview
 import tornadofx.toProperty
 import tornadofx.vbox
 import java.awt.Toolkit
+import javax.swing.GroupLayout
 
 class CCPictureView(
     private val path: String = "/penguin.png",
@@ -21,7 +23,6 @@ class CCPictureView(
         addClass(cssRule)
         imageview {
             image = Image(path)
-
             val screenWidth = Toolkit.getDefaultToolkit().screenSize.getWidth()
             val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
             val imageWidth = image.width
