@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 data class General(
     var selectionMenuEnabled: Boolean,
     var activatedTool: Int?,
-    var configPath: String
+    @SerialName("path") var configPath: String
 )
 
 @Serializable
@@ -31,19 +31,21 @@ data class DatabaseConfig(
     val username: String
 )
 
-@Serializable
 data class ToolConfigs(
-    @SerialName("bubbleView") val bubbleViewConfig: BubbleViewConfig,
-    @SerialName("zoomMaps") val zoomMapsConfig: ZoomMapsConfig?,
-    @SerialName("codeCharts") val codeChartsConfig: CodeChartsConfig?,
-    @SerialName("eyeTracking") val eyeTrackingConfig: EyeTrackingConfig?
+    val bubbleViewConfig: BubbleViewConfig,
+    val zoomMapsConfig: ZoomMapsConfig?,
+    val codeChartsConfig: CodeChartsConfig?,
+    val eyeTrackingConfig: EyeTrackingConfig?
 )
 
 @Serializable
 data class ConfigFile(
     val general: General,
-    val toolConfigs: ToolConfigs,
-    val dataClientConfig: DataClientConfig,
+    @SerialName("bubbleView") val bubbleViewConfig: BubbleViewConfig,
+    @SerialName("zoomMaps") val zoomMapsConfig: ZoomMapsConfig?,
+    @SerialName("codeCharts") val codeChartsConfig: CodeChartsConfig?,
+    @SerialName("eyeTracking") val eyeTrackingConfig: EyeTrackingConfig?,
+    @SerialName("dataClient") val dataClientConfig: DataClientConfig,
     val database: DatabaseConfig
 )
 

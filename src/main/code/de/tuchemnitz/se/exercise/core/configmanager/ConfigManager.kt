@@ -1,7 +1,6 @@
 package de.tuchemnitz.se.exercise.core.configmanager
 
 import com.mongodb.client.MongoDatabase
-import de.tuchemnitz.se.exercise.persist.AbstractCollection
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
 import de.tuchemnitz.se.exercise.persist.configs.IConfig
@@ -10,12 +9,7 @@ import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCol
 import de.tuchemnitz.se.exercise.persist.configs.collections.EyeTrackingConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.Json.Default.encodeToString
-import org.bson.BsonDocument
 import org.bson.conversions.Bson
-import org.litote.kmongo.KMongo
-import org.litote.kmongo.descending
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.IOException
@@ -37,6 +31,8 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) {
         EyeTrackingConfigCollection(database)
     )
 
+    val configFileEncoder = ConfigFileEncoder(configCollections)
+
     companion object {
         val logger: Logger = LoggerFactory.getLogger(ConfigManager::class.java)
 
@@ -57,7 +53,7 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) {
         return true
     }
 
-    fun writeFile(path: Path, content: String = configFile) {
+    fun writeFile(path: Path, content: String = configFileEncoder.configFile()) {
         try {
             Files.writeString(path, content, StandardCharsets.UTF_8)
         } catch (e: IOException) {
@@ -74,21 +70,6 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) {
         }
     }
 
-    private fun <T : IConfig> AbstractCollection<T>.findMostRecent(): T? =
-        find(BsonDocument()).sort(descending(IConfig::savedAt))
-            .firstOrNull()
-
-    fun assembleAllConfigurations(): ToolConfigs {
-        return ToolConfigs(
-            codeChartsConfig = configCollections.codeChartsConfigCollection.findMostRecent(),
-            zoomMapsConfig = configCollections.zoomMapsConfigCollection.findMostRecent(),
-            // TODO
-            eyeTrackingConfig = EyeTrackingConfig(dummyVal = ""),
-            // TODO
-            bubbleViewConfig = BubbleViewConfig(filter = setOf(0F))
-        )
-    }
-
     fun getConfig(id: Int, filter: Bson) {
     }
 
@@ -100,16 +81,6 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) {
             else -> logger.error("Couldn't fetch this Config type.")
         }
     }
-
-    val configFile = Json { prettyPrint = true }.encodeToString(
-        ConfigFile.serializer(),
-        ConfigFile(
-            general = generalSettings,
-            toolConfigs = assembleAllConfigurations(),
-            dataClientConfig = dataClientConfig,
-            database = databaseConfig
-        )
-    )
 
     fun setGeneralSettings(selectionMenuEnabled: Boolean, activatedTool: Int?, configPath: Path) {
         generalSettings.activatedTool = activatedTool
