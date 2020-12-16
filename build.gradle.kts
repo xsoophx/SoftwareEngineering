@@ -13,6 +13,9 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+    }
 }
 
 javafx {
@@ -30,7 +33,7 @@ object Version {
     const val SLF4J = "1.7.30"
     const val KMONGO = "4.2.2"
     const val ASSERTK = "0.23"
-    const val TORNADOFX = "1.7.20"
+    const val TORNADOFX = "2.0.0-SNAPSHOT"
 }
 
 dependencies {

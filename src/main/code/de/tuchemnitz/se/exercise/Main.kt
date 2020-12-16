@@ -1,6 +1,5 @@
 package de.tuchemnitz.se.exercise
 
-import de.tuchemnitz.se.exercise.core.graphics.MainApp
 import de.tuchemnitz.se.exercise.core.graphics.codecharts.CCMain
 import tornadofx.launch
 
