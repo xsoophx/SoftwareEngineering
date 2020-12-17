@@ -6,34 +6,31 @@ import assertk.assertions.containsOnly
 import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
-import com.mongodb.client.model.Filters
-import de.tuchemnitz.se.exercise.persist.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
-import org.bson.conversions.Bson
-import org.junit.jupiter.api.BeforeEach
+import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
-import org.litote.kmongo.KMongo
 import org.litote.kmongo.`in`
 import org.litote.kmongo.eq
 
-@TestInstance(TestInstance.Lifecycle.PER_METHOD)
-class CodeChartsConfigCollectionTest {
-    private val client = KMongo.createClient() // get com.mongodb.MongoClient new instance
-    private val database = client.getDatabase("test") // normal java driver usage
-    private val collection = CodeChartsConfigCollection(database)
-
+class CodeChartsConfigCollectionTest : DatabaseTestBase<CodeChartsConfigCollection>(::CodeChartsConfigCollection) {
     companion object {
         private val configs = setOf(
-            CodeChartsConfig(grid = Pair(100, 200), pictureViewTime = 1, matrixViewTime = 2),
-            CodeChartsConfig(grid = Pair(0, 0), pictureViewTime = 0, matrixViewTime = 0),
-            CodeChartsConfig(grid = Pair(400, 400), pictureViewTime = 4, matrixViewTime = 4)
+            CodeChartsConfig(
+                grid = Pair(100, 200),
+                pictureViewTime = 1,
+                matrixViewTime = 2
+            ),
+            CodeChartsConfig(
+                grid = Pair(0, 0),
+                pictureViewTime = 0,
+                matrixViewTime = 0
+            ),
+            CodeChartsConfig(
+                grid = Pair(400, 400),
+                pictureViewTime = 4,
+                matrixViewTime = 4
+            )
         )
-    }
-
-    @BeforeEach
-    fun cleanUp() {
-        collection.deleteMany()
     }
 
     @Test
@@ -69,15 +66,11 @@ class CodeChartsConfigCollectionTest {
 
     @Test
     fun `configs should be deleted properly at once`() {
-        val ids = "_id" `in` configs
-        collection.deleteMany(ids)
+        collection.deleteMany(IPersist::_id `in` configs.map(IPersist::_id))
 
         configs.forEach {
             collection.deleteOne(CodeChartsConfig::_id eq it._id)
             assertThat(collection.findOneById(it._id)).isNull()
         }
     }
-
-    private infix fun String.`in`(collection: Collection<Any>): Bson =
-        Filters.`in`(this, collection)
 }
