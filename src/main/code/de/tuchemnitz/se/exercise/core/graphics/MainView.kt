@@ -21,6 +21,7 @@ import tornadofx.useMaxWidth
 import tornadofx.vbox
 import java.awt.SystemColor.text
 
+/*
 class MainView : View("Software Engineering - UI") {
     override val root = VBox()
 
@@ -29,12 +30,13 @@ class MainView : View("Software Engineering - UI") {
             addClass(Style.mainWrapper)
             button("Click here I'm a button") {
                 action {
-                    replaceWith(MainPageView::class)
+                    replaceWith(Picture::class)
                 }
             }
         }
     }
 }
+*/
 
 class MainPageView : View("Software Praktikum - Gruppe 4") {
     override val root = vbox {
@@ -89,7 +91,7 @@ class MainPageView : View("Software Praktikum - Gruppe 4") {
                 button("Login") {
                     tooltip("Login Button")
                     action {
-                        println("Button pressed!")
+                        replaceWith(Picture::class)
                     }
                 }
                 addClass(Style.mainCenterStyle)
