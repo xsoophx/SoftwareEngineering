@@ -1,23 +1,22 @@
-package de.tuchemnitz.se.exercise.core.graphics.codecharts
+package de.tuchemnitz.se.exercise.codecharts.graphics
 
-import de.tuchemnitz.se.exercise.core.graphics.codecharts.CCStyle.Companion.ccPictureWrapper
 // import javafx.scene.layout.VBox
 import javafx.scene.image.Image
 import tornadofx.CssRule
-import tornadofx.Stylesheet.Companion.imageView
 import tornadofx.View
 import tornadofx.addClass
 import tornadofx.imageview
 import tornadofx.toProperty
 import tornadofx.vbox
 import java.awt.Toolkit
-import javax.swing.GroupLayout
 
 class CCPictureView(
     private val path: String = "/penguin.png",
     pictureTitle: String = "",
     private val cssRule: CssRule = CCStyle.ccPictureWrapper,
 ) : View("Software Praktikum - CodeCharts Picture") {
+    private var scaledImageHeight = 0.0
+    private var scaledImageWidth = 0.0
     override val root = vbox {
         title = pictureTitle
         addClass(cssRule)
@@ -47,6 +46,16 @@ class CCPictureView(
 
             fitHeightProperty().bind(newImageHeight.toProperty())
             fitWidthProperty().bind(newImageWidth.toProperty())
+
+            scaledImageHeight = newImageHeight
+            scaledImageWidth = newImageWidth
         }
+    }
+
+    fun getScaledImageWidth(): Double {
+        return scaledImageWidth
+    }
+    fun getScaledImageHeight(): Double {
+        return scaledImageHeight
     }
 }

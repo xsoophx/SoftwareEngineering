@@ -1,9 +1,7 @@
-package de.tuchemnitz.se.exercise.core.graphics.codecharts
+package de.tuchemnitz.se.exercise.codecharts.graphics
 
-import de.tuchemnitz.se.exercise.core.graphics.Style.Companion.row
 import javafx.geometry.Pos
 import tornadofx.Stylesheet
-import tornadofx.box
 import tornadofx.cssclass
 import tornadofx.px
 

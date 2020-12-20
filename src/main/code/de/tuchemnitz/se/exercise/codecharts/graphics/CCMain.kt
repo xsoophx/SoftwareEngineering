@@ -1,4 +1,4 @@
-package de.tuchemnitz.se.exercise.core.graphics.codecharts
+package de.tuchemnitz.se.exercise.codecharts.graphics
 
 import javafx.stage.Stage
 import tornadofx.App
@@ -9,11 +9,10 @@ class CCMain : App() {
 
     override fun start(stage: Stage) {
         super.start(stage)
-        stage.isMaximized = true
+        // stage.isMaximized = true
         stage.isResizable = false
-        // stageheight = stage.height
-        // stagewidth = stage.width
-        // stage.isFullScreen = true
+        stage.fullScreenExitHint = ""
+        stage.isFullScreen = true
     }
     init {
         importStylesheet(CCStyle::class)

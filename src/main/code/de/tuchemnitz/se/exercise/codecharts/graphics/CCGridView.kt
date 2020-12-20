@@ -1,4 +1,4 @@
-package de.tuchemnitz.se.exercise.core.graphics.codecharts
+package de.tuchemnitz.se.exercise.codecharts.graphics
 
 import javafx.scene.paint.Color
 // import tornadofx.CssRule
