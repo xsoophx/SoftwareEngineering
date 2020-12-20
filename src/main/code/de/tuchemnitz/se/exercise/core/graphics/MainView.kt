@@ -90,6 +90,7 @@ class MainPageView : View("Software Praktikum - Gruppe 4") {
                     tooltip("Login Button")
                     action {
                         println("Button pressed!")
+                        replaceWith(LoginPage::class)
                     }
                 }
                 addClass(Style.mainCenterStyle)
