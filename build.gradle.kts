@@ -17,7 +17,7 @@ repositories {
 
 javafx {
     version = "15.0.1"
-    modules = listOf("javafx.controls", "javafx.graphics")
+    modules = listOf("javafx.controls", "javafx.graphics", "javafx.fxml")
 }
 
 object Version {

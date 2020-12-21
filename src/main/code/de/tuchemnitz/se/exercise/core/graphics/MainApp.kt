@@ -5,7 +5,7 @@ import tornadofx.App
 import tornadofx.importStylesheet
 
 class MainApp : App() {
-    override val primaryView = MainPageView::class
+    override val primaryView = MainLoginView::class
 
     override fun start(stage: Stage) {
         super.start(stage)
