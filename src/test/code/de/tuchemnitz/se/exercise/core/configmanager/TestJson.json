@@ -1,0 +1,47 @@
+{
+  "general": {
+    "selectionMenuEnabled": true,
+    "activatedTool": "CodeCharts",
+    "path": ""
+  },
+  "bubbleView": {
+    "filter": [
+      1.0
+    ]
+  },
+  "zoomMaps": {
+    "zoomSpeed": 10.0,
+    "keyBindings": [
+      "a",
+      "b",
+      "c",
+      "d"
+    ]
+  },
+  "codeCharts": {
+    "grid": {
+      "first": 400,
+      "second": 400
+    },
+    "pictureViewTime": 4,
+    "matrixViewTime": 4
+  },
+  "eyeTracking": {
+    "dummyVal": ""
+  },
+  "dataClient": {
+    "colorSampleBoard": [
+      {
+        "red": 1,
+        "green": 2,
+        "blue": 3
+      }
+    ],
+    "exportPath": "exportPath"
+  },
+  "database": {
+    "dataBaseName": "test",
+    "dataBasePath": "databasePath",
+    "username": "root"
+  }
+}
