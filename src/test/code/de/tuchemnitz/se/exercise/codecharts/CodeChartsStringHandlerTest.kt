@@ -4,66 +4,55 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class CodeChartsStringHandlerTest {
-    @Test
-    fun `check whether strings are duplicate`() {
+    companion object {
         val handleMyStrings = CodeChartsStringHandler()
-        handleMyStrings.setStrings(101, booleanArrayOf(true, true, true))
-        var generatedStringList = handleMyStrings.getStrings()
-        assertThat(generatedStringList).isEqualTo(generatedStringList)
 
-        handleMyStrings.setStrings(101, booleanArrayOf(true, true, false))
-        generatedStringList = handleMyStrings.getStrings()
-        assertThat(generatedStringList).isEqualTo(generatedStringList)
+        @Suppress("unused")
+        @JvmStatic
+        fun permutations() = (0..7)
+            .map { n ->
+                Arguments.of(
+                    101,
+                    StringCharacters(
+                        (n and 1) != 0,
+                        (n and 2) != 0,
+                        (n and 4) != 0
+                    )
+                )
+            }
+    }
 
-        handleMyStrings.setStrings(101, booleanArrayOf(true, false, true))
-        generatedStringList = handleMyStrings.getStrings()
-        assertThat(generatedStringList).isEqualTo(generatedStringList)
-
-        handleMyStrings.setStrings(101, booleanArrayOf(true, false, false))
-        generatedStringList = handleMyStrings.getStrings()
-        assertThat(generatedStringList).isEqualTo(generatedStringList)
-
-        handleMyStrings.setStrings(101, booleanArrayOf(false, true, true))
-        generatedStringList = handleMyStrings.getStrings()
-        assertThat(generatedStringList).isEqualTo(generatedStringList)
-
-        handleMyStrings.setStrings(101, booleanArrayOf(false, true, false))
-        generatedStringList = handleMyStrings.getStrings()
-        assertThat(generatedStringList).isEqualTo(generatedStringList)
-
-        handleMyStrings.setStrings(101, booleanArrayOf(false, false, true))
-        generatedStringList = handleMyStrings.getStrings()
-        assertThat(generatedStringList).isEqualTo(generatedStringList)
-
-        handleMyStrings.setStrings(101, booleanArrayOf(false, false, false))
-        generatedStringList = handleMyStrings.getStrings()
-        assertThat(generatedStringList).isEqualTo(generatedStringList)
+    @MethodSource("permutations")
+    @ParameterizedTest
+    fun `check whether strings are duplicate`(inputNumber: Int, conditions: StringCharacters) {
+        handleMyStrings.setStrings(inputNumber, conditions)
+        assertThat(handleMyStrings.getStrings()).isEqualTo(handleMyStrings.getStrings())
     }
 
     @Test
     fun `check whether generated strings have the right format - utf8 ascii etc-`() {
     }
 
-    @Test
-    fun `check whether list is ordered`() {
-        val handleMyStrings = CodeChartsStringHandler()
-        handleMyStrings.setStrings(101, booleanArrayOf(true, true, true))
-        val generatedStrings = handleMyStrings.getStrings()
-        handleMyStrings.orderList()
-        val generatedStringsOrdered = handleMyStrings.getStrings()
-        generatedStrings.sort()
-        assertThat(generatedStringsOrdered).isEqualTo(generatedStrings)
+    @MethodSource("permutations")
+    @ParameterizedTest
+    fun `check whether list is ordered`(inputNumber: Int, conditions: StringCharacters) {
+        handleMyStrings.setStrings(inputNumber, conditions)
+        val expected = handleMyStrings.getStrings().sort()
+        val actual = handleMyStrings.orderList()
+        assertThat(expected).isEqualTo(actual)
     }
 
-    @Test
-    fun `check whether number of strings is right`() {
-        val input = 701
-        val handleMyStrings = CodeChartsStringHandler()
-        handleMyStrings.setStrings(input, booleanArrayOf(true, true, true))
+    @MethodSource("permutations")
+    @ParameterizedTest
+    fun `check whether number of strings is right`(inputNumber: Int, conditions: StringCharacters) {
+        handleMyStrings.setStrings(inputNumber, conditions)
         val generatedStrings = handleMyStrings.getStrings()
-        assertThat(input).isEqualTo(generatedStrings.size)
+        assertThat(inputNumber).isEqualTo(generatedStrings.size)
     }
 }
