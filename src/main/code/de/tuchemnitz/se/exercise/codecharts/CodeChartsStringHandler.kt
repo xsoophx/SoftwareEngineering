@@ -89,4 +89,3 @@ data class StringCharacters(
     val lowerCase: Boolean,
     val numbers: Boolean
 )
-
