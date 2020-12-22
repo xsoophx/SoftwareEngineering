@@ -19,4 +19,5 @@ out/
 
 /src/test/resources/
 !src/main/resources/views
+!src/main/resources/cross.png
 
