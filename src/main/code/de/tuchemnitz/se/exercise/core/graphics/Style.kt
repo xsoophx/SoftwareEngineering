@@ -6,7 +6,6 @@ import tornadofx.Stylesheet
 import tornadofx.box
 import tornadofx.cssclass
 import tornadofx.px
-import javax.swing.GroupLayout
 
 class Style : Stylesheet() {
 
