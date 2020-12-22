@@ -68,7 +68,6 @@ dependencies {
 
     implementation("com.willowtreeapps.assertk:assertk:${Version.ASSERTK}")
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("no.tornado:tornadofx:${Version.TORNADOFX}")
 
     testImplementation("org.testfx:testfx-core:${Version.TESTFX}")
