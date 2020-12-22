@@ -5,40 +5,40 @@ plugins {
     java
     kotlin("jvm") version "1.4.10"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.4.10"
+    id("org.openjfx.javafxplugin") version "0.0.9"
     id("org.jlleitschuh.gradle.ktlint-idea") version "9.4.1"
     id("com.diffplug.spotless") version "5.8.2"
-    id("org.openjfx.javafxplugin") version "0.0.9"
 }
 
-group = "de.tuchemnitz"
+group = "de.tu_chemnitz"
 version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
     maven {
         url = uri("https://plugins.gradle.org/m2/")
-        url = uri("https://oss.sonatype.org/content/repositories/snapshots")
     }
 }
 
 javafx {
     version = "15.0.1"
-    modules = listOf("javafx.controls", "javafx.graphics")
+    modules = listOf("javafx.controls", "javafx.graphics", "javafx.fxml")
 }
 
 object Version {
     const val JUNIT = "5.7.0"
     const val KOTEST = "4.3.0"
     const val KOTLINX_COROUTINES = "1.3.8"
-    const val KOTLINX_SERIALIZATION = "1.0.1"
+    const val KOTLINX_SERIALIZATION = "0.20.0"
     const val LOGBACK = "1.2.3"
     const val MOCKK = "1.10.2"
     const val SLF4J = "1.7.30"
     const val KMONGO = "4.2.2"
     const val ASSERTK = "0.23"
+    const val TORNADOFX = "1.7.20"
     const val SPOTLESS = "5.8.2"
     const val KTLINT = "9.4.1"
-    const val TORNADOFX = "2.0.0-SNAPSHOT"
+    const val TESTFX = "4.0.15-alpha"
 }
 
 dependencies {
@@ -54,7 +54,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${Version.KOTLINX_COROUTINES}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-slf4j:${Version.KOTLINX_COROUTINES}")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Version.KOTLINX_SERIALIZATION}")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Version.KOTLINX_SERIALIZATION}")
 
     implementation("org.slf4j:slf4j-api:${Version.SLF4J}")
     runtimeOnly("ch.qos.logback:logback-classic:${Version.LOGBACK}")
@@ -69,6 +69,9 @@ dependencies {
     implementation("com.willowtreeapps.assertk:assertk:${Version.ASSERTK}")
 
     implementation("no.tornado:tornadofx:${Version.TORNADOFX}")
+
+    testImplementation("org.testfx:testfx-core:${Version.TESTFX}")
+    testImplementation("org.testfx:testfx-junit:${Version.TESTFX}")
 }
 
 project.sourceSets {
@@ -94,7 +97,7 @@ tasks {
 
     withType<KotlinCompile> {
         kotlinOptions {
-            jvmTarget = "11"
+            jvmTarget = "1.8"
             freeCompilerArgs = listOf(
                 "-Xjvm-default=enable"
             )
