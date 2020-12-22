@@ -8,6 +8,10 @@ import tornadofx.importStylesheet
 class MainApp : App() {
     override val primaryView = LoginView::class
 
+    companion object {
+        const val MAIN_VIEW_TEMPLATE_PATH = "/views/MainViewTemplate.fxml"
+    }
+
     override fun start(stage: Stage) {
         super.start(stage)
         stage.isMaximized = true
