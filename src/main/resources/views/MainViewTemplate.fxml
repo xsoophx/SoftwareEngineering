@@ -73,7 +73,7 @@
                     </Menu>
                   </menus>
                 </MenuBar>
-                  <VBox prefHeight="148.0" prefWidth="640.0" />
+                  <VBox fx:id="content" prefHeight="148.0" prefWidth="640.0" />
                </children>
             </VBox>
          </center>
@@ -81,7 +81,7 @@
             <HBox alignment="CENTER" style="-fx-background-color: DIMGREY; -fx-spacing: 15;" BorderPane.alignment="CENTER">
                <children>
                   <Button fx:id="help_button" mnemonicParsing="false" text="Help" />
-                  <Button fx:id="git_button" mnemonicParsing="false" onAction="#printGitButton" style="-fx-background-color: RED;" text="Our Git" />
+                  <Button fx:id="git_button" mnemonicParsing="false" onAction="#printGitButton" text="Our Git" />
                </children>
                <BorderPane.margin>
                   <Insets />
