@@ -10,7 +10,7 @@ plugins {
     id("com.diffplug.spotless") version "5.8.2"
 }
 
-group = "de.tuchemnitz"
+group = "de.tu_chemnitz"
 version = "1.0-SNAPSHOT"
 
 repositories {
