@@ -13,15 +13,17 @@ import org.bson.conversions.Bson
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.litote.kmongo.KMongo
+import org.junit.jupiter.api.extension.ExtendWith
 import org.litote.kmongo.`in`
 import org.litote.kmongo.eq
+import org.testfx.framework.junit5.ApplicationExtension
+import tornadofx.Controller
 
+@ExtendWith(ApplicationExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-class UserDataCollectionTest {
-    private val client = KMongo.createClient() // get com.mongodb.MongoClient new instance
-    private val database = client.getDatabase("test") // normal java driver usage
-    private val collection = UserDataCollection(database)
+class UserDataCollectionTest : Controller() {
+    private val databaseClient: DatabaseClient by inject()
+    private val collection = UserDataCollection(databaseClient.database)
 
     @Suppress("SpellCheckingInspection")
     companion object {
