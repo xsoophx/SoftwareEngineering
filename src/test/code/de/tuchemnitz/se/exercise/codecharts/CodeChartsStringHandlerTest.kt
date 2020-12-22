@@ -51,8 +51,17 @@ class CodeChartsStringHandlerTest {
     @MethodSource("permutations")
     @ParameterizedTest
     fun `check whether number of strings is right`(inputNumber: Int, conditions: StringCharacters) {
-        handleMyStrings.setStrings(inputNumber, conditions)
-        val generatedStrings = handleMyStrings.getStrings()
-        assertThat(inputNumber).isEqualTo(generatedStrings.size)
+        if (conditions == StringCharacters(upperCase = false, lowerCase = false, numbers = false)) {
+            handleMyStrings.setStrings(
+                inputNumber,
+                StringCharacters(upperCase = false, lowerCase = false, numbers = false)
+            )
+            val generatedStrings = handleMyStrings.getStrings()
+            assertThat(generatedStrings.size).isEqualTo(0)
+        } else {
+            handleMyStrings.setStrings(inputNumber, conditions)
+            val generatedStrings = handleMyStrings.getStrings()
+            assertThat(inputNumber).isEqualTo(generatedStrings.size)
+        }
     }
 }
