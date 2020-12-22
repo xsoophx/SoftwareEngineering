@@ -5,7 +5,7 @@ import tornadofx.Stylesheet
 import tornadofx.cssclass
 import tornadofx.px
 
-class CCStyle : Stylesheet() {
+class CodeChartsStyle : Stylesheet() {
     companion object {
         val ccGridWrapper by cssclass()
         val ccPictureWrapper by cssclass()

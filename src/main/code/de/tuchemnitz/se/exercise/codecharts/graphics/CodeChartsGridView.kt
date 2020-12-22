@@ -9,7 +9,7 @@ import tornadofx.label
 import tornadofx.stackpane
 import tornadofx.vbox
 
-class CCGridView(
+class CodeChartsGridView(
     // private val cssRule: CssRule = CCStyle.ccGridWrapper,
 ) : View("SoftwarePraktikum - CodeCharts Grid") {
     override val root = vbox {

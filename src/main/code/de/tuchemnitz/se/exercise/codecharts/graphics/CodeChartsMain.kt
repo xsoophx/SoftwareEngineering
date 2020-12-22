@@ -4,8 +4,8 @@ import javafx.stage.Stage
 import tornadofx.App
 import tornadofx.importStylesheet
 
-class CCMain : App() {
-    override val primaryView = CCGridView::class
+class CodeChartsMain : App() {
+    override val primaryView = CodeChartsGridView::class
 
     override fun start(stage: Stage) {
         super.start(stage)
@@ -15,6 +15,6 @@ class CCMain : App() {
         stage.isFullScreen = true
     }
     init {
-        importStylesheet(CCStyle::class)
+        importStylesheet(CodeChartsStyle::class)
     }
 }

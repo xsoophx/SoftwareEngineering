@@ -10,11 +10,12 @@ import tornadofx.toProperty
 import tornadofx.vbox
 import java.awt.Toolkit
 
-class CCPictureView(
+class CodeChartsPictureView(
     private val path: String = "/penguin.png",
     pictureTitle: String = "",
-    private val cssRule: CssRule = CCStyle.ccPictureWrapper,
+    private val cssRule: CssRule = CodeChartsStyle.ccPictureWrapper,
 ) : View("Software Praktikum - CodeCharts Picture") {
+
     private var scaledImageHeight = 0.0
     private var scaledImageWidth = 0.0
     override val root = vbox {
