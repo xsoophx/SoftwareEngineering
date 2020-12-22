@@ -10,9 +10,10 @@ class CodeChartsMain : App() {
     override fun start(stage: Stage) {
         super.start(stage)
         // stage.isMaximized = true
-        stage.isResizable = false
-        stage.fullScreenExitHint = ""
-        stage.isFullScreen = true
+        stage.isMaximized = true
+        stage.isResizable = true
+        stage.minHeight = 850.0
+        stage.minWidth = 1300.0
     }
     init {
         importStylesheet(CodeChartsStyle::class)

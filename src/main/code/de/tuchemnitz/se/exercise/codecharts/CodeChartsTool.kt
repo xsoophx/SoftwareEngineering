@@ -14,7 +14,9 @@ class CodeChartsTool(/*private val configManager: ConfigManager*/) : App() {
         super.start(stage)
         // stage.isMaximized = true
         stage.isMaximized = true
-        stage.isResizable = false
+        stage.isResizable = true
+        stage.minHeight = 850.0
+        stage.minWidth = 1300.0
     }
 
     init {
@@ -23,3 +25,8 @@ class CodeChartsTool(/*private val configManager: ConfigManager*/) : App() {
 
     private fun saveData() {}
 }
+
+data class ImageSize(
+    val x: Double,
+    val y: Double,
+)
