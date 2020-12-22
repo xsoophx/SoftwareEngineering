@@ -38,6 +38,7 @@ object Version {
     const val TORNADOFX = "1.7.20"
     const val SPOTLESS = "5.8.2"
     const val KTLINT = "9.4.1"
+    const val TESTFX = "4.0.15-alpha"
 }
 
 dependencies {
@@ -70,8 +71,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("no.tornado:tornadofx:${Version.TORNADOFX}")
 
-    testImplementation("org.testfx:testfx-core:4.0.15-alpha")
-    testImplementation("org.testfx:testfx-junit:4.0.15-alpha")
+    testImplementation("org.testfx:testfx-core:${Version.TESTFX}")
+    testImplementation("org.testfx:testfx-junit:${Version.TESTFX}")
 }
 
 project.sourceSets {
