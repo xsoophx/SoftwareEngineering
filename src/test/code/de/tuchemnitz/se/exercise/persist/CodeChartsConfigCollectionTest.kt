@@ -19,9 +19,7 @@ import org.litote.kmongo.eq
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class CodeChartsConfigCollectionTest {
-    private val client = KMongo.createClient() // get com.mongodb.MongoClient new instance
-    private val database = client.getDatabase("test") // normal java driver usage
-    private val collection = CodeChartsConfigCollection(database)
+    private val codeChartsConfigCollection: CodeChartsConfigCollection by inject()
 
     companion object {
         private val configs = setOf(
@@ -33,48 +31,48 @@ class CodeChartsConfigCollectionTest {
 
     @AfterEach
     fun cleanUp() {
-        collection.deleteMany()
+        codeChartsConfigCollection.deleteMany()
     }
 
     @Test
     fun `all configs should be saved properly at once`() {
-        collection.saveMany(configs)
-        assertThat(collection.find(CodeChartsConfig::_id `in` configs.map(CodeChartsConfig::_id)))
+        codeChartsConfigCollection.saveMany(configs)
+        assertThat(codeChartsConfigCollection.find(CodeChartsConfig::_id `in` configs.map(CodeChartsConfig::_id)))
             .containsOnly(*configs.toTypedArray())
     }
 
     @Test
     fun `every config should be saved properly`() {
         configs.forEach {
-            collection.saveOne(it)
-            assertThat(collection.find(CodeChartsConfig::_id eq it._id)).contains(it)
+            codeChartsConfigCollection.saveOne(it)
+            assertThat(codeChartsConfigCollection.find(CodeChartsConfig::_id eq it._id)).contains(it)
         }
     }
 
     @Test
     fun `every config should be deleted properly`() {
         configs.forEach {
-            collection.deleteOne(CodeChartsConfig::_id eq it._id)
-            assertThat(collection.find(CodeChartsConfig::_id eq it._id)).doesNotContain(it)
+            codeChartsConfigCollection.deleteOne(CodeChartsConfig::_id eq it._id)
+            assertThat(codeChartsConfigCollection.find(CodeChartsConfig::_id eq it._id)).doesNotContain(it)
         }
     }
 
     @Test
     fun `findOneById should work properly for each id`() {
-        collection.saveMany(configs)
+        codeChartsConfigCollection.saveMany(configs)
         configs.forEach {
-            assertThat(collection.findOneById(it._id)).isEqualTo(it)
+            assertThat(codeChartsConfigCollection.findOneById(it._id)).isEqualTo(it)
         }
     }
 
     @Test
     fun `configs should be deleted properly at once`() {
         val ids = "_id" `in` configs
-        collection.deleteMany(ids)
+        codeChartsConfigCollection.deleteMany(ids)
 
         configs.forEach {
-            collection.deleteOne(CodeChartsConfig::_id eq it._id)
-            assertThat(collection.findOneById(it._id)).isNull()
+            codeChartsConfigCollection.deleteOne(CodeChartsConfig::_id eq it._id)
+            assertThat(codeChartsConfigCollection.findOneById(it._id)).isNull()
         }
     }
 

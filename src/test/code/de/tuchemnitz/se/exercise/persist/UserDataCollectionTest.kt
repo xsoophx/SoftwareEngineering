@@ -22,7 +22,7 @@ import tornadofx.Controller
 @ExtendWith(ApplicationExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class UserDataCollectionTest : Controller() {
-    private val databaseClient: DatabaseClient by inject()
+    private val databaseClient: Database by inject()
     private val collection = UserDataCollection(databaseClient.database)
 
     @Suppress("SpellCheckingInspection")

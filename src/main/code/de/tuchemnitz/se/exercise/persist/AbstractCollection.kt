@@ -5,10 +5,14 @@ import com.mongodb.client.MongoCollection
 import org.bson.BsonDocument
 import org.bson.conversions.Bson
 import org.litote.kmongo.findOneById
+import tornadofx.Controller
+import kotlin.reflect.KClass
 
 abstract class AbstractCollection<T : IPersist>(
-    private val collection: MongoCollection<T>
-) {
+   clazz: KClass<T>
+) : Controller() {
+    private val database : Database by inject()
+    protected val collection = database.getCollection(clazz)
 
     open fun find(filter: Bson): FindIterable<T> {
         return collection.find(filter)
