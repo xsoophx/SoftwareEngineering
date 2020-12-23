@@ -3,15 +3,14 @@ package de.tuchemnitz.se.exercise.core.configmanager
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import de.tuchemnitz.se.exercise.DummyData
+import de.tuchemnitz.se.exercise.TEST_PATH_CONFIG_FILE
 import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
 import kotlinx.serialization.json.Json
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.MethodSource
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.stream.Stream
 
 class JsonConverterTest {
     companion object {
@@ -34,45 +33,30 @@ class JsonConverterTest {
             ),
             database = DatabaseConfig(dataBaseName = "test", dataBasePath = "databasePath", username = "root")
         )
-
-        @JvmStatic
-        @Suppress("unused")
-        fun validPaths(): Stream<Path> = Stream.of(
-            Path.of("test.txt"),
-            Path.of("dummy.cfg"),
-            Path.of("./foo.conf"),
-            Path.of("../born.json"),
-            Files.createTempFile("", ".conf")
-        )
     }
 
-    @ParameterizedTest(name = "{index} => Writing/Reading file: {0}")
-    @MethodSource("validPaths")
-    fun `encoding valid config file works`(validPath: Path) = try {
-
+    @Test
+    fun `encoding valid config file works`() = try {
         val content = assertDoesNotThrow {
-            configManager.writeFile(validPath)
-            configManager.readFile(validPath)
+            configManager.writeFile()
+            configManager.readFile()
         }
         assertThat(Json { prettyPrint = true }.encodeToString(ConfigFile.serializer(), configFile)).isEqualTo(content)
     } finally {
-        Files.deleteIfExists(validPath)
+        Files.deleteIfExists(Path.of(TEST_PATH_CONFIG_FILE))
         configManager.writeFile(Paths.get("cfg.json"))
     }
 
-    @ParameterizedTest(name = "{index} => Writing/Reading file: {0}")
-    @MethodSource("validPaths")
-    fun `decoding valid config file works`(validPath: Path) = try {
-        val content = assertDoesNotThrow {
-            configManager.writeFile(validPath)
-            configManager.readFile(validPath)
-        }
-        val actual = content?.let { Json.decodeFromString(ConfigFile.serializer(), it) }?.copy(
+    @Test
+    fun `decoding valid config file works`() {
+        configManager.writeFile(Path.of(TEST_PATH_CONFIG_FILE))
+        val expected = configFile
+        val actual = configManager.decodeConfig()?.copy(
             eyeTrackingConfig = configFile.eyeTrackingConfig,
             bubbleViewConfig = configFile.bubbleViewConfig
         )
-        assertThat(actual).isEqualTo(configFile)
-    } finally {
-        Files.deleteIfExists(validPath)
+        assertThat(actual).isEqualTo(expected)
+
+        Files.deleteIfExists(Path.of(TEST_PATH_CONFIG_FILE))
     }
 }

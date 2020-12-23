@@ -56,7 +56,7 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) {
         return true
     }
 
-    fun writeFile(path: Path) {
+    fun writeFile(path: Path = Path.of(configFilePath)) {
         try {
             Files.writeString(path, configFile(), StandardCharsets.UTF_8)
         } catch (e: IOException) {
@@ -64,7 +64,7 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) {
         }
     }
 
-    fun readFile(path: Path): String? {
+    fun readFile(path: Path = Path.of(configFilePath)): String? {
         return try {
             Files.readString(path, StandardCharsets.UTF_8)
         } catch (e: Exception) {
@@ -129,5 +129,5 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) {
         find(BsonDocument()).sort(descending(IConfig::savedAt))
             .firstOrNull()
 
-    val decodedConfig = readFile(Paths.get(configFilePath))?.let { Json.decodeFromString(ConfigFile.serializer(), it) }
+    fun decodeConfig() = readFile(Path.of(configFilePath))?.let { Json.decodeFromString(ConfigFile.serializer(), it) }
 }
