@@ -5,17 +5,18 @@ import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
 import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.nio.file.Path
 
 @Serializable
 data class General(
     var selectionMenuEnabled: Boolean,
-    var activatedTool: Int?,
+    var activatedTool: Int?, //TODO: abstract Tool
     @SerialName("path") var configPath: String
 )
 
 @Serializable
 data class BubbleViewConfig(
-    val filter: Set<Float>
+    @SerialName("pictures") val filter: Set<FilterInformation>
 )
 
 @Serializable
@@ -54,5 +55,17 @@ data class ColorSampleBoard(
     val red: Int,
     val green: Int,
     val blue: Int
+)
+
+@Serializable
+data class FilterInformation(
+    val path: String,
+    val filter: Filter
+)
+
+@Serializable
+data class Filter(
+    val gradient: Int,
+    val type: String
 )
 

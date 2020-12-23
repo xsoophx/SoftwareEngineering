@@ -1,12 +1,12 @@
 {
   "general": {
     "selectionMenuEnabled": true,
-    "activatedTool": "CodeCharts",
+    "activatedTool": "null",
     "path": ""
   },
   "bubbleView": {
-    "filter": [
-      1.0
+    "filter": [1.0,
+      0.0
     ]
   },
   "zoomMaps": {

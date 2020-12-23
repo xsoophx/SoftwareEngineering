@@ -17,8 +17,6 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.MethodSource
 import java.nio.file.Files
 import java.nio.file.Path
 import java.util.stream.Stream
@@ -44,26 +42,12 @@ class ConfigManagerTest {
         DummyData.manager.checkDBSimilarity()
     }
 
-    @ParameterizedTest(name = "{index} => Writing/Reading file: {0}")
-    @MethodSource("validPaths")
-    fun `writing and reading works`(validPath: Path) = try {
-        val message = "Hello world!"
-
-        val content = assertDoesNotThrow {
-            DummyData.manager.writeFile(validPath, message)
-            DummyData.manager.readFile(validPath)
-        }
-        assertThat(message).isEqualTo(content)
-    } finally {
-        Files.deleteIfExists(validPath)
-    }
-
     @Test
     fun `writing to invalid path does not work`() {
         val testPath = Path.of("bull/shit.txt")
 
         assertDoesNotThrow {
-            DummyData.manager.writeFile(testPath, "Hello world!")
+            DummyData.manager.writeFile(testPath)
         }
     }
 
@@ -123,7 +107,15 @@ class ConfigManagerTest {
             // TODO
             eyeTrackingConfig = EyeTrackingConfig(dummyVal = ""),
             // TODO
-            bubbleViewConfig = BubbleViewConfig(filter = setOf(0F))
+            bubbleViewConfig = BubbleViewConfig(
+                filter = setOf(
+                    FilterInformation(
+                        path = "", filter = Filter(
+                            gradient = 1, type = "gaussianBlur"
+                        )
+                    )
+                )
+            )
         )
         val actual = DummyData.manager.assembleAllConfigurations()
             .copy(
@@ -131,7 +123,6 @@ class ConfigManagerTest {
                 bubbleViewConfig = expected.bubbleViewConfig
             )
         assertThat(actual).isEqualTo(expected)
-        DummyData.manager.writeFile(Path.of("cfg.json"), DummyData.manager.configFile())
     }
 
     private val mostRecentCodeChartsConfig =

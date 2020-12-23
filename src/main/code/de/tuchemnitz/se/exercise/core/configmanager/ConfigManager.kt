@@ -56,9 +56,9 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) {
         return true
     }
 
-    fun writeFile(path: Path, content: String = "") {
+    fun writeFile(path: Path) {
         try {
-            Files.writeString(path, content, StandardCharsets.UTF_8)
+            Files.writeString(path, configFile(), StandardCharsets.UTF_8)
         } catch (e: IOException) {
             logger.error("Error found: File does not exist")
         }
@@ -91,12 +91,12 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) {
         generalSettings.configPath = configPath.toString()
     }
 
-    fun configFile(): String {
+    private fun configFile(): String {
         val tools = assembleAllConfigurations()
         return Json { prettyPrint = true }.encodeToString(
             ConfigFile.serializer(),
             ConfigFile(
-                general = ConfigManager.generalSettings,
+                general = generalSettings,
                 bubbleViewConfig = tools.bubbleViewConfig,
                 zoomMapsConfig = tools.zoomMapsConfig,
                 codeChartsConfig = tools.codeChartsConfig,
@@ -114,7 +114,14 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) {
             // TODO
             eyeTrackingConfig = EyeTrackingConfig(dummyVal = ""),
             // TODO
-            bubbleViewConfig = BubbleViewConfig(filter = setOf(0F))
+            bubbleViewConfig = BubbleViewConfig(
+                filter = setOf(
+                    FilterInformation(
+                        path = "",
+                        Filter(gradient = 1, type = "gaussianBlur")
+                    )
+                )
+            )
         )
     }
 

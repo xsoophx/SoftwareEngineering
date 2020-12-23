@@ -71,7 +71,7 @@ dependencies {
     implementation("no.tornado:tornadofx:${Version.TORNADOFX}")
 
     testImplementation("org.testfx:testfx-core:${Version.TESTFX}")
-    testImplementation("org.testfx:testfx-junit:${Version.TESTFX}")
+    testImplementation("org.testfx:testfx-junit5:${Version.TESTFX}")
 }
 
 project.sourceSets {
