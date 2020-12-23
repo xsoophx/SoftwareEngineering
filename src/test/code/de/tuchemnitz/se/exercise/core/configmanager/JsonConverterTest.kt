@@ -67,7 +67,7 @@ class JsonConverterTest {
             configManager.writeFile(validPath)
             configManager.readFile(validPath)
         }
-        val actual = content?.let { Json.decodeFromString(ConfigFile.serializer(), it)}?.copy(
+        val actual = content?.let { Json.decodeFromString(ConfigFile.serializer(), it) }?.copy(
             eyeTrackingConfig = configFile.eyeTrackingConfig,
             bubbleViewConfig = configFile.bubbleViewConfig
         )

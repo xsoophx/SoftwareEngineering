@@ -30,7 +30,7 @@ class AbstractCollectionTest {
     data class DummyConfig(
         override val _id: Id<DummyConfig> = newId(),
         override val savedAt: Instant = Instant.now(),
-        val payload: String = "",
+        val payload: String = ""
     ) : IConfig
 
     private val mockedCollection = mockk<MongoCollection<DummyConfig>>()

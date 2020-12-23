@@ -5,12 +5,11 @@ import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
 import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.nio.file.Path
 
 @Serializable
 data class General(
     var selectionMenuEnabled: Boolean,
-    var activatedTool: Int?, //TODO: abstract Tool
+    var activatedTool: Int?, // TODO: abstract Tool
     @SerialName("path") var configPath: String
 )
 
@@ -68,4 +67,3 @@ data class Filter(
     val gradient: Int,
     val type: String
 )
-
