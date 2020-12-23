@@ -7,7 +7,6 @@ import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCol
 import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
 import de.tuchemnitz.se.exercise.persist.now
 import org.litote.kmongo.KMongo
-import java.nio.file.Path
 
 const val TEST_PATH_CONFIG_FILE = "testCfg.json"
 
