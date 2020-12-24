@@ -5,6 +5,4 @@ import de.tuchemnitz.se.exercise.persist.AbstractCollection
 import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import org.litote.kmongo.getCollection
 
-class ZoomMapsConfigCollection(
-    db: MongoDatabase
-) : AbstractCollection<ZoomMapsConfig>(collection = db.getCollection())
+class ZoomMapsConfigCollection:AbstractCollection<ZoomMapsConfig>(ZoomMapsConfig::class)

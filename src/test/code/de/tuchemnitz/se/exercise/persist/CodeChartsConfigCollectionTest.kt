@@ -7,18 +7,22 @@ import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
 import com.mongodb.client.model.Filters
+import de.tuchemnitz.se.exercise.DATABASE
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import org.bson.conversions.Bson
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.litote.kmongo.KMongo
 import org.litote.kmongo.`in`
 import org.litote.kmongo.eq
+import tornadofx.Controller
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-class CodeChartsConfigCollectionTest {
+@Tag(DATABASE)
+class CodeChartsConfigCollectionTest: Controller() {
     private val codeChartsConfigCollection: CodeChartsConfigCollection by inject()
 
     companion object {

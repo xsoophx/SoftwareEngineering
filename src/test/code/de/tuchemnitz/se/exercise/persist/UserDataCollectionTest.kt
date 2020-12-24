@@ -7,10 +7,12 @@ import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
 import com.mongodb.client.model.Filters
+import de.tuchemnitz.se.exercise.DATABASE
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.data.collections.UserDataCollection
 import org.bson.conversions.Bson
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
@@ -19,11 +21,10 @@ import org.litote.kmongo.eq
 import org.testfx.framework.junit5.ApplicationExtension
 import tornadofx.Controller
 
-@ExtendWith(ApplicationExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
+@Tag(DATABASE)
 class UserDataCollectionTest : Controller() {
-    private val databaseClient: Database by inject()
-    private val collection = UserDataCollection(databaseClient.database)
+    private val collection: UserDataCollection by inject()
 
     @Suppress("SpellCheckingInspection")
     companion object {

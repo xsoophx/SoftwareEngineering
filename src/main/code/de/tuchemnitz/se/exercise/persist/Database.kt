@@ -13,7 +13,7 @@ class Database(databaseName: String = DATABASE_NAME) : Controller() {
     val client = KMongo.createClient()
     val database: MongoDatabase = client.getDatabase(databaseName)
 
-    fun <ENTITY : IPersist> getCollection(clazz: KClass<ENTITY>): MongoCollection<ENTITY> {
+    fun <T : IPersist> getCollection(clazz: KClass<T>): MongoCollection<T> {
         return database.getCollection(defaultCollectionName(clazz), clazz.java)
     }
 }
