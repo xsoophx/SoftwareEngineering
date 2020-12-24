@@ -1,7 +1,6 @@
 package de.tuchemnitz.se.exercise.persist
 
 import com.mongodb.client.FindIterable
-import com.mongodb.client.MongoCollection
 import org.bson.BsonDocument
 import org.bson.conversions.Bson
 import org.litote.kmongo.Id

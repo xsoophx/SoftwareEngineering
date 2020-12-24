@@ -15,14 +15,13 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.litote.kmongo.KMongo
 import org.litote.kmongo.`in`
 import org.litote.kmongo.eq
 import tornadofx.Controller
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 @Tag(DATABASE)
-class CodeChartsConfigCollectionTest: Controller() {
+class CodeChartsConfigCollectionTest : Controller() {
     private val codeChartsConfigCollection: CodeChartsConfigCollection by inject()
 
     companion object {

@@ -15,10 +15,8 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.extension.ExtendWith
 import org.litote.kmongo.`in`
 import org.litote.kmongo.eq
-import org.testfx.framework.junit5.ApplicationExtension
 import tornadofx.Controller
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)

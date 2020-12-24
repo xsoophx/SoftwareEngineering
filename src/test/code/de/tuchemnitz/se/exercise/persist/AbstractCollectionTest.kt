@@ -6,7 +6,6 @@ import com.mongodb.client.result.DeleteResult
 import com.mongodb.client.result.InsertManyResult
 import com.mongodb.client.result.InsertOneResult
 import de.tuchemnitz.se.exercise.DATABASE
-import de.tuchemnitz.se.exercise.persist.configs.IConfig
 import io.kotest.matchers.shouldBe
 import io.mockk.clearMocks
 import io.mockk.confirmVerified
