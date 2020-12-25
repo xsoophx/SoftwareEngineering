@@ -6,13 +6,18 @@ plugins {
     kotlin("jvm") version "1.4.10"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.4.10"
     id("org.openjfx.javafxplugin") version "0.0.9"
+    id("org.jlleitschuh.gradle.ktlint-idea") version "9.4.1"
+    id("com.diffplug.spotless") version "5.8.2"
 }
 
-group = "de.tuchemnitz"
+group = "de.tu_chemnitz"
 version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://plugins.gradle.org/m2/")
+    }
 }
 
 javafx {
@@ -31,6 +36,9 @@ object Version {
     const val KMONGO = "4.2.2"
     const val ASSERTK = "0.23"
     const val TORNADOFX = "1.7.20"
+    const val SPOTLESS = "5.8.2"
+    const val KTLINT = "9.4.1"
+    const val TESTFX = "4.0.15-alpha"
 }
 
 dependencies {
@@ -60,11 +68,10 @@ dependencies {
 
     implementation("com.willowtreeapps.assertk:assertk:${Version.ASSERTK}")
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("no.tornado:tornadofx:${Version.TORNADOFX}")
 
-    testImplementation("org.testfx:testfx-core:4.0.15-alpha")
-    testImplementation("org.testfx:testfx-junit:4.0.15-alpha")
+    testImplementation("org.testfx:testfx-core:${Version.TESTFX}")
+    testImplementation("org.testfx:testfx-junit:${Version.TESTFX}")
 }
 
 project.sourceSets {
@@ -90,7 +97,7 @@ tasks {
 
     withType<KotlinCompile> {
         kotlinOptions {
-            jvmTarget = "11"
+            jvmTarget = "1.8"
             freeCompilerArgs = listOf(
                 "-Xjvm-default=enable"
             )
