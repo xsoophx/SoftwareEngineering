@@ -1,37 +1,30 @@
-package de.tuchemnitz.se.exercise.core.graphics
+package de.tuchemnitz.se.exercise.core.graphics.system
 
 import javafx.collections.FXCollections
-import javafx.scene.control.ChoiceBox
 import javafx.scene.control.ComboBox
 import javafx.scene.control.PasswordField
 import javafx.scene.control.TextField
+import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
 import org.slf4j.LoggerFactory
 import tornadofx.View
 import tornadofx.action
-import tornadofx.addClass
 import tornadofx.button
-import tornadofx.choicebox
 import tornadofx.combobox
-import tornadofx.field
-import tornadofx.fieldset
-import tornadofx.form
 import tornadofx.gridpane
 import tornadofx.hbox
 import tornadofx.label
 import tornadofx.passwordfield
 import tornadofx.row
-import tornadofx.selectedItem
 import tornadofx.singleAssign
 import tornadofx.textfield
-import java.awt.Choice
 
 class RegisterView : View("Software Praktikum - Gruppe 4") {
   companion object {
     val logger = LoggerFactory.getLogger(RegisterView::class.java)
   }
 
-  override val root: VBox by fxml("/views/MainViewTemplate.fxml")
+  override val root: BorderPane by fxml("/views/MainViewTemplate.fxml")
 
   val contentBox: VBox by fxid("content")
   var registerEmailField: TextField by singleAssign()
