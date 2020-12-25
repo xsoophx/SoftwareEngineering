@@ -1,7 +1,6 @@
 package de.tuchemnitz.se.exercise.persist
 
 import assertk.assertThat
-import assertk.assertions.contains
 import assertk.assertions.containsOnly
 import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
@@ -48,7 +47,7 @@ class ZoomMapsConfigCollectionTest : Controller() {
     fun `every config should be saved properly`() {
         configs.forEach {
             collection.saveOne(it)
-            assertThat(collection.find(ZoomMapsConfig::_id eq it._id)).contains(it)
+            assertThat(collection.findOneById(it._id)).isEqualTo(it)
         }
     }
 
