@@ -5,12 +5,12 @@ import tornadofx.App
 import tornadofx.importStylesheet
 
 class MainApp : App() {
-    override val primaryView = MainLoginView::class
+    override val primaryView = LoginView::class
 
     override fun start(stage: Stage) {
         super.start(stage)
         stage.isMaximized = true
-        stage.isResizable = false
+        stage.isResizable = true
     }
 
     init {

@@ -73,7 +73,7 @@
                     </Menu>
                   </menus>
                 </MenuBar>
-                  <VBox prefHeight="148.0" prefWidth="640.0" />
+                  <VBox fx:id="content" prefHeight="148.0" prefWidth="640.0" />
                </children>
             </VBox>
          </center>

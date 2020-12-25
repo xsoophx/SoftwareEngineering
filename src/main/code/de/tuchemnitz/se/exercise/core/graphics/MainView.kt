@@ -1,25 +1,20 @@
 package de.tuchemnitz.se.exercise.core.graphics
 
 import javafx.scene.control.Button
-import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.TextAlignment
-import tornadofx.Stylesheet.Companion.text
+import org.slf4j.LoggerFactory
 import tornadofx.View
 import tornadofx.action
 import tornadofx.addClass
 import tornadofx.borderpane
 import tornadofx.button
 import tornadofx.hbox
-import tornadofx.label
-import tornadofx.style
 import tornadofx.text
 import tornadofx.textflow
 import tornadofx.tooltip
-import tornadofx.useMaxWidth
 import tornadofx.vbox
-import java.awt.SystemColor.text
 
 /*
 class MainView : View("Software Engineering - UI") {
@@ -39,6 +34,10 @@ class MainView : View("Software Engineering - UI") {
 */
 
 class MainPageView : View("Software Praktikum - Gruppe 4") {
+    companion object {
+        val logger = LoggerFactory.getLogger(MainPageView::class.java)
+    }
+
     override val root = vbox {
         borderpane {
             top = vbox {
@@ -91,7 +90,7 @@ class MainPageView : View("Software Praktikum - Gruppe 4") {
                 button("Login") {
                     tooltip("Login Button")
                     action {
-                        replaceWith(Picture::class)
+                        replaceWith(LoginView::class)
                     }
                 }
                 addClass(Style.mainCenterStyle)
@@ -100,10 +99,10 @@ class MainPageView : View("Software Praktikum - Gruppe 4") {
     }
 
     override fun onDock() {
-        println("Docking Main Page!")
+        logger.info("Docking Main Page!")
     }
 
     override fun onUndock() {
-        println("Undocking Main Page!")
+        logger.info("Undocking Main Page!")
     }
 }
