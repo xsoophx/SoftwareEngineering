@@ -33,12 +33,12 @@ object Version {
     const val LOGBACK = "1.2.3"
     const val MOCKK = "1.10.2"
     const val SLF4J = "1.7.30"
-    const val KMONGO = "4.2.2"
+    const val KMONGO = "4.2.3"
     const val ASSERTK = "0.23"
     const val TORNADOFX = "1.7.20"
     const val SPOTLESS = "5.8.2"
     const val KTLINT = "9.4.1"
-    const val TESTFX = "4.0.15-alpha"
+    const val TESTFX = "4.0.16-alpha"
 }
 
 dependencies {

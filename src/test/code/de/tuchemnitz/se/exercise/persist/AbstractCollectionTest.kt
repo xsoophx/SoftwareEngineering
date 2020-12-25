@@ -5,7 +5,7 @@ import com.mongodb.client.MongoCollection
 import com.mongodb.client.result.DeleteResult
 import com.mongodb.client.result.InsertManyResult
 import com.mongodb.client.result.InsertOneResult
-import de.tuchemnitz.se.exercise.persist.configs.IConfig
+import de.tuchemnitz.se.exercise.DATABASE
 import io.kotest.matchers.shouldBe
 import io.mockk.clearMocks
 import io.mockk.confirmVerified
@@ -15,7 +15,9 @@ import io.mockk.verify
 import org.bson.BsonDocument
 import org.bson.conversions.Bson
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.TestInstance.Lifecycle
@@ -26,15 +28,23 @@ import org.litote.kmongo.newId
 import java.time.Instant
 
 @TestInstance(Lifecycle.PER_CLASS)
-class AbstractCollectionTest {
+@Tag(DATABASE)
+class AbstractCollectionTest : AbstractDatabaseTest(db = mockk(relaxed = true)) {
     data class DummyConfig(
         override val _id: Id<DummyConfig> = newId(),
         override val savedAt: Instant = Instant.now(),
         val payload: String = ""
-    ) : IConfig
+    ) : IPersist
+
+    class DummyCollection : AbstractCollection<DummyConfig>(DummyConfig::class)
 
     private val mockedCollection = mockk<MongoCollection<DummyConfig>>()
-    private val collection = object : AbstractCollection<DummyConfig>(mockedCollection) {}
+    private val collection: DummyCollection by inject()
+
+    @BeforeAll
+    fun mockDB() {
+        every { db.getCollection(DummyConfig::class) } returns mockedCollection
+    }
 
     @BeforeEach
     fun setUp() {
