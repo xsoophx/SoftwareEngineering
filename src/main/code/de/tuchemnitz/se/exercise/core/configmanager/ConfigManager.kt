@@ -16,12 +16,13 @@ import org.bson.conversions.Bson
 import org.litote.kmongo.descending
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import tornadofx.Controller
 import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 
-class ConfigManager(var configFilePath: String = "", database: MongoDatabase) {
+class ConfigManager(var configFilePath: String = "", database: MongoDatabase) : Controller() {
 
     data class ConfigCollections(
         val codeChartsConfigCollection: CodeChartsConfigCollection,
@@ -29,10 +30,14 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) {
         val eyeTrackingConfigCollection: EyeTrackingConfigCollection
     )
 
+    private val codeChartsConfigCollection: CodeChartsConfigCollection by inject()
+    private val zoomMapsConfigCollection: ZoomMapsConfigCollection by inject()
+    private val eyeTrackingConfigCollection: EyeTrackingConfigCollection by inject()
+
     private val configCollections = ConfigCollections(
-        CodeChartsConfigCollection(database),
-        ZoomMapsConfigCollection(database),
-        EyeTrackingConfigCollection(database)
+        codeChartsConfigCollection,
+        zoomMapsConfigCollection,
+        eyeTrackingConfigCollection
     )
 
     companion object {
