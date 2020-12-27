@@ -1,17 +1,11 @@
 package de.tuchemnitz.se.exercise.core.graphics
 
-import de.tuchemnitz.se.exercise.core.graphics.MainApp
-import de.tuchemnitz.se.exercise.core.graphics.MainApp.Companion.IMAGE_PATH
 import javafx.geometry.Pos
-import javafx.scene.layout.BackgroundPosition
-import javafx.scene.layout.BackgroundRepeat
 import javafx.scene.paint.Color
 import tornadofx.Stylesheet
 import tornadofx.box
 import tornadofx.cssclass
-import tornadofx.multi
 import tornadofx.px
-import java.net.URI
 
 class Style : Stylesheet() {
 
@@ -76,7 +70,6 @@ class Style : Stylesheet() {
         }
 
         s(ccDialogWrapper) {
-
         }
     }
 }

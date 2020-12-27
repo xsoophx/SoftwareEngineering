@@ -22,7 +22,7 @@ import tornadofx.text
 import tornadofx.vbox
 
 class CodeChartsDialogView(
-    private val cssRule: CssRule = Style.ccDialogWrapper,
+    private val cssRule: CssRule = Style.ccDialogWrapper
 ) : View("Willkommen bei CodeCharts!") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
 

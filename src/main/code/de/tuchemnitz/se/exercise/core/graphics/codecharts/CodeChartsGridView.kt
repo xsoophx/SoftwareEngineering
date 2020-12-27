@@ -1,18 +1,12 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsDataValues
 import javafx.scene.paint.Color
-import javafx.scene.paint.Color.LIMEGREEN
-import javafx.scene.paint.Color.WHITE
 import javafx.scene.paint.Color.WHITESMOKE
 import tornadofx.View
-import tornadofx.circle
 import tornadofx.datagrid
 import tornadofx.label
 import tornadofx.rectangle
 import tornadofx.stackpane
-import tornadofx.vbox
-import javax.swing.GroupLayout
 
 class CodeChartsGridView(
     // private val cssRule: CssRule = Style.ccGridWrapper,

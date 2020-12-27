@@ -20,7 +20,7 @@ import java.awt.Toolkit
 
 class CodeChartsPictureView(
     pictureTitle: String = "",
-    private val cssRule: CssRule = Style.ccPictureWrapper,
+    private val cssRule: CssRule = Style.ccPictureWrapper
 ) : View("Software Praktikum - CodeCharts Picture") {
     override val root = vbox {
         title = pictureTitle
