@@ -14,6 +14,9 @@ class CodeChartsTool(/*private val configManager: ConfigManager*/) : App() {
 
     companion object {
         const val IMAGE_PATH = "/penguin.png"
+        const val GRID_WIDTH = 10
+        const val GRID_HEIGHT = 10
+        val data = CodeChartsDataValues()
     }
 
     override fun start(stage: Stage) {
@@ -23,16 +26,23 @@ class CodeChartsTool(/*private val configManager: ConfigManager*/) : App() {
         stage.fullScreenExitHint = ""
         // stage.minHeight = 850.0
         // stage.minWidth = 1300.0
+
+        editData()
     }
 
     init {
         importStylesheet(Style::class)
     }
 
+    private fun editData() {
+        val gridDimension = Dimension(x = GRID_WIDTH.toDouble(), y = GRID_HEIGHT.toDouble())
+        data.setGridDimension(gridDimension)
+    }
+
     private fun saveData() {}
 }
 
-data class ImageSize(
+data class Dimension(
     val x: Double,
     val y: Double,
 )

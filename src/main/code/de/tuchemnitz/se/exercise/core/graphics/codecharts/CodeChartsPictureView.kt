@@ -1,7 +1,9 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
-import de.tuchemnitz.se.exercise.codecharts.ImageSize
-import de.tuchemnitz.se.exercise.core.graphics.MainApp.Companion.IMAGE_PATH
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsDataValues
+import de.tuchemnitz.se.exercise.codecharts.Dimension
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.IMAGE_PATH
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.data
 import de.tuchemnitz.se.exercise.core.graphics.Style
 import javafx.animation.PauseTransition
 import javafx.event.ActionEvent
@@ -24,20 +26,25 @@ class CodeChartsPictureView(
         title = pictureTitle
         addClass(cssRule)
         imageview {
+            val screenWidth = Toolkit.getDefaultToolkit().screenSize.getWidth()
+            val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
+            val screenSize = Dimension(x = screenWidth, y = screenHeight)
+
             image = Image(IMAGE_PATH)
-            var scaledImageSize = scaleImageSize(image)
+            var scaledImageSize = scaleImageSize(image, screenSize)
             var scaledImageWidth = scaledImageSize.x
             var scaledImageHeight = scaledImageSize.y
             fitWidthProperty().bind(scaledImageWidth.toProperty())
             fitHeightProperty().bind(scaledImageHeight.toProperty())
 
+            setDataValues(image.width, image.height, scaledImageSize, screenSize)
             goToGridView()
         }
     }
 
-    private fun scaleImageSize(image: Image): ImageSize {
-        val screenWidth = Toolkit.getDefaultToolkit().screenSize.getWidth()
-        val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
+    private fun scaleImageSize(image: Image, screenSize: Dimension): Dimension {
+        val screenWidth = screenSize.x
+        val screenHeight = screenSize.y
         val imageWidth = image.width
         val imageHeight = image.height
         var newImageWidth = imageWidth
@@ -58,12 +65,19 @@ class CodeChartsPictureView(
             newImageWidth = (newImageHeight * imageWidth) / imageHeight
         }
 
-        return ImageSize(x = newImageWidth, y = newImageHeight)
+        return Dimension(x = newImageWidth, y = newImageHeight)
     }
 
     fun goToGridView() {
         val delay = PauseTransition(Duration.seconds(5.0))
         delay.onFinished = EventHandler { event: ActionEvent? -> replaceWith(CodeChartsGridView::class) }
         delay.play()
+    }
+
+    private fun setDataValues(originalImageWidth: Double, originalImageHeight: Double, scaledImageSize: Dimension, screenSize: Dimension) {
+        data.setImagePath(IMAGE_PATH)
+        data.setOriginalImageSize(Dimension(x = originalImageWidth, y = originalImageHeight))
+        data.setScaledImageSize(scaledImageSize)
+        data.setScreenSize(screenSize)
     }
 }
