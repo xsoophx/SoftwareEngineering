@@ -1,9 +1,8 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsDataValues
 import de.tuchemnitz.se.exercise.codecharts.Dimension
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.IMAGE_PATH
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.data
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.ccData
 import de.tuchemnitz.se.exercise.core.graphics.Style
 import javafx.animation.PauseTransition
 import javafx.event.ActionEvent
@@ -75,9 +74,9 @@ class CodeChartsPictureView(
     }
 
     private fun setDataValues(originalImageWidth: Double, originalImageHeight: Double, scaledImageSize: Dimension, screenSize: Dimension) {
-        data.setImagePath(IMAGE_PATH)
-        data.setOriginalImageSize(Dimension(x = originalImageWidth, y = originalImageHeight))
-        data.setScaledImageSize(scaledImageSize)
-        data.setScreenSize(screenSize)
+        ccData.setImagePath(IMAGE_PATH)
+        ccData.setOriginalImageSize(Dimension(x = originalImageWidth, y = originalImageHeight))
+        ccData.setScaledImageSize(scaledImageSize)
+        ccData.setScreenSize(screenSize)
     }
 }

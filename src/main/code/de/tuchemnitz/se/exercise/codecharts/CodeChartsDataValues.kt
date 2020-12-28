@@ -6,6 +6,7 @@ class CodeChartsDataValues {
     private lateinit var scaledImageSize: Dimension
     private lateinit var screenSize: Dimension
     private lateinit var gridDimension: Dimension
+    private lateinit var allowedChars: StringCharacters
 
     fun setImagePath(path: String) {
         imagePath = path
@@ -45,5 +46,13 @@ class CodeChartsDataValues {
 
     fun getGridDimension(): Dimension {
         return gridDimension
+    }
+
+    fun setAllowedChars(charset: StringCharacters) {
+        allowedChars = charset
+    }
+
+    fun getAllowedChars(): StringCharacters{
+        return allowedChars
     }
 }

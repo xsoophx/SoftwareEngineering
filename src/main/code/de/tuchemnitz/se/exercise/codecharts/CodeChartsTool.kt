@@ -2,8 +2,6 @@ package de.tuchemnitz.se.exercise.codecharts
 
 import de.tuchemnitz.se.exercise.core.graphics.Style
 import de.tuchemnitz.se.exercise.core.graphics.codecharts.CodeChartsDialogView
-import de.tuchemnitz.se.exercise.core.graphics.codecharts.CodeChartsGridView
-import de.tuchemnitz.se.exercise.core.graphics.codecharts.CodeChartsPictureView
 import javafx.stage.Stage
 import tornadofx.App
 import tornadofx.importStylesheet
@@ -16,7 +14,9 @@ class CodeChartsTool(/*private val configManager: ConfigManager*/) : App() {
         const val IMAGE_PATH = "/penguin.png"
         const val GRID_WIDTH = 10
         const val GRID_HEIGHT = 10
-        val data = CodeChartsDataValues()
+        val allowedCharacters = StringCharacters(upperCase = true, lowerCase = true, numbers = true)
+        val ccData = CodeChartsDataValues()
+        val handleStrings = CodeChartsStringHandler()
     }
 
     override fun start(stage: Stage) {
@@ -36,7 +36,8 @@ class CodeChartsTool(/*private val configManager: ConfigManager*/) : App() {
 
     private fun editData() {
         val gridDimension = Dimension(x = GRID_WIDTH.toDouble(), y = GRID_HEIGHT.toDouble())
-        data.setGridDimension(gridDimension)
+        ccData.setGridDimension(gridDimension)
+        ccData.setAllowedChars(allowedCharacters)
     }
 
     private fun saveData() {}
@@ -45,4 +46,10 @@ class CodeChartsTool(/*private val configManager: ConfigManager*/) : App() {
 data class Dimension(
     val x: Double,
     val y: Double,
+)
+
+data class StringCharacters(
+    val upperCase: Boolean,
+    val lowerCase: Boolean,
+    val numbers: Boolean
 )

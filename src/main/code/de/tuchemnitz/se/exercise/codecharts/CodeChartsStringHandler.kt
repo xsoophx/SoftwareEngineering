@@ -1,5 +1,6 @@
 package de.tuchemnitz.se.exercise.codecharts
 
+import de.tuchemnitz.se.exercise.codecharts.StringCharacters
 import java.util.Random
 import kotlin.math.ln
 import kotlin.math.roundToInt
@@ -14,7 +15,6 @@ class CodeChartsStringHandler {
     fun setStrings(input: Int, allowedChars: StringCharacters) {
         val generatedList = generateStringList(input, allowedChars)
         this.generatedStrings = generatedList
-        return
     }
 
     /**
@@ -83,9 +83,3 @@ class CodeChartsStringHandler {
         this.generatedStrings = ((this.generatedStrings).sorted()).toMutableList()
     }
 }
-
-data class StringCharacters(
-    val upperCase: Boolean,
-    val lowerCase: Boolean,
-    val numbers: Boolean
-)
