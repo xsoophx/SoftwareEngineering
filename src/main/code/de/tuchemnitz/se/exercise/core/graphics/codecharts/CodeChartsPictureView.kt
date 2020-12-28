@@ -29,7 +29,7 @@ class CodeChartsPictureView(
             val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
             val screenSize = Dimension(x = screenWidth, y = screenHeight)
 
-            image = Image(IMAGE_PATH)
+            image = Image(ccData.getImagePath())
             var scaledImageSize = scaleImageSize(image, screenSize)
             var scaledImageWidth = scaledImageSize.x
             var scaledImageHeight = scaledImageSize.y
@@ -49,7 +49,7 @@ class CodeChartsPictureView(
         var newImageWidth = imageWidth
         var newImageHeight = imageHeight
 
-        if (imageWidth > screenWidth) {
+        if (imageWidth != screenWidth) {
             // scale width to fit
             newImageWidth = screenWidth
             // scale height to maintain aspect ratio
@@ -57,7 +57,7 @@ class CodeChartsPictureView(
         }
 
         // then check if we need to scale even with the new height
-        if (newImageHeight > screenHeight) {
+        if (newImageHeight != screenHeight) {
             // scale height to fit instead
             newImageHeight = screenHeight
             // scale width to maintain aspect ratio
@@ -74,7 +74,6 @@ class CodeChartsPictureView(
     }
 
     private fun setDataValues(originalImageWidth: Double, originalImageHeight: Double, scaledImageSize: Dimension, screenSize: Dimension) {
-        ccData.setImagePath(IMAGE_PATH)
         ccData.setOriginalImageSize(Dimension(x = originalImageWidth, y = originalImageHeight))
         ccData.setScaledImageSize(scaledImageSize)
         ccData.setScreenSize(screenSize)

@@ -11,7 +11,7 @@ class MainApp : App() {
 
     companion object {
         const val MAIN_VIEW_TEMPLATE_PATH = "/views/MainViewTemplate.fxml"
-        const val IMAGE_PATH = "/penguin.png"
+        // const val IMAGE_PATH = "/penguin.png"
     }
 
     override fun start(stage: Stage) {

@@ -66,10 +66,13 @@ class Style : Stylesheet() {
             prefHeight = 1000.px
             prefWidth = 1000.px
             s(imageView)
-            alignment = Pos.CENTER
+            alignment = Pos.TOP_CENTER
         }
 
         s(ccDialogWrapper) {
+        }
+
+        s(ccGridWrapper) {
         }
     }
 }

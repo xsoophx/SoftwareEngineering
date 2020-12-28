@@ -9,9 +9,8 @@ import tornadofx.importStylesheet
 class CodeChartsTool(/*private val configManager: ConfigManager*/) : App() {
     // val setting = configManager.settings()
     override val primaryView = CodeChartsDialogView::class
-
     companion object {
-        const val IMAGE_PATH = "/penguin.png"
+        const val IMAGE_PATH = "/Fox.jpg"
         const val GRID_WIDTH = 10
         const val GRID_HEIGHT = 10
         val allowedCharacters = StringCharacters(upperCase = true, lowerCase = true, numbers = true)
@@ -38,6 +37,7 @@ class CodeChartsTool(/*private val configManager: ConfigManager*/) : App() {
         val gridDimension = Dimension(x = GRID_WIDTH.toDouble(), y = GRID_HEIGHT.toDouble())
         ccData.setGridDimension(gridDimension)
         ccData.setAllowedChars(allowedCharacters)
+        ccData.setImagePath(IMAGE_PATH)
     }
 
     private fun saveData() {}
