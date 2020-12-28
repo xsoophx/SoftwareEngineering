@@ -13,6 +13,7 @@ class CodeChartsTool(/*private val configManager: ConfigManager*/) : App() {
         const val IMAGE_PATH = "/Fox.jpg"
         const val GRID_WIDTH = 10
         const val GRID_HEIGHT = 10
+        const val M_VIEWTIME = 5.0
         val allowedCharacters = StringCharacters(upperCase = true, lowerCase = true, numbers = true)
         val ccData = CodeChartsDataValues()
         val handleStrings = CodeChartsStringHandler()
@@ -38,6 +39,7 @@ class CodeChartsTool(/*private val configManager: ConfigManager*/) : App() {
         ccData.setGridDimension(gridDimension)
         ccData.setAllowedChars(allowedCharacters)
         ccData.setImagePath(IMAGE_PATH)
+        ccData.setMatrixViewTime(M_VIEWTIME)
     }
 
     private fun saveData() {}

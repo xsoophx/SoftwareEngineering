@@ -1,6 +1,5 @@
 package de.tuchemnitz.se.exercise.codecharts
 
-import de.tuchemnitz.se.exercise.codecharts.StringCharacters
 import java.util.Random
 import kotlin.math.ln
 import kotlin.math.roundToInt

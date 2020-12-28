@@ -1,5 +1,7 @@
 package de.tuchemnitz.se.exercise.codecharts
 
+import kotlin.properties.Delegates
+
 class CodeChartsDataValues {
     private lateinit var imagePath: String
     private lateinit var originalImageSize: Dimension
@@ -7,6 +9,7 @@ class CodeChartsDataValues {
     private lateinit var screenSize: Dimension
     private lateinit var gridDimension: Dimension
     private lateinit var allowedChars: StringCharacters
+    private var matrixViewTime: Double = 0.0
 
     fun setImagePath(path: String) {
         imagePath = path
@@ -54,5 +57,13 @@ class CodeChartsDataValues {
 
     fun getAllowedChars(): StringCharacters{
         return allowedChars
+    }
+
+    fun setMatrixViewTime(viewTime: Double) {
+        matrixViewTime = viewTime
+    }
+
+    fun getMatrixViewTime(): Double{
+        return matrixViewTime
     }
 }

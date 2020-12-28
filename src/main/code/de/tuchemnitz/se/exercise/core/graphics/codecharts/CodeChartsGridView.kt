@@ -4,9 +4,13 @@ package de.tuchemnitz.se.exercise.core.graphics.codecharts
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.ccData
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.handleStrings
 import de.tuchemnitz.se.exercise.codecharts.StringCharacters
+import javafx.animation.PauseTransition
+import javafx.event.ActionEvent
+import javafx.event.EventHandler
 import javafx.geometry.Pos
 import javafx.scene.paint.Color
 import javafx.scene.paint.Color.WHITESMOKE
+import javafx.util.Duration
 import tornadofx.View
 import tornadofx.datagrid
 import tornadofx.hbox
@@ -49,10 +53,17 @@ class CodeChartsGridView(
                     }
                 }
             }
+            goToInputValidatorView()
         }
 
     private fun getStringList(gridSize: Int, allowedCharacters: StringCharacters): MutableList<String> {
         handleStrings.setStrings(input = gridSize, allowedChars = allowedCharacters)
         return handleStrings.getStrings()
+    }
+
+    private fun goToInputValidatorView() {
+        val delay = PauseTransition(Duration.seconds(ccData.getMatrixViewTime()))
+        delay.onFinished = EventHandler { event: ActionEvent? -> replaceWith(CodeChartsInputValidatorView::class) }
+        delay.play()
     }
 }
