@@ -69,7 +69,7 @@ class CodeChartsPictureView(
 
     private fun goToGridView() {
         val delay = PauseTransition(Duration.seconds(5.0))
-        delay.onFinished = EventHandler { event: ActionEvent? -> replaceWith(CodeChartsGridView::class) }
+        delay.onFinished = EventHandler { replaceWith(CodeChartsGridView::class) }
         delay.play()
     }
 

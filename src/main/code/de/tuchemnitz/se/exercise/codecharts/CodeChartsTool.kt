@@ -30,6 +30,10 @@ class CodeChartsTool(/*private val configManager: ConfigManager*/) : App() {
         editData()
     }
 
+    override fun stop() {
+        super.stop()
+    }
+
     init {
         importStylesheet(Style::class)
     }
