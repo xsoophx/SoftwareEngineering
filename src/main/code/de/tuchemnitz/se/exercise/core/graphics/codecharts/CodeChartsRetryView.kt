@@ -16,10 +16,10 @@ import tornadofx.style
 import tornadofx.text
 import tornadofx.vbox
 
-class CodeChartsRetryView() : View("CodeCharts - Ungültige Eingabe") {
+class CodeChartsRetryView : View("CodeCharts - Ungültige Eingabe") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
 
-    val contentBox: VBox by fxid("content")
+    private val contentBox: VBox by fxid("content")
 
     init {
         with(contentBox) {

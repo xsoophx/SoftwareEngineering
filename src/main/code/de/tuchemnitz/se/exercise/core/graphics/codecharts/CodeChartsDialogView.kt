@@ -1,7 +1,6 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
-import de.tuchemnitz.se.exercise.core.graphics.Style
 import javafx.geometry.Pos
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
@@ -10,7 +9,6 @@ import javafx.scene.paint.Color.MEDIUMSPRINGGREEN
 import javafx.scene.text.Font
 import javafx.scene.text.FontWeight
 import javafx.scene.text.TextAlignment
-import tornadofx.CssRule
 import tornadofx.View
 import tornadofx.action
 import tornadofx.button
@@ -18,12 +16,12 @@ import tornadofx.style
 import tornadofx.text
 import tornadofx.vbox
 
-class CodeChartsDialogView(
+class CodeChartsDialogView/*(
     private val cssRule: CssRule = Style.ccDialogWrapper
-) : View("Willkommen bei CodeCharts!") {
+)*/ : View("Willkommen bei CodeCharts!") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
 
-    val contentBox: VBox by fxid("content")
+    private val contentBox: VBox by fxid("content")
 
     init {
         with(contentBox) {

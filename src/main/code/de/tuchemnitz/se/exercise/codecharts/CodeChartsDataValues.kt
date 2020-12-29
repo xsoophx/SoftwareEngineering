@@ -11,10 +11,15 @@ class CodeChartsDataValues {
     // grid
     private lateinit var gridDimension: Dimension
     private var matrixViewTime: Double = 0.0
+    private var relative: Boolean = false
+    private var recursionDepth: Int = 0
 
     // strings
     private lateinit var allowedChars: StringCharacters
     private var toOrder: Boolean = false
+
+    // userInput
+    private lateinit var eyePos: Interval2D
 
     fun setImagePath(path: String) {
         imagePath = path
@@ -76,7 +81,49 @@ class CodeChartsDataValues {
         toOrder = orderStrings
     }
 
-    fun getToOrder(): Boolean{
+    fun getToOrder(): Boolean {
         return toOrder
     }
+
+    fun setEyePos(pos: Interval2D) {
+        eyePos = pos
+    }
+
+    fun getEyePos(): Interval2D {
+        return eyePos
+    }
+
+    fun setRelative(rel: Boolean) {
+        relative = rel
+    }
+
+    fun getRelative(): Boolean {
+        return relative
+    }
+
+    fun setRecursionDepth(depth: Int) {
+        recursionDepth = depth
+    }
+
+    fun getRecursionDepth(): Int {
+        return recursionDepth
+    }
 }
+
+data class Dimension(
+    val x: Double,
+    val y: Double,
+)
+
+data class StringCharacters(
+    val upperCase: Boolean,
+    val lowerCase: Boolean,
+    val numbers: Boolean
+)
+
+data class Interval2D(
+    val xMin: Double,
+    val xMax: Double,
+    val yMin: Double,
+    val yMax: Double,
+)

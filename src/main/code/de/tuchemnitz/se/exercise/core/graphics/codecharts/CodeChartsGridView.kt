@@ -1,11 +1,8 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
-
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.ccData
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.handleStrings
-import de.tuchemnitz.se.exercise.codecharts.StringCharacters
 import javafx.animation.PauseTransition
-import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.geometry.Pos
 import javafx.scene.paint.Color
@@ -18,16 +15,13 @@ import tornadofx.label
 import tornadofx.rectangle
 import tornadofx.stackpane
 
-class CodeChartsGridView(
-    // private val cssRule: CssRule = Style.ccGridWrapper,
-) : View("SoftwarePraktikum - CodeCharts Grid") {
+class CodeChartsGridView/*(
+    private val cssRule: CssRule = Style.ccGridWrapper,
+)*/ : View("SoftwarePraktikum - CodeCharts Grid") {
     private val gridWidth = ccData.getGridDimension().x
     private val gridHeight = ccData.getGridDimension().y
-    private val gridSize = (gridWidth * gridHeight).toInt()
-    private val allowedCharacters = ccData.getAllowedChars()
-    private val stringList = getStringList(gridSize, allowedCharacters)
+    private val stringList = handleStrings.getStrings()
     private val scaledImageSize = ccData.getScaledImageSize()
-
 
     override val root =
         hbox {
@@ -56,17 +50,9 @@ class CodeChartsGridView(
             goToInputValidatorView()
         }
 
-    private fun getStringList(gridSize: Int, allowedCharacters: StringCharacters): MutableList<String> {
-        handleStrings.setStrings(input = gridSize, allowedChars = allowedCharacters)
-        if (ccData.getToOrder()) {
-            handleStrings.orderList()
-        }
-        return handleStrings.getStrings()
-    }
-
     private fun goToInputValidatorView() {
         val delay = PauseTransition(Duration.seconds(ccData.getMatrixViewTime()))
-        delay.onFinished = EventHandler { event: ActionEvent? -> replaceWith(CodeChartsInputValidatorView::class) }
+        delay.onFinished = EventHandler { replaceWith(CodeChartsInputValidatorView::class) }
         delay.play()
     }
 }

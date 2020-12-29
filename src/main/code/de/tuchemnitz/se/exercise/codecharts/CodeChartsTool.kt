@@ -6,21 +6,21 @@ import javafx.stage.Stage
 import tornadofx.App
 import tornadofx.importStylesheet
 
-class CodeChartsTool(/*private val configManager: ConfigManager*/) : App() {
+class CodeChartsTool/*(private val configManager: ConfigManager)*/ : App() {
     // val setting = configManager.settings()
     override val primaryView = CodeChartsDialogView::class
     companion object {
-        const val IMAGE_PATH = "/Fox.jpg"
-        const val GRID_WIDTH = 10
-        const val GRID_HEIGHT = 10
-        const val M_VIEWTIME = 5.0
+        const val IMAGE_PATH = "/Chameleon.jpg"
+        const val GRID_WIDTH = 50
+        const val GRID_HEIGHT = 50
+        const val M_VIEW_TIME = 5.0
         val allowedCharacters = StringCharacters(upperCase = true, lowerCase = true, numbers = true)
         val ccData = CodeChartsDataValues()
         val handleStrings = CodeChartsStringHandler()
     }
 
     override fun start(stage: Stage) {
-        super.start(stage)
+        stage.title = "CodeCharts"
         stage.isFullScreen = true
         stage.isResizable = false
         stage.fullScreenExitHint = ""
@@ -28,10 +28,7 @@ class CodeChartsTool(/*private val configManager: ConfigManager*/) : App() {
         // stage.minWidth = 1300.0
 
         editData()
-    }
-
-    override fun stop() {
-        super.stop()
+        super.start(stage)
     }
 
     init {
@@ -43,20 +40,16 @@ class CodeChartsTool(/*private val configManager: ConfigManager*/) : App() {
         ccData.setGridDimension(gridDimension)
         ccData.setAllowedChars(allowedCharacters)
         ccData.setImagePath(IMAGE_PATH)
-        ccData.setMatrixViewTime(M_VIEWTIME)
+        ccData.setMatrixViewTime(M_VIEW_TIME)
         ccData.setToOrder(true)
+
+        // generate needed number of Strings
+        val gridWidth = ccData.getGridDimension().x
+        val gridHeight = ccData.getGridDimension().y
+        val gridSize = (gridWidth * gridHeight).toInt()
+        handleStrings.setStrings(input = gridSize, allowedChars = ccData.getAllowedChars())
+        if (ccData.getToOrder()) {
+            handleStrings.orderList()
+        }
     }
-
-    private fun saveData() {}
 }
-
-data class Dimension(
-    val x: Double,
-    val y: Double,
-)
-
-data class StringCharacters(
-    val upperCase: Boolean,
-    val lowerCase: Boolean,
-    val numbers: Boolean
-)

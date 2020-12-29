@@ -1,11 +1,9 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
-import de.tuchemnitz.se.exercise.codecharts.Dimension
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.IMAGE_PATH
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.ccData
+import de.tuchemnitz.se.exercise.codecharts.Dimension
 import de.tuchemnitz.se.exercise.core.graphics.Style
 import javafx.animation.PauseTransition
-import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.scene.image.Image
 import javafx.util.Duration
@@ -16,8 +14,6 @@ import tornadofx.imageview
 import tornadofx.toProperty
 import tornadofx.vbox
 import java.awt.Toolkit
-import java.util.Timer
-import java.util.TimerTask
 
 class CodeChartsPictureView(
     pictureTitle: String = "",
@@ -32,9 +28,9 @@ class CodeChartsPictureView(
             val screenSize = Dimension(x = screenWidth, y = screenHeight)
 
             image = Image(ccData.getImagePath())
-            var scaledImageSize = scaleImageSize(image, screenSize)
-            var scaledImageWidth = scaledImageSize.x
-            var scaledImageHeight = scaledImageSize.y
+            val scaledImageSize = scaleImageSize(image, screenSize)
+            val scaledImageWidth = scaledImageSize.x
+            val scaledImageHeight = scaledImageSize.y
             fitWidthProperty().bind(scaledImageWidth.toProperty())
             fitHeightProperty().bind(scaledImageHeight.toProperty())
 
