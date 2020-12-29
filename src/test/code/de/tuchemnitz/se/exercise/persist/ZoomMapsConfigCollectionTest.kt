@@ -9,6 +9,7 @@ import assertk.assertions.isNull
 import com.mongodb.client.model.Filters
 import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
+import javafx.scene.input.KeyCode
 import org.bson.conversions.Bson
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
@@ -25,9 +26,9 @@ class ZoomMapsConfigCollectionTest {
 
     companion object {
         private val configs = setOf(
-            ZoomMapsConfig(zoomSpeed = 0.5F, keyBindings = setOf("u", "d", "l", "r")),
-            ZoomMapsConfig(zoomSpeed = 0.1F, keyBindings = setOf("a", "a", "a", "a")),
-            ZoomMapsConfig(zoomSpeed = 2.3F, keyBindings = setOf("c", "d", "e", "z"))
+            ZoomMapsConfig(zoomSpeed = 0.5F, zoomKey = KeyCode.A),
+            ZoomMapsConfig(zoomSpeed = 0.1F, zoomKey = KeyCode.CONTROL),
+            ZoomMapsConfig(zoomSpeed = 2.3F, zoomKey = KeyCode.SPACE)
         )
     }
 
