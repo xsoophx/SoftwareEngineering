@@ -16,6 +16,8 @@ import tornadofx.imageview
 import tornadofx.toProperty
 import tornadofx.vbox
 import java.awt.Toolkit
+import java.util.Timer
+import java.util.TimerTask
 
 class CodeChartsPictureView(
     pictureTitle: String = "",
@@ -69,7 +71,9 @@ class CodeChartsPictureView(
 
     private fun goToGridView() {
         val delay = PauseTransition(Duration.seconds(5.0))
-        delay.onFinished = EventHandler { replaceWith(CodeChartsGridView::class) }
+        delay.onFinished = EventHandler {
+            replaceWith(CodeChartsGridView::class)
+        }
         delay.play()
     }
 

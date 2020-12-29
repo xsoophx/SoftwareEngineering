@@ -44,6 +44,7 @@ class CodeChartsTool(/*private val configManager: ConfigManager*/) : App() {
         ccData.setAllowedChars(allowedCharacters)
         ccData.setImagePath(IMAGE_PATH)
         ccData.setMatrixViewTime(M_VIEWTIME)
+        ccData.setToOrder(true)
     }
 
     private fun saveData() {}

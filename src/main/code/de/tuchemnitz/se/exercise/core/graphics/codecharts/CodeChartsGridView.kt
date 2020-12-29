@@ -58,6 +58,9 @@ class CodeChartsGridView(
 
     private fun getStringList(gridSize: Int, allowedCharacters: StringCharacters): MutableList<String> {
         handleStrings.setStrings(input = gridSize, allowedChars = allowedCharacters)
+        if (ccData.getToOrder()) {
+            handleStrings.orderList()
+        }
         return handleStrings.getStrings()
     }
 

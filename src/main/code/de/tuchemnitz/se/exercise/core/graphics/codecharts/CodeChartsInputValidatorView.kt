@@ -40,15 +40,23 @@ class CodeChartsInputValidatorView(
                 }
                 button("Abschicken") {
                     action {
-                        if (handleStrings.getStrings().contains(inputString.text)) {
+                        val userInput = inputString.text
+                        if(userInput == "") {}
+                        else if (handleStrings.getStrings().contains(userInput)) {
+                            calculateEyePosition(userInput)
                             replaceWith(CodeChartsThankfulView::class)
-                        } else {
+                        }
+                        else {
                             replaceWith(CodeChartsRetryView::class)
                         }
                     }
                 }
             }
         }
+    }
+    private fun calculateEyePosition(userInput: String) {
+        val listPosition = handleStrings.getStrings().indexOf(userInput)
+        
     }
     fun printGitButton() {
     }
