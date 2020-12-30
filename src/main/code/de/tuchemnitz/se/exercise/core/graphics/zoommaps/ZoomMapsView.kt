@@ -1,118 +1,78 @@
 package de.tuchemnitz.se.exercise.core.graphics.zoommaps
 
 import com.sun.javafx.util.Utils.clamp
+import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import javafx.beans.property.ObjectProperty
+import javafx.beans.property.SimpleDoubleProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.geometry.Point2D
 import javafx.geometry.Rectangle2D
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
-import javafx.scene.input.KeyCombination
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import tornadofx.View
 import tornadofx.borderpane
 import tornadofx.center
-import tornadofx.imageview
 import tornadofx.getValue
+import tornadofx.imageview
 import tornadofx.setValue
-import kotlin.math.pow
-
-const val MIN_PIXELS = 10
 
 class ZoomMapsView : View("Zoom Maps") {
-    private val clickLocationProperty: ObjectProperty<Point2D> = SimpleObjectProperty()
-    var clickLocation: Point2D by clickLocationProperty
+    val clickLocationProperty: ObjectProperty<Point2D> = SimpleObjectProperty()
+    var clickLocation by clickLocationProperty
+
+    val scaleProperty = SimpleDoubleProperty(1.0)
+    var scale by scaleProperty
+
+    val zoomMapsConfig: ZoomMapsConfig by param()
 
     companion object {
-        val logger: Logger = LoggerFactory.getLogger("ZoomMapsView Logger")
-    }
-
-    private fun imageViewToImage(imageView: ImageView, imageViewCoordinates: Point2D): Point2D {
-        val xProportion = imageViewCoordinates.x / imageView.boundsInLocal.width
-        val yProportion = imageViewCoordinates.y / imageView.boundsInLocal.height
-
-        val viewport = imageView.viewport
-        return Point2D(
-            viewport.minX + xProportion * viewport.width,
-            viewport.minY + yProportion * viewport.height
-        )
+        val logger = LoggerFactory.getLogger("ZoomMapsView Logger")
     }
 
     override val root = borderpane {
         center {
-
             imageview {
-                image = Image("/cross.png")
-                fitWidthProperty().bind(this@borderpane.widthProperty())
+                image = Image("/christmas.jpg")
+                maxWidthProperty().bind(this@borderpane.widthProperty())
                 fitHeightProperty().bind(this@borderpane.heightProperty())
-                fitWidthProperty().addListener { _, _, value ->
-                    //reset(this, value.toDouble(), fitHeight)
-                    reset(this, image.width, image.height)
+                isPreserveRatio = true
+                isPickOnBounds = true
+                isSmooth = false // this does not disable anti-aliasing though :(
 
-                }
-                fitHeightProperty().addListener { _, _, value ->
-                    //  reset(this, fitWidth, value.toDouble())
-                    reset(this, image.width, image.height)
+                viewport = Rectangle2D(0.0, 0.0, image.width, image.height)
 
-                }
-                // reset(this, image.width, image.height)
-
-                setOnMousePressed { e ->
-                    clickLocation = Point2D(e.x, e.y)
-                    logger.info("Clicked at: $clickLocation")
+                setOnMouseClicked { e ->
+                    clickLocation = imageViewToImage(Point2D(e.x, e.y))
                 }
 
+                shortcut(zoomMapsConfig.zoomKey.getName()) {
+                    setOnScroll { e ->
+                        val mouseLocation = imageViewToImage(Point2D(e.x, e.y))
 
-                setOnScroll { e ->
-                    val delta = e.deltaY
-                    val scale = clamp(
-                        1.001.pow(delta),
-                        (MIN_PIXELS / viewport.width).coerceAtMost(MIN_PIXELS / viewport.height),
-                        (image.width / viewport.width).coerceAtLeast(image.height / viewport.height)
-                    )
-                    val mouseLocation = imageViewToImage(this, Point2D(e.x, e.y))
-                    val newWidth = image.width * scale
-                    val newHeight = image.height * scale
+                        val factor = if (e.deltaY > 0) 1.0 / 1.2 else 1.2
+                        val oldScale = scale
+                        scale = clamp(0.0625, oldScale * factor, 1.0)
+                        val actualFactor = scale / oldScale
 
-                    // of the imageview:
-                    val newMinX = clamp(
-                        mouseLocation.x - (mouseLocation.x - viewport.minX) * scale,
-                        0.0,
-                        width - newWidth
-                    )
-                    val newMinY: Double = clamp(
-                        mouseLocation.y - (mouseLocation.y - viewport.minY) * scale,
-                        0.0,
-                        height - newHeight
-                    )
+                        val minX = mouseLocation.x - (mouseLocation.x - viewport.minX) * actualFactor
+                        val minY = mouseLocation.y - (mouseLocation.y - viewport.minY) * actualFactor
+                        viewport = Rectangle2D(
+                            minX,
+                            minY,
+                            mouseLocation.x + (viewport.maxX - mouseLocation.x) * actualFactor - minX,
+                            mouseLocation.y + (viewport.maxY - mouseLocation.y) * actualFactor - minY
+                        )
 
-                    viewport = Rectangle2D(newMinX, newMinY, newWidth, newHeight)
-                    //this.fitHeight = newMinY - newMinY
-                    //this.fitWidth = newMinX - newMinX
-                    logger.info("viewport: $viewport")
-                    // image.width = newMinY - newMinY
-                    // image.height = newMinX - newMinX
-                }
-
-                shortcut(KeyCombination.valueOf("Ctrl+Y")) {
-
+                        logger.info("Scaling around: $mouseLocation, factor: $scale")
+                    }
                 }
             }
-
         }
     }
 
-    private fun reset(imageView: ImageView, width: Double, height: Double) {
-        val diffx = imageView.fitWidth - width
-        val diffy = imageView.fitHeight - height
-        imageView.viewport = Rectangle2D(
-            -diffx / 2, -diffy / 2, width + diffx / 2, height + diffy / 2
-        )
-        logger.info("${imageView.viewport}")
-    }
-
-    private fun doSomething() {
-        TODO("Not yet implemented")
-    }
+    private fun ImageView.imageViewToImage(position: Point2D) = Point2D(
+        viewport.minX + position.x * viewport.width / boundsInLocal.width,
+        viewport.minY + position.y * viewport.height / boundsInLocal.height
+    )
 }
