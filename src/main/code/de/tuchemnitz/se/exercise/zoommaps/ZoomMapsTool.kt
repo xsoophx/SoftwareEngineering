@@ -9,19 +9,7 @@ import javafx.stage.Stage
 import tornadofx.importStylesheet
 import tornadofx.set
 
-class ZoomMapsTool : AbstractTool<ZoomMapsView>(viewClass = ZoomMapsView::class) {
-
-    init {
-        scope.set(ZoomMapsConfig(zoomSpeed = 1f, zoomKey = KeyCode.C))
-    }
-
-    override fun start(stage: Stage) {
-        start(stage)
-        stage.isMaximized = true
-        stage.isResizable = true
-        stage.minHeight = 850.00
-        stage.minWidth = 1300.0
-    }
+class ZoomMapsTool : AbstractTool(primaryView = ZoomMapsView::class) {
 
     init {
         importStylesheet(Style::class)

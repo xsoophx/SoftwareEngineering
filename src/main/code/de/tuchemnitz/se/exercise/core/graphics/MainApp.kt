@@ -1,23 +1,19 @@
 package de.tuchemnitz.se.exercise.core.graphics
 
+import de.tuchemnitz.se.exercise.core.AbstractTool
 import de.tuchemnitz.se.exercise.core.graphics.zoommaps.ZoomMapsView
-import javafx.stage.Stage
-import tornadofx.App
+import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
+import javafx.scene.input.KeyCode
 import tornadofx.importStylesheet
+import tornadofx.set
 
-class MainApp : App() {
-    override val primaryView = ZoomMapsView::class
+class MainApp : AbstractTool(primaryView = ZoomMapsView::class) {
+    init {
+        scope.set(ZoomMapsConfig(zoomSpeed = 1.01f, zoomKey = KeyCode.C))
+    }
 
     companion object {
         const val MAIN_VIEW_TEMPLATE_PATH = "/views/MainViewTemplate.fxml"
-    }
-
-    override fun start(stage: Stage) {
-        super.start(stage)
-        stage.isMaximized = true
-        stage.isResizable = true
-        stage.minHeight = 850.0
-        stage.minWidth = 1300.0
     }
 
     init {

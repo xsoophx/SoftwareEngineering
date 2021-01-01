@@ -9,6 +9,7 @@ import javafx.geometry.Point2D
 import javafx.geometry.Rectangle2D
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import tornadofx.View
 import tornadofx.borderpane
@@ -24,16 +25,16 @@ class ZoomMapsView : View("Zoom Maps") {
     val scaleProperty = SimpleDoubleProperty(1.0)
     var scale by scaleProperty
 
-    val zoomMapsConfig: ZoomMapsConfig by param()
+    val zoomMapsConfig: ZoomMapsConfig by inject()
 
     companion object {
-        val logger = LoggerFactory.getLogger("ZoomMapsView Logger")
+        val logger: Logger = LoggerFactory.getLogger("ZoomMapsView Logger")
     }
 
     override val root = borderpane {
         center {
             imageview {
-                image = Image("/christmas.jpg")
+                image = Image("/octopus.png")
                 maxWidthProperty().bind(this@borderpane.widthProperty())
                 fitHeightProperty().bind(this@borderpane.heightProperty())
                 isPreserveRatio = true
@@ -41,12 +42,13 @@ class ZoomMapsView : View("Zoom Maps") {
                 isSmooth = false // this does not disable anti-aliasing though :(
 
                 viewport = Rectangle2D(0.0, 0.0, image.width, image.height)
+                logger.info("$zoomMapsConfig")
 
                 setOnMouseClicked { e ->
                     clickLocation = imageViewToImage(Point2D(e.x, e.y))
                 }
 
-                shortcut(zoomMapsConfig.zoomKey.getName()) {
+                shortcut(zoomMapsConfig.zoomKey.char) {
                     setOnScroll { e ->
                         val mouseLocation = imageViewToImage(Point2D(e.x, e.y))
 

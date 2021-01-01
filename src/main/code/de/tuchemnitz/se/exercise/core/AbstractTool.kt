@@ -5,7 +5,16 @@ import tornadofx.App
 import tornadofx.View
 import kotlin.reflect.KClass
 
-abstract class AbstractTool<VIEW : View>(viewClass: KClass<VIEW>) : App(primaryView = viewClass) {
+abstract class AbstractTool(primaryView: KClass<out View>) : App(primaryView = primaryView) {
 
-    abstract override fun start(stage: Stage)
+    open fun setup(stage: Stage) {
+        stage.isResizable = true
+        stage.minHeight = 850.0
+        stage.minWidth = 1300.0
+    }
+
+    override fun start(stage: Stage) {
+        super.start(stage)
+        setup(stage)
+    }
 }
