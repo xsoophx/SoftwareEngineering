@@ -47,12 +47,15 @@ class CodeChartsGridView/*(
                     }
                 }
             }
-            goToInputValidatorView()
         }
 
     private fun goToInputValidatorView() {
         val delay = PauseTransition(Duration.seconds(ccData.getMatrixViewTime()))
         delay.onFinished = EventHandler { replaceWith(CodeChartsInputValidatorView::class) }
         delay.play()
+    }
+
+    override fun onDock() {
+        goToInputValidatorView()
     }
 }

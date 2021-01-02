@@ -35,7 +35,6 @@ class CodeChartsPictureView(
             fitHeightProperty().bind(scaledImageHeight.toProperty())
 
             setDataValues(image.width, image.height, scaledImageSize, screenSize)
-            goToGridView()
         }
     }
 
@@ -77,5 +76,9 @@ class CodeChartsPictureView(
         ccData.setOriginalImageSize(Dimension(x = originalImageWidth, y = originalImageHeight))
         ccData.setScaledImageSize(scaledImageSize)
         ccData.setScreenSize(screenSize)
+    }
+
+    override fun onDock() {
+        goToGridView()
     }
 }
