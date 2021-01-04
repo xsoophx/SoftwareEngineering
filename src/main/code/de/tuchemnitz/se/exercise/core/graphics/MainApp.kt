@@ -1,6 +1,5 @@
 package de.tuchemnitz.se.exercise.core.graphics
 
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool
 import de.tuchemnitz.se.exercise.core.AbstractTool
 import de.tuchemnitz.se.exercise.core.graphics.codecharts.CodeChartsDialogView
 import tornadofx.importStylesheet

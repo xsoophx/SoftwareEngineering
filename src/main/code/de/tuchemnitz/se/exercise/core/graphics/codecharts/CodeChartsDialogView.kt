@@ -1,10 +1,7 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool
-import de.tuchemnitz.se.exercise.core.AbstractTool
 import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
-import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import javafx.geometry.Pos
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox

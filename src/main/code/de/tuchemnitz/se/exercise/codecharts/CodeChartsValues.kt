@@ -1,7 +1,6 @@
 package de.tuchemnitz.se.exercise.codecharts
 
-class CodeChartsData {
-
+class CodeChartsValues {
     // picture
     private lateinit var imagePath: String
     private lateinit var originalImageSize: Dimension
@@ -118,7 +117,7 @@ data class Dimension(
 data class StringCharacters(
     val upperCase: Boolean,
     val lowerCase: Boolean,
-    val numbers: Boolean
+    val numbers: Boolean,
 )
 
 data class Interval2D(

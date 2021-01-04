@@ -20,7 +20,7 @@ class CodeChartsTool : AbstractTool(primaryView = CodeChartsDialogView::class) {
         const val GRID_HEIGHT = 50
         const val M_VIEW_TIME = 10.0
         val allowedCharacters = StringCharacters(upperCase = true, lowerCase = true, numbers = true)
-        val codeChartsData = CodeChartsData()
+        val codeChartsData = CodeChartsValues()
         val codeChartsStringHandler = CodeChartsStringHandler()
     }
 
