@@ -1,21 +1,25 @@
 package de.tuchemnitz.se.exercise.persist
 
 import com.mongodb.client.FindIterable
-import com.mongodb.client.MongoCollection
 import org.bson.BsonDocument
 import org.bson.conversions.Bson
+import org.litote.kmongo.Id
 import org.litote.kmongo.findOneById
+import tornadofx.Controller
+import kotlin.reflect.KClass
 
 abstract class AbstractCollection<T : IPersist>(
-    private val collection: MongoCollection<T>
-) {
+    clazz: KClass<T>
+) : Controller() {
+    private val database: Database by inject()
+    protected val collection = database.getCollection(clazz)
 
-    open fun find(filter: Bson): FindIterable<T> {
+    open fun find(filter: Bson = BsonDocument()): FindIterable<T> {
         return collection.find(filter)
     }
 
-    open fun findOneById(filter: Any): T? {
-        return collection.findOneById(filter)
+    open fun findOneById(id: Id<T>): T? {
+        return collection.findOneById(id)
     }
 
     open fun saveOne(data: T) {
