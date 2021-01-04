@@ -42,15 +42,7 @@ class CodeChartsInputValidatorView/*(
                 }
                 button("Abschicken") {
                     action {
-                        val userInput = inputString.text
-                        if (userInput == "") {} else if (handleStrings.getStrings().contains(userInput)) {
-                            calculateEyePosition(userInput)
-                            replaceWith(CodeChartsThankfulView::class)
-                            inputString.text = ""
-                        } else {
-                            replaceWith(CodeChartsRetryView::class)
-                            inputString.text = ""
-                        }
+                        validateInput()
                     }
                 }
             }
@@ -72,6 +64,17 @@ class CodeChartsInputValidatorView/*(
 
         println("${codeChartsData.getEyePos().xMin}, ${codeChartsData.getEyePos().xMax}, ${codeChartsData.getEyePos().yMin}, ${codeChartsData.getEyePos().yMax}")
         println("${codeChartsData.getScaledImageSize().x}, ${codeChartsData.getScaledImageSize().y}")
+    }
+    private fun validateInput() {
+        val userInput = inputString.text
+        if (userInput == "") {} else if (handleStrings.getStrings().contains(userInput)) {
+            calculateEyePosition(userInput)
+            replaceWith(CodeChartsThankfulView::class)
+            inputString.text = ""
+        } else {
+            replaceWith(CodeChartsRetryView::class)
+            inputString.text = ""
+        }
     }
     fun printGitButton() {
     }
