@@ -16,10 +16,10 @@ import tornadofx.rectangle
 import tornadofx.stackpane
 
 class CodeChartsGridView : View("SoftwarePraktikum - CodeCharts Grid") {
-    private val gridWidth = codeChartsData.getGridDimension().x
-    private val gridHeight = codeChartsData.getGridDimension().y
+    private val gridWidth = codeChartsData.gridDimension.x
+    private val gridHeight = codeChartsData.gridDimension.y
     private val stringList = codeChartsStringHandler.getStrings()
-    private val scaledImageSize = codeChartsData.getScaledImageSize()
+    private val scaledImageSize = codeChartsData.scaledImageSize
 
     override val root =
         hbox {
@@ -32,8 +32,8 @@ class CodeChartsGridView : View("SoftwarePraktikum - CodeCharts Grid") {
                 verticalCellSpacing = 0.0
                 maxCellsInRow = gridWidth.toInt()
                 maxRows = gridHeight.toInt()
-                minWidth = codeChartsData.getScaledImageSize().x + 2.0
-                maxWidth = codeChartsData.getScaledImageSize().x + 2.0
+                minWidth = codeChartsData.scaledImageSize.x + 2.0
+                maxWidth = codeChartsData.scaledImageSize.x + 2.0
                 cellCache {
                     stackpane {
                         rectangle(width = cellWidth - 0.5, height = cellHeight - 0.5) {
@@ -47,7 +47,7 @@ class CodeChartsGridView : View("SoftwarePraktikum - CodeCharts Grid") {
         }
 
     private fun goToInputValidatorView() {
-        val delay = PauseTransition(Duration.seconds(codeChartsData.getMatrixViewTime()))
+        val delay = PauseTransition(Duration.seconds(codeChartsData.matrixViewTime))
         delay.onFinished = EventHandler { replaceWith(CodeChartsInputValidatorView::class) }
         delay.play()
     }

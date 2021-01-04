@@ -1,5 +1,6 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsConfigMapper
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.codeChartsStringHandler
 import de.tuchemnitz.se.exercise.codecharts.Interval2D
@@ -50,27 +51,27 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
 
     private fun calculateEyePosition(userInput: String) {
         val listPosition = codeChartsStringHandler.getStrings().indexOf(userInput)
-        val xFieldNumber = listPosition % (codeChartsData.getGridDimension().x)
-        val yFieldNumber = (listPosition / (codeChartsData.getGridDimension().y)).toInt()
-        val cellWidth = codeChartsData.getScaledImageSize().x / codeChartsData.getGridDimension().x
-        val cellHeight = codeChartsData.getScaledImageSize().y / codeChartsData.getGridDimension().y
+        val xFieldNumber = listPosition % (codeChartsData.gridDimension.x)
+        val yFieldNumber = (listPosition / (codeChartsData.gridDimension.y).toInt())
+        val cellWidth = codeChartsData.scaledImageSize.y / codeChartsData.gridDimension.x
+        val cellHeight = codeChartsData.scaledImageSize.y / codeChartsData.gridDimension.y
         val xMinPos = xFieldNumber * cellWidth
         val yMinPos = yFieldNumber * cellHeight
         val xMaxPos = xMinPos + cellWidth
         val yMaxPos = yMinPos + cellHeight
 
         val eyePos = Interval2D(xMin = xMinPos, xMax = xMaxPos, yMin = yMinPos, yMax = yMaxPos)
-        codeChartsData.setEyePos(eyePos)
+        codeChartsData.eyePos = eyePos
 
-        println("${codeChartsData.getEyePos().xMin}, ${codeChartsData.getEyePos().xMax}, ${codeChartsData.getEyePos().yMin}, ${codeChartsData.getEyePos().yMax}")
-        println("${codeChartsData.getScaledImageSize().x}, ${codeChartsData.getScaledImageSize().y}")
+        println("${codeChartsData.eyePos.xMin}, ${codeChartsData.eyePos.xMax}, ${codeChartsData.eyePos.yMin}, ${codeChartsData.eyePos.yMax}")
+        println("${codeChartsData.scaledImageSize.x}, ${codeChartsData.scaledImageSize.y}")
     }
 
     private fun validateInput() {
         val userInput = inputString.text
-        if (userInput == "") {
-        } else if (codeChartsStringHandler.getStrings().contains(userInput)) {
+        if (codeChartsStringHandler.getStrings().contains(userInput)) {
             calculateEyePosition(userInput)
+            CodeChartsConfigMapper(codeChartsData).saveCodeChartsDatabaseConfig()
             replaceWith(CodeChartsThankfulView::class)
             inputString.text = ""
         } else {

@@ -7,20 +7,35 @@ import de.tuchemnitz.se.exercise.persist.Database
 import javafx.stage.Stage
 import tornadofx.set
 
+const val IMAGE_PATH = "/Chameleon.jpg"
+const val GRID_WIDTH = 50
+const val GRID_HEIGHT = 50
+const val MATRIX_VIEW_TIME = 10.0
+const val PICTURE_VIEW_TIME = 0.0
+
 class CodeChartsTool : AbstractTool(primaryView = CodeChartsDialogView::class) {
     private val db = Database("prod")
     private val cfgMan = ConfigManager(database = db.database)
+
     init {
         scope.set(db, cfgMan)
     }
 
     companion object {
-        const val IMAGE_PATH = "/Chameleon.jpg"
-        const val GRID_WIDTH = 50
-        const val GRID_HEIGHT = 50
-        const val M_VIEW_TIME = 10.0
-        val allowedCharacters = StringCharacters(upperCase = true, lowerCase = true, numbers = true)
-        val codeChartsData = CodeChartsValues()
+        private val allowedCharacters = StringCharacters(upperCase = true, lowerCase = true, numbers = true)
+        private val gridDimension = Dimension(x = GRID_WIDTH.toDouble(), y = GRID_HEIGHT.toDouble())
+        val codeChartsData = CodeChartsValues(
+            gridDimension = gridDimension,
+            allowedChars = allowedCharacters,
+            imagePath = IMAGE_PATH,
+            matrixViewTime = MATRIX_VIEW_TIME,
+            pictureViewTime = PICTURE_VIEW_TIME,
+            sorted = true,
+            eyePos = Interval2D(0.0, 0.0, 0.0, 0.0),
+            originalImageSize = Dimension(0.0, 0.0),
+            scaledImageSize = Dimension(0.0, 0.0),
+            screenSize = Dimension(0.0, 0.0)
+        )
         val codeChartsStringHandler = CodeChartsStringHandler()
     }
 
@@ -34,19 +49,13 @@ class CodeChartsTool : AbstractTool(primaryView = CodeChartsDialogView::class) {
     }
 
     private fun codeChartsDataSetup() {
-        val gridDimension = Dimension(x = GRID_WIDTH.toDouble(), y = GRID_HEIGHT.toDouble())
-        codeChartsData.setGridDimension(gridDimension)
-        codeChartsData.setAllowedChars(allowedCharacters)
-        codeChartsData.setImagePath(IMAGE_PATH)
-        codeChartsData.setMatrixViewTime(M_VIEW_TIME)
-        codeChartsData.setToOrder(true)
 
         // generate needed number of Strings
-        val gridWidth = codeChartsData.getGridDimension().x
-        val gridHeight = codeChartsData.getGridDimension().y
+        val gridWidth = codeChartsData.gridDimension.x
+        val gridHeight = codeChartsData.gridDimension.y
         val gridSize = (gridWidth * gridHeight).toInt()
-        codeChartsStringHandler.setStrings(input = gridSize, allowedChars = codeChartsData.getAllowedChars())
-        if (codeChartsData.getToOrder()) {
+        codeChartsStringHandler.setStrings(input = gridSize, allowedChars = codeChartsData.allowedChars)
+        if (codeChartsData.sorted) {
             codeChartsStringHandler.orderList()
         }
     }

@@ -27,7 +27,7 @@ class CodeChartsPictureView(
             val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
             val screenSize = Dimension(x = screenWidth, y = screenHeight)
 
-            image = Image(codeChartsData.getImagePath())
+            image = Image(codeChartsData.imagePath)
             val scaledImageSize = scaleImageSize(image, screenSize)
             val scaledImageWidth = scaledImageSize.x
             val scaledImageHeight = scaledImageSize.y
@@ -72,10 +72,15 @@ class CodeChartsPictureView(
         delay.play()
     }
 
-    private fun setDataValues(originalImageWidth: Double, originalImageHeight: Double, scaledImageSize: Dimension, screenSize: Dimension) {
-        codeChartsData.setOriginalImageSize(Dimension(x = originalImageWidth, y = originalImageHeight))
-        codeChartsData.setScaledImageSize(scaledImageSize)
-        codeChartsData.setScreenSize(screenSize)
+    private fun setDataValues(
+        originalImageWidth: Double,
+        originalImageHeight: Double,
+        scaledImageSize: Dimension,
+        screenSize: Dimension
+    ) {
+        codeChartsData.originalImageSize = (Dimension(x = originalImageWidth, y = originalImageHeight))
+        codeChartsData.scaledImageSize = scaledImageSize
+        codeChartsData.screenSize = screenSize
     }
 
     override fun onDock() {
