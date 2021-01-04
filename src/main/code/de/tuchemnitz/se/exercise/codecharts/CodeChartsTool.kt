@@ -1,14 +1,18 @@
 package de.tuchemnitz.se.exercise.codecharts
 
+import de.tuchemnitz.se.exercise.core.AbstractTool
+import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
 import de.tuchemnitz.se.exercise.core.graphics.Style
 import de.tuchemnitz.se.exercise.core.graphics.codecharts.CodeChartsDialogView
+import de.tuchemnitz.se.exercise.core.graphics.codecharts.CodeChartsGridView
 import javafx.stage.Stage
 import tornadofx.App
 import tornadofx.importStylesheet
 
-class CodeChartsTool/*(private val configManager: ConfigManager)*/ : App() {
-    // val setting = configManager.settings()
-    override val primaryView = CodeChartsDialogView::class
+class CodeChartsTool(private val configManager: ConfigManager) :
+    AbstractTool(primaryView = CodeChartsDialogView::class) {
+    val recentSettings = configManager.getConfig(this)
+
     companion object {
         const val IMAGE_PATH = "/Chameleon.jpg"
         const val GRID_WIDTH = 50

@@ -1,6 +1,7 @@
 package de.tuchemnitz.se.exercise.core.configmanager
 
 import com.mongodb.client.MongoDatabase
+import de.tuchemnitz.se.exercise.core.AbstractTool
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
 import de.tuchemnitz.se.exercise.persist.configs.IConfig
@@ -70,7 +71,7 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) {
         }
     }
 
-    fun getConfig(id: Int, filter: Bson) {
+    fun getConfig(tool: AbstractTool) {
     }
 
     fun saveConfig(config: IConfig) {

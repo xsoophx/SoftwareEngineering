@@ -19,13 +19,13 @@ import tornadofx.imageview
 import tornadofx.setValue
 
 class ZoomMapsView : View("Zoom Maps") {
-    val clickLocationProperty: ObjectProperty<Point2D> = SimpleObjectProperty()
-    var clickLocation by clickLocationProperty
+    private val clickLocationProperty: ObjectProperty<Point2D> = SimpleObjectProperty()
+    var clickLocation: Point2D by clickLocationProperty
 
-    val scaleProperty = SimpleDoubleProperty(1.0)
+    private val scaleProperty = SimpleDoubleProperty(1.0)
     var scale by scaleProperty
 
-    val zoomMapsConfig: ZoomMapsConfig by inject()
+    private val zoomMapsConfig: ZoomMapsConfig by inject()
 
     companion object {
         val logger: Logger = LoggerFactory.getLogger("ZoomMapsView Logger")
