@@ -1,7 +1,7 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.codeChartsData
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.handleStrings
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.codeChartsStringHandler
 import de.tuchemnitz.se.exercise.codecharts.Interval2D
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
 import javafx.geometry.Pos
@@ -20,13 +20,12 @@ import tornadofx.text
 import tornadofx.textfield
 import tornadofx.vbox
 
-class CodeChartsInputValidatorView/*(
-    private val cssRule: CssRule = Style.ccInputValidatorWrapper
-)*/ : View("CodeCharts - Eingabe") {
+class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
 
     private val contentBox: VBox by fxid("content")
     private var inputString: TextField by singleAssign()
+
     init {
         with(contentBox) {
             vbox {
@@ -48,8 +47,9 @@ class CodeChartsInputValidatorView/*(
             }
         }
     }
+
     private fun calculateEyePosition(userInput: String) {
-        val listPosition = handleStrings.getStrings().indexOf(userInput)
+        val listPosition = codeChartsStringHandler.getStrings().indexOf(userInput)
         val xFieldNumber = listPosition % (codeChartsData.getGridDimension().x)
         val yFieldNumber = (listPosition / (codeChartsData.getGridDimension().y)).toInt()
         val cellWidth = codeChartsData.getScaledImageSize().x / codeChartsData.getGridDimension().x
@@ -65,9 +65,11 @@ class CodeChartsInputValidatorView/*(
         println("${codeChartsData.getEyePos().xMin}, ${codeChartsData.getEyePos().xMax}, ${codeChartsData.getEyePos().yMin}, ${codeChartsData.getEyePos().yMax}")
         println("${codeChartsData.getScaledImageSize().x}, ${codeChartsData.getScaledImageSize().y}")
     }
+
     private fun validateInput() {
         val userInput = inputString.text
-        if (userInput == "") {} else if (handleStrings.getStrings().contains(userInput)) {
+        if (userInput == "") {
+        } else if (codeChartsStringHandler.getStrings().contains(userInput)) {
             calculateEyePosition(userInput)
             replaceWith(CodeChartsThankfulView::class)
             inputString.text = ""
@@ -76,6 +78,7 @@ class CodeChartsInputValidatorView/*(
             inputString.text = ""
         }
     }
+
     fun printGitButton() {
     }
 }

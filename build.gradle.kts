@@ -10,20 +10,19 @@ plugins {
     id("com.diffplug.spotless") version "5.8.2"
 }
 
-group = "de.tu_chemnitz"
+group = "de.tuchemnitz"
 version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
     maven {
-        // url = uri("https://plugins.gradle.org/m2/")
-        url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+        url = uri("https://plugins.gradle.org/m2/")
     }
 }
 
 javafx {
     version = "15.0.1"
-    modules = listOf("javafx.controls", "javafx.graphics", "javafx.fxml")
+    modules = listOf("javafx.controls", "javafx.graphics", "javafx.fxml", "javafx.media")
 }
 
 object Version {
@@ -36,7 +35,7 @@ object Version {
     const val SLF4J = "1.7.30"
     const val KMONGO = "4.2.3"
     const val ASSERTK = "0.23"
-    const val TORNADOFX = "2.0.0-SNAPSHOT"
+    const val TORNADOFX = "1.7.20"
     const val SPOTLESS = "5.8.2"
     const val KTLINT = "9.4.1"
     const val TESTFX = "4.0.16-alpha"
@@ -98,7 +97,7 @@ tasks {
 
     withType<KotlinCompile> {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = "11"
             freeCompilerArgs = listOf(
                 "-Xjvm-default=enable"
             )

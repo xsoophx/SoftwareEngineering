@@ -16,9 +16,7 @@ import tornadofx.style
 import tornadofx.text
 import tornadofx.vbox
 
-class CodeChartsThankfulView/*(
-    private val cssRule: CssRule = Style.ccThankfulWrapper
-)*/ : View("Wir sagen DANKE!") {
+class CodeChartsThankfulView : View("Wir sagen DANKE!") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
 
     private val contentBox: VBox by fxid("content")
@@ -63,6 +61,7 @@ class CodeChartsThankfulView/*(
             }
         }
     }
+
     fun printGitButton() {
     }
 }

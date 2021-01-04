@@ -5,15 +5,15 @@ import kotlin.math.ln
 import kotlin.math.roundToInt
 
 class CodeChartsStringHandler {
-    private lateinit var generatedStrings: MutableList<String>
+    private lateinit var codeChartsGridStrings: MutableList<String>
 
     fun getStrings(): MutableList<String> {
-        return this.generatedStrings
+        return this.codeChartsGridStrings
     }
 
     fun setStrings(input: Int, allowedChars: StringCharacters) {
         val generatedList = generateStringList(input, allowedChars)
-        this.generatedStrings = generatedList
+        this.codeChartsGridStrings = generatedList
     }
 
     /**
@@ -79,6 +79,6 @@ class CodeChartsStringHandler {
     }
 
     fun orderList() {
-        this.generatedStrings = ((this.generatedStrings).sorted()).toMutableList()
+        this.codeChartsGridStrings = ((this.codeChartsGridStrings).sorted()).toMutableList()
     }
 }

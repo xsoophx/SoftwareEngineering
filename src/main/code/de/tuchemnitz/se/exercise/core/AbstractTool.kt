@@ -11,6 +11,7 @@ abstract class AbstractTool(primaryView: KClass<out View>) : App(primaryView = p
         stage.isResizable = true
         stage.minHeight = 850.0
         stage.minWidth = 1300.0
+        stage.fullScreenExitHint = ""
     }
 
     override fun start(stage: Stage) {

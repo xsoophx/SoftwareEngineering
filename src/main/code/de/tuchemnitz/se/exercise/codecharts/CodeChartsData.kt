@@ -1,6 +1,6 @@
 package de.tuchemnitz.se.exercise.codecharts
 
-class CodeChartsDataValues {
+class CodeChartsData {
 
     // picture
     private lateinit var imagePath: String

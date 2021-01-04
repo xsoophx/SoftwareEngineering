@@ -1,6 +1,8 @@
 package de.tuchemnitz.se.exercise.core.configmanager
 
 import com.mongodb.client.MongoDatabase
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool
+import de.tuchemnitz.se.exercise.core.AbstractTool
 import de.tuchemnitz.se.exercise.persist.AbstractCollection
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
@@ -12,17 +14,17 @@ import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigColle
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.bson.BsonDocument
-import org.bson.conversions.Bson
 import org.litote.kmongo.descending
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import tornadofx.Controller
+import tornadofx.ScopedInstance
 import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 
-class ConfigManager(var configFilePath: String = "", database: MongoDatabase) : Controller() {
+class ConfigManager(var configFilePath: String = "", database: MongoDatabase) : Controller(), ScopedInstance {
 
     data class ConfigCollections(
         val codeChartsConfigCollection: CodeChartsConfigCollection,
@@ -77,7 +79,11 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) : 
         }
     }
 
-    fun getConfig(id: Int, filter: Bson) {
+    fun getConfig(tool: AbstractTool) {
+        when (tool) {
+            is CodeChartsTool -> decodeConfig()?.codeChartsConfig
+            else -> logger.error("Couldn't fetch this Config type.")
+        }
     }
 
     fun saveConfig(config: IConfig) {

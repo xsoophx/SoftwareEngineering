@@ -2,16 +2,17 @@ package de.tuchemnitz.se.exercise.codecharts
 
 import de.tuchemnitz.se.exercise.core.AbstractTool
 import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
-import de.tuchemnitz.se.exercise.core.graphics.Style
 import de.tuchemnitz.se.exercise.core.graphics.codecharts.CodeChartsDialogView
-import de.tuchemnitz.se.exercise.core.graphics.codecharts.CodeChartsGridView
+import de.tuchemnitz.se.exercise.persist.Database
 import javafx.stage.Stage
-import tornadofx.App
-import tornadofx.importStylesheet
+import tornadofx.set
 
-class CodeChartsTool(private val configManager: ConfigManager) :
-    AbstractTool(primaryView = CodeChartsDialogView::class) {
-    val recentSettings = configManager.getConfig(this)
+class CodeChartsTool : AbstractTool(primaryView = CodeChartsDialogView::class) {
+    private val db = Database("prod")
+    private val cfgMan = ConfigManager(database = db.database)
+    init {
+        scope.set(db, cfgMan)
+    }
 
     companion object {
         const val IMAGE_PATH = "/Chameleon.jpg"
@@ -19,27 +20,20 @@ class CodeChartsTool(private val configManager: ConfigManager) :
         const val GRID_HEIGHT = 50
         const val M_VIEW_TIME = 10.0
         val allowedCharacters = StringCharacters(upperCase = true, lowerCase = true, numbers = true)
-        val codeChartsData = CodeChartsDataValues()
-        val handleStrings = CodeChartsStringHandler()
+        val codeChartsData = CodeChartsData()
+        val codeChartsStringHandler = CodeChartsStringHandler()
     }
 
     override fun start(stage: Stage) {
+        codeChartsDataSetup()
         stage.title = "CodeCharts"
         stage.isFullScreen = true
         stage.isResizable = false
         stage.fullScreenExitHint = ""
-        // stage.minHeight = 850.0
-        // stage.minWidth = 1300.0
-
-        editData()
         super.start(stage)
     }
 
-    init {
-        importStylesheet(Style::class)
-    }
-
-    private fun editData() {
+    private fun codeChartsDataSetup() {
         val gridDimension = Dimension(x = GRID_WIDTH.toDouble(), y = GRID_HEIGHT.toDouble())
         codeChartsData.setGridDimension(gridDimension)
         codeChartsData.setAllowedChars(allowedCharacters)
@@ -51,9 +45,9 @@ class CodeChartsTool(private val configManager: ConfigManager) :
         val gridWidth = codeChartsData.getGridDimension().x
         val gridHeight = codeChartsData.getGridDimension().y
         val gridSize = (gridWidth * gridHeight).toInt()
-        handleStrings.setStrings(input = gridSize, allowedChars = codeChartsData.getAllowedChars())
+        codeChartsStringHandler.setStrings(input = gridSize, allowedChars = codeChartsData.getAllowedChars())
         if (codeChartsData.getToOrder()) {
-            handleStrings.orderList()
+            codeChartsStringHandler.orderList()
         }
     }
 }

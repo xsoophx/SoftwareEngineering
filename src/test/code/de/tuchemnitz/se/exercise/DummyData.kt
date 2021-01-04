@@ -6,6 +6,7 @@ import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
 import de.tuchemnitz.se.exercise.persist.now
+import javafx.scene.input.KeyCode
 import org.litote.kmongo.KMongo
 import tornadofx.Controller
 
@@ -49,17 +50,17 @@ object DummyData : Controller() {
     val zoomMapsConfigs = setOf(
         ZoomMapsConfig(
             zoomSpeed = 1F,
-            keyBindings = setOf("a", "b", "c", "d"),
+            zoomKey = KeyCode.C,
             savedAt = baseTime.plusSeconds(1L)
         ),
         ZoomMapsConfig(
             zoomSpeed = 2F,
-            keyBindings = setOf("d", "e", "f", "g"),
+            zoomKey = KeyCode.A,
             savedAt = baseTime.plusSeconds(2L)
         ),
         ZoomMapsConfig(
             zoomSpeed = 10F,
-            keyBindings = setOf("v", "w", "x", "y"),
+            zoomKey = KeyCode.B,
             savedAt = baseTime.plusSeconds(3L)
         )
     )
