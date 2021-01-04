@@ -13,9 +13,9 @@ class CodeChartsTool/*(private val configManager: ConfigManager)*/ : App() {
         const val IMAGE_PATH = "/Chameleon.jpg"
         const val GRID_WIDTH = 50
         const val GRID_HEIGHT = 50
-        const val M_VIEW_TIME = 5.0
+        const val M_VIEW_TIME = 10.0
         val allowedCharacters = StringCharacters(upperCase = true, lowerCase = true, numbers = true)
-        val ccData = CodeChartsDataValues()
+        val codeChartsData = CodeChartsDataValues()
         val handleStrings = CodeChartsStringHandler()
     }
 
@@ -37,18 +37,18 @@ class CodeChartsTool/*(private val configManager: ConfigManager)*/ : App() {
 
     private fun editData() {
         val gridDimension = Dimension(x = GRID_WIDTH.toDouble(), y = GRID_HEIGHT.toDouble())
-        ccData.setGridDimension(gridDimension)
-        ccData.setAllowedChars(allowedCharacters)
-        ccData.setImagePath(IMAGE_PATH)
-        ccData.setMatrixViewTime(M_VIEW_TIME)
-        ccData.setToOrder(true)
+        codeChartsData.setGridDimension(gridDimension)
+        codeChartsData.setAllowedChars(allowedCharacters)
+        codeChartsData.setImagePath(IMAGE_PATH)
+        codeChartsData.setMatrixViewTime(M_VIEW_TIME)
+        codeChartsData.setToOrder(true)
 
         // generate needed number of Strings
-        val gridWidth = ccData.getGridDimension().x
-        val gridHeight = ccData.getGridDimension().y
+        val gridWidth = codeChartsData.getGridDimension().x
+        val gridHeight = codeChartsData.getGridDimension().y
         val gridSize = (gridWidth * gridHeight).toInt()
-        handleStrings.setStrings(input = gridSize, allowedChars = ccData.getAllowedChars())
-        if (ccData.getToOrder()) {
+        handleStrings.setStrings(input = gridSize, allowedChars = codeChartsData.getAllowedChars())
+        if (codeChartsData.getToOrder()) {
             handleStrings.orderList()
         }
     }

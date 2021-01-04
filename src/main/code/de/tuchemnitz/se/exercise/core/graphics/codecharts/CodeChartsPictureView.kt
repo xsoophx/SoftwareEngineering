@@ -1,6 +1,6 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.ccData
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.Dimension
 import de.tuchemnitz.se.exercise.core.graphics.Style
 import javafx.animation.PauseTransition
@@ -27,7 +27,7 @@ class CodeChartsPictureView(
             val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
             val screenSize = Dimension(x = screenWidth, y = screenHeight)
 
-            image = Image(ccData.getImagePath())
+            image = Image(codeChartsData.getImagePath())
             val scaledImageSize = scaleImageSize(image, screenSize)
             val scaledImageWidth = scaledImageSize.x
             val scaledImageHeight = scaledImageSize.y
@@ -73,9 +73,9 @@ class CodeChartsPictureView(
     }
 
     private fun setDataValues(originalImageWidth: Double, originalImageHeight: Double, scaledImageSize: Dimension, screenSize: Dimension) {
-        ccData.setOriginalImageSize(Dimension(x = originalImageWidth, y = originalImageHeight))
-        ccData.setScaledImageSize(scaledImageSize)
-        ccData.setScreenSize(screenSize)
+        codeChartsData.setOriginalImageSize(Dimension(x = originalImageWidth, y = originalImageHeight))
+        codeChartsData.setScaledImageSize(scaledImageSize)
+        codeChartsData.setScreenSize(screenSize)
     }
 
     override fun onDock() {

@@ -1,6 +1,6 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.ccData
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.handleStrings
 import de.tuchemnitz.se.exercise.codecharts.Interval2D
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
@@ -46,8 +46,10 @@ class CodeChartsInputValidatorView/*(
                         if (userInput == "") {} else if (handleStrings.getStrings().contains(userInput)) {
                             calculateEyePosition(userInput)
                             replaceWith(CodeChartsThankfulView::class)
+                            inputString.text = ""
                         } else {
                             replaceWith(CodeChartsRetryView::class)
+                            inputString.text = ""
                         }
                     }
                 }
@@ -56,20 +58,20 @@ class CodeChartsInputValidatorView/*(
     }
     private fun calculateEyePosition(userInput: String) {
         val listPosition = handleStrings.getStrings().indexOf(userInput)
-        val xFieldNumber = listPosition % (ccData.getGridDimension().x)
-        val yFieldNumber = (listPosition / (ccData.getGridDimension().y)).toInt()
-        val cellWidth = ccData.getScaledImageSize().x / ccData.getGridDimension().x
-        val cellHeight = ccData.getScaledImageSize().y / ccData.getGridDimension().y
+        val xFieldNumber = listPosition % (codeChartsData.getGridDimension().x)
+        val yFieldNumber = (listPosition / (codeChartsData.getGridDimension().y)).toInt()
+        val cellWidth = codeChartsData.getScaledImageSize().x / codeChartsData.getGridDimension().x
+        val cellHeight = codeChartsData.getScaledImageSize().y / codeChartsData.getGridDimension().y
         val xMinPos = xFieldNumber * cellWidth
         val yMinPos = yFieldNumber * cellHeight
         val xMaxPos = xMinPos + cellWidth
         val yMaxPos = yMinPos + cellHeight
 
         val eyePos = Interval2D(xMin = xMinPos, xMax = xMaxPos, yMin = yMinPos, yMax = yMaxPos)
-        ccData.setEyePos(eyePos)
+        codeChartsData.setEyePos(eyePos)
 
-        println("${ccData.getEyePos().xMin}, ${ccData.getEyePos().xMax}, ${ccData.getEyePos().yMin}, ${ccData.getEyePos().yMax}")
-        println("${ccData.getScaledImageSize().x}, ${ccData.getScaledImageSize().y}")
+        println("${codeChartsData.getEyePos().xMin}, ${codeChartsData.getEyePos().xMax}, ${codeChartsData.getEyePos().yMin}, ${codeChartsData.getEyePos().yMax}")
+        println("${codeChartsData.getScaledImageSize().x}, ${codeChartsData.getScaledImageSize().y}")
     }
     fun printGitButton() {
     }
