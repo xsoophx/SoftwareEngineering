@@ -1,7 +1,10 @@
 package de.tuchemnitz.se.exercise
 
+import de.tuchemnitz.se.exercise.codecharts.StringCharacters
 import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
+import de.tuchemnitz.se.exercise.persist.configs.Grid
+import de.tuchemnitz.se.exercise.persist.configs.PictureData
 import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
@@ -23,23 +26,53 @@ object DummyData : Controller() {
     @get: JvmStatic
     val codeChartsConfigs = setOf(
         CodeChartsConfig(
-            grid = Pair(100, 200),
-            pictureViewTime = 1,
+            savedAt = baseTime.plusSeconds(1L),
             matrixViewTime = 2,
-            savedAt = baseTime.plusSeconds(1L)
+            minViewsToSubdivide = 0,
+            stringCharacters = StringCharacters(upperCase = false, lowerCase = true, numbers = false),
+            pictures = listOf(
+                PictureData(
+                    imagePath = "abc",
+                    grid = Grid(10, 20),
+                    pictureViewTime = 2,
+                    ordered = true,
+                    relative = false,
+                    maxRecursionDepth = 3
+                )
+            )
         ),
         CodeChartsConfig(
-            grid = Pair(0, 0),
-            pictureViewTime = 0,
-            matrixViewTime = 0,
-            savedAt = baseTime.plusSeconds(2L)
+            savedAt = baseTime.plusSeconds(2L),
+            matrixViewTime = 2,
+            minViewsToSubdivide = 0,
+            stringCharacters = StringCharacters(upperCase = false, lowerCase = true, numbers = true),
+            pictures = listOf(
+                PictureData(
+                    imagePath = "def",
+                    grid = Grid(100, 200),
+                    pictureViewTime = 5,
+                    ordered = false,
+                    relative = false,
+                    maxRecursionDepth = 0
+                )
+            )
         ),
         CodeChartsConfig(
-            grid = Pair(400, 400),
-            pictureViewTime = 4,
+            savedAt = baseTime.plusSeconds(3L),
             matrixViewTime = 4,
-            savedAt = baseTime.plusSeconds(3L)
-        )
+            minViewsToSubdivide = 40,
+            stringCharacters = StringCharacters(upperCase = false, lowerCase = false, numbers = true),
+            pictures = listOf(
+                PictureData(
+                    imagePath = "",
+                    grid = Grid(13, 15),
+                    pictureViewTime = 3,
+                    ordered = true,
+                    relative = true,
+                    maxRecursionDepth = 4
+                )
+            )
+        ),
     )
 
     @JvmStatic

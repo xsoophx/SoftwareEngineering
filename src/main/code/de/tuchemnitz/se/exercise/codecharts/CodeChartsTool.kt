@@ -10,8 +10,8 @@ import tornadofx.set
 const val IMAGE_PATH = "/Chameleon.jpg"
 const val GRID_WIDTH = 50
 const val GRID_HEIGHT = 50
-const val MATRIX_VIEW_TIME = 10.0
-const val PICTURE_VIEW_TIME = 0.0
+const val MATRIX_VIEW_TIME = 2.0
+const val PICTURE_VIEW_TIME = 2.0
 
 class CodeChartsTool : AbstractTool(primaryView = CodeChartsDialogView::class) {
     private val db = Database("prod")

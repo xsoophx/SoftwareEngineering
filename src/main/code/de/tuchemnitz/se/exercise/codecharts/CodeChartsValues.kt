@@ -1,5 +1,7 @@
 package de.tuchemnitz.se.exercise.codecharts
 
+import kotlinx.serialization.Serializable
+
 data class CodeChartsValues(
     // picture
     val imagePath: String,
@@ -27,6 +29,7 @@ data class Dimension(
     var y: Double,
 )
 
+@Serializable
 data class StringCharacters(
     val upperCase: Boolean,
     val lowerCase: Boolean,
