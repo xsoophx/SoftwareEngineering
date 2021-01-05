@@ -4,7 +4,7 @@ This is an assignment project for Software Engineering class at TU-Chemnitz.
 
 ## Table of contents :book:
 
--   [Our toolbox](#which-tools-will-we-use?)
+-   [Our toolbox](#which-tools-will-we-use)
 -   [Milestone 01](#milestone-one)
     -   [Enumeration of Volere Snowcard IDs](#enumeration-of-volere-snowcard-ids)
 -   [Milestone 02](#milestone-two)
