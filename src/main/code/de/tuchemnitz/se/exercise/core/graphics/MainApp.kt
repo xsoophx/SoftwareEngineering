@@ -11,17 +11,12 @@ class MainApp : App() {
 
     companion object {
         const val MAIN_VIEW_TEMPLATE_PATH = "/views/MainViewTemplate.fxml"
-        // const val IMAGE_PATH = "/penguin.png"
     }
 
     override fun start(stage: Stage) {
         super.start(stage)
         stage.isFullScreen = true
         stage.fullScreenExitHint = ""
-        // stage.isMaximized = true
-        // stage.isResizable = true
-        // stage.minHeight = 850.0
-        // stage.minWidth = 1300.0
     }
 
     init {

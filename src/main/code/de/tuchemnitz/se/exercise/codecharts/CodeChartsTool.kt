@@ -10,9 +10,9 @@ import tornadofx.importStylesheet
  * Starts a new stage for CodeCharts and configures it.
  * First view to be shown is CodeChartsDialogView.
  */
-class CodeChartsTool/*(private val configManager: ConfigManager)*/ : App() {
-    // val setting = configManager.settings()
+class CodeChartsTool : App() {
     override val primaryView = CodeChartsDialogView::class
+
     companion object {
         const val IMAGE_PATH = "/Chameleon.jpg"
         const val GRID_WIDTH = 20

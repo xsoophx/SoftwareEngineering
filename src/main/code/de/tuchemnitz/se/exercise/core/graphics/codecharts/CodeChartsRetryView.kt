@@ -66,7 +66,7 @@ class CodeChartsRetryView : View("CodeCharts - Ungültige Eingabe") {
         }
     }
 
-    // to be removed
+    // needed for git button
     fun printGitButton() {
     }
 }

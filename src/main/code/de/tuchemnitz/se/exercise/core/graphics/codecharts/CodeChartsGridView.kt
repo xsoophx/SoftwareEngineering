@@ -19,9 +19,7 @@ import tornadofx.stackpane
  * Shows grid with generated strings, where user has to remember the String he looked at.
  * Is replaced with CodeChartsInputValidatorView after delay.
  */
-class CodeChartsGridView/*(
-    private val cssRule: CssRule = Style.ccGridWrapper,
-)*/ : View("SoftwarePraktikum - CodeCharts Grid") {
+class CodeChartsGridView : View("SoftwarePraktikum - CodeCharts Grid") {
     private val gridWidth = codeChartsData.getGridDimension().x
     private val gridHeight = codeChartsData.getGridDimension().y
     private val stringList = handleStrings.getStrings()
@@ -31,7 +29,6 @@ class CodeChartsGridView/*(
         hbox {
             alignment = Pos.TOP_CENTER
             datagrid(stringList) {
-                // formatting to align grid according to picture
                 cellWidth = scaledImageSize.x / gridWidth
                 cellHeight = scaledImageSize.y / gridHeight
                 horizontalCellSpacing = 0.0

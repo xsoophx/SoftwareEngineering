@@ -20,7 +20,6 @@ class Style : Stylesheet() {
         val ccGridWrapper by cssclass()
         val ccPictureWrapper by cssclass()
         val ccDialogWrapper by cssclass()
-        // const val IMAGE_PATH = "/penguin.png"
     }
 
     init {

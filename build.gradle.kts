@@ -16,7 +16,6 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenCentral()
     maven {
-        // url = uri("https://plugins.gradle.org/m2/")
         url = uri("https://oss.sonatype.org/content/repositories/snapshots")
     }
 }

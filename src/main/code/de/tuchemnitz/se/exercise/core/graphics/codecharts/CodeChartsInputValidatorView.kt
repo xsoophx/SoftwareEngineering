@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.TextAlignment
+import org.slf4j.LoggerFactory
 import tornadofx.View
 import tornadofx.action
 import tornadofx.button
@@ -26,13 +27,15 @@ import tornadofx.vbox
  * Saves collected data.
  * Is replaced after user confirms input by pressing button.
  */
-class CodeChartsInputValidatorView/*(
-    private val cssRule: CssRule = Style.ccInputValidatorWrapper
-)*/ : View("CodeCharts - Eingabe") {
+class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
 
     private val contentBox: VBox by fxid("content")
     private var inputString: TextField by singleAssign()
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(this::class.java)
+    }
 
     init {
         with(contentBox) {
@@ -71,14 +74,13 @@ class CodeChartsInputValidatorView/*(
         val eyePos = Interval2D(xMin = xMinPos, xMax = xMaxPos, yMin = yMinPos, yMax = yMaxPos)
         codeChartsData.setEyePos(eyePos)
 
-        println("${codeChartsData.getEyePos().xMin}, ${codeChartsData.getEyePos().xMax}, ${codeChartsData.getEyePos().yMin}, ${codeChartsData.getEyePos().yMax}")
-        println("${codeChartsData.getScaledImageSize().x}, ${codeChartsData.getScaledImageSize().y}")
+        logger.info("${codeChartsData.getEyePos().xMin}, ${codeChartsData.getEyePos().xMax}, ${codeChartsData.getEyePos().yMin}, ${codeChartsData.getEyePos().yMax}")
+        logger.info("${codeChartsData.getScaledImageSize().x}, ${codeChartsData.getScaledImageSize().y}")
     }
 
     private fun validateInput() {
         val userInput = inputString.text
-        if (userInput == "") {
-        } else if (handleStrings.getStrings().contains(userInput)) {
+        if (handleStrings.getStrings().contains(userInput)) {
             calculateEyePosition(userInput)
             replaceWith(CodeChartsThankfulView::class)
             inputString.text = ""
@@ -88,7 +90,7 @@ class CodeChartsInputValidatorView/*(
         }
     }
 
-    // to be removed
+    // needed for git button
     fun printGitButton() {
     }
 }
