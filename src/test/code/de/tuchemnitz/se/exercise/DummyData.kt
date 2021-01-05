@@ -6,7 +6,6 @@ import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
 import de.tuchemnitz.se.exercise.persist.now
-import org.litote.kmongo.KMongo
 import tornadofx.Controller
 
 const val TEST_PATH_CONFIG_FILE = "testCfg.json"

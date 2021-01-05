@@ -4,7 +4,6 @@ import com.mongodb.client.FindIterable
 import org.bson.BsonDocument
 import org.bson.conversions.Bson
 import org.litote.kmongo.Id
-import org.litote.kmongo.deleteOneById
 import org.litote.kmongo.findOneById
 import tornadofx.Controller
 import kotlin.reflect.KClass
