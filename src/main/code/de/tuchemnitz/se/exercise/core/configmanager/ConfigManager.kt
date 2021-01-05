@@ -1,6 +1,5 @@
 package de.tuchemnitz.se.exercise.core.configmanager
 
-import com.mongodb.client.MongoDatabase
 import de.tuchemnitz.se.exercise.persist.AbstractCollection
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
@@ -12,7 +11,6 @@ import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigColle
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.bson.BsonDocument
-import org.bson.conversions.Bson
 import org.litote.kmongo.descending
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -22,7 +20,14 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 
-class ConfigManager(var configFilePath: String = "", database: MongoDatabase) : Controller() {
+/**
+ * This class covers all the logic for reading and writing the config file, as well as handling
+ * settings for all tools. It can save and create setting, but also store them into the database
+ * or retrieve data from the database
+ *
+ * @property configFilePath is the path to the config file. It's default is the relative path to this application.
+ */
+class ConfigManager(var configFilePath: String = "") : Controller() {
 
     data class ConfigCollections(
         val codeChartsConfigCollection: CodeChartsConfigCollection,
@@ -56,18 +61,31 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) : 
             DatabaseConfig(dataBaseName = "test", dataBasePath = "databasePath", username = "root")
     }
 
+    /**
+     * Compares the most recent database entry with the config file
+     */
     fun checkDBSimilarity(): Boolean {
         return true
     }
 
+    /**
+     * Writes the config file to a certain path with.
+     * @param path specifies the path where the file is written, default is the configFilePath
+     * @throws IOException when writing of file goes wrong.
+     */
     fun writeFile(path: Path = Path.of(configFilePath)) {
         try {
             Files.writeString(path, configFile(), StandardCharsets.UTF_8)
         } catch (e: IOException) {
-            logger.error("Error found: File does not exist")
+            logger.error("Could not write file.", e)
         }
     }
 
+    /**
+     * Writes the config file to a certain path with.
+     * @param path specifies the path where the file is written, default is the configFilePath
+     * @throws IOException when reading of file goes wrong.
+     */
     fun readFile(path: Path = Path.of(configFilePath)): String? {
         return try {
             Files.readString(path, StandardCharsets.UTF_8)
@@ -77,9 +95,17 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) : 
         }
     }
 
-    fun getConfig(id: Int, filter: Bson) {
+    /**
+     * Depending on which tool is requiring a config, this function is returning it.
+     * @param tool specifies the tool which requires a config
+     */
+    fun getConfig(tool: Int) {
     }
 
+    /**
+     * Saves the Configs, created  in the Tools, into the database
+     * @param config specifies the config which is currently being saved.
+     */
     fun saveConfig(config: IConfig) {
         when (config) {
             is CodeChartsConfig -> configCollections.codeChartsConfigCollection.saveOne(config)
@@ -89,12 +115,21 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) : 
         }
     }
 
+    /**
+     * This function sets general settings for the config file.
+     * @param selectionMenuEnabled specifies whether the selection menu of the config file is enabled or not
+     * @param activatedTool specifies the tool which is currently activated
+     * @param configPath specifies the path where the config file is saved
+     */
     fun setGeneralSettings(selectionMenuEnabled: Boolean, activatedTool: Int?, configPath: Path) {
         generalSettings.activatedTool = activatedTool
         generalSettings.selectionMenuEnabled = selectionMenuEnabled
         generalSettings.configPath = configPath.toString()
     }
 
+    /**
+     * This function creates the config file out of all data.
+     */
     private fun configFile(): String {
         val tools = assembleAllConfigurations()
         return Json { prettyPrint = true }.encodeToString(
@@ -111,6 +146,10 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) : 
         )
     }
 
+    /**
+     * This function finds the most recent configs out of the database
+     * and puts them together to be saved in the config file
+     */
     fun assembleAllConfigurations(): ToolConfigs {
         return ToolConfigs(
             codeChartsConfig = configCollections.codeChartsConfigCollection.findMostRecent(),
@@ -129,9 +168,16 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) : 
         )
     }
 
+    /**
+     * Finds the most recent config of a specified type of config.
+     * @param T of type IConfig, the config type which is being searched for
+     */
     private fun <T : IConfig> AbstractCollection<T>.findMostRecent(): T? =
         find(BsonDocument()).sort(descending(IConfig::savedAt))
             .firstOrNull()
 
+    /**
+     * Decodes the config file to data classes.
+     */
     fun decodeConfig() = readFile(Path.of(configFilePath))?.let { Json.decodeFromString(ConfigFile.serializer(), it) }
 }
