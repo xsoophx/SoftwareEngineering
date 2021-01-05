@@ -1,6 +1,5 @@
 package de.tuchemnitz.se.exercise.codecharts
 
-
 /**
  * Two dimensional values, used for picture, screen and grid.
  */
