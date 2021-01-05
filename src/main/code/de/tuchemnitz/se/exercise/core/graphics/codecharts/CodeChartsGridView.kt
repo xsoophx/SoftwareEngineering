@@ -27,7 +27,6 @@ class CodeChartsGridView/*(
         hbox {
             alignment = Pos.TOP_CENTER
             datagrid(stringList) {
-                // addClass(cssRule)
                 cellWidth = scaledImageSize.x / gridWidth
                 cellHeight = scaledImageSize.y / gridHeight
                 horizontalCellSpacing = 0.0

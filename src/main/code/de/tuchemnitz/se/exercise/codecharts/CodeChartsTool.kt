@@ -24,8 +24,6 @@ class CodeChartsTool/*(private val configManager: ConfigManager)*/ : App() {
         stage.isFullScreen = true
         stage.isResizable = false
         stage.fullScreenExitHint = ""
-        // stage.minHeight = 850.0
-        // stage.minWidth = 1300.0
 
         editData()
         super.start(stage)

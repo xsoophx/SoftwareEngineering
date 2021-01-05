@@ -195,3 +195,28 @@ We decided to use [Mongo DB](https://www.mongodb.com/) as a database. It is a do
 
 *See more information on why to use Mongo DB [here](https://www.mongodb.com/why-use-mongodb#:~:text=Companies%20and%20development%20teams%20of,of%20both%20data%20and%20traffic.).*
 
+## Milestone :six:
+*Deadline: 07.01.2021*
+### Overview
+The task for this milestone was to implement the basics of one tool and to save the collected values of this tool.
+We implemented Code Charts mostly by using Pair-Programming. To get the GUI working we used a framework called [TornadoFX](https://edvin.gitbooks.io/tornadofx-guide/content/)
+
+### Calling the CodeCharts-Subapplication
+Currently, the CC sub-application named CodeChartsTool is called in the Main method of our Main class.
+From there, our DialogView-Class is called overriding the start-Method of the TornadoFX App-Class:
+
+    override fun start(stage: Stage) {  
+          stage.title = "CodeCharts"  
+          stage.isFullScreen = true  
+          stage.isResizable = false  
+          stage.fullScreenExitHint = ""  
+          editData()  
+          super.start(stage)  
+    }
+### Dialog-View
+This class is used so that the user can start the experiment by pressing a button. Some information about the conduction of the experiment can be easily added by using some textfields or other graphical elements of TornadoFX.
+After pressing the "START"-Button, the conduction of the experiment starts and the Dialog-View is replaced by CodeChartsPictureView.
+
+### Picture-View
+This View is used to display the image specified in the "path"-value of our config file.
+We implemented an algorithm to scale the image to the screensize of the user - if the width or height or both of the image to be loaded is too big the image is scaled to the screen size while maintaining the aspect ratio. The same procedure applies to images that are to small. This algorithm, is implemented in the Method called `scaleImageSize`.
