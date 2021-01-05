@@ -121,4 +121,3 @@ class CodeChartsDataValues {
         return eyePos
     }
 }
-

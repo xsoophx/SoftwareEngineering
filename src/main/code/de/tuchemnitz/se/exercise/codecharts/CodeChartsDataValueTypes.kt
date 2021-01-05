@@ -6,7 +6,7 @@ package de.tuchemnitz.se.exercise.codecharts
  */
 data class Dimension(
     val x: Double,
-    val y: Double,
+    val y: Double
 )
 
 /**
@@ -25,5 +25,5 @@ data class Interval2D(
     val xMin: Double,
     val xMax: Double,
     val yMin: Double,
-    val yMax: Double,
+    val yMax: Double
 )
