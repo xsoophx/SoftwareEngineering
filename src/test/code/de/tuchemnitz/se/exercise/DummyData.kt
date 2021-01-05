@@ -1,5 +1,7 @@
 package de.tuchemnitz.se.exercise
 
+import de.tuchemnitz.se.exercise.codecharts.Dimension
+import de.tuchemnitz.se.exercise.codecharts.Interval2D
 import de.tuchemnitz.se.exercise.codecharts.StringCharacters
 import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
@@ -8,6 +10,7 @@ import de.tuchemnitz.se.exercise.persist.configs.PictureData
 import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
+import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.now
 import javafx.scene.input.KeyCode
 import org.litote.kmongo.KMongo
@@ -27,12 +30,12 @@ object DummyData : Controller() {
     val codeChartsConfigs = setOf(
         CodeChartsConfig(
             savedAt = baseTime.plusSeconds(1L),
-            matrixViewTime = 2,
             minViewsToSubdivide = 0,
             stringCharacters = StringCharacters(upperCase = false, lowerCase = true, numbers = false),
             pictures = listOf(
                 PictureData(
                     imagePath = "abc",
+                    matrixViewTime = 2,
                     grid = Grid(10, 20),
                     pictureViewTime = 2,
                     ordered = true,
@@ -43,12 +46,12 @@ object DummyData : Controller() {
         ),
         CodeChartsConfig(
             savedAt = baseTime.plusSeconds(2L),
-            matrixViewTime = 2,
             minViewsToSubdivide = 0,
             stringCharacters = StringCharacters(upperCase = false, lowerCase = true, numbers = true),
             pictures = listOf(
                 PictureData(
                     imagePath = "def",
+                    matrixViewTime = 2,
                     grid = Grid(100, 200),
                     pictureViewTime = 5,
                     ordered = false,
@@ -59,7 +62,6 @@ object DummyData : Controller() {
         ),
         CodeChartsConfig(
             savedAt = baseTime.plusSeconds(3L),
-            matrixViewTime = 4,
             minViewsToSubdivide = 40,
             stringCharacters = StringCharacters(upperCase = false, lowerCase = false, numbers = true),
             pictures = listOf(
@@ -67,6 +69,7 @@ object DummyData : Controller() {
                     imagePath = "",
                     grid = Grid(13, 15),
                     pictureViewTime = 3,
+                    matrixViewTime = 4,
                     ordered = true,
                     relative = true,
                     maxRecursionDepth = 4
@@ -100,4 +103,25 @@ object DummyData : Controller() {
 
     @JvmStatic
     fun zoomMapsConfigs() = zoomMapsConfigs.stream()
+
+    @get: JvmStatic
+    val codeChartsData = setOf(
+        CodeChartsData(
+            codeChartsConfig = codeChartsConfigs.first(),
+            originalImageSize = Dimension(x = 3.0, y = 4.0),
+            scaledImageSize = Dimension(x = 100.0, y = 200.0),
+            screenSize = Dimension(x = 1920.0, y = 1080.0),
+            stringPosition = Interval2D(xMin = 0.0, xMax = 3.0, yMin = 0.0, yMax = 3.0)
+        ),
+        CodeChartsData(
+            codeChartsConfig = codeChartsConfigs.last(),
+            originalImageSize = Dimension(x = 123.0, y = 456.0),
+            scaledImageSize = Dimension(x = 125.0, y = 500.0),
+            screenSize = Dimension(x = 1920.0, y = 1080.0),
+            stringPosition = Interval2D(xMin = 10.0, xMax = 4.0, yMin = 6.2, yMax = 7.55)
+        ),
+    )
+
+    @JvmStatic
+    fun codeChartsData() = codeChartsData.stream()
 }

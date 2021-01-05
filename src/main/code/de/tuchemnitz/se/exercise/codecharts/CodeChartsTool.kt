@@ -49,7 +49,6 @@ class CodeChartsTool : AbstractTool(primaryView = CodeChartsDialogView::class) {
     }
 
     private fun codeChartsDataSetup() {
-
         // generate needed number of Strings
         val gridWidth = codeChartsData.gridDimension.x
         val gridHeight = codeChartsData.gridDimension.y

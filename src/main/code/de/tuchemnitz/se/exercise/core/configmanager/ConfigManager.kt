@@ -4,6 +4,7 @@ import com.mongodb.client.MongoDatabase
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool
 import de.tuchemnitz.se.exercise.core.AbstractTool
 import de.tuchemnitz.se.exercise.persist.AbstractCollection
+import de.tuchemnitz.se.exercise.persist.IPersist
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
 import de.tuchemnitz.se.exercise.persist.configs.IConfig
@@ -11,6 +12,12 @@ import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.collections.EyeTrackingConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
+import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
+import de.tuchemnitz.se.exercise.persist.data.EyeTrackingData
+import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
+import de.tuchemnitz.se.exercise.persist.data.collections.CodeChartsDataCollection
+import de.tuchemnitz.se.exercise.persist.data.collections.EyeTrackingDataCollection
+import de.tuchemnitz.se.exercise.persist.data.collections.ZoomMapsDataCollection
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.bson.BsonDocument
@@ -32,14 +39,30 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) : 
         val eyeTrackingConfigCollection: EyeTrackingConfigCollection
     )
 
+    data class DataCollections(
+        val codeChartsDataCollection: CodeChartsDataCollection,
+        val zoomMapsDataCollection: ZoomMapsDataCollection,
+        val eyeTrackingDataCollection: EyeTrackingDataCollection
+    )
+
     private val codeChartsConfigCollection: CodeChartsConfigCollection by inject()
     private val zoomMapsConfigCollection: ZoomMapsConfigCollection by inject()
     private val eyeTrackingConfigCollection: EyeTrackingConfigCollection by inject()
+
+    private val codeChartsDataCollection: CodeChartsDataCollection by inject()
+    private val zoomMapsDataCollection: ZoomMapsDataCollection by inject()
+    private val eyeTrackingDataCollection: EyeTrackingDataCollection by inject()
 
     private val configCollections = ConfigCollections(
         codeChartsConfigCollection,
         zoomMapsConfigCollection,
         eyeTrackingConfigCollection
+    )
+
+    private val dataCollections = DataCollections(
+        codeChartsDataCollection,
+        zoomMapsDataCollection,
+        eyeTrackingDataCollection
     )
 
     companion object {
@@ -86,11 +109,14 @@ class ConfigManager(var configFilePath: String = "", database: MongoDatabase) : 
         }
     }
 
-    fun saveConfig(config: IConfig) {
+    fun saveConfig(config: IPersist) {
         when (config) {
             is CodeChartsConfig -> configCollections.codeChartsConfigCollection.saveOne(config)
             is ZoomMapsConfig -> configCollections.zoomMapsConfigCollection.saveOne(config)
             is EyeTrackingConfig -> configCollections.eyeTrackingConfigCollection.saveOne(config)
+            is CodeChartsData -> dataCollections.codeChartsDataCollection.saveOne(config)
+            is ZoomMapsData -> dataCollections.zoomMapsDataCollection.saveOne(config)
+            is EyeTrackingData -> dataCollections.eyeTrackingDataCollection.saveOne(config)
             else -> logger.error("Couldn't fetch this Config type.")
         }
     }

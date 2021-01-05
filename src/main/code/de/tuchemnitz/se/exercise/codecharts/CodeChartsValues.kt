@@ -24,6 +24,7 @@ data class CodeChartsValues(
     var eyePos: Interval2D,
 )
 
+@Serializable
 data class Dimension(
     var x: Double,
     var y: Double,
@@ -36,6 +37,7 @@ data class StringCharacters(
     val numbers: Boolean,
 )
 
+@Serializable
 data class Interval2D(
     val xMin: Double,
     val xMax: Double,
