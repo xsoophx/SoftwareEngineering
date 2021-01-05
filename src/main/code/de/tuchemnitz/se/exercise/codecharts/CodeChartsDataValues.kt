@@ -1,9 +1,13 @@
 package de.tuchemnitz.se.exercise.codecharts
 
+/**
+ * Contains all relevant data for CodeCharts classes and getter and setter methods.
+ */
 class CodeChartsDataValues {
 
     // picture
     private lateinit var imagePath: String
+    private var pictureViewTime: Double = 0.0
     private lateinit var originalImageSize: Dimension
     private lateinit var scaledImageSize: Dimension
     private lateinit var screenSize: Dimension
@@ -27,6 +31,14 @@ class CodeChartsDataValues {
 
     fun getImagePath(): String {
         return imagePath
+    }
+
+    fun setPictureViewTime(viewTime: Double) {
+        pictureViewTime = viewTime
+    }
+
+    fun getPictureViewTime(): Double {
+        return pictureViewTime
     }
 
     fun setOriginalImageSize(size: Dimension) {
@@ -61,36 +73,12 @@ class CodeChartsDataValues {
         return gridDimension
     }
 
-    fun setAllowedChars(charset: StringCharacters) {
-        allowedChars = charset
-    }
-
-    fun getAllowedChars(): StringCharacters {
-        return allowedChars
-    }
-
     fun setMatrixViewTime(viewTime: Double) {
         matrixViewTime = viewTime
     }
 
     fun getMatrixViewTime(): Double {
         return matrixViewTime
-    }
-
-    fun setToOrder(orderStrings: Boolean) {
-        toOrder = orderStrings
-    }
-
-    fun getToOrder(): Boolean {
-        return toOrder
-    }
-
-    fun setEyePos(pos: Interval2D) {
-        eyePos = pos
-    }
-
-    fun getEyePos(): Interval2D {
-        return eyePos
     }
 
     fun setRelative(rel: Boolean) {
@@ -108,19 +96,52 @@ class CodeChartsDataValues {
     fun getRecursionDepth(): Int {
         return recursionDepth
     }
+
+    fun setAllowedChars(charset: StringCharacters) {
+        allowedChars = charset
+    }
+
+    fun getAllowedChars(): StringCharacters {
+        return allowedChars
+    }
+
+    fun setToOrder(orderStrings: Boolean) {
+        toOrder = orderStrings
+    }
+
+    fun getToOrder(): Boolean {
+        return toOrder
+    }
+
+    fun setEyePos(pos: Interval2D) {
+        eyePos = pos
+    }
+
+    fun getEyePos(): Interval2D {
+        return eyePos
+    }
 }
 
+/**
+ * Two dimensional values, used for picture, screen and grid.
+ */
 data class Dimension(
     val x: Double,
     val y: Double,
 )
 
+/**
+ * Three boolean values used for allowedCharacters where true is enabled and false is not enabled.
+ */
 data class StringCharacters(
     val upperCase: Boolean,
     val lowerCase: Boolean,
     val numbers: Boolean
 )
 
+/**
+ * Two dimensional interval used to save area of screen (in pixels) the user looked at.
+ */
 data class Interval2D(
     val xMin: Double,
     val xMax: Double,
