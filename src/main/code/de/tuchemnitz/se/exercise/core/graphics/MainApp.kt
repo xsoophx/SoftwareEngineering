@@ -13,9 +13,9 @@ class MainApp : App() {
     }
 
     override fun start(stage: Stage) {
-        super.start(stage)
         stage.isFullScreen = true
         stage.fullScreenExitHint = ""
+        super.start(stage)
         /*
         stage.isMaximized = true
         stage.isResizable = true
