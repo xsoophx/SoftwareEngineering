@@ -1,0 +1,76 @@
+package de.tuchemnitz.se.exercise.core.graphics.system
+
+import de.tuchemnitz.se.exercise.core.graphics.MainApp
+import javafx.geometry.Pos
+import javafx.scene.control.Button
+import javafx.scene.layout.BorderPane
+import javafx.scene.layout.Priority
+import javafx.scene.layout.VBox
+import javafx.scene.paint.Color.BLACK
+import javafx.scene.paint.Color.MEDIUMSPRINGGREEN
+import javafx.scene.text.Font
+import javafx.scene.text.TextAlignment
+import tornadofx.button
+import tornadofx.text
+import tornadofx.View
+import tornadofx.action
+import tornadofx.hbox
+import tornadofx.vgrow
+
+class ToolSelectionView : View("Software Praktikum - Gruppe 4 - Tool Selection") {
+    override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
+    private val contentBox: VBox by fxid("content")
+    val gitButton: Button by fxid("git_button")
+
+    init {
+        with(contentBox) {
+            alignment = Pos.CENTER
+            spacing = 64.0
+            text("Wählen Sie bitte eins dieser Tools aus!") {
+                fill = MEDIUMSPRINGGREEN
+                font = Font(22.0)
+                textAlignment = TextAlignment.CENTER
+            }
+            hbox {
+                spacing = 42.0
+                alignment = Pos.CENTER
+                vgrow = Priority.ALWAYS
+                button("Code Charts Tool") {
+                    textFill = BLACK
+                    font = Font(22.0)
+                    textAlignment = TextAlignment.CENTER
+                    action {
+                        // replaceWith()
+                    }
+                }
+                button("Zoom Maps Tool") {
+                    textFill = BLACK
+                    font = Font(22.0)
+                    textAlignment = TextAlignment.CENTER
+                    action {
+                        // replaceWith()
+                    }
+                }
+            }
+            button("Beenden") {
+                textFill = BLACK
+                font = Font(22.0)
+                textAlignment = TextAlignment.CENTER
+                action {
+                    primaryStage.close()
+                }
+            }
+        }
+    }
+
+    fun printGitButton() {
+    }
+
+    override fun onDock() {
+        // println("Docking Login View!") TODO: logging
+    }
+
+    override fun onUndock() {
+        // println("Undocking Login View!") TODO: logging
+    }
+}
