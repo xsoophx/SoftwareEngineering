@@ -22,6 +22,8 @@ import tornadofx.vbox
 
 /**
  * Asks user to enter the String they just saw and validates it.
+ * Calculates eye position according to scaled image size in pixels.
+ * Saves collected data.
  * Is replaced after user confirms input by pressing button.
  */
 class CodeChartsInputValidatorView/*(

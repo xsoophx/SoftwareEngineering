@@ -18,7 +18,6 @@ import tornadofx.vbox
 
 /**
  * Replaces CodeChartsInputValidatorView if input is correct.
- * Saves collected data.
  * User can close program or go back to CodeChartsDialogView to try again.
  */
 class CodeChartsThankfulView/*(
