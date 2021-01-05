@@ -1,6 +1,5 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
-import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
 import javafx.geometry.Pos
 import javafx.scene.layout.BorderPane
@@ -19,8 +18,6 @@ import tornadofx.vbox
 
 class CodeChartsDialogView : View("Willkommen bei CodeCharts!") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
-    private val configManager: ConfigManager by inject()
-
     private val contentBox: VBox by fxid("content")
 
     init {

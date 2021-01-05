@@ -19,18 +19,20 @@ class CodeChartsPictureView(
     pictureTitle: String = "",
     private val cssRule: CssRule = Style.ccPictureWrapper
 ) : View("Software Praktikum - CodeCharts Picture") {
+
+    private val screenWidth = Toolkit.getDefaultToolkit().screenSize.getWidth()
+    private val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
+    private val screenSize = Dimension(x = screenWidth, y = screenHeight)
+
     override val root = vbox {
         title = pictureTitle
         addClass(cssRule)
         imageview {
-            val screenWidth = Toolkit.getDefaultToolkit().screenSize.getWidth()
-            val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
-            val screenSize = Dimension(x = screenWidth, y = screenHeight)
-
-            image = Image(codeChartsData.imagePath)
+            this.image = Image(codeChartsData.imagePath)
             val scaledImageSize = scaleImageSize(image, screenSize)
             val scaledImageWidth = scaledImageSize.x
             val scaledImageHeight = scaledImageSize.y
+
             fitWidthProperty().bind(scaledImageWidth.toProperty())
             fitHeightProperty().bind(scaledImageHeight.toProperty())
 
