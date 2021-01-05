@@ -16,6 +16,11 @@ import tornadofx.style
 import tornadofx.text
 import tornadofx.vbox
 
+/**
+ * Replaces CodeChartsInputValidatorView if input is correct.
+ * Saves collected data.
+ * User can close program or go back to CodeChartsDialogView to try again.
+ */
 class CodeChartsThankfulView/*(
     private val cssRule: CssRule = Style.ccThankfulWrapper
 )*/ : View("Wir sagen DANKE!") {
@@ -63,6 +68,8 @@ class CodeChartsThankfulView/*(
             }
         }
     }
+
+    // to be removed
     fun printGitButton() {
     }
 }

@@ -16,6 +16,10 @@ import tornadofx.style
 import tornadofx.text
 import tornadofx.vbox
 
+/**
+ * Replaces CodeChartsInputValidatorView if input is wrong.
+ * User can close program or go back to CodeChartsDialogView to try again.
+ */
 class CodeChartsRetryView : View("CodeCharts - Ungültige Eingabe") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
 
@@ -61,6 +65,8 @@ class CodeChartsRetryView : View("CodeCharts - Ungültige Eingabe") {
             }
         }
     }
+
+    // to be removed
     fun printGitButton() {
     }
 }

@@ -16,6 +16,9 @@ import tornadofx.style
 import tornadofx.text
 import tornadofx.vbox
 
+/**
+ * First view during use of CodeCharts. Allows user to start the tool.
+ */
 class CodeChartsDialogView/*(
     private val cssRule: CssRule = Style.ccDialogWrapper
 )*/ : View("Willkommen bei CodeCharts!") {
@@ -49,6 +52,7 @@ class CodeChartsDialogView/*(
         }
     }
 
+    // to be removed
     fun printGitButton() {
     }
 }

@@ -20,6 +20,10 @@ import tornadofx.text
 import tornadofx.textfield
 import tornadofx.vbox
 
+/**
+ * Asks user to enter the String they just saw and validates it.
+ * Is replaced after user confirms input by pressing button.
+ */
 class CodeChartsInputValidatorView/*(
     private val cssRule: CssRule = Style.ccInputValidatorWrapper
 )*/ : View("CodeCharts - Eingabe") {
@@ -27,6 +31,7 @@ class CodeChartsInputValidatorView/*(
 
     private val contentBox: VBox by fxid("content")
     private var inputString: TextField by singleAssign()
+
     init {
         with(contentBox) {
             vbox {
@@ -48,6 +53,7 @@ class CodeChartsInputValidatorView/*(
             }
         }
     }
+
     private fun calculateEyePosition(userInput: String) {
         val listPosition = handleStrings.getStrings().indexOf(userInput)
         val xFieldNumber = listPosition % (codeChartsData.getGridDimension().x)
@@ -59,15 +65,18 @@ class CodeChartsInputValidatorView/*(
         val xMaxPos = xMinPos + cellWidth
         val yMaxPos = yMinPos + cellHeight
 
+        // interval will later be used for data analysis
         val eyePos = Interval2D(xMin = xMinPos, xMax = xMaxPos, yMin = yMinPos, yMax = yMaxPos)
         codeChartsData.setEyePos(eyePos)
 
         println("${codeChartsData.getEyePos().xMin}, ${codeChartsData.getEyePos().xMax}, ${codeChartsData.getEyePos().yMin}, ${codeChartsData.getEyePos().yMax}")
         println("${codeChartsData.getScaledImageSize().x}, ${codeChartsData.getScaledImageSize().y}")
     }
+
     private fun validateInput() {
         val userInput = inputString.text
-        if (userInput == "") {} else if (handleStrings.getStrings().contains(userInput)) {
+        if (userInput == "") {
+        } else if (handleStrings.getStrings().contains(userInput)) {
             calculateEyePosition(userInput)
             replaceWith(CodeChartsThankfulView::class)
             inputString.text = ""
@@ -76,6 +85,8 @@ class CodeChartsInputValidatorView/*(
             inputString.text = ""
         }
     }
+
+    // to be removed
     fun printGitButton() {
     }
 }
