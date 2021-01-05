@@ -9,13 +9,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class General(
     var selectionMenuEnabled: Boolean,
-    var activatedTool: Int?,
+    var activatedTool: Int?, // TODO: abstract Tool
     @SerialName("path") var configPath: String
 )
 
 @Serializable
 data class BubbleViewConfig(
-    val filter: Set<Float>
+    @SerialName("pictures") val filter: Set<FilterInformation>
 )
 
 @Serializable
@@ -56,3 +56,14 @@ data class ColorSampleBoard(
     val blue: Int
 )
 
+@Serializable
+data class FilterInformation(
+    val path: String,
+    val filter: Filter
+)
+
+@Serializable
+data class Filter(
+    val gradient: Int,
+    val type: String
+)
