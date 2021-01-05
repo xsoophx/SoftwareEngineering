@@ -31,7 +31,7 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 
-class ConfigManager(var configFilePath: String = "", database: MongoDatabase) : Controller(), ScopedInstance {
+class ConfigManager(var configFilePath: String = "cfg.json", database: MongoDatabase) : Controller(), ScopedInstance {
 
     data class ConfigCollections(
         val codeChartsConfigCollection: CodeChartsConfigCollection,

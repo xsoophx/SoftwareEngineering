@@ -12,7 +12,7 @@ abstract class AbstractCollection<T : IPersist>(
     clazz: KClass<T>
 ) : Controller() {
     private val database: Database by inject()
-    protected val collection = database.getCollection(clazz)
+    private val collection = database.getCollection(clazz)
 
     open fun find(filter: Bson = BsonDocument()): FindIterable<T> {
         return collection.find(filter)

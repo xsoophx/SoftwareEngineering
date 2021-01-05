@@ -15,6 +15,7 @@ import java.nio.file.Paths
 class JsonConverterTest {
     companion object {
         private val configManager = DummyData.manager
+
         private val configFile = ConfigFile(
             general = General(selectionMenuEnabled = true, activatedTool = null, configPath = ""),
             bubbleViewConfig = BubbleViewConfig(
@@ -25,7 +26,7 @@ class JsonConverterTest {
                 )
             ),
             zoomMapsConfig = null,
-            codeChartsConfig = null,
+            codeChartsConfig = DummyData.codeChartsConfigs.first(),
             eyeTrackingConfig = EyeTrackingConfig(dummyVal = ""),
             dataClientConfig = DataClientConfig(
                 colorSampleBoard = setOf(ColorSampleBoard(red = 1, green = 2, blue = 3)),
@@ -44,7 +45,7 @@ class JsonConverterTest {
         assertThat(Json { prettyPrint = true }.encodeToString(ConfigFile.serializer(), configFile)).isEqualTo(content)
     } finally {
         Files.deleteIfExists(Path.of(TEST_PATH_CONFIG_FILE))
-        configManager.writeFile(Paths.get("cfg.json"))
+        configManager.writeFile(Paths.get(TEST_PATH_CONFIG_FILE))
     }
 
     @Test

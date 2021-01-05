@@ -16,7 +16,6 @@ data class CodeChartsConfig(
     val minViewsToSubdivide: Int,
     val stringCharacters: StringCharacters,
     val pictures: List<PictureData>,
-
     ) : IConfig
 
 @Serializable
