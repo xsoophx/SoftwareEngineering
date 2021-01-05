@@ -204,7 +204,7 @@ We implemented Code Charts mostly by using Pair-Programming. To get the GUI work
 
 ### StringHandler
 This class is not supposed to provide any GUI elements, but it is able to randomly generate Strings with the needed length to generate enough Strings in a reasonable time. For this functionality we used a equation to calculate this length:
-<img src="https://render.githubusercontent.com/render/math?math=\frac{\ln{(input)}}{\ln{(alphabetLength)}}.roundToInt()+1">
+<img src="https://render.githubusercontent.com/render/math?math=\frac{\ln{(input)}}{\ln{(alphabetLength)}}.roundToInt() %2B 1">
 We added 1 in this equation to accelerate the randomization process. An example:
 If we want to generate 26 random strings consisting only of lowercase letters, we would normally be able to do this with 26 string with length 1. But by doing this randomly we only have an probability of 1/26 for the last string which is very low and would take too much time.
 
