@@ -1,6 +1,5 @@
 package de.tuchemnitz.se.exercise.core.graphics
 
-
 import de.tuchemnitz.se.exercise.core.graphics.system.ToolSelectionView
 import javafx.stage.Stage
 import tornadofx.App
