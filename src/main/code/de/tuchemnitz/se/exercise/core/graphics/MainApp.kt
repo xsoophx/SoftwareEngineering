@@ -16,12 +16,6 @@ class MainApp : App() {
         stage.isFullScreen = true
         stage.fullScreenExitHint = ""
         super.start(stage)
-        /*
-        stage.isMaximized = true
-        stage.isResizable = true
-        stage.minHeight = 850.0
-        stage.minWidth = 1300.0
-         */
     }
 
     init {
