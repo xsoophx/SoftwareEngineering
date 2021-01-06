@@ -100,9 +100,9 @@ class CodeChartsConfigMapperTest : Controller() {
         val savedData = (saved[0] as CodeChartsData).let {
             it.copy(
                 _id = expectedData._id,
-                codeChartsConfig = it.codeChartsConfig.copy(_id = expectedConfig._id, savedAt = expectedConfig.savedAt),
+                codeChartsConfig = it.codeChartsConfig.copy(_id = expectedConfig._id, savedAt = expectedConfig.savedAt)
 
-                )
+            )
         }
 
         assertThat(savedConfig).isEqualTo(expectedConfig)
