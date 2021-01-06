@@ -10,7 +10,7 @@ plugins {
     id("com.diffplug.spotless") version "5.8.2"
 }
 
-group = "de.tu_chemnitz"
+group = "de.tuchemnitz"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -29,16 +29,16 @@ object Version {
     const val JUNIT = "5.7.0"
     const val KOTEST = "4.3.0"
     const val KOTLINX_COROUTINES = "1.3.8"
-    const val KOTLINX_SERIALIZATION = "0.20.0"
+    const val KOTLINX_SERIALIZATION = "1.0.1"
     const val LOGBACK = "1.2.3"
     const val MOCKK = "1.10.2"
     const val SLF4J = "1.7.30"
-    const val KMONGO = "4.2.2"
+    const val KMONGO = "4.2.3"
     const val ASSERTK = "0.23"
     const val TORNADOFX = "1.7.20"
     const val SPOTLESS = "5.8.2"
     const val KTLINT = "9.4.1"
-    const val TESTFX = "4.0.15-alpha"
+    const val TESTFX = "4.0.16-alpha"
 }
 
 dependencies {
@@ -54,7 +54,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${Version.KOTLINX_COROUTINES}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-slf4j:${Version.KOTLINX_COROUTINES}")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Version.KOTLINX_SERIALIZATION}")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Version.KOTLINX_SERIALIZATION}")
 
     implementation("org.slf4j:slf4j-api:${Version.SLF4J}")
     runtimeOnly("ch.qos.logback:logback-classic:${Version.LOGBACK}")
@@ -71,7 +71,7 @@ dependencies {
     implementation("no.tornado:tornadofx:${Version.TORNADOFX}")
 
     testImplementation("org.testfx:testfx-core:${Version.TESTFX}")
-    testImplementation("org.testfx:testfx-junit:${Version.TESTFX}")
+    testImplementation("org.testfx:testfx-junit5:${Version.TESTFX}")
 }
 
 project.sourceSets {
@@ -97,7 +97,7 @@ tasks {
 
     withType<KotlinCompile> {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = "11"
             freeCompilerArgs = listOf(
                 "-Xjvm-default=enable"
             )

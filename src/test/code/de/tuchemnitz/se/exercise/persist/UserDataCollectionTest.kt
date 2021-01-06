@@ -1,27 +1,27 @@
 package de.tuchemnitz.se.exercise.persist
 
 import assertk.assertThat
-import assertk.assertions.contains
 import assertk.assertions.containsOnly
 import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
 import com.mongodb.client.model.Filters
+import de.tuchemnitz.se.exercise.DATABASE
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.data.collections.UserDataCollection
 import org.bson.conversions.Bson
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.litote.kmongo.KMongo
 import org.litote.kmongo.`in`
 import org.litote.kmongo.eq
+import tornadofx.Controller
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-class UserDataCollectionTest {
-    private val client = KMongo.createClient() // get com.mongodb.MongoClient new instance
-    private val database = client.getDatabase("test") // normal java driver usage
-    private val collection = UserDataCollection(database)
+@Tag(DATABASE)
+class UserDataCollectionTest : Controller() {
+    private val collection: UserDataCollection by inject()
 
     @Suppress("SpellCheckingInspection")
     companion object {
@@ -48,7 +48,7 @@ class UserDataCollectionTest {
     fun `every config should be saved properly`() {
         configs.forEach {
             collection.saveOne(it)
-            assertThat(collection.find(UserData::_id eq it._id)).contains(it)
+            assertThat(collection.findOneById(it._id)).isEqualTo(it)
         }
     }
 
