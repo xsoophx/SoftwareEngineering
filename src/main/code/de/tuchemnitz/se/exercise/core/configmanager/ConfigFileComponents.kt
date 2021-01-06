@@ -6,6 +6,9 @@ import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * This data class has no logic; it's for storing all the data for the configfile.
+ */
 @Serializable
 data class General(
     var selectionMenuEnabled: Boolean,

@@ -4,5 +4,4 @@ import org.litote.kmongo.Id
 
 interface IPersist {
     val _id: Id<out IPersist>
-    // persist interfaces as a union
 }

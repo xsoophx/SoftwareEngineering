@@ -13,15 +13,12 @@ import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigColle
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.now
 import javafx.scene.input.KeyCode
-import org.litote.kmongo.KMongo
 import tornadofx.Controller
 
 const val TEST_PATH_CONFIG_FILE = "testCfg.json"
 
 object DummyData : Controller() {
-    private val client = KMongo.createClient()
-    private val database = client.getDatabase("test")
-    val manager = ConfigManager(configFilePath = TEST_PATH_CONFIG_FILE, database = database)
+    val manager = ConfigManager(configFilePath = TEST_PATH_CONFIG_FILE)
     val codeChartsConfigCollection: CodeChartsConfigCollection by inject()
     val zoomMapsConfigCollection: ZoomMapsConfigCollection by inject()
     private val baseTime = now()
