@@ -127,7 +127,7 @@ object DummyData : Controller() {
             scaledImageSize = Dimension(x = 125.0, y = 500.0),
             screenSize = Dimension(x = 1920.0, y = 1080.0),
             stringPosition = Interval2D(xMin = 10.0, xMax = 4.0, yMin = 6.2, yMax = 7.55)
-        ),
+        )
     )
 
     @JvmStatic

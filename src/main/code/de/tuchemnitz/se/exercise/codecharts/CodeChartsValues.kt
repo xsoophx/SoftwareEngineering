@@ -27,14 +27,14 @@ data class CodeChartsValues(
 @Serializable
 data class Dimension(
     var x: Double,
-    var y: Double,
+    var y: Double
 )
 
 @Serializable
 data class StringCharacters(
     val upperCase: Boolean,
     val lowerCase: Boolean,
-    val numbers: Boolean,
+    val numbers: Boolean
 )
 
 @Serializable
@@ -42,5 +42,5 @@ data class Interval2D(
     val xMin: Double,
     val xMax: Double,
     val yMin: Double,
-    val yMax: Double,
+    val yMax: Double
 )
