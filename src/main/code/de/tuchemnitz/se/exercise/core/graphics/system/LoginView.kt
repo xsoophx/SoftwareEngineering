@@ -10,14 +10,6 @@ class LoginView : View("Software Praktikum - Gruppe 4 - Login") {
     private val logger = LoggerFactory.getLogger(this::class.java)
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
 
-    val gitButton: Button by fxid("git_button")
-
-    init {
-    }
-
-    fun printGitButton() {
-    }
-
     override fun onDock() {
         logger.info("Dock LoginView...")
     }

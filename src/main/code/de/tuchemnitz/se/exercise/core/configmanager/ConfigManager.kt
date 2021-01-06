@@ -1,7 +1,6 @@
 package de.tuchemnitz.se.exercise.core.configmanager
 
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool
-import de.tuchemnitz.se.exercise.core.AbstractTool
 import de.tuchemnitz.se.exercise.persist.AbstractCollection
 import de.tuchemnitz.se.exercise.persist.IPersist
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
@@ -17,6 +16,7 @@ import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
 import de.tuchemnitz.se.exercise.persist.data.collections.CodeChartsDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.EyeTrackingDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.ZoomMapsDataCollection
+import javafx.scene.input.KeyCode
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.bson.BsonDocument
@@ -24,7 +24,7 @@ import org.litote.kmongo.descending
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import tornadofx.Controller
-import tornadofx.ScopedInstance
+import tornadofx.View
 import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
@@ -125,11 +125,16 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
      * Depending on which tool is requiring a config, this function is returning it.
      * @param tool specifies the tool which requires a config
      */
-    fun getConfig(tool: AbstractTool) {
+    fun getConfig(tool: Int) {
         when (tool) {
-            is CodeChartsTool -> decodeConfig()?.codeChartsConfig
+            1 -> decodeConfig()?.codeChartsConfig
             else -> logger.error("Couldn't fetch this Config type.")
         }
+    }
+
+    fun getZoomMapsConfig(): ZoomMapsConfig? {
+        return ZoomMapsConfig(zoomSpeed = 1.0f, zoomKey = KeyCode.C)
+        // return decodeConfig()?.zoomMapsConfig
     }
 
     /**

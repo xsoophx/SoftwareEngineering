@@ -1,8 +1,8 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsConfigMapper
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.codeChartsData
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.codeChartsStringHandler
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsStringHandler
 import de.tuchemnitz.se.exercise.codecharts.Interval2D
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
 import javafx.geometry.Pos
@@ -75,8 +75,8 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
         val eyePos = Interval2D(xMin = xMinPos, xMax = xMaxPos, yMin = yMinPos, yMax = yMaxPos)
         codeChartsData.eyePos = eyePos
 
-        logger.info("${codeChartsData.getEyePos().xMin}, ${codeChartsData.getEyePos().xMax}, ${codeChartsData.getEyePos().yMin}, ${codeChartsData.getEyePos().yMax}")
-        logger.info("${codeChartsData.getScaledImageSize().x}, ${codeChartsData.getScaledImageSize().y}")
+        logger.info("${codeChartsData.eyePos.xMin}, ${codeChartsData.eyePos.xMax}, ${codeChartsData.eyePos.yMin}, ${codeChartsData.eyePos.yMax}")
+        logger.info("${codeChartsData.scaledImageSize.x}, ${codeChartsData.scaledImageSize.y}")
     }
 
     private fun validateInput() {
@@ -90,9 +90,5 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
             replaceWith(CodeChartsRetryView::class)
             inputString.text = ""
         }
-    }
-
-    // needed for git button
-    fun printGitButton() {
     }
 }

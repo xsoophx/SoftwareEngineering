@@ -1,6 +1,7 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
+import de.tuchemnitz.se.exercise.core.graphics.system.ToolSelectionView
 import javafx.geometry.Pos
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
@@ -55,7 +56,7 @@ class CodeChartsThankfulView/*(
                 hbox {
                     button("Hauptmenü") {
                         action {
-                            replaceWith(CodeChartsDialogView::class)
+                            replaceWith(ToolSelectionView::class)
                         }
                     }
                     button("Beenden") {

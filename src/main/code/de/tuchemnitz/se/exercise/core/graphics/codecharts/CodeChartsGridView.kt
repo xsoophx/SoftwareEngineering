@@ -1,7 +1,7 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.codeChartsData
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.codeChartsStringHandler
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsStringHandler
 import javafx.animation.PauseTransition
 import javafx.event.EventHandler
 import javafx.geometry.Pos
@@ -20,10 +20,10 @@ import tornadofx.stackpane
  * Is replaced with CodeChartsInputValidatorView after delay.
  */
 class CodeChartsGridView : View("SoftwarePraktikum - CodeCharts Grid") {
-    private val gridWidth = codeChartsData.getGridDimension().x
-    private val gridHeight = codeChartsData.getGridDimension().y
-    private val stringList = handleStrings.getStrings()
-    private val scaledImageSize = codeChartsData.getScaledImageSize()
+    private val gridWidth = codeChartsData.gridDimension.x
+    private val gridHeight = codeChartsData.gridDimension.y
+    private val stringList = codeChartsStringHandler.getStrings()
+    private val scaledImageSize = codeChartsData.scaledImageSize
 
     override val root =
         hbox {

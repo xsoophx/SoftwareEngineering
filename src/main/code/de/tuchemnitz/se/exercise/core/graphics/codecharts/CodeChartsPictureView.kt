@@ -1,6 +1,6 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.codeChartsData
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.Dimension
 import de.tuchemnitz.se.exercise.core.graphics.Style
 import javafx.animation.PauseTransition
@@ -31,7 +31,7 @@ class CodeChartsPictureView(
     override val root = vbox {
         addClass(cssRule)
         imageview {
-            this.image = Image(codeChartsData.imagePath)
+            image = Image(codeChartsData.imagePath)
             val scaledImageSize = scaleImageSize(image, screenSize)
             val scaledImageWidth = scaledImageSize.x
             val scaledImageHeight = scaledImageSize.y
