@@ -65,5 +65,4 @@ class CodeChartsRetryView : View("CodeCharts - Ungültige Eingabe") {
             }
         }
     }
-
 }

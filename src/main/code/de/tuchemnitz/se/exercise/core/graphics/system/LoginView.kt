@@ -1,7 +1,6 @@
 package de.tuchemnitz.se.exercise.core.graphics.system
 
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
-import javafx.scene.control.Button
 import javafx.scene.layout.BorderPane
 import org.slf4j.LoggerFactory
 import tornadofx.View

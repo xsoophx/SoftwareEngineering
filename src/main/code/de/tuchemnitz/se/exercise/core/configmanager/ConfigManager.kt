@@ -1,6 +1,5 @@
 package de.tuchemnitz.se.exercise.core.configmanager
 
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool
 import de.tuchemnitz.se.exercise.persist.AbstractCollection
 import de.tuchemnitz.se.exercise.persist.IPersist
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
@@ -24,7 +23,6 @@ import org.litote.kmongo.descending
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import tornadofx.Controller
-import tornadofx.View
 import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files

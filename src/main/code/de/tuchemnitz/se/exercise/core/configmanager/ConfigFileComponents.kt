@@ -17,7 +17,7 @@ data class General(
 )
 
 @Serializable
-data class    BubbleViewConfig(
+data class BubbleViewConfig(
     @SerialName("pictures") val filter: Set<FilterInformation>
 )
 

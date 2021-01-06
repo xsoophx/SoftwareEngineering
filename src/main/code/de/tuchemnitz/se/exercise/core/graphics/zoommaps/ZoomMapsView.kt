@@ -69,7 +69,6 @@ class ZoomMapsView : View("Zoom Maps") {
                     clickLocation = imageViewToImage(Point2D(e.x, e.y))
                 }
 
-
                 setOnScroll { e ->
                     if (!zoomEnabled) {
                         return@setOnScroll
@@ -94,7 +93,6 @@ class ZoomMapsView : View("Zoom Maps") {
                     logger.info("Scaling around: $mouseLocation, factor: $scale")
                 }
             }
-
         }
     }
 
