@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.TextAlignment
+import org.slf4j.LoggerFactory
 import tornadofx.View
 import tornadofx.action
 import tornadofx.button
@@ -21,11 +22,21 @@ import tornadofx.text
 import tornadofx.textfield
 import tornadofx.vbox
 
+/**
+ * Asks user to enter the String they just saw and validates it.
+ * Calculates eye position according to scaled image size in pixels.
+ * Saves collected data.
+ * Is replaced after user confirms input by pressing button.
+ */
 class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
 
     private val contentBox: VBox by fxid("content")
     private var inputString: TextField by singleAssign()
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(this::class.java)
+    }
 
     init {
         with(contentBox) {
@@ -60,11 +71,12 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
         val xMaxPos = xMinPos + cellWidth
         val yMaxPos = yMinPos + cellHeight
 
+        // interval will later be used for data analysis
         val eyePos = Interval2D(xMin = xMinPos, xMax = xMaxPos, yMin = yMinPos, yMax = yMaxPos)
         codeChartsData.eyePos = eyePos
 
-        println("${codeChartsData.eyePos.xMin}, ${codeChartsData.eyePos.xMax}, ${codeChartsData.eyePos.yMin}, ${codeChartsData.eyePos.yMax}")
-        println("${codeChartsData.scaledImageSize.x}, ${codeChartsData.scaledImageSize.y}")
+        logger.info("${codeChartsData.getEyePos().xMin}, ${codeChartsData.getEyePos().xMax}, ${codeChartsData.getEyePos().yMin}, ${codeChartsData.getEyePos().yMax}")
+        logger.info("${codeChartsData.getScaledImageSize().x}, ${codeChartsData.getScaledImageSize().y}")
     }
 
     private fun validateInput() {
@@ -80,6 +92,7 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
         }
     }
 
+    // needed for git button
     fun printGitButton() {
     }
 }

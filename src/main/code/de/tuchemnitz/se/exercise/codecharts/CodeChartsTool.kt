@@ -30,6 +30,9 @@ class CodeChartsTool : AbstractTool(primaryView = CodeChartsDialogView::class) {
         val codeChartsStringHandler = CodeChartsStringHandler()
     }
 
+    /**
+     * Starts [stage] used for CodeCharts and configures some settings.
+     */
     override fun start(stage: Stage) {
         codeChartsDataSetup()
         stage.title = "CodeCharts"

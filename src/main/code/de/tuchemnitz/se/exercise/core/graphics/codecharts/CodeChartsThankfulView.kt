@@ -16,7 +16,13 @@ import tornadofx.style
 import tornadofx.text
 import tornadofx.vbox
 
-class CodeChartsThankfulView : View("Wir sagen DANKE!") {
+/**
+ * Replaces CodeChartsInputValidatorView if input is correct.
+ * User can close program or go back to CodeChartsDialogView to try again.
+ */
+class CodeChartsThankfulView/*(
+    private val cssRule: CssRule = Style.ccThankfulWrapper
+)*/ : View("Wir sagen DANKE!") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
 
     private val contentBox: VBox by fxid("content")

@@ -4,23 +4,35 @@ import java.util.Random
 import kotlin.math.ln
 import kotlin.math.roundToInt
 
+/**
+ * Holds and generates Strings.
+ * Able to validate whether given String is element of generated Strings.
+ */
 class CodeChartsStringHandler {
     private lateinit var codeChartsGridStrings: MutableList<String>
 
+    /**
+     * Returns generated Strings in a MutableList<String>.
+     */
     fun getStrings(): MutableList<String> {
         return this.codeChartsGridStrings
     }
 
+    /**
+     * Sets Strings using the number of chars in the generated Strings ([input]) and the
+     * BooleanArray [allowedChars] with 3 modes in the following order: Upper Letters, Lower Letters, Numbers
+     * where true is enabled and false is not enabled.
+     */
     fun setStrings(input: Int, allowedChars: StringCharacters) {
         val generatedList = generateStringList(input, allowedChars)
         this.codeChartsGridStrings = generatedList
     }
 
     /**
-     * [input] Number of Chars in the generated strings.
-     * [allowedChars] BooleanArray with 3 modes in the following order: Upper Letters, Lower Letters, Numbers
-     *     where 1 is enabled and 0 is not enabled.
-     * returns MutableList<String>
+     * Returns MutableList<String> containing the generated Strings from
+     * a number of chars in the generated Strings ([input]) and the
+     * BooleanArray [allowedChars] with 3 modes in the following order: Upper Letters, Lower Letters, Numbers
+     * where true is enabled and false is not enabled.
      */
     private fun generateStringList(input: Int, allowedChars: StringCharacters): MutableList<String> {
         val generatedStrings = mutableListOf<String>()

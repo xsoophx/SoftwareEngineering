@@ -15,8 +15,12 @@ import tornadofx.toProperty
 import tornadofx.vbox
 import java.awt.Toolkit
 
+/**
+ * Shows picture after scaling it to screen size.
+ * Is replaced with CodeChartsGridView after delay.
+ * Styling with [cssRule].
+ */
 class CodeChartsPictureView(
-    pictureTitle: String = "",
     private val cssRule: CssRule = Style.ccPictureWrapper
 ) : View("Software Praktikum - CodeCharts Picture") {
 
@@ -25,7 +29,6 @@ class CodeChartsPictureView(
     private val screenSize = Dimension(x = screenWidth, y = screenHeight)
 
     override val root = vbox {
-        title = pictureTitle
         addClass(cssRule)
         imageview {
             this.image = Image(codeChartsData.imagePath)
@@ -49,17 +52,13 @@ class CodeChartsPictureView(
         var newImageHeight = imageHeight
 
         if (imageWidth != screenWidth) {
-            // scale width to fit
             newImageWidth = screenWidth
-            // scale height to maintain aspect ratio
             newImageHeight = (newImageWidth * imageHeight) / imageWidth
         }
 
-        // then check if we need to scale even with the new height
         if (newImageHeight != screenHeight) {
-            // scale height to fit instead
             newImageHeight = screenHeight
-            // scale width to maintain aspect ratio
+            // scales image while maintaining aspect ratio
             newImageWidth = (newImageHeight * imageWidth) / imageHeight
         }
 
@@ -85,6 +84,9 @@ class CodeChartsPictureView(
         codeChartsData.screenSize = screenSize
     }
 
+    /**
+     * Calls a timer. Replaces current view with CodeChartsGridView after delay.
+     */
     override fun onDock() {
         goToGridView()
     }

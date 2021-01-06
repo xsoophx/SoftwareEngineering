@@ -15,17 +15,20 @@ import tornadofx.label
 import tornadofx.rectangle
 import tornadofx.stackpane
 
+/**
+ * Shows grid with generated strings, where user has to remember the String he looked at.
+ * Is replaced with CodeChartsInputValidatorView after delay.
+ */
 class CodeChartsGridView : View("SoftwarePraktikum - CodeCharts Grid") {
-    private val gridWidth = codeChartsData.gridDimension.x
-    private val gridHeight = codeChartsData.gridDimension.y
-    private val stringList = codeChartsStringHandler.getStrings()
-    private val scaledImageSize = codeChartsData.scaledImageSize
+    private val gridWidth = codeChartsData.getGridDimension().x
+    private val gridHeight = codeChartsData.getGridDimension().y
+    private val stringList = handleStrings.getStrings()
+    private val scaledImageSize = codeChartsData.getScaledImageSize()
 
     override val root =
         hbox {
             alignment = Pos.TOP_CENTER
             datagrid(stringList) {
-                // addClass(cssRule)
                 cellWidth = scaledImageSize.x / gridWidth
                 cellHeight = scaledImageSize.y / gridHeight
                 horizontalCellSpacing = 0.0
@@ -52,6 +55,9 @@ class CodeChartsGridView : View("SoftwarePraktikum - CodeCharts Grid") {
         delay.play()
     }
 
+    /**
+     * Calls a timer. Replaces current view with CodeChartsInputValidatorView after delay.
+     */
     override fun onDock() {
         goToInputValidatorView()
     }

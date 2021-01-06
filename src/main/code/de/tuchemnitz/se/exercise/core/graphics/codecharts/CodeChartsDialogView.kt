@@ -16,6 +16,9 @@ import tornadofx.style
 import tornadofx.text
 import tornadofx.vbox
 
+/**
+ * First view during use of CodeCharts. Allows user to start the tool.
+ */
 class CodeChartsDialogView : View("Willkommen bei CodeCharts!") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
     private val contentBox: VBox by fxid("content")
@@ -46,6 +49,7 @@ class CodeChartsDialogView : View("Willkommen bei CodeCharts!") {
         }
     }
 
+    // needed for git button
     fun printGitButton() {
     }
 }
