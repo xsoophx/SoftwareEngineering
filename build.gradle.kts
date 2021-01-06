@@ -10,7 +10,7 @@ plugins {
     id("com.diffplug.spotless") version "5.8.2"
 }
 
-group = "de.tu_chemnitz"
+group = "de.tuchemnitz"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -22,7 +22,7 @@ repositories {
 
 javafx {
     version = "15.0.1"
-    modules = listOf("javafx.controls", "javafx.graphics", "javafx.fxml")
+    modules = listOf("javafx.controls", "javafx.graphics", "javafx.fxml", "javafx.media")
 }
 
 object Version {
@@ -97,7 +97,7 @@ tasks {
 
     withType<KotlinCompile> {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = "11"
             freeCompilerArgs = listOf(
                 "-Xjvm-default=enable"
             )
@@ -108,3 +108,4 @@ tasks {
         useJUnitPlatform()
     }
 }
+

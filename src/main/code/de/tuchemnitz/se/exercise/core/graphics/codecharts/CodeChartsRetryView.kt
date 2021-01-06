@@ -53,7 +53,7 @@ class CodeChartsRetryView : View("CodeCharts - Ungültige Eingabe") {
                 hbox {
                     button("Neuer Versuch") {
                         action {
-                            replaceWith(CodeChartsDialogView::class)
+                            replaceWith(CodeChartsView::class)
                         }
                     }
                     button("Beenden") {
@@ -64,9 +64,5 @@ class CodeChartsRetryView : View("CodeCharts - Ungültige Eingabe") {
                 }
             }
         }
-    }
-
-    // needed for git button
-    fun printGitButton() {
     }
 }

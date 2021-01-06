@@ -6,6 +6,8 @@ import de.tuchemnitz.se.exercise.DummyData
 import de.tuchemnitz.se.exercise.TEST_PATH_CONFIG_FILE
 import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
 import kotlinx.serialization.json.Json
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import java.nio.file.Files
@@ -14,7 +16,8 @@ import java.nio.file.Paths
 
 class JsonConverterTest {
     companion object {
-        private val configManager = DummyData.manager
+        private val configManager = DummyData.configManager
+
         private val configFile = ConfigFile(
             general = General(selectionMenuEnabled = true, activatedTool = null, configPath = ""),
             bubbleViewConfig = BubbleViewConfig(
@@ -25,7 +28,7 @@ class JsonConverterTest {
                 )
             ),
             zoomMapsConfig = null,
-            codeChartsConfig = null,
+            codeChartsConfig = DummyData.codeChartsConfigs.first(),
             eyeTrackingConfig = EyeTrackingConfig(dummyVal = ""),
             dataClientConfig = DataClientConfig(
                 colorSampleBoard = setOf(ColorSampleBoard(red = 1, green = 2, blue = 3)),
@@ -33,6 +36,16 @@ class JsonConverterTest {
             ),
             database = DatabaseConfig(dataBaseName = "test", dataBasePath = "databasePath", username = "root")
         )
+    }
+
+    @BeforeEach
+    fun setup() {
+        DummyData.codeChartsConfigCollection.saveOne(DummyData.codeChartsConfigs.first())
+    }
+
+    @AfterEach
+    fun clearUp() {
+        DummyData.codeChartsConfigCollection.deleteMany()
     }
 
     @Test
@@ -44,7 +57,7 @@ class JsonConverterTest {
         assertThat(Json { prettyPrint = true }.encodeToString(ConfigFile.serializer(), configFile)).isEqualTo(content)
     } finally {
         Files.deleteIfExists(Path.of(TEST_PATH_CONFIG_FILE))
-        configManager.writeFile(Paths.get("cfg.json"))
+        configManager.writeFile(Paths.get(TEST_PATH_CONFIG_FILE))
     }
 
     @Test
@@ -52,6 +65,7 @@ class JsonConverterTest {
         configManager.writeFile(Path.of(TEST_PATH_CONFIG_FILE))
         val expected = configFile
         val actual = configManager.decodeConfig()?.copy(
+            codeChartsConfig = configFile.codeChartsConfig,
             eyeTrackingConfig = configFile.eyeTrackingConfig,
             bubbleViewConfig = configFile.bubbleViewConfig
         )

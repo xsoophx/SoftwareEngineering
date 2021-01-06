@@ -7,7 +7,7 @@ import org.litote.kmongo.util.KMongoUtil.defaultCollectionName
 import tornadofx.Controller
 import kotlin.reflect.KClass
 
-const val DATABASE_NAME = "test"
+const val DATABASE_NAME = "prod"
 
 class Database(databaseName: String = DATABASE_NAME) : Controller() {
     private val client = KMongo.createClient()

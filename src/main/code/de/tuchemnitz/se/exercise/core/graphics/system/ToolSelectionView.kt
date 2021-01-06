@@ -1,8 +1,9 @@
 package de.tuchemnitz.se.exercise.core.graphics.system
 
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
+import de.tuchemnitz.se.exercise.core.graphics.codecharts.CodeChartsView
+import de.tuchemnitz.se.exercise.core.graphics.zoommaps.ZoomMapsView
 import javafx.geometry.Pos
-import javafx.scene.control.Button
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
@@ -22,7 +23,6 @@ class ToolSelectionView : View("Software Praktikum - Gruppe 4 - Tool Selection")
     private val logger = LoggerFactory.getLogger(this::class.java)
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
     private val contentBox: VBox by fxid("content")
-    val gitButton: Button by fxid("git_button")
 
     init {
         with(contentBox) {
@@ -42,7 +42,7 @@ class ToolSelectionView : View("Software Praktikum - Gruppe 4 - Tool Selection")
                     font = Font(22.0)
                     textAlignment = TextAlignment.CENTER
                     action {
-                        // replaceWith()
+                        replaceWith(CodeChartsView::class)
                     }
                 }
                 button("Zoom Maps Tool") {
@@ -50,7 +50,7 @@ class ToolSelectionView : View("Software Praktikum - Gruppe 4 - Tool Selection")
                     font = Font(22.0)
                     textAlignment = TextAlignment.CENTER
                     action {
-                        // replaceWith()
+                        replaceWith(ZoomMapsView::class)
                     }
                 }
             }
