@@ -10,14 +10,16 @@ import javafx.scene.paint.Color.BLACK
 import javafx.scene.paint.Color.MEDIUMSPRINGGREEN
 import javafx.scene.text.Font
 import javafx.scene.text.TextAlignment
-import tornadofx.button
-import tornadofx.text
+import org.slf4j.LoggerFactory
 import tornadofx.View
 import tornadofx.action
+import tornadofx.button
 import tornadofx.hbox
+import tornadofx.text
 import tornadofx.vgrow
 
 class ToolSelectionView : View("Software Praktikum - Gruppe 4 - Tool Selection") {
+    private val logger = LoggerFactory.getLogger(this::class.java)
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
     private val contentBox: VBox by fxid("content")
     val gitButton: Button by fxid("git_button")
@@ -67,10 +69,10 @@ class ToolSelectionView : View("Software Praktikum - Gruppe 4 - Tool Selection")
     }
 
     override fun onDock() {
-        // println("Docking Login View!") TODO: logging
+        logger.info("Dock ToolSelectionView...")
     }
 
     override fun onUndock() {
-        // println("Undocking Login View!") TODO: logging
+        logger.info("Undock ToolSelectionView...")
     }
 }
