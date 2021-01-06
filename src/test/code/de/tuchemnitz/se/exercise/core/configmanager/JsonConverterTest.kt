@@ -6,6 +6,8 @@ import de.tuchemnitz.se.exercise.DummyData
 import de.tuchemnitz.se.exercise.TEST_PATH_CONFIG_FILE
 import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
 import kotlinx.serialization.json.Json
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import java.nio.file.Files
@@ -36,6 +38,16 @@ class JsonConverterTest {
         )
     }
 
+    @BeforeEach
+    fun setup() {
+        DummyData.codeChartsConfigCollection.saveOne(DummyData.codeChartsConfigs.first())
+    }
+
+    @AfterEach
+    fun clearUp() {
+        DummyData.codeChartsConfigCollection.deleteMany()
+    }
+
     @Test
     fun `encoding valid config file works`() = try {
         val content = assertDoesNotThrow {
@@ -53,6 +65,7 @@ class JsonConverterTest {
         configManager.writeFile(Path.of(TEST_PATH_CONFIG_FILE))
         val expected = configFile
         val actual = configManager.decodeConfig()?.copy(
+            codeChartsConfig = configFile.codeChartsConfig,
             eyeTrackingConfig = configFile.eyeTrackingConfig,
             bubbleViewConfig = configFile.bubbleViewConfig
         )

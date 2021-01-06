@@ -37,7 +37,7 @@ import java.nio.file.Path
  *
  * @property configFilePath is the path to the config file. It's default is the relative path to this application.
  */
-class ConfigManager(var configFilePath: String = "") : Controller() {
+class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
 
     data class ConfigCollections(
         val codeChartsConfigCollection: CodeChartsConfigCollection,

@@ -32,7 +32,7 @@ import tornadofx.set
 class CodeChartsConfigMapperTest : Controller() {
 
     private val db = Database("test")
-    private val cfgMan = ConfigManager(database = db.database)
+    private val cfgMan = ConfigManager()
 
     init {
         scope.set(db, cfgMan)

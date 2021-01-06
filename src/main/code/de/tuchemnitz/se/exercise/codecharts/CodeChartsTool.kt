@@ -15,7 +15,7 @@ const val PICTURE_VIEW_TIME = 2.0
 
 class CodeChartsTool : AbstractTool(primaryView = CodeChartsDialogView::class) {
     private val db = Database("prod")
-    private val cfgMan = ConfigManager(database = db.database)
+    private val cfgMan = ConfigManager()
 
     init {
         scope.set(db, cfgMan)
