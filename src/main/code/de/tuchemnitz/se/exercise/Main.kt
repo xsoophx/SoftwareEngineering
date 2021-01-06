@@ -1,6 +1,6 @@
 package de.tuchemnitz.se.exercise
 
-import de.tuchemnitz.se.exercise.core.graphics.MainApp
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool
 import tornadofx.launch
 
 class Main(
@@ -9,7 +9,7 @@ class Main(
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            launch<MainApp>(args)
+            launch<CodeChartsTool>(args)
         }
     }
 
