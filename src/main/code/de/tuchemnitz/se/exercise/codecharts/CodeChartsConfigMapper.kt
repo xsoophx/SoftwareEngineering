@@ -7,10 +7,10 @@ import de.tuchemnitz.se.exercise.persist.configs.PictureData
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import tornadofx.Controller
 
-class CodeChartsConfigMapper(private val codeChartsValues: CodeChartsValues) : Controller() {
+class CodeChartsConfigMapper : Controller() {
     private val configManager: ConfigManager by inject()
 
-    fun saveCodeChartsDatabaseConfig() {
+    fun saveCodeChartsDatabaseConfig(codeChartsValues: CodeChartsValues) {
         configManager.saveConfig(
             CodeChartsConfig(
                 minViewsToSubdivide = 0,

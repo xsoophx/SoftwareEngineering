@@ -4,6 +4,7 @@ import de.tuchemnitz.se.exercise.codecharts.Dimension
 import de.tuchemnitz.se.exercise.codecharts.Interval2D
 import de.tuchemnitz.se.exercise.codecharts.StringCharacters
 import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
+import de.tuchemnitz.se.exercise.persist.Database
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.Grid
 import de.tuchemnitz.se.exercise.persist.configs.PictureData
@@ -14,17 +15,27 @@ import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.now
 import javafx.scene.input.KeyCode
 import tornadofx.Controller
+import tornadofx.Scope
+import tornadofx.set
 
 const val TEST_PATH_CONFIG_FILE = "testCfg.json"
 
 object DummyData : Controller() {
-    val manager = ConfigManager(configFilePath = TEST_PATH_CONFIG_FILE)
+
+    override val scope: Scope = Scope().apply {
+        set(Database(databaseName = "test"))
+    }
+    val configManager: ConfigManager by inject()
     val codeChartsConfigCollection: CodeChartsConfigCollection by inject()
     val zoomMapsConfigCollection: ZoomMapsConfigCollection by inject()
     private val baseTime = now()
 
+    init {
+        configManager.configFilePath = TEST_PATH_CONFIG_FILE
+    }
+
     @get: JvmStatic
-    val codeChartsConfigs = setOf(
+    val codeChartsConfigs = listOf(
         CodeChartsConfig(
             savedAt = baseTime.plusSeconds(1L),
             minViewsToSubdivide = 0,

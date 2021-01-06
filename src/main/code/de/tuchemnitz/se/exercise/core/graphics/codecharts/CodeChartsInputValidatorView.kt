@@ -71,7 +71,7 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
         val userInput = inputString.text
         if (codeChartsStringHandler.getStrings().contains(userInput)) {
             calculateEyePosition(userInput)
-            CodeChartsConfigMapper(codeChartsData).saveCodeChartsDatabaseConfig()
+            CodeChartsConfigMapper().saveCodeChartsDatabaseConfig(codeChartsData)
             replaceWith(CodeChartsThankfulView::class)
             inputString.text = ""
         } else {

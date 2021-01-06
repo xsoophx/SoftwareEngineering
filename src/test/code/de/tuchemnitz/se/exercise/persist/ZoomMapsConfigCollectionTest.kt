@@ -25,7 +25,7 @@ class ZoomMapsConfigCollectionTest : Controller() {
     private val collection: ZoomMapsConfigCollection by inject()
 
     companion object {
-        private val configs = setOf(
+        private val configs = listOf(
             ZoomMapsConfig(zoomSpeed = 0.5F, zoomKey = KeyCode.A),
             ZoomMapsConfig(zoomSpeed = 0.1F, zoomKey = KeyCode.CONTROL),
             ZoomMapsConfig(zoomSpeed = 2.3F, zoomKey = KeyCode.SPACE)

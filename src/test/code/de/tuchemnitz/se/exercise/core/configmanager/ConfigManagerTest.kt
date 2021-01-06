@@ -39,7 +39,7 @@ class ConfigManagerTest {
 
     @Test
     fun `comparing db and file content should work`() { // file content empty, file different from DB, file like DB
-        DummyData.manager.checkDBSimilarity()
+        DummyData.configManager.checkDBSimilarity()
     }
 
     @Test
@@ -47,7 +47,7 @@ class ConfigManagerTest {
         val testPath = Path.of("bull/shit.txt")
 
         assertDoesNotThrow {
-            DummyData.manager.writeFile(testPath)
+            DummyData.configManager.writeFile(testPath)
         }
     }
 
@@ -56,7 +56,7 @@ class ConfigManagerTest {
         val testPath = Path.of("bull/shit.txt")
 
         assertDoesNotThrow {
-            assertThat(DummyData.manager.readFile(testPath)).isNull()
+            assertThat(DummyData.configManager.readFile(testPath)).isNull()
         }
     }
 
@@ -70,12 +70,6 @@ class ConfigManagerTest {
         every { mockedCollection.find(any()) } returns mockedResult
         mockedCollection.find(BsonDocument()) shouldBe mockedResult
         verify { mockedCollection.find(any()) }
-    }
-
-    @Test
-    fun `setting config path should work`() {
-        DummyData.manager.configFilePath = "abc"
-        assertThat(DummyData.manager.configFilePath).isEqualTo("abc")
     }
 
     @Test
@@ -117,7 +111,7 @@ class ConfigManagerTest {
                 )
             )
         )
-        val actual = DummyData.manager.assembleAllConfigurations()
+        val actual = DummyData.configManager.assembleAllConfigurations()
             .copy(
                 eyeTrackingConfig = expected.eyeTrackingConfig,
                 bubbleViewConfig = expected.bubbleViewConfig

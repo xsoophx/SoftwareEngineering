@@ -89,7 +89,7 @@ class AbstractCollectionTest : AbstractDatabaseTest(db = mockk(relaxed = true)) 
     @Test
     fun `saving many`() {
         val configs =
-            setOf(DummyConfig(payload = "alpha"), DummyConfig(payload = "bravo"), DummyConfig(payload = "charlie"))
+            listOf(DummyConfig(payload = "alpha"), DummyConfig(payload = "bravo"), DummyConfig(payload = "charlie"))
         val mockedResult = mockk<InsertManyResult>()
 
         every { mockedCollection.insertMany(any()) } returns mockedResult

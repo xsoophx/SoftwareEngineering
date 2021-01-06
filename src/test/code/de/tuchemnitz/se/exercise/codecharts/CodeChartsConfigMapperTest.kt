@@ -10,10 +10,14 @@ import de.tuchemnitz.se.exercise.persist.Database
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.data.collections.CodeChartsDataCollection
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
+import io.mockk.clearMocks
+import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.AfterEach
@@ -31,14 +35,13 @@ import tornadofx.set
 @ExtendWith(MockKExtension::class)
 class CodeChartsConfigMapperTest : Controller() {
 
-    private val db = Database("test")
-    private val cfgMan = ConfigManager()
+    private val configManager: ConfigManager = mockk()
 
     init {
-        scope.set(db, cfgMan)
+        scope.set(configManager)
     }
 
-    private val codeChartsDataCollection: CodeChartsDataCollection by inject()
+    private val codeChartsConfigMapper: CodeChartsConfigMapper by inject()
 
     companion object {
         @Suppress("unused")
@@ -63,25 +66,20 @@ class CodeChartsConfigMapperTest : Controller() {
 
     @AfterEach
     fun cleanUp() {
-        codeChartsDataCollection.deleteMany()
+        confirmVerified(configManager)
     }
 
-    @ParameterizedTest
-    @MethodSource("codeChartsData")
-    fun `config is mapped function is properly called`(input: CodeChartsData) {
-        val codeChartsConfigMapper = mockk<CodeChartsConfigMapper>()
-        val mockedResult = mockk<Unit>()
-
-        every { codeChartsConfigMapper.saveCodeChartsDatabaseConfig() } returns mockedResult
-        codeChartsConfigMapper.saveCodeChartsDatabaseConfig()
-        verify { codeChartsConfigMapper.saveCodeChartsDatabaseConfig() }
+    @BeforeEach
+    fun setup() {
+        clearMocks(configManager)
     }
 
-    @Test
-    fun `config is stored in db properly`() {
-        val codeChartsConfigMapper = CodeChartsConfigMapper(codeChartsValues)
-        codeChartsConfigMapper.saveCodeChartsDatabaseConfig()
-        assertThat(codeChartsDataCollection.find(codeChartsValues::matrixViewTime eq 1.0))
-            .containsOnly(codeChartsValues)
-    }
+  /*  @Test
+    fun `saveConfig is invoked by mapper`() {
+        every { configManager.saveConfig(any()) } just Runs
+        codeChartsConfigMapper.saveCodeChartsDatabaseConfig(codeChartsValues)
+        verify { configManager.saveConfig(codeChartsValues) }
+        verify { configManager.saveConfig(input) }
+    }*/
+
 }

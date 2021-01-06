@@ -1,11 +1,8 @@
 package de.tuchemnitz.se.exercise.codecharts
 
 import de.tuchemnitz.se.exercise.core.AbstractTool
-import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
 import de.tuchemnitz.se.exercise.core.graphics.codecharts.CodeChartsDialogView
-import de.tuchemnitz.se.exercise.persist.Database
 import javafx.stage.Stage
-import tornadofx.set
 
 const val IMAGE_PATH = "/Chameleon.jpg"
 const val GRID_WIDTH = 50
@@ -14,12 +11,6 @@ const val MATRIX_VIEW_TIME = 2.0
 const val PICTURE_VIEW_TIME = 2.0
 
 class CodeChartsTool : AbstractTool(primaryView = CodeChartsDialogView::class) {
-    private val db = Database("prod")
-    private val cfgMan = ConfigManager()
-
-    init {
-        scope.set(db, cfgMan)
-    }
 
     companion object {
         private val allowedCharacters = StringCharacters(upperCase = true, lowerCase = true, numbers = true)

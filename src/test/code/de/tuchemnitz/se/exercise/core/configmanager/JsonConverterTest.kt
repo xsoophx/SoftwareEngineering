@@ -16,7 +16,7 @@ import java.nio.file.Paths
 
 class JsonConverterTest {
     companion object {
-        private val configManager = DummyData.manager
+        private val configManager = DummyData.configManager
 
         private val configFile = ConfigFile(
             general = General(selectionMenuEnabled = true, activatedTool = null, configPath = ""),
