@@ -57,7 +57,7 @@
               </Menu>
             </menus>
           </MenuBar>
-            <VBox fx:id="content" />
+            <VBox fx:id="content" VBox.vgrow="ALWAYS" />
         </children>
       </VBox>
    </center>
