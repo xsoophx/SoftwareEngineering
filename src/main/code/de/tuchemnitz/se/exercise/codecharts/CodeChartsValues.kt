@@ -21,7 +21,7 @@ data class CodeChartsValues(
     val sorted: Boolean = false,
 
     // userInput
-    var eyePos: Interval2D,
+    var eyePos: Interval2D
 )
 
 @Serializable

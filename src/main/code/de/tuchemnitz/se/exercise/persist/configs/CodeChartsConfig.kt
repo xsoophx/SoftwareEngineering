@@ -15,8 +15,8 @@ data class CodeChartsConfig(
     @Transient override val savedAt: Instant = now(),
     val minViewsToSubdivide: Int,
     val stringCharacters: StringCharacters,
-    val pictures: List<PictureData>,
-    ) : IConfig
+    val pictures: List<PictureData>
+) : IConfig
 
 @Serializable
 data class PictureData(

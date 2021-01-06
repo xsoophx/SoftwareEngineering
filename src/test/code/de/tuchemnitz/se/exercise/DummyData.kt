@@ -83,7 +83,7 @@ object DummyData : Controller() {
                     maxRecursionDepth = 4
                 )
             )
-        ),
+        )
     )
 
     @JvmStatic
