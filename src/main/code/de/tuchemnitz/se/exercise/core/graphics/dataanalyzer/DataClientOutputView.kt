@@ -15,7 +15,7 @@ class DataClientOutputView : View("Data Client Output") {
             imageview {
 
                 image = Image(
-                    "src/main/resources/output.bmp"
+                    "output.bmp"
                 )
             }
             button("NEXT") {
