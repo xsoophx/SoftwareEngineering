@@ -12,6 +12,7 @@ import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
+import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.now
 import javafx.scene.input.KeyCode
 import tornadofx.Controller
@@ -132,4 +133,17 @@ object DummyData : Controller() {
 
     @JvmStatic
     fun codeChartsData() = codeChartsData.stream()
+
+    val userData = listOf(
+        UserData(
+            firstName = "Klaus",
+            surName = "Nikolaus",
+            age = 61
+        ),
+        UserData(
+            firstName = "Winter",
+            surName = "Kind",
+            age = 14
+        )
+    )
 }
