@@ -1,6 +1,6 @@
 package de.tuchemnitz.se.exercise
 
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool
+import de.tuchemnitz.se.exercise.dataanalyzer.DataClientLaunch
 import tornadofx.launch
 
 class Main(
@@ -9,7 +9,7 @@ class Main(
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            launch<CodeChartsTool>(args)
+            launch<DataClientLaunch>(args)
         }
     }
 

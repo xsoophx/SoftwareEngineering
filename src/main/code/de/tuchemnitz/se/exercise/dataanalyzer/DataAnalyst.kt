@@ -1,47 +1,68 @@
-import de.tuchemnitz.se.exercise.dataanalyzer.DataAnalystPicture
-import de.tuchemnitz.se.exercise.dataanalyzer.Query
-import de.tuchemnitz.se.exercise.dataanalyzer.RenderData
+package de.tuchemnitz.se.exercise.dataanalyzer
 
-class DataAnalyst(val state: Boolean, val dataRenderer: List<RenderData>) {
+import org.litote.kmongo.newId
+import org.slf4j.LoggerFactory
+
+const val kittenImg = "/Chameleon.jpg"
+
+class DataAnalyst() {
     companion object {
-        private val queryBuilder = Query()
+        val logger = LoggerFactory.getLogger("DataAnalyst Logger")
+        var processor: DataProcessor = DataProcessor()
+        var renderer: DataRenderer = DataRenderer()
+        // val colors: Set<ColorSampleBoard> 
+       // val query: QueryBuilder = QueryBuilder("")
     }
 
-    private fun validate() {
-        // should chek if tool matches method
-        // should return true if (tool == codeCharts || tool == zoomMaps) && (method == heatMap || method == Diagram)
-        // should return true if (tool == webcam && method == timeline)
-        // else return false
+    // process data by render method
+
+    fun process(method: IMethod, data: List<DummyData>): MutableList<Coordinates> {
+
+        when (method) {
+            is DataRenderHeatMap -> {
+                processor = DataProcessorHeatMap()
+            }
+            is DataRenderDiagram -> {
+                processor = DataProcessorDiagram()
+            }
+        }
+        return processor.process(data)
     }
 
-    private fun getData() {
-        // should create new query object
-        // should return data
+    fun getData(
+        tool: ITool,
+        ageLowerLimit: Number,
+        ageUpperLimit: Number,
+        gender: String
+    ): List<DummyData> {
+
+        when (tool) {
+            //is CodeCharts -> return QueryBuilder("CodeCharts").find(ageLowerLimit, ageUpperLimit, gender)
+                is CodeCharts -> {
+                    val DummyDataList: MutableList<DummyData> = mutableListOf()
+                    val dummyDataset = DummyData(
+                        newId(), kittenImg,
+                        Dimension(400.0, 600.0),
+                        Dimension(300.0, 500.0),
+                    Interval2D(70.0, 100.0, 50.0, 80.0),
+                    )
+                    DummyDataList.add(dummyDataset)
+                    return DummyDataList
+                }
+            //is ZoomMaps -> return QueryBuilder("ZoomMaps").find(ageLowerLimit, ageUpperLimit, gender)
+        }
+        return emptyList()
     }
 
-    private fun processData(data: Any) {
-        // should create new data processor
-        // should return processed data
-    }
-
-    private fun newColor() {
-        // should return an unused color
-    }
-
-    private fun renderData(coordinates: Array<Number>, image: Any, color: String) {
-        // should create a new data renderer
-        // should return rendered data
-    }
-
-    fun createWindow(size: Pair<Number, Number>) {
-        // should create new window of specified size
-    }
-
-    fun display(image: Array<DataAnalystPicture>) {
-
-        // create new de.tuchemnitz.se.exercise.dataanalyzer.Displayer and pass array of images with rendered data overlay
-    }
-
-    fun close() {
+    fun render(method: IMethod, coordinates: Coordinates) : Boolean{
+        when (method) {
+            is DataRenderHeatMap -> {
+                renderer = DataRenderHeatMap()
+            }
+            is DataRenderDiagram -> {
+                renderer = DataRenderDiagram()
+            }
+        }
+        return renderer.render(coordinates)
     }
 }
