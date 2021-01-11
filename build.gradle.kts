@@ -8,6 +8,7 @@ plugins {
     id("org.openjfx.javafxplugin") version "0.0.9"
     id("org.jlleitschuh.gradle.ktlint-idea") version "9.4.1"
     id("com.diffplug.spotless") version "5.8.2"
+    id("org.jetbrains.dokka") version "1.4.20"
 }
 
 group = "de.tuchemnitz"
@@ -18,6 +19,7 @@ repositories {
     maven {
         url = uri("https://plugins.gradle.org/m2/")
     }
+    jcenter()
 }
 
 javafx {
