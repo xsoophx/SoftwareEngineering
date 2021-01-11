@@ -1,15 +1,10 @@
 package de.tuchemnitz.se.exercise.core.graphics.system
 
-import de.tu_chemnitz.se.exercise.core.configmanager.ConfigManager
-import de.tuchemnitz.se.exercise.core.graphics.MainApp
+import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import javafx.collections.FXCollections
-import javafx.geometry.HPos
 import javafx.geometry.Pos
-import javafx.scene.control.Button
 import javafx.scene.control.ComboBox
-import javafx.scene.control.PasswordField
-import javafx.scene.control.TextField
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
 import org.slf4j.LoggerFactory
@@ -20,13 +15,10 @@ import tornadofx.combobox
 import tornadofx.gridpane
 import tornadofx.hbox
 import tornadofx.label
-import tornadofx.passwordfield
 import tornadofx.px
 import tornadofx.row
 import tornadofx.singleAssign
 import tornadofx.style
-import tornadofx.textfield
-import java.awt.Font
 
 class StartupView : View("Software Praktikum - Gruppe 4") {
     override val root: BorderPane by fxml("/views/MainViewTemplate.fxml")
@@ -43,12 +35,12 @@ class StartupView : View("Software Praktikum - Gruppe 4") {
     init {
         with(contentBox) {
             gridpane {
-                alignment=Pos.CENTER
-                style{
+                alignment = Pos.CENTER
+                style {
                     fontSize = 15.px
                 }
                 row {
-                    label("Please enter your data"){
+                    label("Please enter your data") {
                         style {
                             fontSize = 30.px
                         }
@@ -75,8 +67,8 @@ class StartupView : View("Software Praktikum - Gruppe 4") {
                         this.value = items[0] //has to be initialized to avoid reading errors
                     }
                 }
-                row{
-                    button("Confirm"){
+                row {
+                    button("Confirm") {
                         action {
                             logger.info("Age: " + ageField.value.toString() + "\nSex: " + sexField.value.toString() + "\nVision impaired: " + visionField.value.toString())
                         }
@@ -96,7 +88,7 @@ class StartupView : View("Software Praktikum - Gruppe 4") {
 
     private val configManager: ConfigManager by inject()
 
-    fun test(){
+    fun test() {
         var userConfig: UserData by singleAssign()
     }
 

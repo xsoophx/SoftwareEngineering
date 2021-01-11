@@ -11,9 +11,11 @@ import de.tuchemnitz.se.exercise.persist.configs.collections.EyeTrackingConfigCo
 import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.data.EyeTrackingData
+import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
 import de.tuchemnitz.se.exercise.persist.data.collections.CodeChartsDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.EyeTrackingDataCollection
+import de.tuchemnitz.se.exercise.persist.data.collections.UserDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.ZoomMapsDataCollection
 import javafx.scene.input.KeyCode
 import kotlinx.serialization.Serializable
@@ -46,7 +48,8 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
     data class DataCollections(
         val codeChartsDataCollection: CodeChartsDataCollection,
         val zoomMapsDataCollection: ZoomMapsDataCollection,
-        val eyeTrackingDataCollection: EyeTrackingDataCollection
+        val eyeTrackingDataCollection: EyeTrackingDataCollection,
+        val userDataCollection: UserDataCollection
     )
 
     private val codeChartsConfigCollection: CodeChartsConfigCollection by inject()
@@ -56,6 +59,7 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
     private val codeChartsDataCollection: CodeChartsDataCollection by inject()
     private val zoomMapsDataCollection: ZoomMapsDataCollection by inject()
     private val eyeTrackingDataCollection: EyeTrackingDataCollection by inject()
+    private val userDataCollection: UserDataCollection by inject()
 
     private val configCollections = ConfigCollections(
         codeChartsConfigCollection,
@@ -66,7 +70,8 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
     private val dataCollections = DataCollections(
         codeChartsDataCollection,
         zoomMapsDataCollection,
-        eyeTrackingDataCollection
+        eyeTrackingDataCollection,
+        userDataCollection
     )
 
     companion object {
@@ -147,6 +152,7 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
             is CodeChartsData -> dataCollections.codeChartsDataCollection.saveOne(config)
             is ZoomMapsData -> dataCollections.zoomMapsDataCollection.saveOne(config)
             is EyeTrackingData -> dataCollections.eyeTrackingDataCollection.saveOne(config)
+            is UserData -> dataCollections.userDataCollection.saveOne(config)
             else -> logger.error("Couldn't fetch this Config type.")
         }
     }
