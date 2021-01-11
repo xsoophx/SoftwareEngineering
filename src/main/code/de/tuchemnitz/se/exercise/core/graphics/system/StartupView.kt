@@ -1,12 +1,17 @@
 package de.tuchemnitz.se.exercise.core.graphics.system
 
 import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
+import de.tuchemnitz.se.exercise.persist.data.Gender
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import javafx.collections.FXCollections
 import javafx.geometry.Pos
 import javafx.scene.control.ComboBox
+import javafx.scene.control.TextField
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
+import javafx.scene.paint.Color
+import javafx.scene.text.Font
+import javafx.scene.text.TextAlignment
 import org.slf4j.LoggerFactory
 import tornadofx.View
 import tornadofx.action
@@ -19,6 +24,7 @@ import tornadofx.px
 import tornadofx.row
 import tornadofx.singleAssign
 import tornadofx.style
+import tornadofx.textfield
 
 class StartupView : View("Software Praktikum - Gruppe 4") {
     override val root: BorderPane by fxml("/views/MainViewTemplate.fxml")
@@ -28,59 +34,77 @@ class StartupView : View("Software Praktikum - Gruppe 4") {
     }
 
     val contentBox: VBox by fxid("content")
+    var firstNameField: TextField by singleAssign()
+    var surnameField: TextField by singleAssign()
     var ageField: ComboBox<Int> by singleAssign()
-    var sexField: ComboBox<String> by singleAssign()
-    var visionField: ComboBox<String> by singleAssign()
+    var genderField: ComboBox<Gender> by singleAssign()
+    var visionField: ComboBox<Boolean> by singleAssign()
 
     init {
         with(contentBox) {
+            alignment = Pos.CENTER
+            spacing = 64.0
+            label("Please enter your data") {
+                style {
+                    fontSize = 32.px
+                }
+            }
             gridpane {
                 alignment = Pos.CENTER
-                style {
-                    fontSize = 15.px
+                style{
+                    fontSize = 16.px
                 }
                 row {
-                    label("Please enter your data") {
-                        style {
-                            fontSize = 30.px
-                        }
-                    }
+                    label("First Name: ")
+                    firstNameField = textfield()
                 }
                 row {
-                    label("Age:")
+                    label("Surname: ")
+                    surnameField = textfield()
+                }
+                row {
+                    label("Age*:")
                     ageField = combobox<Int> {
                         items = FXCollections.observableArrayList((1..99).toList())
                         this.value = items[0] //has to be initialized to avoid reading errors
                     }
                 }
                 row {
-                    label("Sex:")
-                    sexField = combobox<String> {
-                        items = FXCollections.observableArrayList("Male", "Female", "Diverse")
+                    label("Gender*:")
+                    genderField = combobox<Gender> {
+                        items = FXCollections.observableArrayList(Gender.values().toList())
                         this.value = items[0] //has to be initialized to avoid reading errors
                     }
                 }
                 row {
-                    label("Impaired Vision:")
-                    visionField = combobox<String> {
-                        items = FXCollections.observableArrayList("No", "Yes")
+                    label("Impaired Vision*:")
+                    visionField = combobox<Boolean> {
+                        items = FXCollections.observableArrayList(false, true)
                         this.value = items[0] //has to be initialized to avoid reading errors
                     }
                 }
                 row {
                     button("Confirm") {
                         action {
-                            logger.info("Age: " + ageField.value.toString() + "\nSex: " + sexField.value.toString() + "\nVision impaired: " + visionField.value.toString())
+                            confirmInput()
+                        }
+                    }
+                }
+                row {
+                    label("*: mandatory"){
+                        style {
+                            fontSize = 12.px
                         }
                     }
                 }
             }
-
-            hbox(15) {
-                button("go back") {
-                    action {
-                        logger.info("Return Button pressed")
-                    }
+            button("Beenden") {
+                textFill = Color.BLACK
+                font = Font(22.0)
+                textAlignment = TextAlignment.CENTER
+                alignment = Pos.BOTTOM_CENTER
+                action {
+                    primaryStage.close()
                 }
             }
         }
@@ -88,8 +112,15 @@ class StartupView : View("Software Praktikum - Gruppe 4") {
 
     private val configManager: ConfigManager by inject()
 
-    fun test() {
-        var userConfig: UserData by singleAssign()
+    fun confirmInput() {
+        val userConfig = UserData(
+            firstName = firstNameField.text,
+            surname = surnameField.text,
+            age = ageField.value,
+            gender = genderField.value,
+            visionImpaired = visionField.value
+        )
+        replaceWith(ToolSelectionView::class)
     }
 
     fun printGitButton() {

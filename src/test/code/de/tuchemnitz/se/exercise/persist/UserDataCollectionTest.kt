@@ -26,9 +26,9 @@ class UserDataCollectionTest : Controller() {
     @Suppress("SpellCheckingInspection")
     companion object {
         private val configs = listOf(
-            UserData(firstName = "Testuser", surName = "Kotlin", age = 45),
-            UserData(firstName = "anotherUser", surName = "Java", age = 25),
-            UserData(firstName = "Santa", surName = "Claus", age = 65)
+            UserData(firstName = "Testuser", surname = "Kotlin", age = 45),
+            UserData(firstName = "anotherUser", surname = "Java", age = 25),
+            UserData(firstName = "Santa", surname = "Claus", age = 65)
         )
     }
 
