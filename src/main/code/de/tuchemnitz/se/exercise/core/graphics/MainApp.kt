@@ -1,12 +1,13 @@
 package de.tuchemnitz.se.exercise.core.graphics
 
 import de.tuchemnitz.se.exercise.core.graphics.system.LoginView
+import de.tuchemnitz.se.exercise.core.graphics.system.StartupView
 import javafx.stage.Stage
 import tornadofx.App
 import tornadofx.importStylesheet
 
 class MainApp : App() {
-    override val primaryView = LoginView::class
+    override val primaryView = StartupView::class
 
     companion object {
         const val MAIN_VIEW_TEMPLATE_PATH = "/views/MainViewTemplate.fxml"
