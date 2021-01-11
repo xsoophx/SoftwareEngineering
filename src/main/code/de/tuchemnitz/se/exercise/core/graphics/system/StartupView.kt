@@ -2,6 +2,7 @@ package de.tuchemnitz.se.exercise.core.graphics.system
 
 import de.tu_chemnitz.se.exercise.core.configmanager.ConfigManager
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
+import de.tuchemnitz.se.exercise.persist.data.UserData
 import javafx.collections.FXCollections
 import javafx.geometry.HPos
 import javafx.geometry.Pos
@@ -93,12 +94,11 @@ class StartupView : View("Software Praktikum - Gruppe 4") {
         }
     }
 
-    /*private val configManager: ConfigManager by inject()
-    val UserConfig = //--> main>persist>data
+    private val configManager: ConfigManager by inject()
 
     fun test(){
-        configManager.saveConfig(UserConfig)
-    }*/
+        var userConfig: UserData by singleAssign()
+    }
 
     fun printGitButton() {
         logger.info("GIT Button pressed")
