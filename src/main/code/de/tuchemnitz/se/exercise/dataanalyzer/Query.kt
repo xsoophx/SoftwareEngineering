@@ -43,7 +43,7 @@ class Query : AbstractCollection<IPersist>(IPersist::class) {
         return userDataCollection.find(
             and(
                 (UserData::firstName eq filter.firstName.value).takeIf { filter.firstName.taken },
-                (UserData::surName eq filter.surName.value).takeIf { filter.surName.taken },
+                (UserData::lastName eq filter.surName.value).takeIf { filter.surName.taken },
                 (UserData::age eq filter.age.value).takeIf { filter.age.taken },
             )
         ).toList()

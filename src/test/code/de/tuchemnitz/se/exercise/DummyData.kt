@@ -137,12 +137,12 @@ object DummyData : Controller() {
     val userData = listOf(
         UserData(
             firstName = "Klaus",
-            surName = "Nikolaus",
+            lastName = "Nikolaus",
             age = 61
         ),
         UserData(
             firstName = "Winter",
-            surName = "Kind",
+            lastName = "Kind",
             age = 14
         )
     )
