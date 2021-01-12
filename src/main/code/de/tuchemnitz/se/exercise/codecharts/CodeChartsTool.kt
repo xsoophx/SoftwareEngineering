@@ -1,10 +1,10 @@
 package de.tuchemnitz.se.exercise.codecharts
 
 const val IMAGE_PATH = "/Chameleon.jpg"
-const val GRID_WIDTH = 50
-const val GRID_HEIGHT = 50
-const val MATRIX_VIEW_TIME = 2.0
-const val PICTURE_VIEW_TIME = 2.0
+const val GRID_WIDTH = 10
+const val GRID_HEIGHT = 10
+const val MATRIX_VIEW_TIME = 5.0
+const val PICTURE_VIEW_TIME = 5.0
 
 object CodeChartsTool {
 
@@ -20,7 +20,9 @@ object CodeChartsTool {
         eyePos = Interval2D(0.0, 0.0, 0.0, 0.0),
         originalImageSize = Dimension(0.0, 0.0),
         scaledImageSize = Dimension(0.0, 0.0),
-        screenSize = Dimension(0.0, 0.0)
+        screenSize = Dimension(0.0, 0.0),
+        relative = true,
+        recursionDepth = 2,
     )
     val codeChartsStringHandler = CodeChartsStringHandler().apply {
         // generate needed number of Strings
@@ -35,4 +37,7 @@ object CodeChartsTool {
             orderList()
         }
     }
+    val codeChartsClickCounter = ClickCounter(
+        clickList = MutableList((codeChartsData.gridDimension.x * codeChartsData.gridDimension.y).toInt()) { 0 }
+    )
 }

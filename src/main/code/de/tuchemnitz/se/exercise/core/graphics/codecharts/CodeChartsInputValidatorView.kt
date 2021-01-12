@@ -1,6 +1,7 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsConfigMapper
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsClickCounter
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsStringHandler
 import de.tuchemnitz.se.exercise.codecharts.Interval2D
@@ -79,10 +80,17 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
         logger.info("${codeChartsData.scaledImageSize.x}, ${codeChartsData.scaledImageSize.y}")
     }
 
+    private fun calculateRecursionCounter(userInput: String){
+        println(codeChartsClickCounter.clickList)
+        val listPosition = codeChartsStringHandler.getStrings().indexOf(userInput)
+        codeChartsClickCounter.clickList.set(listPosition, codeChartsClickCounter.clickList.get(listPosition) + 1)
+        println(codeChartsClickCounter.clickList)
+    }
     private fun validateInput() {
         val userInput = inputString.text
         if (codeChartsStringHandler.getStrings().contains(userInput)) {
             calculateEyePosition(userInput)
+            calculateRecursionCounter(userInput)
             CodeChartsConfigMapper().saveCodeChartsDatabaseConfig(codeChartsData)
             replaceWith(CodeChartsThankfulView::class)
             inputString.text = ""

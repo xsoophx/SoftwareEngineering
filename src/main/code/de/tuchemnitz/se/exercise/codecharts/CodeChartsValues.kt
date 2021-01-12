@@ -44,3 +44,9 @@ data class Interval2D(
     val yMin: Double,
     val yMax: Double
 )
+
+@Serializable
+data class ClickCounter(
+    val clickList: MutableList<Int>,
+    val recursionCounter: Int = 0,
+)
