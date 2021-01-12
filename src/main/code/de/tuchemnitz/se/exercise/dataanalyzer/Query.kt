@@ -2,8 +2,11 @@ package de.tuchemnitz.se.exercise.dataanalyzer
 
 import de.tuchemnitz.se.exercise.persist.AbstractCollection
 import de.tuchemnitz.se.exercise.persist.IPersist
+import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
+import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.data.UserData
+import de.tuchemnitz.se.exercise.persist.data.collections.CodeChartsDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.UserDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.ZoomMapsDataCollection
 import org.bson.conversions.Bson
@@ -23,6 +26,7 @@ class Query : AbstractCollection<IPersist>(IPersist::class) {
     }
 
     private val userDataCollection: UserDataCollection by inject()
+    private val codeChartsConfigCollection: CodeChartsConfigCollection by inject()
     private val zoomMapsDataCollection: ZoomMapsDataCollection by inject()
 
     fun query(filter: Bson) {
@@ -43,8 +47,18 @@ class Query : AbstractCollection<IPersist>(IPersist::class) {
         return userDataCollection.find(
             and(
                 (UserData::firstName eq filter.firstName.value).takeIf { filter.firstName.taken },
-                (UserData::lastName eq filter.surName.value).takeIf { filter.surName.taken },
+                (UserData::lastName eq filter.lastName.value).takeIf { filter.lastName.taken },
                 (UserData::age eq filter.age.value).takeIf { filter.age.taken },
+            )
+        ).toList()
+    }
+
+    private fun queryCodeChartsConfig(filter: CodeChartsConfigFilter): List<CodeChartsConfig>{
+        return codeChartsConfigCollection.find(
+            and(
+                (CodeChartsConfig::minViewsToSubdivide eq filter.minViewsToSubdivide.value).takeIf {filter.minViewsToSubdivide.taken},
+                (CodeChartsConfig::stringCharacters eq filter.stringCharacters.value).takeIf {filter.stringCharacters.taken},
+                (CodeChartsConfig::pictures eq filter.pictures.value).takeIf {filter.pictures.taken}
             )
         ).toList()
     }

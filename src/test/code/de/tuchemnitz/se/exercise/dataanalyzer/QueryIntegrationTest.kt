@@ -21,7 +21,7 @@ class QueryIntegrationTest : Controller() {
         private val dataFilters = setOf(
             UserDataFilter(
                 firstName = Filter(taken = true, value = "Klaus"),
-                surName = Filter(taken = false, value= ""),
+                lastName = Filter(taken = false, value= ""),
                 age = Filter(taken = false, value = -1)
             )
         )
