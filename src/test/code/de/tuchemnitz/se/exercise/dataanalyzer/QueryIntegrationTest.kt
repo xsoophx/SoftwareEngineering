@@ -1,10 +1,11 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
 import assertk.assertThat
+import assertk.assertions.contains
 import assertk.assertions.containsOnly
+import assertk.assertions.isEqualTo
 import de.tuchemnitz.se.exercise.DummyData
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
-import de.tuchemnitz.se.exercise.persist.data.collections.UserDataCollection
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -14,14 +15,13 @@ import tornadofx.Controller
 class QueryIntegrationTest : Controller() {
 
     private val codeChartsConfigCollection: CodeChartsConfigCollection by inject()
-    private val userDataCollection: UserDataCollection by inject()
 
     companion object {
         val query = Query()
         private val dataFilters = setOf(
             UserDataFilter(
                 firstName = Filter(taken = true, value = "Klaus"),
-                surName = Filter(taken = false, value= ""),
+                surName = Filter(taken = false, value = ""),
                 age = Filter(taken = false, value = -1)
             )
         )
@@ -34,19 +34,23 @@ class QueryIntegrationTest : Controller() {
     @BeforeEach
     fun setup() {
         codeChartsConfigCollection.saveOne(DummyData.codeChartsConfigs.first())
-        userDataCollection.saveMany(DummyData.userData)
+        query.userDataCollection.saveMany(DummyData.userData)
     }
 
     @AfterEach
     fun close() {
         codeChartsConfigCollection.deleteMany()
-        userDataCollection.deleteMany()
+        query.userDataCollection.deleteMany()
     }
 
     @Test
     fun `querying database with given params should work`() {
-        assertThat(userDataCollection.find(DummyData.userData.first()::firstName eq "Klaus")).containsOnly(
-            query.queryAllElementsSeparately(userFilter)
-        )
+        val queryResult = query.queryAllElementsSeparately(userFilter)
+        val databaseIterable = query.userDataCollection.find(DummyData.userData.first()::firstName eq "Klaus")
+
+        databaseIterable.forEach {
+            assertThat(queryResult).contains(it)
+        }
+        assertThat(queryResult.size).isEqualTo(databaseIterable.count())
     }
 }

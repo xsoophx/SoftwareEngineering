@@ -22,7 +22,7 @@ class Query : AbstractCollection<IPersist>(IPersist::class) {
         val logger = LoggerFactory.getLogger(this::class.java)
     }
 
-    private val userDataCollection: UserDataCollection by inject()
+    val userDataCollection: UserDataCollection by inject()
     private val zoomMapsDataCollection: ZoomMapsDataCollection by inject()
 
     fun query(filter: Bson) {

@@ -131,9 +131,6 @@ object DummyData : Controller() {
         )
     )
 
-    @JvmStatic
-    fun codeChartsData() = codeChartsData.stream()
-
     val userData = listOf(
         UserData(
             firstName = "Klaus",
@@ -144,6 +141,11 @@ object DummyData : Controller() {
             firstName = "Winter",
             lastName = "Kind",
             age = 14
+        ),
+        UserData(
+            firstName = "Klaus",
+            lastName = "Kek",
+            age = 25
         )
     )
 }
