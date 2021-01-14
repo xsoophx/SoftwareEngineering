@@ -1,9 +1,5 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
-import de.tuchemnitz.se.exercise.dataanalyzer.DataAnalystPicture
-import de.tuchemnitz.se.exercise.dataanalyzer.Query
-import de.tuchemnitz.se.exercise.dataanalyzer.RenderData
-
 class DataAnalyst(val state: Boolean, val dataRenderer: List<RenderData>) {
     companion object {
         private val queryBuilder = Query()
