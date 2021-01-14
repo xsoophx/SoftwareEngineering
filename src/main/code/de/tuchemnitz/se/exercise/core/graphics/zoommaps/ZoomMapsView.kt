@@ -41,7 +41,7 @@ class ZoomMapsView : View("Zoom Maps") {
     * the scale/speed of the zoom.
     */
     private val scaleProperty = SimpleDoubleProperty(1.0)
-    var scale by scaleProperty
+    private var scale by scaleProperty
 
     /*
     * @param configManager: the ConfigManager is being injected to save and
@@ -53,7 +53,13 @@ class ZoomMapsView : View("Zoom Maps") {
     * @param zoomEnabledProperty: states whether the initial zoom is activated or not (default is false).
     */
     private val zoomEnabledProperty = SimpleBooleanProperty(false)
-    var zoomEnabled by zoomEnabledProperty
+    private var zoomEnabled by zoomEnabledProperty
+
+    /*
+     * @param zoomKey: the zoomKey is retrieved from the settings of the configManager,
+     * in case an error is occurring, it is being set to the char "E"
+     */
+    private val zoomKey = configManager.getZoomMapsConfig()?.zoomKey ?: KeyCode.E
 
     /*
     * Contains Logger, which is logging scroll and zoom Events.
@@ -62,17 +68,18 @@ class ZoomMapsView : View("Zoom Maps") {
         val logger: Logger = LoggerFactory.getLogger("ZoomMapsView Logger")
     }
 
-    /*
-    * With the initialisation, the root of the fxml is being overwritten.
-    */
     init {
-        with(root) {
-
-            /*
-             * @param zoomKey: the zoomKey is retrieved from the settings of the configManager,
-             * in case an error is occurring, it is being set to the char "E"
-             */
-            val zoomKey = configManager.getZoomMapsConfig()?.zoomKey ?: KeyCode.E
+        /*
+        * the contentBox is being filled with the image, on which the user is supposed to zoom in and out.
+        */
+        with(contentBox) {
+            button("Hauptmenü") {
+                action {
+                    replaceWith(ToolSelectionView::class)
+                }
+                prefWidthProperty().bind(root.widthProperty())
+                prefHeightProperty().bind(root.heightProperty())
+            }
 
             /*
              * @receiver root/BorderPane: an EventFilter to the root is added. It is detecting key presses and
@@ -91,19 +98,6 @@ class ZoomMapsView : View("Zoom Maps") {
                     if (d.code == zoomKey)
                         zoomEnabled = false
                 }
-            }
-        }
-
-        /*
-        * the contentBox is being filled with the image, on which the user is supposed to zoom in and out.
-        */
-        with(contentBox) {
-            button("Hauptmenü") {
-                action {
-                    replaceWith(ToolSelectionView::class)
-                }
-                prefWidthProperty().bind(root.widthProperty())
-                prefHeightProperty().bind(root.heightProperty())
             }
 
             /*
