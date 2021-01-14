@@ -8,6 +8,7 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
 import com.mongodb.client.model.Filters
 import de.tuchemnitz.se.exercise.DATABASE
+import de.tuchemnitz.se.exercise.DummyData
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import org.bson.conversions.Bson
@@ -25,11 +26,7 @@ class CodeChartsConfigCollectionTest : Controller() {
     private val codeChartsConfigCollection: CodeChartsConfigCollection by inject()
 
     companion object {
-        private val configs = setOf(
-            CodeChartsConfig(grid = Pair(100, 200), pictureViewTime = 1, matrixViewTime = 2),
-            CodeChartsConfig(grid = Pair(0, 0), pictureViewTime = 0, matrixViewTime = 0),
-            CodeChartsConfig(grid = Pair(400, 400), pictureViewTime = 4, matrixViewTime = 4)
-        )
+        private val configs = DummyData.codeChartsConfigs
     }
 
     @AfterEach

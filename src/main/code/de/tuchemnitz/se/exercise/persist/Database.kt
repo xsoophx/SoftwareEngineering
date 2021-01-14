@@ -7,12 +7,16 @@ import org.litote.kmongo.util.KMongoUtil.defaultCollectionName
 import tornadofx.Controller
 import kotlin.reflect.KClass
 
-const val DATABASE_NAME = "test"
+const val DATABASE_NAME = "prod"
 
 class Database(databaseName: String = DATABASE_NAME) : Controller() {
-    val client = KMongo.createClient()
+    private val client = KMongo.createClient()
     val database: MongoDatabase = client.getDatabase(databaseName)
 
+    /**
+     * Deletes elements matching to a certain filter
+     * @param T of type IPersist, which is used to return the Collection matching to that entity.
+     */
     fun <T : IPersist> getCollection(clazz: KClass<T>): MongoCollection<T> {
         return database.getCollection(defaultCollectionName(clazz), clazz.java)
     }

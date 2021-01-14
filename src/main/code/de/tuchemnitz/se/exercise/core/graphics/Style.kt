@@ -17,6 +17,9 @@ class Style : Stylesheet() {
         val mainCenterStyle by cssclass()
         val mainBottomStyle by cssclass()
         val mainBottomButtonStyle by cssclass()
+        val ccGridWrapper by cssclass()
+        val ccPictureWrapper by cssclass()
+        val ccDialogWrapper by cssclass()
     }
 
     init {
@@ -56,6 +59,19 @@ class Style : Stylesheet() {
         s(mainWrapper) {
             prefHeight = 300.px
             prefWidth = 300.px
+        }
+
+        s(ccPictureWrapper) {
+            prefHeight = 1000.px
+            prefWidth = 1000.px
+            s(imageView)
+            alignment = Pos.TOP_CENTER
+        }
+
+        s(ccDialogWrapper) {
+        }
+
+        s(ccGridWrapper) {
         }
     }
 }
