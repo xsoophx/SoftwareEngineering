@@ -27,6 +27,7 @@ class CodeChartsGridView : View("SoftwarePraktikum - CodeCharts Grid") {
 
     override val root =
         hbox {
+            primaryStage.isFullScreen = true
             alignment = Pos.TOP_CENTER
             datagrid(stringList) {
                 cellWidth = scaledImageSize.x / gridWidth

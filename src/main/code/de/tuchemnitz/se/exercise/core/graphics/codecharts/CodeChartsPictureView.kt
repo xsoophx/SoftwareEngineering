@@ -29,6 +29,7 @@ class CodeChartsPictureView(
     private val screenSize = Dimension(x = screenWidth, y = screenHeight)
 
     override val root = vbox {
+        primaryStage.isFullScreen = true
         addClass(cssRule)
         imageview {
             image = Image(codeChartsData.imagePath)
