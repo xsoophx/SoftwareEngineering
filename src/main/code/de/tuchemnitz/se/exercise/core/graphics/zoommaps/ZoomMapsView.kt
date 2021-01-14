@@ -12,6 +12,7 @@ import javafx.geometry.Rectangle2D
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCode
+import javafx.scene.input.KeyEvent
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import tornadofx.View
@@ -19,6 +20,7 @@ import tornadofx.borderpane
 import tornadofx.center
 import tornadofx.getValue
 import tornadofx.imageview
+import tornadofx.keyboard
 import tornadofx.setValue
 
 class ZoomMapsView : View("Zoom Maps") {
@@ -39,16 +41,17 @@ class ZoomMapsView : View("Zoom Maps") {
 
     override val root = borderpane {
         val zoomKey = configManager.getZoomMapsConfig()?.zoomKey ?: KeyCode.E
-        setOnKeyPressed { e ->
-            logger.info("onKeyPressed: $e")
-            if (e.code == zoomKey) {
-                zoomEnabled = true
+        addEventFilter(KeyEvent.KEY_PRESSED) { d ->
+            keyboard {
+                logger.info("onKeyPressed: $d")
+                zoomEnabled = d.code == zoomKey
             }
         }
-        setOnKeyReleased { e ->
-            logger.info("onKeyReleased: $e")
-            if (e.code == zoomKey) {
-                zoomEnabled = false
+        addEventFilter(KeyEvent.KEY_RELEASED) { d ->
+            keyboard {
+                logger.info("onKeyReleased: $d")
+                if (d.code == zoomKey)
+                    zoomEnabled = false
             }
         }
 
@@ -60,6 +63,7 @@ class ZoomMapsView : View("Zoom Maps") {
                 isPreserveRatio = true
                 isPickOnBounds = true
                 isSmooth = false // this does not disable anti-aliasing though :(
+                this.requestFocus()
 
                 val zoomMapsConfig = configManager.getZoomMapsConfig()
                 viewport = Rectangle2D(0.0, 0.0, image.width, image.height)
@@ -94,10 +98,15 @@ class ZoomMapsView : View("Zoom Maps") {
                 }
             }
         }
+
     }
 
     private fun ImageView.imageViewToImage(position: Point2D) = Point2D(
         viewport.minX + position.x * viewport.width / boundsInLocal.width,
         viewport.minY + position.y * viewport.height / boundsInLocal.height
     )
+
+    override fun onDock() {
+        root.requestFocus()
+    }
 }
