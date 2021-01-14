@@ -104,7 +104,6 @@ class ZoomMapsView : View("Zoom Maps") {
                 }
                 prefWidthProperty().bind(root.widthProperty())
                 prefHeightProperty().bind(root.heightProperty())
-
             }
 
             /*
@@ -159,7 +158,6 @@ class ZoomMapsView : View("Zoom Maps") {
                     logger.info("Scaling around: $mouseLocation, factor: $scale")
                 }
             }
-
         }
     }
 
