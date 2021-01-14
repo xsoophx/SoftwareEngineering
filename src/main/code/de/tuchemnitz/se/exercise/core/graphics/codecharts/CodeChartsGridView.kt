@@ -25,30 +25,29 @@ class CodeChartsGridView : View("SoftwarePraktikum - CodeCharts Grid") {
     private val stringList = codeChartsStringHandler.getStrings()
     private val scaledImageSize = codeChartsData.scaledImageSize
 
-    override val root =
-        hbox {
-            primaryStage.isFullScreen = true
-            alignment = Pos.TOP_CENTER
-            datagrid(stringList) {
-                cellWidth = scaledImageSize.x / gridWidth
-                cellHeight = scaledImageSize.y / gridHeight
-                horizontalCellSpacing = 0.0
-                verticalCellSpacing = 0.0
-                maxCellsInRow = gridWidth.toInt()
-                maxRows = gridHeight.toInt()
-                minWidth = codeChartsData.scaledImageSize.x + 2.0
-                maxWidth = codeChartsData.scaledImageSize.x + 2.0
-                cellCache {
-                    stackpane {
-                        rectangle(width = cellWidth - 0.5, height = cellHeight - 0.5) {
-                            stroke = Color.MEDIUMAQUAMARINE
-                            fill = WHITESMOKE
-                        }
-                        label(it)
+    override val root = hbox {
+        primaryStage.isFullScreen = true
+        alignment = Pos.TOP_CENTER
+        datagrid(stringList) {
+            cellWidth = scaledImageSize.x / gridWidth
+            cellHeight = scaledImageSize.y / gridHeight
+            horizontalCellSpacing = 0.0
+            verticalCellSpacing = 0.0
+            maxCellsInRow = gridWidth.toInt()
+            maxRows = gridHeight.toInt()
+            minWidth = codeChartsData.scaledImageSize.x + 2.0
+            maxWidth = codeChartsData.scaledImageSize.x + 2.0
+            cellCache {
+                stackpane {
+                    rectangle(width = cellWidth - 0.5, height = cellHeight - 0.5) {
+                        stroke = Color.MEDIUMAQUAMARINE
+                        fill = WHITESMOKE
                     }
+                    label(it)
                 }
             }
         }
+    }
 
     private fun goToInputValidatorView() {
         val delay = PauseTransition(Duration.seconds(codeChartsData.matrixViewTime))
