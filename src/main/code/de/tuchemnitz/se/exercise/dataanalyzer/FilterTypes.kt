@@ -31,7 +31,7 @@ data class CodeChartsDataFilter(
 data class CodeChartsConfigFilter(
     val minViewsToSubdivide: Filter<Int>,
     val stringCharacters: Filter<StringCharacters>,
-    val pictures: Filter<PictureData>
+    val pictures: Filter<PictureDataFilter>
 ): DataFilters
 
 data class PictureDataFilter(

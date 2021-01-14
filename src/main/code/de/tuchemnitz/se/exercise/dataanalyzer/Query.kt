@@ -2,6 +2,9 @@ package de.tuchemnitz.se.exercise.dataanalyzer
 
 import de.tuchemnitz.se.exercise.persist.AbstractCollection
 import de.tuchemnitz.se.exercise.persist.IPersist
+import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
+import de.tuchemnitz.se.exercise.persist.configs.PictureData
+import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.data.collections.UserDataCollection
@@ -10,12 +13,14 @@ import org.bson.conversions.Bson
 import org.litote.kmongo.and
 import org.litote.kmongo.eq
 import org.slf4j.LoggerFactory
+import org.w3c.dom.stylesheets.LinkStyle
 
 class Query : AbstractCollection<IPersist>(IPersist::class) {
 
     data class UserFilter(
         val userDataFilter: Filter<UserDataFilter>,
-        val codeChartsDataFilter: Filter<CodeChartsData>
+        val codeChartsDataFilter: Filter<CodeChartsData>,
+        val codeChartsConfigFilter: Filter<CodeChartsConfig>
     )
 
     companion object {
@@ -23,7 +28,7 @@ class Query : AbstractCollection<IPersist>(IPersist::class) {
     }
 
     val userDataCollection: UserDataCollection by inject()
-    private val zoomMapsDataCollection: ZoomMapsDataCollection by inject()
+    private val codeChartsConfigCollection: CodeChartsConfigCollection by inject()
 
     fun query(filter: Bson) {
         // should query database :
@@ -43,9 +48,34 @@ class Query : AbstractCollection<IPersist>(IPersist::class) {
         return userDataCollection.find(
             and(
                 (UserData::firstName eq filter.firstName.value).takeIf { filter.firstName.taken },
-                (UserData::lastName eq filter.surName.value).takeIf { filter.surName.taken },
+                (UserData::lastName eq filter.lastName.value).takeIf { filter.lastName.taken },
                 (UserData::age eq filter.age.value).takeIf { filter.age.taken },
             )
         ).toList()
+    }
+
+    private fun queryCodeChartsConfig(filter: CodeChartsConfigFilter): List<CodeChartsConfig> {
+        return codeChartsConfigCollection.find(
+            and(
+                (CodeChartsConfig::minViewsToSubdivide eq filter.minViewsToSubdivide.value).takeIf { filter.minViewsToSubdivide.taken },
+                (CodeChartsConfig::stringCharacters eq filter.stringCharacters.value).takeIf { filter.stringCharacters.taken })
+        ).toList().apply {
+            if (filter.pictures.taken) {
+                queryCodeChartsPictures(this, filter.pictures.value)
+            }
+        }
+    }
+
+    private fun queryCodeChartsPictures(
+        configs: List<CodeChartsConfig>,
+        filter: PictureDataFilter
+    ): List<CodeChartsConfig> {
+        val test = mutableListOf<CodeChartsConfig>()
+        configs.forEach {
+            it.pictures.forEach{
+                and(
+                )
+            }
+        }
     }
 }

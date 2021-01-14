@@ -2,7 +2,6 @@ package de.tuchemnitz.se.exercise.dataanalyzer
 
 import assertk.assertThat
 import assertk.assertions.contains
-import assertk.assertions.containsOnly
 import assertk.assertions.isEqualTo
 import de.tuchemnitz.se.exercise.DummyData
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
@@ -21,13 +20,14 @@ class QueryIntegrationTest : Controller() {
         private val dataFilters = setOf(
             UserDataFilter(
                 firstName = Filter(taken = true, value = "Klaus"),
-                surName = Filter(taken = false, value = ""),
+                lastName = Filter(taken = false, value = ""),
                 age = Filter(taken = false, value = -1)
             )
         )
         val userFilter = Query.UserFilter(
             userDataFilter = Filter(taken = true, value = dataFilters.first()),
-            codeChartsDataFilter = Filter(taken = false, value = DummyData.codeChartsData.first())
+            codeChartsDataFilter = Filter(taken = false, value = DummyData.codeChartsData.first()),
+            codeChartsConfigFilter = Filter(taken = false, value = DummyData.codeChartsConfigs.first())
         )
     }
 

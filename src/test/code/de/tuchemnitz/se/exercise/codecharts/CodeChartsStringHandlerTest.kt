@@ -35,10 +35,6 @@ class CodeChartsStringHandlerTest {
         assertThat(handleMyStrings.getStrings()).isEqualTo(handleMyStrings.getStrings())
     }
 
-    @Test
-    fun `check whether generated strings have the right format - utf8 ascii etc-`() {
-    }
-
     @MethodSource("permutations")
     @ParameterizedTest
     fun `check whether list is ordered`(inputNumber: Int, conditions: StringCharacters) {
