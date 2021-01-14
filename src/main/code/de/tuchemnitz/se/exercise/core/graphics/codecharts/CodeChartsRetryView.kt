@@ -1,6 +1,7 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
+import de.tuchemnitz.se.exercise.core.graphics.system.ToolSelectionView
 import javafx.geometry.Pos
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
@@ -54,6 +55,11 @@ class CodeChartsRetryView : View("CodeCharts - Ungültige Eingabe") {
                     button("Neuer Versuch") {
                         action {
                             replaceWith(CodeChartsView::class)
+                        }
+                    }
+                    button("Hauptmenü") {
+                        action {
+                            replaceWith(ToolSelectionView::class)
                         }
                     }
                     button("Beenden") {
