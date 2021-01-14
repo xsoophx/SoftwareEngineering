@@ -1,6 +1,7 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
+import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import de.tuchemnitz.se.exercise.core.graphics.system.ToolSelectionView
 import javafx.geometry.Pos
 import javafx.scene.control.Button
@@ -22,13 +23,7 @@ import tornadofx.vbox
  * Replaces CodeChartsInputValidatorView if input is correct.
  * User can close program or go back to CodeChartsDialogView to try again.
  */
-class CodeChartsThankfulView/*(
-    private val cssRule: CssRule = Style.ccThankfulWrapper
-)*/ : View("Wir sagen DANKE!") {
-    override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
-    private val contentBox: VBox by fxid("content")
-    private val exitButton: Button by fxid("exit_button")
-    private val mainMenuButton: Button by fxid("main_menu_button")
+class CodeChartsThankfulView : MainBarView("Wir sagen DANKE!") {
 
     init {
         with(contentBox) {
@@ -67,18 +62,6 @@ class CodeChartsThankfulView/*(
                         }
                     }
                 }
-            }
-        }
-
-        with(exitButton) {
-            action {
-                primaryStage.close()
-            }
-        }
-
-        with(mainMenuButton) {
-            action {
-                replaceWith(ToolSelectionView::class)
             }
         }
     }

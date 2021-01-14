@@ -4,18 +4,13 @@ import de.tuchemnitz.se.exercise.codecharts.CodeChartsConfigMapper
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsStringHandler
 import de.tuchemnitz.se.exercise.codecharts.Interval2D
-import de.tuchemnitz.se.exercise.core.graphics.MainApp
-import de.tuchemnitz.se.exercise.core.graphics.system.ToolSelectionView
+import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import javafx.geometry.Pos
-import javafx.scene.control.Button
 import javafx.scene.control.TextField
-import javafx.scene.layout.BorderPane
-import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.TextAlignment
 import org.slf4j.LoggerFactory
-import tornadofx.View
 import tornadofx.action
 import tornadofx.button
 import tornadofx.label
@@ -30,11 +25,7 @@ import tornadofx.vbox
  * Saves collected data.
  * Is replaced after user confirms input by pressing button.
  */
-class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
-    override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
-    private val contentBox: VBox by fxid("content")
-    private val exitButton: Button by fxid("exit_button")
-    private val mainMenuButton: Button by fxid("main_menu_button")
+class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
     private var inputString: TextField by singleAssign()
 
     companion object {
@@ -59,18 +50,6 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
                         validateInput()
                     }
                 }
-            }
-        }
-
-        with(exitButton) {
-            action {
-                primaryStage.close()
-            }
-        }
-
-        with(mainMenuButton) {
-            action {
-                replaceWith(ToolSelectionView::class)
             }
         }
     }

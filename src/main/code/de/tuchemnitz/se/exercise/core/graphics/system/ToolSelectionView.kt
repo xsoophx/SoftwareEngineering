@@ -21,12 +21,8 @@ import tornadofx.text
 import tornadofx.tooltip
 import tornadofx.vgrow
 
-class ToolSelectionView : View("Software Praktikum - Gruppe 4 - Tool Selection") {
+class ToolSelectionView : MainBarView("Software Praktikum - Gruppe 4 - Tool Selection") {
     private val logger = LoggerFactory.getLogger(this::class.java)
-    override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
-    private val contentBox: VBox by fxid("content")
-    private val exitButton: Button by fxid("exit_button")
-    private val mainMenuButton: Button by fxid("main_menu_button")
 
     init {
         with(contentBox) {

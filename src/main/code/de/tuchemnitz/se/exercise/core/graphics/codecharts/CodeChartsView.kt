@@ -1,6 +1,7 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
+import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import de.tuchemnitz.se.exercise.core.graphics.system.ToolSelectionView
 import javafx.geometry.Pos
 import javafx.scene.control.Button
@@ -21,12 +22,7 @@ import tornadofx.vbox
 /**
  * First view during use of CodeCharts. Allows user to start the tool.
  */
-class CodeChartsView : View("Willkommen bei CodeCharts!") {
-    override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
-    private val contentBox: VBox by fxid("content")
-    private val exitButton: Button by fxid("exit_button")
-    private val mainMenuButton: Button by fxid("main_menu_button")
-
+class CodeChartsView : MainBarView("Willkommen bei CodeCharts!") {
     init {
         with(contentBox) {
             vbox {
@@ -49,18 +45,6 @@ class CodeChartsView : View("Willkommen bei CodeCharts!") {
                         replaceWith(CodeChartsPictureView::class)
                     }
                 }
-            }
-        }
-
-        with(exitButton) {
-            action {
-                primaryStage.close()
-            }
-        }
-
-        with(mainMenuButton) {
-            action {
-                replaceWith(ToolSelectionView::class)
             }
         }
     }
