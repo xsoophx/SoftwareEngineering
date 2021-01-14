@@ -41,6 +41,7 @@ object Version {
     const val SPOTLESS = "5.8.2"
     const val KTLINT = "9.4.1"
     const val TESTFX = "4.0.16-alpha"
+    const val DOKKA = "1.4.20"
 }
 
 dependencies {
@@ -74,6 +75,8 @@ dependencies {
 
     testImplementation("org.testfx:testfx-core:${Version.TESTFX}")
     testImplementation("org.testfx:testfx-junit5:${Version.TESTFX}")
+
+    dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:${Version.DOKKA}")
 }
 
 project.sourceSets {
