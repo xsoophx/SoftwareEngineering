@@ -3,6 +3,7 @@ package de.tuchemnitz.se.exercise.core.graphics.codecharts
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
 import de.tuchemnitz.se.exercise.core.graphics.system.ToolSelectionView
 import javafx.geometry.Pos
+import javafx.scene.control.Button
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
@@ -25,8 +26,9 @@ class CodeChartsThankfulView/*(
     private val cssRule: CssRule = Style.ccThankfulWrapper
 )*/ : View("Wir sagen DANKE!") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
-
     private val contentBox: VBox by fxid("content")
+    private val exitButton: Button by fxid("exit_button")
+    private val mainMenuButton: Button by fxid("main_menu_button")
 
     init {
         with(contentBox) {
@@ -67,8 +69,17 @@ class CodeChartsThankfulView/*(
                 }
             }
         }
-    }
 
-    fun printGitButton() {
+        with(exitButton) {
+            action {
+                primaryStage.close()
+            }
+        }
+
+        with(mainMenuButton) {
+            action {
+                replaceWith(ToolSelectionView::class)
+            }
+        }
     }
 }

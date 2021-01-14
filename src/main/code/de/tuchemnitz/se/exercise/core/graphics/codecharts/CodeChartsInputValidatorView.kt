@@ -5,7 +5,9 @@ import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsStringHandler
 import de.tuchemnitz.se.exercise.codecharts.Interval2D
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
+import de.tuchemnitz.se.exercise.core.graphics.system.ToolSelectionView
 import javafx.geometry.Pos
+import javafx.scene.control.Button
 import javafx.scene.control.TextField
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
@@ -30,8 +32,9 @@ import tornadofx.vbox
  */
 class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
-
     private val contentBox: VBox by fxid("content")
+    private val exitButton: Button by fxid("exit_button")
+    private val mainMenuButton: Button by fxid("main_menu_button")
     private var inputString: TextField by singleAssign()
 
     companion object {
@@ -56,6 +59,18 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
                         validateInput()
                     }
                 }
+            }
+        }
+
+        with(exitButton) {
+            action {
+                primaryStage.close()
+            }
+        }
+
+        with(mainMenuButton) {
+            action {
+                replaceWith(ToolSelectionView::class)
             }
         }
     }
