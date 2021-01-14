@@ -1,3 +1,4 @@
+import org.jetbrains.dokka.DokkaDefaults.reportUndocumented
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -113,4 +114,14 @@ tasks {
         useJUnitPlatform()
     }
 }
+tasks.dokkaHtml.configure {
+    outputDirectory.set(buildDir.resolve("dokka"))
+    dokkaSourceSets {
+        configureEach {
+            reportUndocumented.set(false)
+        }
+    }
+}
+
+apply(plugin = "org.jetbrains.dokka")
 

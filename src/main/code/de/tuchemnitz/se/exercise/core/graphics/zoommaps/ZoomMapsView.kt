@@ -25,56 +25,56 @@ import tornadofx.imageview
 import tornadofx.keyboard
 import tornadofx.setValue
 
-/*
+/**
 * This view is responsible for zooming in and out on a picture.
 */
 class ZoomMapsView : View("Zoom Maps") {
-    /*
+    /**
     * @param root: unique root BorderPane for all Views
     * @param contentBox: unique contentBox, where content is placed for every view
     */
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
     private val contentBox: VBox by fxid("content")
 
-    /*
+    /**
     * @param scaleProperty: injected property for the zoomFunction. This has to be edited in order to change
     * the scale/speed of the zoom.
     */
     private val scaleProperty = SimpleDoubleProperty(1.0)
     var scale by scaleProperty
 
-    /*
+    /**
     * @param configManager: the ConfigManager is being injected to save and
     * get settings for the View (zoomSpeed, zoomButtons, etc.).
     */
     private val configManager: ConfigManager by inject()
 
-    /*
+    /**
     * @param zoomEnabledProperty: states whether the initial zoom is activated or not (default is false).
     */
     private val zoomEnabledProperty = SimpleBooleanProperty(false)
     var zoomEnabled by zoomEnabledProperty
 
-    /*
+    /**
     * Contains Logger, which is logging scroll and zoom Events.
     */
     companion object {
         val logger: Logger = LoggerFactory.getLogger("ZoomMapsView Logger")
     }
 
-    /*
+    /**
     * With the initialisation, the root of the fxml is being overwritten.
     */
     init {
         with(root) {
 
-            /*
+            /**
              * @param zoomKey: the zoomKey is retrieved from the settings of the configManager,
              * in case an error is occurring, it is being set to the char "E"
              */
             val zoomKey = configManager.getZoomMapsConfig()?.zoomKey ?: KeyCode.E
 
-            /*
+            /**
              * @receiver root/BorderPane: an EventFilter to the root is added. It is detecting key presses and
              * key releases. If the Key of the config is pressed, zooming is being enabled. Is it released,
              * zooming gets disabled.
@@ -94,7 +94,7 @@ class ZoomMapsView : View("Zoom Maps") {
             }
         }
 
-        /*
+        /**
         * the contentBox is being filled with the image, on which the user is supposed to zoom in and out.
         */
         with(contentBox) {
@@ -106,7 +106,7 @@ class ZoomMapsView : View("Zoom Maps") {
                 prefHeightProperty().bind(root.heightProperty())
             }
 
-            /*
+            /**
             * @param imageview: the imageview is initialized with all its settings. Its bound to the root
             * properties width and height, thus, the image scales with the screen size while zooming in and out.
             */
@@ -122,7 +122,7 @@ class ZoomMapsView : View("Zoom Maps") {
                 viewport = Rectangle2D(0.0, 0.0, image.width, image.height)
                 logger.info("$zoomMapsConfig")
 
-                /*
+                /**
                  * @param e: registers the mouseLocation of the zoom. This is being used to save the location
                  * in the config.
                  */
@@ -134,7 +134,7 @@ class ZoomMapsView : View("Zoom Maps") {
                     val mouseLocation = imageViewToImage(Point2D(e.x, e.y))
                     logger.info("zoomed in at: $mouseLocation.")
 
-                    /*
+                    /**
                      * @param factor: the factor for zooming in and out is calculated.
                      * @param oldScale: the old scale factor is temporarily saved in it.
                      * @param scale: the new scale value is calculated.
@@ -161,7 +161,7 @@ class ZoomMapsView : View("Zoom Maps") {
         }
     }
 
-    /*
+    /**
     * @receiver ImageView: extensionFunction to register the ZoomLocation of the Mouse on the receiver ImageView.
     * The function calculates the relative position of the zoom event, because the original size of the image might
     * be distorted by the zoom.
@@ -172,7 +172,7 @@ class ZoomMapsView : View("Zoom Maps") {
         viewport.minY + position.y * viewport.height / boundsInLocal.height
     )
 
-    /*
+    /**
     * Needs to be overwritten, to get focus on root and attach eventFilters for the keys.
     */
     override fun onDock() {
