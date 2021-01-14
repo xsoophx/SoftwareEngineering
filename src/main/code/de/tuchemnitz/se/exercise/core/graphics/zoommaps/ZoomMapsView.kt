@@ -172,10 +172,4 @@ class ZoomMapsView : View("Zoom Maps") {
         viewport.minY + position.y * viewport.height / boundsInLocal.height
     )
 
-    /*
-    * Needs to be overwritten, to get focus on root and attach eventFilters for the keys.
-    */
-    override fun onDock() {
-        root.requestFocus()
-    }
 }
