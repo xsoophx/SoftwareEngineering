@@ -80,12 +80,13 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
         logger.info("${codeChartsData.scaledImageSize.x}, ${codeChartsData.scaledImageSize.y}")
     }
 
-    private fun calculateRecursionCounter(userInput: String){
-        println(codeChartsClickCounter.clickList)
+    private fun calculateRecursionCounter(userInput: String) {
+        logger.info("$codeChartsClickCounter.clickList")
         val listPosition = codeChartsStringHandler.getStrings().indexOf(userInput)
-        codeChartsClickCounter.clickList.set(listPosition, codeChartsClickCounter.clickList.get(listPosition) + 1)
-        println(codeChartsClickCounter.clickList)
+        ++codeChartsClickCounter.clickList[listPosition]
+        logger.info("$codeChartsClickCounter.clickList")
     }
+
     private fun validateInput() {
         val userInput = inputString.text
         if (codeChartsStringHandler.getStrings().contains(userInput)) {
