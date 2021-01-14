@@ -13,7 +13,6 @@ import javafx.scene.paint.Color.MEDIUMSPRINGGREEN
 import javafx.scene.text.Font
 import javafx.scene.text.TextAlignment
 import org.slf4j.LoggerFactory
-import tornadofx.Stylesheet
 import tornadofx.View
 import tornadofx.action
 import tornadofx.button
@@ -58,13 +57,13 @@ class ToolSelectionView : View("Software Praktikum - Gruppe 4 - Tool Selection")
                         replaceWith(ZoomMapsView::class)
                     }
                 }
-            }
-            button("Beenden") {
-                textFill = BLACK
-                font = Font(22.0)
-                textAlignment = TextAlignment.CENTER
-                action {
-                    primaryStage.close()
+                button("Data Analyzer Tool") {
+                    textFill = BLACK
+                    font = Font(22.0)
+                    textAlignment = TextAlignment.CENTER
+                    action {
+                        replaceWith(ZoomMapsView::class)
+                    }
                 }
             }
         }
