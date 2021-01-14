@@ -171,5 +171,4 @@ class ZoomMapsView : View("Zoom Maps") {
         viewport.minX + position.x * viewport.width / boundsInLocal.width,
         viewport.minY + position.y * viewport.height / boundsInLocal.height
     )
-
 }
