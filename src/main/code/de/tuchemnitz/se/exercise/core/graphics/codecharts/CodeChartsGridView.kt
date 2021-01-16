@@ -49,15 +49,15 @@ class CodeChartsGridView : View("SoftwarePraktikum - CodeCharts Grid") {
             }
         }
 
+    /**
+     * Calls a timer. Replaces current view with CodeChartsInputValidatorView after delay.
+     */
     private fun goToInputValidatorView() {
         val delay = PauseTransition(Duration.seconds(codeChartsData.matrixViewTime))
         delay.onFinished = EventHandler { replaceWith(CodeChartsInputValidatorView::class) }
         delay.play()
     }
 
-    /**
-     * Calls a timer. Replaces current view with CodeChartsInputValidatorView after delay.
-     */
     override fun onDock() {
         goToInputValidatorView()
     }

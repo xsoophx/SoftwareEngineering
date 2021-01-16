@@ -11,9 +11,8 @@ import tornadofx.CssRule
 import tornadofx.View
 import tornadofx.addClass
 import tornadofx.imageview
-import tornadofx.toProperty
-import tornadofx.vbox
 import java.awt.Toolkit
+import tornadofx.hbox
 
 /**
  * Shows picture after scaling it to screen size.
@@ -28,16 +27,15 @@ class CodeChartsPictureView(
     private val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
     private val screenSize = Dimension(x = screenWidth, y = screenHeight)
 
-    override val root = vbox {
+    override val root = hbox {
         addClass(cssRule)
         imageview {
+            maxWidthProperty().bind(this@hbox.widthProperty())
+            fitHeightProperty().bind(this@hbox.heightProperty())
+            isPreserveRatio = true
             image = Image(codeChartsData.imagePath)
+            isPickOnBounds = true
             val scaledImageSize = scaleImageSize(image, screenSize)
-            val scaledImageWidth = scaledImageSize.x
-            val scaledImageHeight = scaledImageSize.y
-
-            fitWidthProperty().bind(scaledImageWidth.toProperty())
-            fitHeightProperty().bind(scaledImageHeight.toProperty())
 
             setDataValues(image.width, image.height, scaledImageSize, screenSize)
         }

@@ -1,6 +1,7 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsConfigMapper
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsPictureViewController
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsClickCounter
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsStringHandler
@@ -34,6 +35,8 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
 
     private val contentBox: VBox by fxid("content")
     private var inputString: TextField by singleAssign()
+
+    private val codeChartsPictureViewController: CodeChartsPictureViewController by inject()
 
     companion object {
         private val logger = LoggerFactory.getLogger(this::class.java)
@@ -95,6 +98,7 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
             CodeChartsConfigMapper().saveCodeChartsDatabaseConfig(codeChartsData)
             replaceWith(CodeChartsThankfulView::class)
             inputString.text = ""
+            codeChartsPictureViewController.resize()
         } else {
             replaceWith(CodeChartsRetryView::class)
             inputString.text = ""
