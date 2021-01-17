@@ -6,15 +6,14 @@ import org.litote.kmongo.Id
 import org.litote.kmongo.newId
 import java.nio.file.Path
 
+
+//need to get data from database into this format i.e. extract these values
 class DummyData(
     override val _id: Id<out IPersist>,
     //var imagePath: Path,
     var imagePath: String,
-    var originalImageSize: Dimension,
     var scaledImageSize: Dimension,
     var interval: Interval2D,
-    //var user: UserData
-
 ) : IData
 
 data class Interval2D(

@@ -5,7 +5,17 @@ import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
+/**
+ * Creates a visual representation of the subject's eye position
+ */
 class DataRenderHeatMap : DataRenderer(), IMethod {
+
+    /**
+     * Creates a new image containing the image which the subject was looking at
+     * with the eye position marked in color
+     * returns true if new image was successfully created
+     */
+
     override fun render(coordinates: Coordinates): Boolean {
 
         val size = coordinates.scaledImageSize

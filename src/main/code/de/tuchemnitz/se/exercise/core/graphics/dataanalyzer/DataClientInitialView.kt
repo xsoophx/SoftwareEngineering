@@ -27,23 +27,35 @@ import tornadofx.text
 import tornadofx.vbox
 import tornadofx.vboxConstraints
 
+/**
+ * First view when launching data client
+ * Allows user to select filter parameters
+ * Allows user to select how the data should be visualized
+ */
+
 class DataClientInitialView : View("Willkommen beim Data Client!") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
     private val contentBox: VBox by fxid("content")
 
+
+    /**
+     * To hold user input values
+     */
     companion object {
         var codeChartsTool = CodeCharts()
         var zoomMapsTool = ZoomMaps()
         var heatMapMethod = DataRenderHeatMap()
         var diagramMethod = DataRenderDiagram()
     }
-
     lateinit var tool: ITool
     lateinit var method: IMethod
     var ageRangeLower: Number = 0
     var ageRangeUpper: Number = 0
     var gender: String = ""
 
+    /**
+     * View
+     */
     init {
         with(contentBox) {
             vbox {
@@ -58,6 +70,10 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
                     font = Font(18.0)
                     textAlignment = TextAlignment.CENTER
                 }
+
+                /**
+                 * Get user input
+                 */
                 menubar {
 
                     menu("Tool") {
@@ -117,23 +133,44 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
                         }
                     }
                 }
+
+                /**
+                 * Submit filter params and start rendering data
+                 */
                 button("START") {
                     action {
-                        //  replaceWith(CodeChartsPictureView::class)
                         println(tool)
                         println(method)
                         println(ageRangeLower)
                         println(ageRangeUpper)
                         println(gender)
 
-                        // create new data analyst and pass these parameters
+                        /**
+                         * Create new Data Analyst
+                         */
                         val client = DataAnalyst()
-                        val data = client.getData(tool, ageRangeLower, ageRangeUpper, gender) // receives list of datasets
+
+                        /**
+                         * Query database for data corresponding to filter params
+                         * Receives a list of datasets
+                         */
+                        val data = client.getData(tool, ageRangeLower, ageRangeUpper, gender) /
                         println("received data")
                         println(data)
-                        val processed = client.process(method, data) // receives list of coordinates
+
+                        /**
+                         * Process the data according to render method specified by user
+                         * Receivers a list of coordinates
+                         */
+                        val processed = client.process(method, data)
                         println("processed data")
                         println(processed)
+
+                        /**
+                         * For every set of coordinates :
+                         * Create viusal representation/ rendered image of eye tracking data
+                         * Open a new view with the rendered image
+                         */
                         for(coordinates in processed){
                             if( client.render(method, coordinates) ) {
                                 // display output.bmp -> change view
@@ -145,6 +182,11 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
                     }
                     style {
                         fontWeight = FontWeight.EXTRA_BOLD
+                    }
+                }
+                button("CLOSE") {
+                    action {
+                        // close data client
                     }
                 }
             }
