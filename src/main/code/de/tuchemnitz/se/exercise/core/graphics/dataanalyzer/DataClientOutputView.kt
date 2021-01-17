@@ -30,6 +30,7 @@ class DataClientOutputView : View("Data Client Output") {
                 action {
                     // jump back into loop and continue
                     // if there are no more datasets: display according view
+                    replaceWith(DataClientInitialView::class)
                 }
             }
 

@@ -43,12 +43,17 @@ class DataAnalyst() {
                 //for demo use
                 val DummyDataList: MutableList<DummyData> = mutableListOf()
                 val dummyDataset = DummyData(
-                    newId(), kittenImg,
+                    newId(), img,
                     Dimension(400.0, 600.0),
-                    Dimension(300.0, 500.0),
                     Interval2D(70.0, 100.0, 50.0, 80.0),
                 )
+                val dummyDataset1 = DummyData(
+                    newId(), img,
+                    Dimension(400.0, 600.0),
+                    Interval2D(100.0, 170.0, 50.0, 80.0),
+                )
                 DummyDataList.add(dummyDataset)
+                DummyDataList.add(dummyDataset1)
                 return DummyDataList
             }
             //is ZoomMaps -> return QueryBuilder("ZoomMaps").find(ageLowerLimit, ageUpperLimit, gender)
