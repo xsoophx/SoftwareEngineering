@@ -5,6 +5,7 @@ import de.tuchemnitz.se.exercise.codecharts.Dimension
 import de.tuchemnitz.se.exercise.core.graphics.Style
 import javafx.animation.PauseTransition
 import javafx.event.EventHandler
+import javafx.geometry.Rectangle2D
 import javafx.scene.image.Image
 import javafx.util.Duration
 import tornadofx.CssRule
@@ -30,11 +31,11 @@ class CodeChartsPictureView(
     override val root = hbox {
         addClass(cssRule)
         imageview {
-            maxWidthProperty().bind(this@hbox.widthProperty())
-            fitHeightProperty().bind(this@hbox.heightProperty())
+            maxWidthProperty().bind(widthProperty())
+            fitHeightProperty().bind(heightProperty())
             isPreserveRatio = true
             image = Image(codeChartsData.imagePath)
-            isPickOnBounds = true
+          //  isPickOnBounds = false
             val scaledImageSize = scaleImageSize(image, screenSize)
 
             setDataValues(image.width, image.height, scaledImageSize, screenSize)
