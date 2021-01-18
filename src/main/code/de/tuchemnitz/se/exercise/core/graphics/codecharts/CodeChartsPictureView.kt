@@ -9,6 +9,7 @@ import javafx.event.EventHandler
 import javafx.geometry.Rectangle2D
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.image.WritableImage
 import javafx.scene.layout.VBox
 import javafx.util.Duration
 import tornadofx.CssRule
@@ -31,22 +32,27 @@ class CodeChartsPictureView(
     private val screenWidth = Toolkit.getDefaultToolkit().screenSize.getWidth()
     private val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
     private val screenSize = Dimension(x = screenWidth, y = screenHeight)
+    var cropData = Rectangle2D(0.0, 0.0, 0.0, 0.0)
 
     override val root = hbox {
         addClass(cssRule)
         imageview {
-            maxWidthProperty().bind(widthProperty())
-            fitHeightProperty().bind(heightProperty())
             isPreserveRatio = true
             image = Image(codeChartsData.imagePath)
             isPickOnBounds = true
-            val scaledImageSize = scaleImageSize(image, screenSize)
+            // val reader = image.pixelReader
+            // val newImage = WritableImage(reader, 0, 0, image.width.toInt(), image.height.toInt())
+            // image = newImage
+            viewport = Rectangle2D(0.0, 0.0, 800.0, 800.0) // image.width, image.height)
+            val scaledImageSize = scaleImageSize(viewport, screenSize)
+            maxWidthProperty().bind(widthProperty())
+            fitHeightProperty().bind(heightProperty())
 
             setDataValues(image.width, image.height, scaledImageSize, screenSize)
         }
     }
 
-    private fun scaleImageSize(image: Image, screenSize: Dimension): Dimension {
+    private fun scaleImageSize(image: Rectangle2D, screenSize: Dimension): Dimension {
         val screenWidth = screenSize.x
         val screenHeight = screenSize.y
         val imageWidth = image.width
