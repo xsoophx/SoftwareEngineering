@@ -1,5 +1,6 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsPictureViewController
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsClickCounter
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.Dimension
@@ -19,6 +20,9 @@ import tornadofx.addClass
 import tornadofx.imageview
 import java.awt.Toolkit
 import tornadofx.hbox
+import javax.swing.Spring.height
+
+import javafx.scene.image.PixelReader
 
 /**
  * Shows picture after scaling it to screen size.
@@ -34,25 +38,32 @@ class CodeChartsPictureView(
     private val screenSize = Dimension(x = screenWidth, y = screenHeight)
     var cropData = Rectangle2D(0.0, 0.0, 0.0, 0.0)
 
+    private val codeChartsPictureViewController: CodeChartsPictureViewController by inject()
+
     override val root = hbox {
         addClass(cssRule)
         imageview {
             isPreserveRatio = true
-            image = Image(codeChartsData.imagePath)
+            val newImage = codeChartsPictureViewController.newImage
+
             isPickOnBounds = true
+/*
             // val reader = image.pixelReader
             // val newImage = WritableImage(reader, 0, 0, image.width.toInt(), image.height.toInt())
             // image = newImage
             viewport = Rectangle2D(0.0, 0.0, 800.0, 800.0) // image.width, image.height)
             val scaledImageSize = scaleImageSize(viewport, screenSize)
+*/
+            val scaledImageSize = scaleImageSize(newImage, screenSize)
             maxWidthProperty().bind(widthProperty())
             fitHeightProperty().bind(heightProperty())
 
+            image = newImage
             setDataValues(image.width, image.height, scaledImageSize, screenSize)
         }
     }
 
-    private fun scaleImageSize(image: Rectangle2D, screenSize: Dimension): Dimension {
+    private fun scaleImageSize(image: Image, screenSize: Dimension): Dimension {
         val screenWidth = screenSize.x
         val screenHeight = screenSize.y
         val imageWidth = image.width
