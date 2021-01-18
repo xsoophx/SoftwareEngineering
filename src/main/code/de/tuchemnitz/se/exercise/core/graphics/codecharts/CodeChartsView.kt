@@ -44,8 +44,7 @@ class CodeChartsView : View("Willkommen bei CodeCharts!") {
                     }
                 }
                 button("START") {
-                    setOnAction {
-                        fire(RelativeEvent(codeChartsClickCounter.viewPort))
+                    action {
                         replaceWith(CodeChartsPictureView::class)
                     }
                 }

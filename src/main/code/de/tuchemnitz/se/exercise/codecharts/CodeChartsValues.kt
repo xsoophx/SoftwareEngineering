@@ -1,7 +1,11 @@
 package de.tuchemnitz.se.exercise.codecharts
 
+import javafx.beans.Observable
+import javafx.beans.property.Property
 import javafx.geometry.Rectangle2D
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
+import kotlin.reflect.jvm.internal.impl.metadata.ProtoBuf
 
 data class CodeChartsValues(
     // picture
@@ -51,5 +55,6 @@ data class Interval2D(
 data class ClickCounter(
     val clickList: MutableList<Int>,
     val recursionCounter: Int = 0,
-    val viewPort: Interval2D
+    @Contextual
+    var viewPort: Rectangle2D
 )

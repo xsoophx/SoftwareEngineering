@@ -34,17 +34,13 @@ class CodeChartsPictureView(
     private val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
     private val screenSize = Dimension(x = screenWidth, y = screenHeight)
 
-    private var viewPortValues = Rectangle2D(0.0, 0.0, 0.0, 0.0)
-
-    private val eventRegistration: EventRegistration
     private val codeChartsPictureViewController: CodeChartsPictureViewController by inject()
 
     override val root = hbox {
         addClass(cssRule)
         imageview {
             image = Image(codeChartsData.imagePath)
-
-            viewportProperty().bind(viewPortValues.toProperty())
+            viewportProperty().bind(codeChartsClickCounter.viewPort.toProperty())
 
             val scaledImageSize = scaleImageSize(image, screenSize)
             val scaledImageWidth = scaledImageSize.x
@@ -55,10 +51,6 @@ class CodeChartsPictureView(
 
             setDataValues(image.width, image.height, scaledImageSize, screenSize)
         }
-    }
-
-    init {
-        eventRegistration = subscribeToButtonEvents()
     }
 
     private fun scaleImageSize(image: Image, screenSize: Dimension): Dimension {
@@ -81,22 +73,6 @@ class CodeChartsPictureView(
         }
 
         return Dimension(x = newImageWidth, y = newImageHeight)
-    }
-
-    private fun subscribeToButtonEvents() = subscribe<RelativeEvent> {
-        relativeEvent ->
-        if (codeChartsClickCounter.clickList.contains(codeChartsData.neededClicks)) {
-            viewPortValues = Rectangle2D(
-                codeChartsClickCounter.viewPort.xMin,
-                codeChartsClickCounter.viewPort.yMin,
-                codeChartsClickCounter.viewPort.xMax - codeChartsClickCounter.viewPort.xMin,
-                codeChartsClickCounter.viewPort.yMax - codeChartsClickCounter.viewPort.yMin
-            )
-            for (i in 0..(codeChartsClickCounter.clickList.size)) {
-                println("$i")
-                codeChartsClickCounter.clickList[i] = 0
-            }
-        }
     }
 
     /*private fun setImageScales() {

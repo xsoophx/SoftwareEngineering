@@ -1,8 +1,9 @@
 package de.tuchemnitz.se.exercise.codecharts
 
+import javafx.beans.Observable
+import javafx.beans.value.ObservableValue
 import javafx.geometry.Rectangle2D
 import javafx.scene.image.Image
-import tornadofx.FXEvent
 
 const val IMAGE_PATH = "/Chameleon.jpg"
 const val GRID_WIDTH = 10
@@ -44,11 +45,13 @@ object CodeChartsTool {
     }
     val codeChartsClickCounter = ClickCounter(
         clickList = MutableList((codeChartsData.gridDimension.x * codeChartsData.gridDimension.y).toInt()) { 0 },
-        viewPort = Interval2D(
-            xMin = 0.0,
-            xMax = 400.0, // Image(codeChartsData.imagePath).width,
-            yMin = 0.0,
-            yMax = 400.0 // Image(codeChartsData.imagePath).height,
+        viewPort = Rectangle2D (
+            0.0,
+            0.0,
+            1000.0,
+            1000.0
+            // Image(codeChartsData.imagePath).width,
+            // Image(codeChartsData.imagePath).height
         )
     )
 }
