@@ -1,5 +1,6 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsPictureViewController
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsClickCounter
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.Dimension
@@ -18,6 +19,11 @@ import tornadofx.addClass
 import tornadofx.imageview
 import java.awt.Toolkit
 import tornadofx.hbox
+import javax.swing.Spring.height
+
+import javafx.scene.image.WritableImage
+
+import javafx.scene.image.PixelReader
 
 /**
  * Shows picture after scaling it to screen size.
@@ -32,16 +38,20 @@ class CodeChartsPictureView(
     private val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
     private val screenSize = Dimension(x = screenWidth, y = screenHeight)
 
+    private val codeChartsPictureViewController: CodeChartsPictureViewController by inject()
+
     override val root = hbox {
         addClass(cssRule)
         imageview {
+            isPreserveRatio = true
+            val newImage = codeChartsPictureViewController.newImage
+
+            isPickOnBounds = true
+            val scaledImageSize = scaleImageSize(newImage, screenSize)
             maxWidthProperty().bind(widthProperty())
             fitHeightProperty().bind(heightProperty())
-            isPreserveRatio = true
-            image = Image(codeChartsData.imagePath)
-          //  isPickOnBounds = false
-            val scaledImageSize = scaleImageSize(image, screenSize)
 
+            image = newImage
             setDataValues(image.width, image.height, scaledImageSize, screenSize)
         }
     }

@@ -8,6 +8,7 @@ import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsStringHandl
 import de.tuchemnitz.se.exercise.codecharts.Interval2D
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
 import javafx.geometry.Pos
+import javafx.geometry.Rectangle2D
 import javafx.scene.control.TextField
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
@@ -98,6 +99,7 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
             CodeChartsConfigMapper().saveCodeChartsDatabaseConfig(codeChartsData)
             replaceWith(CodeChartsThankfulView::class)
             inputString.text = ""
+            codeChartsPictureViewController.cropData = Rectangle2D(0.0, 0.0, 400.0, 400.0)
             codeChartsPictureViewController.resize()
         } else {
             replaceWith(CodeChartsRetryView::class)
