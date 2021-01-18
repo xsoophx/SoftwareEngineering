@@ -99,7 +99,8 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
             CodeChartsConfigMapper().saveCodeChartsDatabaseConfig(codeChartsData)
             replaceWith(CodeChartsThankfulView::class)
             inputString.text = ""
-            codeChartsPictureViewController.cropData = Rectangle2D(0.0, 0.0, 400.0, 400.0)
+
+            codeChartsPictureViewController.cropData = Rectangle2D(0.0, 0.0, 400.0, 800.0)
             codeChartsPictureViewController.resize()
         } else {
             replaceWith(CodeChartsRetryView::class)

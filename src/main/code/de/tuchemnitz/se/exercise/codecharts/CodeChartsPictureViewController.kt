@@ -12,9 +12,9 @@ import tornadofx.imageview
 
 class CodeChartsPictureViewController : Controller() {
     private val codeChartsPictureView: CodeChartsPictureView by inject()
-    var cropData = Rectangle2D(0.0, 0.0, 2000.0, 2000.0)
 
     val image = Image(codeChartsData.imagePath)
+    var cropData = Rectangle2D(0.0, 0.0, 400.0, 400.0)
 
     fun resize() {
         /*
