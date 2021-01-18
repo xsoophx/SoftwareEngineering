@@ -1,5 +1,6 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsClickCounter
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.Dimension
 import de.tuchemnitz.se.exercise.core.graphics.Style
@@ -7,8 +8,11 @@ import javafx.animation.PauseTransition
 import javafx.event.EventHandler
 import javafx.geometry.Rectangle2D
 import javafx.scene.image.Image
+import javafx.scene.image.ImageView
+import javafx.scene.layout.VBox
 import javafx.util.Duration
 import tornadofx.CssRule
+import tornadofx.CssRule.Companion.id
 import tornadofx.View
 import tornadofx.addClass
 import tornadofx.imageview
@@ -64,6 +68,12 @@ class CodeChartsPictureView(
         return Dimension(x = newImageWidth, y = newImageHeight)
     }
 
+    /*private fun setImageScales() {
+        val codeChartsImage: ImageView by fxid("content")
+        // root.imageview().fitWidthProperty().bind((25.0).toProperty())
+    }
+     */
+
     private fun goToGridView() {
         val delay = PauseTransition(Duration.seconds(codeChartsData.pictureViewTime))
         delay.onFinished = EventHandler {
@@ -87,6 +97,8 @@ class CodeChartsPictureView(
      * Calls a timer. Replaces current view with CodeChartsGridView after delay.
      */
     override fun onDock() {
+        //setImageScales()
         goToGridView()
+        //reloadViewsOnFocus()
     }
 }

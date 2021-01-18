@@ -1,5 +1,6 @@
 package de.tuchemnitz.se.exercise.codecharts
 
+import javafx.geometry.Rectangle2D
 import kotlinx.serialization.Serializable
 
 data class CodeChartsValues(
@@ -49,4 +50,5 @@ data class Interval2D(
 data class ClickCounter(
     val clickList: MutableList<Int>,
     val recursionCounter: Int = 0,
+    val viewPort: Interval2D
 )

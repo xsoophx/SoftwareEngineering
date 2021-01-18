@@ -38,6 +38,12 @@ object CodeChartsTool {
         }
     }
     val codeChartsClickCounter = ClickCounter(
-        clickList = MutableList((codeChartsData.gridDimension.x * codeChartsData.gridDimension.y).toInt()) { 0 }
+        clickList = MutableList((codeChartsData.gridDimension.x * codeChartsData.gridDimension.y).toInt()) { 0 },
+        viewPort = Interval2D(
+            xMin = 0.0,
+            xMax = 0.0,
+            yMin = 0.0,
+            yMax = 0.0,
+        )
     )
 }
