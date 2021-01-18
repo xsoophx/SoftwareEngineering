@@ -1,5 +1,6 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsPictureViewController
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
 import javafx.geometry.Pos
 import javafx.scene.layout.BorderPane

@@ -1,6 +1,7 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsConfigMapper
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsPictureViewController
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsClickCounter
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsStringHandler
@@ -34,6 +35,8 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
 
     private val contentBox: VBox by fxid("content")
     private var inputString: TextField by singleAssign()
+
+    private val codeChartsPictureViewController: CodeChartsPictureViewController by inject()
 
     companion object {
         private val logger = LoggerFactory.getLogger(this::class.java)
@@ -80,12 +83,13 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
         logger.info("${codeChartsData.scaledImageSize.x}, ${codeChartsData.scaledImageSize.y}")
     }
 
-    private fun calculateRecursionCounter(userInput: String){
-        println(codeChartsClickCounter.clickList)
+    private fun calculateRecursionCounter(userInput: String) {
+        logger.info("$codeChartsClickCounter.clickList")
         val listPosition = codeChartsStringHandler.getStrings().indexOf(userInput)
-        codeChartsClickCounter.clickList.set(listPosition, codeChartsClickCounter.clickList.get(listPosition) + 1)
-        println(codeChartsClickCounter.clickList)
+        ++codeChartsClickCounter.clickList[listPosition]
+        logger.info("$codeChartsClickCounter.clickList")
     }
+
     private fun validateInput() {
         val userInput = inputString.text
         if (codeChartsStringHandler.getStrings().contains(userInput)) {
@@ -94,6 +98,7 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
             CodeChartsConfigMapper().saveCodeChartsDatabaseConfig(codeChartsData)
             replaceWith(CodeChartsThankfulView::class)
             inputString.text = ""
+            codeChartsPictureViewController.resize()
         } else {
             replaceWith(CodeChartsRetryView::class)
             inputString.text = ""

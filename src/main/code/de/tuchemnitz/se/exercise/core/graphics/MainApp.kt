@@ -4,6 +4,7 @@ import de.tuchemnitz.se.exercise.core.graphics.system.ToolSelectionView
 import javafx.stage.Stage
 import tornadofx.App
 import tornadofx.importStylesheet
+import tornadofx.reloadViewsOnFocus
 
 class MainApp : App(primaryView = ToolSelectionView::class) {
 
@@ -21,5 +22,6 @@ class MainApp : App(primaryView = ToolSelectionView::class) {
 
     init {
         importStylesheet(Style::class)
+        reloadViewsOnFocus()
     }
 }

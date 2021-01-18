@@ -16,11 +16,8 @@ import tornadofx.CssRule.Companion.id
 import tornadofx.View
 import tornadofx.addClass
 import tornadofx.imageview
-import tornadofx.reloadViewsOnFocus
-import tornadofx.setId
-import tornadofx.toProperty
-import tornadofx.vbox
 import java.awt.Toolkit
+import tornadofx.hbox
 
 /**
  * Shows picture after scaling it to screen size.
@@ -35,23 +32,15 @@ class CodeChartsPictureView(
     private val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
     private val screenSize = Dimension(x = screenWidth, y = screenHeight)
 
-    override val root = vbox {
+    override val root = hbox {
         addClass(cssRule)
-        imageview() {
-            id = "codeChartsImageView"
+        imageview {
+            maxWidthProperty().bind(widthProperty())
+            fitHeightProperty().bind(heightProperty())
+            isPreserveRatio = true
             image = Image(codeChartsData.imagePath)
-            viewport = Rectangle2D(
-                codeChartsClickCounter.viewPort.xMin,
-                codeChartsClickCounter.viewPort.xMax,
-                codeChartsClickCounter.viewPort.yMin,
-                codeChartsClickCounter.viewPort.xMax,
-            )
+            isPickOnBounds = true
             val scaledImageSize = scaleImageSize(image, screenSize)
-            val scaledImageWidth = scaledImageSize.x
-            val scaledImageHeight = scaledImageSize.y
-
-            fitWidthProperty().bind(scaledImageWidth.toProperty())
-            fitHeightProperty().bind(scaledImageHeight.toProperty())
 
             setDataValues(image.width, image.height, scaledImageSize, screenSize)
         }
@@ -79,10 +68,11 @@ class CodeChartsPictureView(
         return Dimension(x = newImageWidth, y = newImageHeight)
     }
 
-    private fun setImageScales() {
+    /*private fun setImageScales() {
         val codeChartsImage: ImageView by fxid("content")
         // root.imageview().fitWidthProperty().bind((25.0).toProperty())
     }
+     */
 
     private fun goToGridView() {
         val delay = PauseTransition(Duration.seconds(codeChartsData.pictureViewTime))
@@ -107,8 +97,8 @@ class CodeChartsPictureView(
      * Calls a timer. Replaces current view with CodeChartsGridView after delay.
      */
     override fun onDock() {
-        setImageScales()
+        //setImageScales()
         goToGridView()
-        reloadViewsOnFocus()
+        //reloadViewsOnFocus()
     }
 }

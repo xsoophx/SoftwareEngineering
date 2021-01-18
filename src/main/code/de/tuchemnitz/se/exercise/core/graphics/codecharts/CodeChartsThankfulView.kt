@@ -1,5 +1,6 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsPictureViewController
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
 import de.tuchemnitz.se.exercise.core.graphics.system.ToolSelectionView
 import javafx.geometry.Pos
@@ -27,6 +28,7 @@ class CodeChartsThankfulView/*(
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
 
     private val contentBox: VBox by fxid("content")
+    private val codeChartsPictureViewController: CodeChartsPictureViewController by inject()
 
     init {
         with(contentBox) {
