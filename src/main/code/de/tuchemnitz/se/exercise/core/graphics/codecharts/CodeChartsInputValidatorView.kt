@@ -100,8 +100,8 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
             replaceWith(CodeChartsThankfulView::class)
             inputString.text = ""
 
-            codeChartsPictureViewController.cropData = Rectangle2D(0.0, 0.0, 400.0, 800.0)
-            codeChartsPictureViewController.resize()
+            // codeChartsPictureViewController.cropData = Rectangle2D(0.0, 0.0, 400.0, 800.0)
+            // codeChartsPictureViewController.resize()
         } else {
             replaceWith(CodeChartsRetryView::class)
             inputString.text = ""

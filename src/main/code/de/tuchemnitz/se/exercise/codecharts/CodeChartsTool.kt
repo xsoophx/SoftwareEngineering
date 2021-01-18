@@ -1,5 +1,9 @@
 package de.tuchemnitz.se.exercise.codecharts
 
+import javafx.geometry.Rectangle2D
+import javafx.scene.image.Image
+import tornadofx.FXEvent
+
 const val IMAGE_PATH = "/Chameleon.jpg"
 const val GRID_WIDTH = 10
 const val GRID_HEIGHT = 10
@@ -23,6 +27,7 @@ object CodeChartsTool {
         screenSize = Dimension(0.0, 0.0),
         relative = true,
         recursionDepth = 2,
+        neededClicks = 1,
     )
     val codeChartsStringHandler = CodeChartsStringHandler().apply {
         // generate needed number of Strings
@@ -41,9 +46,9 @@ object CodeChartsTool {
         clickList = MutableList((codeChartsData.gridDimension.x * codeChartsData.gridDimension.y).toInt()) { 0 },
         viewPort = Interval2D(
             xMin = 0.0,
-            xMax = 0.0,
+            xMax = 400.0, // Image(codeChartsData.imagePath).width,
             yMin = 0.0,
-            yMax = 0.0,
+            yMax = 400.0 // Image(codeChartsData.imagePath).height,
         )
     )
 }

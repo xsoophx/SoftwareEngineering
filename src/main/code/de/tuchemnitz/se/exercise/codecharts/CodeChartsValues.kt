@@ -16,6 +16,7 @@ data class CodeChartsValues(
     val pictureViewTime: Double,
     val relative: Boolean = false,
     val recursionDepth: Int = 0,
+    val neededClicks: Int,
 
     // strings
     val allowedChars: StringCharacters,

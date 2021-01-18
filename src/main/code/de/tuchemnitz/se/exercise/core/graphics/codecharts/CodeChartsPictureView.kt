@@ -4,26 +4,22 @@ import de.tuchemnitz.se.exercise.codecharts.CodeChartsPictureViewController
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsClickCounter
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.Dimension
+import de.tuchemnitz.se.exercise.codecharts.RelativeEvent
 import de.tuchemnitz.se.exercise.core.graphics.Style
 import javafx.animation.PauseTransition
 import javafx.event.EventHandler
 import javafx.geometry.Rectangle2D
 import javafx.scene.image.Image
-import javafx.scene.image.ImageView
-import javafx.scene.image.WritableImage
-import javafx.scene.layout.VBox
 import javafx.util.Duration
 import tornadofx.CssRule
-import tornadofx.CssRule.Companion.id
+import tornadofx.EventRegistration
 import tornadofx.View
 import tornadofx.addClass
-import tornadofx.imageview
-import java.awt.Toolkit
 import tornadofx.hbox
-import javax.swing.Spring.height
-
-import javafx.scene.image.PixelReader
+import tornadofx.imageview
 import tornadofx.toProperty
+import java.awt.Toolkit
+import javax.swing.Spring.height
 
 /**
  * Shows picture after scaling it to screen size.
@@ -38,26 +34,31 @@ class CodeChartsPictureView(
     private val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
     private val screenSize = Dimension(x = screenWidth, y = screenHeight)
 
+    private var viewPortValues = Rectangle2D(0.0, 0.0, 0.0, 0.0)
+
+    private val eventRegistration: EventRegistration
     private val codeChartsPictureViewController: CodeChartsPictureViewController by inject()
 
     override val root = hbox {
         addClass(cssRule)
         imageview {
-            val newImage = codeChartsPictureViewController.newImage
-/*
-            // val reader = image.pixelReader
-            // val newImage = WritableImage(reader, 0, 0, image.width.toInt(), image.height.toInt())
-            // image = newImage
-            viewport = Rectangle2D(0.0, 0.0, 800.0, 800.0) // image.width, image.height)
-            val scaledImageSize = scaleImageSize(viewport, screenSize)
-*/
-            val scaledImageSize = scaleImageSize(newImage, screenSize)
-            fitWidthProperty().bind((scaledImageSize.x).toProperty())
-            fitHeightProperty().bind((scaledImageSize.y).toProperty())
+            image = Image(codeChartsData.imagePath)
 
-            image = newImage
+            viewportProperty().bind(viewPortValues.toProperty())
+
+            val scaledImageSize = scaleImageSize(image, screenSize)
+            val scaledImageWidth = scaledImageSize.x
+            val scaledImageHeight = scaledImageSize.y
+
+            fitWidthProperty().bind(scaledImageWidth.toProperty())
+            fitHeightProperty().bind(scaledImageHeight.toProperty())
+
             setDataValues(image.width, image.height, scaledImageSize, screenSize)
         }
+    }
+
+    init {
+        eventRegistration = subscribeToButtonEvents()
     }
 
     private fun scaleImageSize(image: Image, screenSize: Dimension): Dimension {
@@ -80,6 +81,22 @@ class CodeChartsPictureView(
         }
 
         return Dimension(x = newImageWidth, y = newImageHeight)
+    }
+
+    private fun subscribeToButtonEvents() = subscribe<RelativeEvent> {
+        relativeEvent ->
+        if (codeChartsClickCounter.clickList.contains(codeChartsData.neededClicks)) {
+            viewPortValues = Rectangle2D(
+                codeChartsClickCounter.viewPort.xMin,
+                codeChartsClickCounter.viewPort.yMin,
+                codeChartsClickCounter.viewPort.xMax - codeChartsClickCounter.viewPort.xMin,
+                codeChartsClickCounter.viewPort.yMax - codeChartsClickCounter.viewPort.yMin
+            )
+            for (i in 0..(codeChartsClickCounter.clickList.size)) {
+                println("$i")
+                codeChartsClickCounter.clickList[i] = 0
+            }
+        }
     }
 
     /*private fun setImageScales() {
@@ -111,8 +128,8 @@ class CodeChartsPictureView(
      * Calls a timer. Replaces current view with CodeChartsGridView after delay.
      */
     override fun onDock() {
-        //setImageScales()
+        // setImageScales()
         goToGridView()
-        //reloadViewsOnFocus()
+        // reloadViewsOnFocus()
     }
 }
