@@ -7,4 +7,8 @@ open class DataRenderer(){
         // should return combined image
         return true
     }
+
+    open fun renderMany(coordinatesList: MutableList<Coordinates>): Boolean{
+        return true
+    }
 }

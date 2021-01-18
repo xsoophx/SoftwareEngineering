@@ -2,6 +2,7 @@ package de.tuchemnitz.se.exercise.core.graphics.dataanalyzer
 
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
 import de.tuchemnitz.se.exercise.dataanalyzer.CodeCharts
+import de.tuchemnitz.se.exercise.dataanalyzer.Coordinates
 import de.tuchemnitz.se.exercise.dataanalyzer.DataAnalyst
 import de.tuchemnitz.se.exercise.dataanalyzer.DataRenderDiagram
 import de.tuchemnitz.se.exercise.dataanalyzer.DataRenderHeatMap
@@ -37,7 +38,6 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
     private val contentBox: VBox by fxid("content")
 
-
     /**
      * To hold user input values
      */
@@ -46,12 +46,15 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
         var zoomMapsTool = ZoomMaps()
         var heatMapMethod = DataRenderHeatMap()
         var diagramMethod = DataRenderDiagram()
+        val client = DataAnalyst()
     }
     lateinit var tool: ITool
     lateinit var method: IMethod
     var ageRangeLower: Number = 0
     var ageRangeUpper: Number = 0
     var gender: String = ""
+    var ctr = 0
+    lateinit var processed: MutableList<Coordinates>
 
     /**
      * View
@@ -146,23 +149,18 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
                         println(gender)
 
                         /**
-                         * Create new Data Analyst
-                         */
-                        val client = DataAnalyst()
-
-                        /**
                          * Query database for data corresponding to filter params
                          * Receives a list of datasets
                          */
-                        val data = client.getData(tool, ageRangeLower, ageRangeUpper, gender) /
+                        val data = client.getData(tool, ageRangeLower, ageRangeUpper, gender)
                         println("received data")
-                        println(data)
+                        // println(data)
 
                         /**
                          * Process the data according to render method specified by user
                          * Receivers a list of coordinates
                          */
-                        val processed = client.process(method, data)
+                        processed = client.process(method, data)
                         println("processed data")
                         println(processed)
 
@@ -171,14 +169,8 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
                          * Create viusal representation/ rendered image of eye tracking data
                          * Open a new view with the rendered image
                          */
-                        for(coordinates in processed){
-                            if( client.render(method, coordinates) ) {
-                                // display output.bmp -> change view
-                                replaceWith(DataClientOutputView::class)
-                            }
-                        }
 
-
+                        replaceWith(DataClientOutputView::class)
                     }
                     style {
                         fontWeight = FontWeight.EXTRA_BOLD

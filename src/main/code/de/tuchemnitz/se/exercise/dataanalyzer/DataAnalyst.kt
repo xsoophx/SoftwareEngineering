@@ -3,10 +3,8 @@ package de.tuchemnitz.se.exercise.dataanalyzer
 import org.litote.kmongo.newId
 import org.slf4j.LoggerFactory
 
-
-//for demo use
-const val img = "/Chameleon.jpg"
-
+// for demo use
+const val img = "/kitten.jpeg"
 
 /**
  * Holds main logic of the data analyst application
@@ -20,7 +18,7 @@ class DataAnalyst() {
         var processor: DataProcessor = DataProcessor()
         var renderer: DataRenderer = DataRenderer()
         // val colors: Set<ColorSampleBoard> 
-       // val query: QueryBuilder = QueryBuilder("")
+        // val query: QueryBuilder = QueryBuilder("")
     }
 
     /**
@@ -37,26 +35,33 @@ class DataAnalyst() {
     ): List<DummyData> {
 
         when (tool) {
-            //is CodeCharts -> return QueryBuilder("CodeCharts").find(ageLowerLimit, ageUpperLimit, gender)
+            // is CodeCharts -> return QueryBuilder("CodeCharts").find(ageLowerLimit, ageUpperLimit, gender)
             is CodeCharts -> {
 
-                //for demo use
-                val DummyDataList: MutableList<DummyData> = mutableListOf()
+                // for demo use
+                val dummyDataList: MutableList<DummyData> = mutableListOf()
                 val dummyDataset = DummyData(
-                    newId(), kittenImg,
+                    newId(), img,
                     Dimension(400.0, 600.0),
-                    Dimension(300.0, 500.0),
-                    Interval2D(70.0, 100.0, 50.0, 80.0),
+                    Dimension(800.0, 1200.0),
+                    Interval2D(170.0, 200.0, 150.0, 180.0),
                 )
-                DummyDataList.add(dummyDataset)
-                return DummyDataList
+                val dummyDataset1 = DummyData(
+                    newId(), img,
+                    Dimension(200.0, 300.0),
+                    Dimension(800.0, 1200.0),
+                    Interval2D(10.0, 40.0, 50.0, 80.0),
+                )
+
+                dummyDataList.add(dummyDataset)
+                dummyDataList.add(dummyDataset1)
+
+                return dummyDataList
             }
-            //is ZoomMaps -> return QueryBuilder("ZoomMaps").find(ageLowerLimit, ageUpperLimit, gender)
+            // is ZoomMaps -> return QueryBuilder("ZoomMaps").find(ageLowerLimit, ageUpperLimit, gender)
         }
         return emptyList()
     }
-
-
 
     /**
      * Extracts the necessary values from the data, depending on the render method specified by the user
@@ -71,13 +76,14 @@ class DataAnalyst() {
                 processor = DataProcessorDiagram()
             }
         }
-        return processor.process(data)
+        // return processor.process(data)
+        return processor.processMany(data)
     }
 
     /**
      * Creates the visual representation of the data, according to the render method specified by the user
      */
-    fun render(method: IMethod, coordinates: Coordinates) : Boolean{
+    fun render(method: IMethod, coordinates: Coordinates): Boolean {
         when (method) {
             is DataRenderHeatMap -> {
                 renderer = DataRenderHeatMap()
@@ -87,5 +93,17 @@ class DataAnalyst() {
             }
         }
         return renderer.render(coordinates)
+    }
+
+    fun renderMany(method: IMethod, coordinates: MutableList<Coordinates>): Boolean {
+        when (method) {
+            is DataRenderHeatMap -> {
+                renderer = DataRenderHeatMap()
+            }
+            is DataRenderDiagram -> {
+                renderer = DataRenderDiagram()
+            }
+        }
+        return renderer.renderMany(coordinates)
     }
 }

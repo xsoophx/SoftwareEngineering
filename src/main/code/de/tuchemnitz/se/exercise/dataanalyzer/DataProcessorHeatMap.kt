@@ -17,11 +17,42 @@ class DataProcessorHeatMap : DataProcessor(), IMethod {
             coordinatesList.add(
                 Coordinates(
                     dataset.interval.xMin,
-                dataset.interval.yMin,
-                dataset.interval.xMax,
-                dataset.interval.yMax,
-                dataset.imagePath,
-                dataset.scaledImageSize))
+                    dataset.interval.yMin,
+                    dataset.interval.xMax,
+                    dataset.interval.yMax,
+                    dataset.imagePath,
+                    dataset.scaledImageSize
+                )
+            )
+        }
+        return coordinatesList
+    }
+
+    override fun processMany(data: List<DummyData>): MutableList<Coordinates> {
+        val coordinatesList: MutableList<Coordinates> = mutableListOf()
+
+        /**
+         * take scaled image size of first dataset as default size and adjust coordinates
+         * form all other datasets accordingly
+         */
+        val imgSize = data[0].scaledImageSize
+        val (width, height) = data[0].scaledImageSize
+
+        for (dataset in data) {
+
+            val (curWidth, curHeight) = dataset.scaledImageSize
+            val (xMin, xMax, yMin, yMax) = dataset.interval
+
+            coordinatesList.add(
+                Coordinates(
+                    xMin * (width / curWidth),
+                    yMin * (height / curHeight),
+                    xMax * (width / curWidth),
+                    yMax * (height / curHeight),
+                    dataset.imagePath,
+                    imgSize
+                )
+            )
         }
         return coordinatesList
     }
