@@ -131,7 +131,7 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
     }
 
     fun getZoomMapsConfig(): ZoomMapsConfig? {
-        return ZoomMapsConfig(zoomSpeed = 1.0f, zoomKey = KeyCode.C)
+        return ZoomMapsConfig(zoomSpeed = 1.0, zoomKey = KeyCode.C)
         // return decodeConfig()?.zoomMapsConfig
     }
 
@@ -139,7 +139,7 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
      * Saves the Configs, created  in the Tools, into the database
      * @param config specifies the config which is currently being saved.
      */
-    fun saveConfig(config: IPersist) {
+    fun savePersistable(config: IPersist) {
         when (config) {
             is CodeChartsConfig -> configCollections.codeChartsConfigCollection.saveOne(config)
             is ZoomMapsConfig -> configCollections.zoomMapsConfigCollection.saveOne(config)
