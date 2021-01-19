@@ -1,15 +1,11 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
 import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
-import de.tuchemnitz.se.exercise.core.graphics.system.ToolSelectionView
 import javafx.geometry.Pos
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.FontWeight
 import javafx.scene.text.TextAlignment
-import tornadofx.action
-import tornadofx.button
-import tornadofx.hbox
 import tornadofx.style
 import tornadofx.text
 import tornadofx.vbox
