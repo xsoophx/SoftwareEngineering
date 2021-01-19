@@ -1,6 +1,7 @@
 package de.tuchemnitz.se.exercise.core.graphics.dataanalyzer
 
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
+import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import de.tuchemnitz.se.exercise.dataanalyzer.CodeCharts
 import de.tuchemnitz.se.exercise.dataanalyzer.Coordinates
 import de.tuchemnitz.se.exercise.dataanalyzer.DataAnalyst
@@ -34,10 +35,7 @@ import tornadofx.vboxConstraints
  * Allows user to select how the data should be visualized
  */
 
-class DataClientInitialView : View("Willkommen beim Data Client!") {
-    override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
-    private val contentBox: VBox by fxid("content")
-
+class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
     /**
      * To hold user input values
      */
@@ -56,9 +54,6 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
     var ctr = 0
     lateinit var processed: MutableList<Coordinates>
 
-    /**
-     * View
-     */
     init {
         with(contentBox) {
             vbox {
@@ -78,7 +73,6 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
                  * Get user input
                  */
                 menubar {
-
                     menu("Tool") {
                         item("Code Charts").action {
                             println("Code Charts selected!")
