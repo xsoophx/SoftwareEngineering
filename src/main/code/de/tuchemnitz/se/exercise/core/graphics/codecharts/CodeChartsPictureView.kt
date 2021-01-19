@@ -44,6 +44,9 @@ class CodeChartsPictureView(
         }
     }
 
+    /**
+     * scales [image] to the user's [screenSize] maintaining the aspect ratio of the [image].
+     */
     private fun scaleImageSize(image: Image, screenSize: Dimension): Dimension {
         val screenWidth = screenSize.x
         val screenHeight = screenSize.y
@@ -66,6 +69,10 @@ class CodeChartsPictureView(
         return Dimension(x = newImageWidth, y = newImageHeight)
     }
 
+    /**
+     * Calls a timer using [PauseTransition].
+     * Replaces CodeChartsPictureView with CodeChartsGridView when timer is ready.
+     */
     private fun goToGridView() {
         val delay = PauseTransition(Duration.seconds(codeChartsData.pictureViewTime))
         delay.onFinished = EventHandler {
@@ -74,6 +81,12 @@ class CodeChartsPictureView(
         delay.play()
     }
 
+    /**
+     * Sets values that will be saved to database.
+     * These are [originalImageWidth] which contains the width of the original image in pixels,
+     * [originalImageHeight] which contains the height of the original image in pixels,
+     * [scaledImageSize] which contains the width and height of the image after scaling it to the user's [screenSize].
+     */
     private fun setDataValues(
         originalImageWidth: Double,
         originalImageHeight: Double,
