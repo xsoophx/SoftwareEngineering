@@ -26,6 +26,9 @@ class CodeChartsThankfulView/*(
 )*/ : View("Wir sagen DANKE!") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
 
+    /**
+     * [contentBox] contains our generic basic user interface.
+     */
     private val contentBox: VBox by fxid("content")
 
     init {

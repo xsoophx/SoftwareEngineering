@@ -21,6 +21,10 @@ import tornadofx.vbox
  */
 class CodeChartsView : View("Willkommen bei CodeCharts!") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
+
+    /**
+     * [contentBox] contains our generic basic user interface.
+     */
     private val contentBox: VBox by fxid("content")
 
     init {

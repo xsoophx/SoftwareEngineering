@@ -66,6 +66,10 @@ class CodeChartsStringHandler {
         return generatedStrings
     }
 
+    /**
+     * Generates one random string with a given [stringLength],
+     * and which contains only strings defined in [allowedChars].
+     */
     private fun generateOneString(stringLength: Int, allowedChars: StringCharacters): String {
         if (allowedChars == StringCharacters(upperCase = false, lowerCase = false, numbers = false)) {
             return ""
@@ -90,6 +94,9 @@ class CodeChartsStringHandler {
             .joinToString("")
     }
 
+    /**
+     * Orders list of generated strings naturally.
+     */
     fun orderList() {
         this.codeChartsGridStrings = ((this.codeChartsGridStrings).sorted()).toMutableList()
     }

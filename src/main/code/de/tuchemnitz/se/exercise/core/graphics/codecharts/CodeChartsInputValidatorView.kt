@@ -31,7 +31,14 @@ import tornadofx.vbox
 class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
 
+    /**
+     * [contentBox] contains our generic basic user interface.
+     */
     private val contentBox: VBox by fxid("content")
+
+    /**
+     * [inputString] is the string that the user enters into the textfield.
+     */
     private var inputString: TextField by singleAssign()
 
     companion object {
@@ -60,6 +67,9 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
         }
     }
 
+    /**
+     * Calculates the grid cell the user looked at from the [userInput] given by the user.
+     */
     private fun calculateEyePosition(userInput: String) {
         val listPosition = codeChartsStringHandler.getStrings().indexOf(userInput)
         val xFieldNumber = listPosition % (codeChartsData.gridDimension.x)
@@ -79,6 +89,12 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
         logger.info("${codeChartsData.scaledImageSize.x}, ${codeChartsData.scaledImageSize.y}")
     }
 
+    /**
+     * Checks whether input provided by the user is valid.
+     * Replaces CodeChartsInputValidatorView with either CodeChartsThankfulView if the input is valid or
+     * with the CodeChartsRetryView otherwise.
+     * Saves input to database if it is valid.
+     */
     private fun validateInput() {
         val userInput = inputString.text
         if (codeChartsStringHandler.getStrings().contains(userInput)) {
