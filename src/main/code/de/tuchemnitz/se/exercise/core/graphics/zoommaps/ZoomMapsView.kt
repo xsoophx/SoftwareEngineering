@@ -178,6 +178,11 @@ class ZoomMapsView : View("Zoom Maps") {
         }
     }
 
+    /**
+     * @receiver Point2D: The left hand, which saves x and y coordinates
+     * The function checks whether two 2D coordinates, casted to Int, aer equal.
+     * [rightHand]: the coordinate the left hand is compared to.
+     */
     private fun Point2D.isEqualTo(rightHand: Point2D): Boolean {
         return (x.toInt() != rightHand.x.toInt() && y.toInt() != rightHand.y.toInt())
     }
