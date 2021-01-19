@@ -47,8 +47,8 @@ abstract class AbstractCollection<T : IPersist>(
      * Saves multiple data entries of type IPersist
      * @param data - set of entries which is being saved
      */
-    open fun saveMany(data: Set<T>) {
-        collection.insertMany(data.toList())
+    open fun saveMany(data: List<T>) {
+        collection.insertMany(data)
     }
 
     /**
