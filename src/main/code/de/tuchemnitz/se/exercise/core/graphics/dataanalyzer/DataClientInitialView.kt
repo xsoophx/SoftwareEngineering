@@ -1,5 +1,7 @@
 package de.tuchemnitz.se.exercise.core.graphics.dataanalyzer
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView
 import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import de.tuchemnitz.se.exercise.dataanalyzer.CodeCharts
 import de.tuchemnitz.se.exercise.dataanalyzer.DataAnalyst
@@ -8,22 +10,34 @@ import de.tuchemnitz.se.exercise.dataanalyzer.DataRenderHeatMap
 import de.tuchemnitz.se.exercise.dataanalyzer.IMethod
 import de.tuchemnitz.se.exercise.dataanalyzer.ITool
 import de.tuchemnitz.se.exercise.dataanalyzer.ZoomMaps
+import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
 import javafx.geometry.Insets
+import javafx.geometry.Orientation
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.FontWeight
 import javafx.scene.text.TextAlignment
+import tornadofx.ViewModel
 import tornadofx.action
+import tornadofx.bind
 import tornadofx.button
 import tornadofx.combobox
+import tornadofx.compareTo
+import tornadofx.field
+import tornadofx.fieldset
+import tornadofx.filterInput
+import tornadofx.form
 import tornadofx.hbox
+import tornadofx.isInt
 import tornadofx.onChange
 import tornadofx.paddingAll
+import tornadofx.required
+import tornadofx.separator
 import tornadofx.style
 import tornadofx.text
-import tornadofx.vbox
+import tornadofx.textfield
 import tornadofx.vboxConstraints
 
 /**
@@ -52,8 +66,11 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
     val selectedTool = SimpleStringProperty()
     val renderMethodList = FXCollections.observableArrayList("Heat Map", "Diagram")
     val selectedRenderMethod = SimpleStringProperty()
-    val ageRangeList = FXCollections.observableArrayList("10-20", "20-40", "40-60", "60 +")
-    val selectedAgeRage = SimpleStringProperty()
+
+    val model = ViewModel()
+    private var minimumAge = model.bind { SimpleIntegerProperty() }
+    private var maximumAge = model.bind { SimpleIntegerProperty() }
+
     val genderList = FXCollections.observableArrayList("Male", "Female", "Others")
     val selectedGender = SimpleStringProperty()
 
@@ -62,89 +79,102 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
      */
     init {
         with(contentBox) {
-            vbox {
-
+            form {
                 text("Willkommen beim Datenanalyse Client!") {
                     fill = Color.MEDIUMAQUAMARINE
                     font = Font(20.0)
                     textAlignment = TextAlignment.CENTER
+                    spacing = 20.0
                 }
                 text("Bitte wählen Sie Tool, Darstellungsmethode sowie Altersgruppe und Geschlecht der Probanden aus!") {
                     fill = Color.BLACK
                     font = Font(18.0)
                     textAlignment = TextAlignment.CENTER
+                    spacing = 20.0
                 }
+                separator(Orientation.HORIZONTAL)
 
                 /**
                  * Get user input
                  */
                 hbox {
-                    spacing = 5.0
-                    combobox(selectedTool, toolList)
-                    selectedTool.onChange {
-                        when ("$it") {
-                            "Code Charts" -> {
-                                println("Code Charts selected!")
-                                tool = codeChartsTool
-                            }
-                            "Zoom Maps" -> {
-                                println("Zoom Maps selected!")
-                                tool = zoomMapsTool
-                            }
-                        }
-                    }
-                    combobox(selectedRenderMethod, renderMethodList)
-                    selectedRenderMethod.onChange {
-                        when ("$it") {
-                            "Heat Map" -> {
-                                println("Heat Map selected!")
-                                method = heatMapMethod
-                            }
-                            "Diagram" -> {
-                                println("Diagram selected!")
-                                method = diagramMethod
+                    fieldset("Tool Selection", FontAwesomeIconView(FontAwesomeIcon.COG), Orientation.HORIZONTAL) {
+                        spacing = 20.0
+                        padding = Insets(20.0)
+                        combobox(selectedTool, toolList)
+                        selectedTool.onChange {
+                            when ("$it") {
+                                "Code Charts" -> {
+                                    println("Code Charts selected!")
+                                    tool = codeChartsTool
+                                }
+                                "Zoom Maps" -> {
+                                    println("Zoom Maps selected!")
+                                    tool = zoomMapsTool
+                                }
                             }
                         }
                     }
-                    combobox(selectedAgeRage, ageRangeList)
-                    selectedAgeRage.onChange {
-                        when ("$it") {
-                            "10-20" -> {
-                                println("Age Range 10-20 selected!")
-                                ageRangeLower = 10
-                                ageRangeUpper = 20
-                            }
-                            "20-40" -> {
-                                println("Age Range 20-40 selected!")
-                                ageRangeLower = 20
-                                ageRangeUpper = 40
-                            }
-                            "40-60" -> {
-                                println("Age Range 40-60 selected!")
-                                ageRangeLower = 40
-                                ageRangeUpper = 60
-                            }
-                            "60+" -> {
-                                println("Age Range 60+ selected!")
-                                ageRangeLower = 60
-                                ageRangeUpper = 100
+
+                    fieldset("Diagram Type", FontAwesomeIconView(FontAwesomeIcon.DATABASE), Orientation.HORIZONTAL) {
+                        spacing = 20.0
+                        padding = Insets(20.0)
+
+                        combobox(selectedRenderMethod, renderMethodList)
+                        selectedRenderMethod.onChange {
+                            when ("$it") {
+                                "Heat Map" -> {
+                                    println("Heat Map selected!")
+                                    method = heatMapMethod
+                                }
+                                "Diagram" -> {
+                                    println("Diagram selected!")
+                                    method = diagramMethod
+                                }
                             }
                         }
                     }
-                    combobox(selectedGender, genderList)
-                    selectedGender.onChange {
-                        when ("$it") {
-                            "Male" -> {
-                                println("Gender Male selected!")
-                                gender = "Male"
-                            }
-                            "Female" -> {
-                                println("Gender Female selected!")
-                                gender = "Female"
-                            }
-                            "Other" -> {
-                                println("Gender Other selected!")
-                                gender = "Other"
+
+                    fieldset("Age of the User", FontAwesomeIconView(FontAwesomeIcon.USER), Orientation.HORIZONTAL) {
+                        spacing = 20.0
+                        padding = Insets(20.0)
+
+                        field("minimum Age") {
+                            textfield { filterInput { it.controlNewText.isInt() } }.bind(minimumAge)
+                            textfield(minimumAge).required()
+                        }
+                        field("maximum Age") {
+                            textfield { filterInput { it.controlNewText.isInt() } }.bind(maximumAge)
+                            textfield(maximumAge).required()
+
+                        }
+                    }.apply {
+                        if (minimumAge > maximumAge)
+                            minimumAge = maximumAge.also { maximumAge = minimumAge }
+                    }
+
+                    fieldset(
+                        "Gender of the User",
+                        FontAwesomeIconView(FontAwesomeIcon.FEMALE),
+                        Orientation.HORIZONTAL
+                    ) {
+                        spacing = 20.0
+                        padding = Insets(20.0)
+                        combobox(selectedGender, genderList)
+                        selectedGender.onChange {
+                            when ("$it") {
+                                "Male" -> {
+                                    println("Gender Male selected!")
+                                    gender = "Male"
+                                }
+                                "Female" -> {
+                                    println("Gender Female selected!")
+                                    gender = "Female"
+                                }
+                                "Other" -> {
+                                    println("Gender Other selected!")
+                                    gender = "Other"
+                                }
                             }
                         }
                     }
