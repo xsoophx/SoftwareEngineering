@@ -23,6 +23,7 @@ class CodeChartsThankfulView : MainBarView("Wir sagen DANKE!") {
     init {
         with(contentBox) {
             vbox {
+                spacing = 20.0
                 alignment = Pos.CENTER
                 text("Vielen Dank für Ihre Teilnahme!") {
                     fill = Color.MEDIUMSPRINGGREEN
@@ -43,18 +44,6 @@ class CodeChartsThankfulView : MainBarView("Wir sagen DANKE!") {
                     textAlignment = TextAlignment.CENTER
                     style {
                         fontWeight = FontWeight.EXTRA_BOLD
-                    }
-                }
-                hbox {
-                    button("Hauptmenü") {
-                        action {
-                            replaceWith(ToolSelectionView::class)
-                        }
-                    }
-                    button("Beenden") {
-                        action {
-                            primaryStage.close()
-                        }
                     }
                 }
             }

@@ -20,6 +20,7 @@ class CodeChartsView : MainBarView("Willkommen bei CodeCharts!") {
     init {
         with(contentBox) {
             vbox {
+                spacing = 20.0
                 alignment = Pos.CENTER
                 text("Willkommen im CodeCharts-Tool") {
                     fill = MEDIUMSPRINGGREEN

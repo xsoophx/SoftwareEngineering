@@ -38,6 +38,7 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
     init {
         with(contentBox) {
             vbox {
+                spacing = 20.0
                 alignment = Pos.CENTER
                 text("Welchen String haben Sie gerade als erstes gesehen?") {
                     fill = Color.MEDIUMSPRINGGREEN

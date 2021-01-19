@@ -22,6 +22,7 @@ class CodeChartsRetryView : MainBarView("CodeCharts - Ungültige Eingabe") {
     init {
         with(contentBox) {
             vbox {
+                spacing = 20.0
                 alignment = Pos.CENTER
                 text("Fehlerhafte Eingabe!") {
                     fill = Color.RED
@@ -48,11 +49,6 @@ class CodeChartsRetryView : MainBarView("CodeCharts - Ungültige Eingabe") {
                     button("Neuer Versuch") {
                         action {
                             replaceWith(CodeChartsView::class)
-                        }
-                    }
-                    button("Beenden") {
-                        action {
-                            primaryStage.close()
                         }
                     }
                 }
