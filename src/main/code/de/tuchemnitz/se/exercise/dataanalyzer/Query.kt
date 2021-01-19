@@ -8,6 +8,7 @@ import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCol
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
 import de.tuchemnitz.se.exercise.persist.data.collections.UserDataCollection
+import de.tuchemnitz.se.exercise.persist.data.collections.ZoomMapsDataCollection
 import org.litote.kmongo.and
 import org.litote.kmongo.div
 import org.litote.kmongo.eq
@@ -30,6 +31,7 @@ class Query : AbstractCollection<IPersist>(IPersist::class) {
 
     val userDataCollection: UserDataCollection by inject()
     private val codeChartsConfigCollection: CodeChartsConfigCollection by inject()
+    private val zoomMapsDataCollection: ZoomMapsDataCollection by inject()
 
     fun queryAllElementsSeparately(queryFilter: QueryFilter): List<IPersist> {
         val list = mutableListOf<IPersist>()
@@ -38,6 +40,9 @@ class Query : AbstractCollection<IPersist>(IPersist::class) {
 
         if (queryFilter.codeChartsDataFilter?.taken == true)
             list.addAll(queryCodeChartsData(queryFilter.codeChartsDataFilter.value))
+
+        if (queryFilter.zoomMapsFilter?.taken == true)
+            list.addAll(queryZoomMapsData(queryFilter.zoomMapsFilter.value))
 
         return list
     }
@@ -62,22 +67,9 @@ class Query : AbstractCollection<IPersist>(IPersist::class) {
     }
 
     private fun queryZoomMapsData(filter: ZoomMapsDataFilter): List<ZoomMapsData> {
-        return codeChartsConfigCollection.find(
+        return zoomMapsDataCollection.find(
             and(
-                (ZoomMapsData eq filter.pictureViewTime.value).takeIf { filter.pictureViewTime.taken },
+                (ZoomMapsData::zoomKey eq filter.keyCode.value).takeIf { filter.keyCode.taken })
         ).toList()
-    }
-
-    private fun queryCodeChartsPictures(
-        configs: List<CodeChartsConfig>,
-        filter: PictureDataFilter
-    ): List<CodeChartsConfig> {
-        val test = mutableListOf<CodeChartsConfig>()
-        configs.forEach {
-            it.pictures.forEach {
-                and(
-                )
-            }
-        }
     }
 }

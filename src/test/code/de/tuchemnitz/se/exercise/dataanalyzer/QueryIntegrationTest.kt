@@ -21,13 +21,23 @@ class QueryIntegrationTest : Controller() {
             UserDataFilter(
                 firstName = Filter(taken = true, value = "Klaus"),
                 lastName = Filter(taken = false, value = ""),
-                age = Filter(taken = false, value = -1)
+                age = Filter(taken = false, value = Age(minimumAge = 20, maximumAge = 50)),
+                gender = Filter(
+                    taken = false, value = Gender(male = true, female = false, other = false)
+                )
             )
         )
         val userFilter = Query.QueryFilter(
             userDataFilter = Filter(taken = true, value = dataFilters.first()),
-            codeChartsDataFilter = Filter(taken = false, value = DummyData.codeChartsData.first()),
-            codeChartsConfigFilter = Filter(taken = false, value = DummyData.codeChartsConfigs.first())
+            codeChartsDataFilter = Filter(
+                taken = false,
+                value = CodeChartsDataFilter(
+                    pictureViewTime = Filter(taken = false, value = 0),
+                    matrixViewTime = Filter(taken = false, value = 0)
+                )
+            ),
+            pictureDataFilter = null,
+            zoomMapsFilter = null
         )
     }
 
