@@ -1,6 +1,7 @@
 package de.tuchemnitz.se.exercise.core.graphics.system
 
 import de.tuchemnitz.se.exercise.core.graphics.codecharts.CodeChartsView
+import de.tuchemnitz.se.exercise.core.graphics.dataanalyzer.DataClientInitialView
 import de.tuchemnitz.se.exercise.core.graphics.zoommaps.ZoomMapsView
 import javafx.geometry.Pos
 import javafx.scene.layout.Priority
@@ -53,7 +54,7 @@ class ToolSelectionView : MainBarView("Software Praktikum - Gruppe 4 - Tool Sele
                     font = Font(22.0)
                     textAlignment = TextAlignment.CENTER
                     action {
-                        replaceWith(ZoomMapsView::class)
+                        replaceWith(DataClientInitialView::class)
                     }
                 }
             }

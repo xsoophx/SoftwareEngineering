@@ -1,6 +1,6 @@
 package de.tuchemnitz.se.exercise.core.graphics.dataanalyzer
 
-import de.tuchemnitz.se.exercise.core.graphics.MainApp
+import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import de.tuchemnitz.se.exercise.dataanalyzer.CodeCharts
 import de.tuchemnitz.se.exercise.dataanalyzer.DataAnalyst
 import de.tuchemnitz.se.exercise.dataanalyzer.DataRenderDiagram
@@ -11,13 +11,10 @@ import de.tuchemnitz.se.exercise.dataanalyzer.ZoomMaps
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
 import javafx.geometry.Insets
-import javafx.scene.layout.BorderPane
-import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.FontWeight
 import javafx.scene.text.TextAlignment
-import tornadofx.View
 import tornadofx.action
 import tornadofx.button
 import tornadofx.combobox
@@ -35,10 +32,7 @@ import tornadofx.vboxConstraints
  * Allows user to select how the data should be visualized
  */
 
-class DataClientInitialView : View("Willkommen beim Data Client!") {
-    override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
-    private val contentBox: VBox by fxid("content")
-
+class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
     /**
      * To hold user input values
      */
@@ -215,9 +209,5 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
                 paddingAll = 5.0
             }
         }
-    }
-
-    // needed for git button
-    fun printGitButton() {
     }
 }

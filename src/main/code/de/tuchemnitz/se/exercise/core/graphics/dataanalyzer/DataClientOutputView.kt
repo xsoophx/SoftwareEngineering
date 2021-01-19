@@ -1,19 +1,20 @@
 package de.tuchemnitz.se.exercise.core.graphics.dataanalyzer
 
-import de.tuchemnitz.se.exercise.core.graphics.MainApp
+import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import javafx.scene.image.Image
-import javafx.scene.layout.BorderPane
-import javafx.scene.layout.VBox
-import tornadofx.*
+import tornadofx.action
+import tornadofx.button
+import tornadofx.imageview
 
 /**
  * Displays the rendered data
  */
 
-class DataClientOutputView : View("Data Client Output") {
-    override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
-    private val contentBox: VBox by fxid("content")
+class DataClientOutputView : MainBarView("Data Client Output") {
 
+    /**
+     * View
+     */
     init {
         with(contentBox) {
 
@@ -41,8 +42,5 @@ class DataClientOutputView : View("Data Client Output") {
                 }
             }
         }
-    }
-    // needed for git button
-    fun printGitButton() {
     }
 }
