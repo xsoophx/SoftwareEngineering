@@ -17,8 +17,7 @@ class DataAnalyst() {
         val logger = LoggerFactory.getLogger("DataAnalyst Logger")
         var processor: DataProcessor = DataProcessor()
         var renderer: DataRenderer = DataRenderer()
-        // val colors: Set<ColorSampleBoard> 
-        // val query: QueryBuilder = QueryBuilder("")
+
     }
 
     /**
@@ -35,10 +34,8 @@ class DataAnalyst() {
     ): List<DummyData> {
 
         when (tool) {
-            // is CodeCharts -> return QueryBuilder("CodeCharts").find(ageLowerLimit, ageUpperLimit, gender)
             is CodeCharts -> {
 
-                // for demo use
                 val dummyDataList: MutableList<DummyData> = mutableListOf()
                 val dummyDataset = DummyData(
                     newId(), img,
