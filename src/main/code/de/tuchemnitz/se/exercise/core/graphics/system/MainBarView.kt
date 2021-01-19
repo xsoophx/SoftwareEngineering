@@ -14,15 +14,13 @@ open class MainBarView(viewTitle: String) : View(viewTitle) {
     val mainMenuButton: Button by fxid("main_menu_button")
 
     init {
-        with(exitButton)
-        {
+        with(exitButton) {
             action {
                 primaryStage.close()
             }
         }
 
-        with(mainMenuButton)
-        {
+        with(mainMenuButton) {
             action {
                 replaceWith(ToolSelectionView::class)
             }
