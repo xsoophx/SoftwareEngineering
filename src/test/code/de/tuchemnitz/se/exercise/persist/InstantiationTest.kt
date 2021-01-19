@@ -42,7 +42,7 @@ class InstantiationTest : Controller() {
         EyeTrackingConfig(dummyVal = "eye"),
         DummyData.codeChartsData.first(),
         EyeTrackingData(dummyData = "dummy"),
-        UserData(firstName = "test", surName = "user", age = 25),
+        UserData(firstName = "test", lastName = "user", age = 25),
         ZoomMapsData(zoomSpeed = 1.0, zoomKey = KeyCode.K, zoomPosition = Point2D(1.0, 1.0))
     )
 
