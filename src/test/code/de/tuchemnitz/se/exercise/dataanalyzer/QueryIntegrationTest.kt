@@ -24,7 +24,7 @@ class QueryIntegrationTest : Controller() {
                 age = Filter(taken = false, value = -1)
             )
         )
-        val userFilter = Query.UserFilter(
+        val userFilter = Query.QueryFilter(
             userDataFilter = Filter(taken = true, value = dataFilters.first()),
             codeChartsDataFilter = Filter(taken = false, value = DummyData.codeChartsData.first()),
             codeChartsConfigFilter = Filter(taken = false, value = DummyData.codeChartsConfigs.first())
