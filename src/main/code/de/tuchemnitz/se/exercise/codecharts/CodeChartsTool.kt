@@ -41,7 +41,7 @@ object CodeChartsTool {
      * [codeChartsStringHandler]: StringHandler holds and generates Strings. Able to validate whether given String is element of generated Strings.
      */
     val codeChartsStringHandler = CodeChartsStringHandler().apply {
-        /*
+        /**
          * @param gridWidth contains number of grid cells in width dimension.
          * @param gridHeight contains number of grid cells in height dimension.
          * @param gridSize contains total number of grid cells in grid.
