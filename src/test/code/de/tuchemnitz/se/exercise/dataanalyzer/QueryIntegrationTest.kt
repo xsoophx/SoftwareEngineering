@@ -2,7 +2,6 @@ package de.tuchemnitz.se.exercise.dataanalyzer
 
 import assertk.assertThat
 import assertk.assertions.contains
-import assertk.assertions.containsOnly
 import assertk.assertions.isEqualTo
 import de.tuchemnitz.se.exercise.DummyData
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection

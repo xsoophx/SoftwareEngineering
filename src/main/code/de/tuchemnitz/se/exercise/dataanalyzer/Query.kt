@@ -2,20 +2,21 @@ package de.tuchemnitz.se.exercise.dataanalyzer
 
 import de.tuchemnitz.se.exercise.persist.AbstractCollection
 import de.tuchemnitz.se.exercise.persist.IPersist
-import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.data.collections.UserDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.ZoomMapsDataCollection
 import org.bson.conversions.Bson
 import org.litote.kmongo.and
 import org.litote.kmongo.eq
+import org.litote.kmongo.gte
+import org.litote.kmongo.lte
 import org.slf4j.LoggerFactory
 
 class Query : AbstractCollection<IPersist>(IPersist::class) {
 
     data class UserFilter(
         val userDataFilter: Filter<UserDataFilter>,
-        val codeChartsDataFilter: Filter<CodeChartsData>
+        val codeChartsDataFilter: Filter<CodeChartsDataFilter>
     )
 
     companion object {
@@ -43,8 +44,10 @@ class Query : AbstractCollection<IPersist>(IPersist::class) {
         return userDataCollection.find(
             and(
                 (UserData::firstName eq filter.firstName.value).takeIf { filter.firstName.taken },
-                (UserData::lastName eq filter.surName.value).takeIf { filter.surName.taken },
-                (UserData::age eq filter.age.value).takeIf { filter.age.taken },
+                (UserData::lastName eq filter.lastName.value).takeIf { filter.lastName.taken },
+                (UserData::age gte filter.ageRangeLower.value).takeIf { filter.ageRangeLower.taken },
+                (UserData::age lte filter.ageRangeUpper.value).takeIf { filter.ageRangeUpper.taken },
+                (UserData::age eq filter.gender.value).takeIf { filter.gender.taken },
             )
         ).toList()
     }

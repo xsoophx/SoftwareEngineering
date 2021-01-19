@@ -1,12 +1,12 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
-import org.litote.kmongo.newId
+import de.tuchemnitz.se.exercise.codecharts.Dimension
+import de.tuchemnitz.se.exercise.codecharts.Interval2D
+import de.tuchemnitz.se.exercise.persist.IPersist
 import org.slf4j.LoggerFactory
 
-
-//for demo use
+// for demo use
 const val img = "/Chameleon.jpg"
-
 
 /**
  * Holds main logic of the data analyst application
@@ -19,8 +19,10 @@ class DataAnalyst() {
         val logger = LoggerFactory.getLogger("DataAnalyst Logger")
         var processor: DataProcessor = DataProcessor()
         var renderer: DataRenderer = DataRenderer()
+        val query = Query()
+
         // val colors: Set<ColorSampleBoard> 
-       // val query: QueryBuilder = QueryBuilder("")
+        // val query: QueryBuilder = QueryBuilder("")
     }
 
     /**
@@ -31,42 +33,43 @@ class DataAnalyst() {
 
     fun getData(
         tool: ITool,
-        ageLowerLimit: Number,
-        ageUpperLimit: Number,
+        ageLowerLimit: Int,
+        ageUpperLimit: Int,
         gender: String
-    ): List<DummyData> {
+    ): List<IPersist> {
 
         when (tool) {
-            //is CodeCharts -> return QueryBuilder("CodeCharts").find(ageLowerLimit, ageUpperLimit, gender)
             is CodeCharts -> {
+                val cc = CodeChartsDataFilter(
+                    originalImageSize = Filter(taken = false, Dimension(x = 0.0, y = 0.0)),
+                    scaledImageSize = Filter(taken = false, Dimension(x = 0.0, y = 0.0)),
+                    screenSize = Filter(taken = false, Dimension(x = 0.0, y = 0.0)),
+                    stringPosition = Filter(taken = false, Interval2D(0.0, 0.0, 0.0, 0.0))
+                )
+                val codeChartsDataFilter = Filter(taken = true, value = cc)
+                val userdata: Filter<UserDataFilter> = Filter(
+                    taken = true,
+                    UserDataFilter(
+                        Filter(taken = false, value = ""),
+                        Filter(taken = false, value = ""),
+                        Filter(taken = true, value = ageLowerLimit),
+                        Filter(taken = true, value = ageUpperLimit),
+                        Filter(taken = true, value = gender)
+                    )
+                )
 
-                //for demo use
-                val DummyDataList: MutableList<DummyData> = mutableListOf()
-                val dummyDataset = DummyData(
-                    newId(), img,
-                    Dimension(400.0, 600.0),
-                    Interval2D(70.0, 100.0, 50.0, 80.0),
-                )
-                val dummyDataset1 = DummyData(
-                    newId(), img,
-                    Dimension(400.0, 600.0),
-                    Interval2D(100.0, 170.0, 50.0, 80.0),
-                )
-                DummyDataList.add(dummyDataset)
-                DummyDataList.add(dummyDataset1)
-                return DummyDataList
+                val user = Query.UserFilter(userdata, codeChartsDataFilter = codeChartsDataFilter)
+
+                return query.queryAllElementsSeparately(user) // list ipersist
             }
-            //is ZoomMaps -> return QueryBuilder("ZoomMaps").find(ageLowerLimit, ageUpperLimit, gender)
         }
         return emptyList()
     }
 
-
-
     /**
      * Extracts the necessary values from the data, depending on the render method specified by the user
      */
-    fun process(method: IMethod, data: List<DummyData>): MutableList<Coordinates> {
+    fun process(method: IMethod, data: List<IPersist>): MutableList<Coordinates> {
 
         when (method) {
             is DataRenderHeatMap -> {
@@ -82,7 +85,7 @@ class DataAnalyst() {
     /**
      * Creates the visual representation of the data, according to the render method specified by the user
      */
-    fun render(method: IMethod, coordinates: Coordinates) : Boolean{
+    fun render(method: IMethod, coordinates: Coordinates): Boolean {
         when (method) {
             is DataRenderHeatMap -> {
                 renderer = DataRenderHeatMap()

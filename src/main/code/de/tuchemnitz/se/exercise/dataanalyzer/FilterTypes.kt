@@ -18,7 +18,9 @@ data class Filter<T>(
 data class UserDataFilter(
     val firstName: Filter<String>,
     val lastName: Filter<String>,
-    val age: Filter<Int>
+    val ageRangeLower: Filter<Int>,
+    val ageRangeUpper: Filter<Int>,
+    val gender: Filter<String>
 ) : DataFilters
 
 data class CodeChartsDataFilter(
@@ -48,4 +50,5 @@ data class GridFilter(
     val width: Filter<Int>,
     val height: Filter<Int>
 ): DataFilters
+
 

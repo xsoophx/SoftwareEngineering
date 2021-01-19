@@ -26,9 +26,3 @@ data class Dimension(
     val y: Double
 )
 
-data class UserData(
-    val firstName: String,
-    val surName: String,
-    val age: Int,
-    override val _id: Id<out IPersist> = newId()
-) : IData
