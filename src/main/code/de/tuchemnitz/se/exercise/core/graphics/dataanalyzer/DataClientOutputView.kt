@@ -6,6 +6,8 @@ import de.tuchemnitz.se.exercise.dataanalyzer.Dimension
 import javafx.scene.image.Image
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
+import javafx.scene.paint.Color
+import javafx.scene.shape.Rectangle
 import tornadofx.*
 
 /**
@@ -21,6 +23,8 @@ class DataClientOutputView : View("Data Client Output") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
     private val contentBox: VBox by fxid("content")
     var counter = 0
+    lateinit var rectangle: Rectangle
+    var colors = createColorList()
 
     init {
         with(contentBox) {
@@ -29,28 +33,28 @@ class DataClientOutputView : View("Data Client Output") {
 
             stackpane {
                 imageview {
-                    x = data[0].scaledImageSize.x
-                    y = data[0].scaledImageSize.y
                     image = Image(
                         imagePath
                     )
+                    fitWidthProperty().bind(data[0].scaledImageSize.x.toProperty())
+                    fitHeightProperty().bind(data[0].scaledImageSize.y.toProperty())
                 }
-
-                    rectangle {
-                        x = data[counter].xStart
-                        y = data[counter].yStart
-                        width = 50.0
-                        height = 50.0
-                    }
-
+                rectangle = rectangle {
+                    fill = colors[counter]
+                    translateX = data[counter].xStart
+                    translateY = data[counter].yStart
+                    width = 50.0
+                    height = 50.0
                 }
-
+            }
 
             // render next image and display
             button("NEXT") {
                 action {
-                    // jump back into loop and continue
-                    // if there are no more datasets: display according view
+                    counter++
+                    rectangle.fill = colors[counter]
+                    rectangle.translateX = data[counter].xStart
+                    rectangle.translateY = data[counter].yStart
                 }
             }
 
@@ -69,9 +73,27 @@ class DataClientOutputView : View("Data Client Output") {
     fun createData(): MutableList<Coordinates> {
         var coordinates: MutableList<Coordinates> = mutableListOf()
 
-        coordinates.add(Coordinates(17.0, 15.0, 20.0, 28.0, "penguin.png", Dimension(100.0, 100.0)))
-        coordinates.add(Coordinates(50.0, 50.0, 70.0, 70.0, "kitten.jpeg", Dimension(100.0, 100.0)))
+        coordinates.add(Coordinates(-100.0, -100.0, -50.0, -50.0, "penguin.png", Dimension(500.0, 600.0)))
+        coordinates.add(Coordinates(100.0, 100.0, 150.0, 150.0, "kitten.jpeg", Dimension(500.0, 600.0)))
+        coordinates.add(Coordinates(-200.0, -200.0, -150.0, -150.0, "kitten.jpeg", Dimension(500.0, 600.0)))
+        coordinates.add(Coordinates(0.0, 0.0, 50.0, 50.0, "kitten.jpeg", Dimension(500.0, 600.0)))
 
         return coordinates
     }
+
+    fun createColorList (): MutableList<Color> {
+        var colorList = mutableListOf<Color>()
+        colorList.add(Color.BLUE)
+        colorList.add(Color.BLANCHEDALMOND)
+        colorList.add(Color.ALICEBLUE)
+        colorList.add(Color.BURLYWOOD)
+        colorList.add(Color.CORAL)
+        colorList.add(Color.CRIMSON)
+        colorList.add(Color.DARKORANGE)
+        colorList.add(Color.GREENYELLOW)
+
+        return colorList
+
+    }
 }
+
