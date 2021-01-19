@@ -24,9 +24,10 @@ class CodeChartsGridView : View("SoftwarePraktikum - CodeCharts Grid") {
      * [gridWidth] contains number of grid cells in width dimension.
      */
     private val gridWidth = codeChartsData.gridDimension.x
+
     /**
-    *[gridHeight] contains number of grid cells in height dimension.
-    */
+     *[gridHeight] contains number of grid cells in height dimension.
+     */
     private val gridHeight = codeChartsData.gridDimension.y
 
     /**

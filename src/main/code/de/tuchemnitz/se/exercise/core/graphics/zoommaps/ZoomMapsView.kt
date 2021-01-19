@@ -3,7 +3,7 @@ package de.tuchemnitz.se.exercise.core.graphics.zoommaps
 import com.sun.javafx.util.Utils.clamp
 import de.tuchemnitz.se.exercise.codecharts.IMAGE_PATH
 import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
-import de.tuchemnitz.se.exercise.core.graphics.MainApp
+import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import de.tuchemnitz.se.exercise.core.graphics.system.ToolSelectionView
 import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
 import javafx.beans.property.SimpleBooleanProperty
@@ -14,11 +14,8 @@ import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
-import javafx.scene.layout.BorderPane
-import javafx.scene.layout.VBox
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import tornadofx.View
 import tornadofx.action
 import tornadofx.button
 import tornadofx.getValue
@@ -29,14 +26,7 @@ import tornadofx.setValue
 /**
  * This view is responsible for zooming in and out on a picture.
  */
-class ZoomMapsView : View("Zoom Maps") {
-    /**
-     *[root]: unique root BorderPane for all Views
-     * [contentBox]: unique contentBox, where content is placed for every view
-     */
-    override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
-    private val contentBox: VBox by fxid("content")
-
+class ZoomMapsView : MainBarView("Zoom Maps") {
     /**
      * [scaleProperty]: injected property for the zoomFunction. This has to be edited in order to change
      * the scale/speed of the zoom.
