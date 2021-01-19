@@ -1,7 +1,7 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.codeChartsData
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.handleStrings
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsStringHandler
 import javafx.animation.PauseTransition
 import javafx.event.EventHandler
 import javafx.geometry.Pos
@@ -20,10 +20,10 @@ import tornadofx.stackpane
  * Is replaced with CodeChartsInputValidatorView after delay.
  */
 class CodeChartsGridView : View("SoftwarePraktikum - CodeCharts Grid") {
-    private val gridWidth = codeChartsData.getGridDimension().x
-    private val gridHeight = codeChartsData.getGridDimension().y
-    private val stringList = handleStrings.getStrings()
-    private val scaledImageSize = codeChartsData.getScaledImageSize()
+    private val gridWidth = codeChartsData.gridDimension.x
+    private val gridHeight = codeChartsData.gridDimension.y
+    private val stringList = codeChartsStringHandler.getStrings()
+    private val scaledImageSize = codeChartsData.scaledImageSize
 
     override val root =
         hbox {
@@ -35,9 +35,8 @@ class CodeChartsGridView : View("SoftwarePraktikum - CodeCharts Grid") {
                 verticalCellSpacing = 0.0
                 maxCellsInRow = gridWidth.toInt()
                 maxRows = gridHeight.toInt()
-                minWidth = codeChartsData.getScaledImageSize().x + 2.0
-                maxWidth = codeChartsData.getScaledImageSize().x + 2.0
-
+                minWidth = codeChartsData.scaledImageSize.x + 2.0
+                maxWidth = codeChartsData.scaledImageSize.x + 2.0
                 cellCache {
                     stackpane {
                         rectangle(width = cellWidth - 0.5, height = cellHeight - 0.5) {
@@ -51,7 +50,7 @@ class CodeChartsGridView : View("SoftwarePraktikum - CodeCharts Grid") {
         }
 
     private fun goToInputValidatorView() {
-        val delay = PauseTransition(Duration.seconds(codeChartsData.getMatrixViewTime()))
+        val delay = PauseTransition(Duration.seconds(codeChartsData.matrixViewTime))
         delay.onFinished = EventHandler { replaceWith(CodeChartsInputValidatorView::class) }
         delay.play()
     }

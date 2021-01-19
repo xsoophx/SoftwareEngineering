@@ -4,13 +4,11 @@ import de.tuchemnitz.se.exercise.persist.IPersist
 import de.tuchemnitz.se.exercise.persist.data.IData
 import org.litote.kmongo.Id
 import org.litote.kmongo.newId
-import java.nio.file.Path
 
-
-//need to get data from database into this format i.e. extract these values
+// need to get data from database into this format i.e. extract these values
 class DummyData(
     override val _id: Id<out IPersist>,
-    //var imagePath: Path,
+    // var imagePath: Path,
     var imagePath: String,
     var scaledImageSize: Dimension,
     var interval: Interval2D,
@@ -34,5 +32,3 @@ data class UserData(
     val age: Int,
     override val _id: Id<out IPersist> = newId()
 ) : IData
-
-

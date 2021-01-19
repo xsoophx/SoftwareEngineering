@@ -25,10 +25,10 @@ class UserDataCollectionTest : Controller() {
 
     @Suppress("SpellCheckingInspection")
     companion object {
-        private val configs = setOf(
-            UserData(firstName = "Testuser", surName = "Kotlin", age = 45),
-            UserData(firstName = "anotherUser", surName = "Java", age = 25),
-            UserData(firstName = "Santa", surName = "Claus", age = 65)
+        private val configs = listOf(
+            UserData(firstName = "Testuser", lastName = "Kotlin", age = 45),
+            UserData(firstName = "anotherUser", lastName = "Java", age = 25),
+            UserData(firstName = "Santa", lastName = "Claus", age = 65)
         )
     }
 

@@ -9,13 +9,13 @@ import kotlin.math.roundToInt
  * Able to validate whether given String is element of generated Strings.
  */
 class CodeChartsStringHandler {
-    private lateinit var generatedStrings: MutableList<String>
+    private lateinit var codeChartsGridStrings: MutableList<String>
 
     /**
      * Returns generated Strings in a MutableList<String>.
      */
     fun getStrings(): MutableList<String> {
-        return this.generatedStrings
+        return this.codeChartsGridStrings
     }
 
     /**
@@ -25,7 +25,7 @@ class CodeChartsStringHandler {
      */
     fun setStrings(input: Int, allowedChars: StringCharacters) {
         val generatedList = generateStringList(input, allowedChars)
-        this.generatedStrings = generatedList
+        this.codeChartsGridStrings = generatedList
     }
 
     /**
@@ -91,6 +91,6 @@ class CodeChartsStringHandler {
     }
 
     fun orderList() {
-        this.generatedStrings = ((this.generatedStrings).sorted()).toMutableList()
+        this.codeChartsGridStrings = ((this.codeChartsGridStrings).sorted()).toMutableList()
     }
 }
