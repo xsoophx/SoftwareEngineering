@@ -3,17 +3,14 @@ package de.tuchemnitz.se.exercise.dataanalyzer
 import de.tuchemnitz.se.exercise.persist.AbstractCollection
 import de.tuchemnitz.se.exercise.persist.IPersist
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
-import de.tuchemnitz.se.exercise.persist.configs.PictureData
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.data.collections.UserDataCollection
-import de.tuchemnitz.se.exercise.persist.data.collections.ZoomMapsDataCollection
 import org.bson.conversions.Bson
 import org.litote.kmongo.and
 import org.litote.kmongo.eq
 import org.slf4j.LoggerFactory
-import org.w3c.dom.stylesheets.LinkStyle
 
 class Query : AbstractCollection<IPersist>(IPersist::class) {
 
