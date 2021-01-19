@@ -5,6 +5,7 @@ import de.tuchemnitz.se.exercise.codecharts.IMAGE_PATH
 import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
 import de.tuchemnitz.se.exercise.core.graphics.system.ToolSelectionView
+import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleDoubleProperty
 import javafx.geometry.Point2D
@@ -26,53 +27,72 @@ import tornadofx.keyboard
 import tornadofx.setValue
 
 /**
-* This view is responsible for zooming in and out on a picture.
-*/
+ * This view is responsible for zooming in and out on a picture.
+ */
 class ZoomMapsView : View("Zoom Maps") {
     /**
-    * @param root: unique root BorderPane for all Views
-    * @param contentBox: unique contentBox, where content is placed for every view
-    */
+     *[root]: unique root BorderPane for all Views
+     * [contentBox]: unique contentBox, where content is placed for every view
+     */
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
     private val contentBox: VBox by fxid("content")
 
     /**
-    * @param scaleProperty: injected property for the zoomFunction. This has to be edited in order to change
-    * the scale/speed of the zoom.
-    */
+     * [scaleProperty]: injected property for the zoomFunction. This has to be edited in order to change
+     * the scale/speed of the zoom.
+     */
     private val scaleProperty = SimpleDoubleProperty(1.0)
-    var scale by scaleProperty
+    private var scale by scaleProperty
 
     /**
-    * @param configManager: the ConfigManager is being injected to save and
-    * get settings for the View (zoomSpeed, zoomButtons, etc.).
-    */
+     * [configManager]: the ConfigManager is being injected to save and
+     * get settings for the View (zoomSpeed, zoomButtons, etc.).
+     */
     private val configManager: ConfigManager by inject()
 
     /**
-    * @param zoomEnabledProperty: states whether the initial zoom is activated or not (default is false).
-    */
+     * [zoomEnabledProperty]: states whether the initial zoom is activated or not (default is false).
+     */
     private val zoomEnabledProperty = SimpleBooleanProperty(false)
-    var zoomEnabled by zoomEnabledProperty
+    private var zoomEnabled by zoomEnabledProperty
 
     /**
-    * Contains Logger, which is logging scroll and zoom Events.
-    */
+     * [zoomKey]: the zoomKey is retrieved from the settings of the configManager,
+     * in case an error is occurring, it is being set to the char "E"
+     */
+    private val zoomKey = configManager.getZoomMapsConfig()?.zoomKey ?: KeyCode.E
+
+    /**
+     * [zoomSpeed]: the speed is retrieved from the settings of the configManager,
+     * in case an error is occurring, the zoomSpeed is set to 1.0
+     */
+    private val zoomSpeed = configManager.getZoomMapsConfig()?.zoomSpeed ?: 1.0
+
+    /**
+     * [zoomPosition]: will be initialized while zooming, to only save different positions.
+     * Otherwise the same position would be saved for several times (caused by zoom event).
+     */
+    private var zoomPosition: Point2D? = null
+
+    /**
+     * Contains Logger, which is logging scroll and zoom Events.
+     */
     companion object {
         val logger: Logger = LoggerFactory.getLogger("ZoomMapsView Logger")
     }
 
-    /**
-    * With the initialisation, the root of the fxml is being overwritten.
-    */
     init {
-        with(root) {
-
-            /**
-             * @param zoomKey: the zoomKey is retrieved from the settings of the configManager,
-             * in case an error is occurring, it is being set to the char "E"
-             */
-            val zoomKey = configManager.getZoomMapsConfig()?.zoomKey ?: KeyCode.E
+        /**
+         * the contentBox is being filled with the image, on which the user is supposed to zoom in and out.
+         */
+        with(contentBox) {
+            button("Hauptmenü") {
+                action {
+                    replaceWith(ToolSelectionView::class)
+                }
+                prefWidthProperty().bind(root.widthProperty())
+                prefHeightProperty().bind(root.heightProperty())
+            }
 
             /**
              * @receiver root/BorderPane: an EventFilter to the root is added. It is detecting key presses and
@@ -92,24 +112,11 @@ class ZoomMapsView : View("Zoom Maps") {
                         zoomEnabled = false
                 }
             }
-        }
-
-        /**
-        * the contentBox is being filled with the image, on which the user is supposed to zoom in and out.
-        */
-        with(contentBox) {
-            button("Hauptmenü") {
-                action {
-                    replaceWith(ToolSelectionView::class)
-                }
-                prefWidthProperty().bind(root.widthProperty())
-                prefHeightProperty().bind(root.heightProperty())
-            }
 
             /**
-            * @param imageview: the imageview is initialized with all its settings. Its bound to the root
-            * properties width and height, thus, the image scales with the screen size while zooming in and out.
-            */
+             * [imageview]: the imageview is initialized with all its settings. Its bound to the root
+             * properties width and height, thus, the image scales with the screen size while zooming in and out.
+             */
             imageview {
                 image = Image(IMAGE_PATH)
                 maxWidthProperty().bind(root.widthProperty())
@@ -123,7 +130,7 @@ class ZoomMapsView : View("Zoom Maps") {
                 logger.info("$zoomMapsConfig")
 
                 /**
-                 * @param e: registers the mouseLocation of the zoom. This is being used to save the location
+                 * registers the mouseLocation of the zoom. This is being used to save the location
                  * in the config.
                  */
                 setOnScroll { e ->
@@ -132,13 +139,23 @@ class ZoomMapsView : View("Zoom Maps") {
                     }
 
                     val mouseLocation = imageViewToImage(Point2D(e.x, e.y))
+                    if (zoomPosition == null || mouseLocation.isEqualTo(zoomPosition!!))
+                        configManager.savePersistable(
+                            ZoomMapsData(
+                                zoomSpeed = zoomSpeed,
+                                zoomKey = zoomKey,
+                                zoomPosition = mouseLocation
+                            )
+                        )
+                    zoomPosition = mouseLocation
+
                     logger.info("zoomed in at: $mouseLocation.")
 
                     /**
-                     * @param factor: the factor for zooming in and out is calculated.
-                     * @param oldScale: the old scale factor is temporarily saved in it.
-                     * @param scale: the new scale value is calculated.
-                     * @param actualFactor: the new actual Factor is being calculated with the current scale
+                     * [factor]: the factor for zooming in and out is calculated.
+                     * [oldScale]: the old scale factor is temporarily saved in it.
+                     * [scale]: the new scale value is calculated.
+                     * [actualFactor]: the new actual Factor is being calculated with the current scale
                      * and the old scale.
                      */
                     val factor = if (e.deltaY > 0) 1.0 / 1.2 else 1.2
@@ -162,20 +179,22 @@ class ZoomMapsView : View("Zoom Maps") {
     }
 
     /**
-    * @receiver ImageView: extensionFunction to register the ZoomLocation of the Mouse on the receiver ImageView.
-    * The function calculates the relative position of the zoom event, because the original size of the image might
-    * be distorted by the zoom.
-    * @param position: current Position of the Zoom Event
-    */
+     * @receiver Point2D: The left hand, which saves x and y coordinates
+     * The function checks whether two 2D coordinates, casted to Int, aer equal.
+     * [rightHand]: the coordinate the left hand is compared to.
+     */
+    private fun Point2D.isEqualTo(rightHand: Point2D): Boolean {
+        return (x.toInt() != rightHand.x.toInt() && y.toInt() != rightHand.y.toInt())
+    }
+
+    /**
+     * @receiver ImageView: ImageView of the current view, which shows the picture.
+     * The function calculates the relative position of the zoom event, because the original size of the image might
+     * be distorted by the zoom.
+     * [position]: current Position of the Zoom Event
+     */
     private fun ImageView.imageViewToImage(position: Point2D) = Point2D(
         viewport.minX + position.x * viewport.width / boundsInLocal.width,
         viewport.minY + position.y * viewport.height / boundsInLocal.height
     )
-
-    /**
-    * Needs to be overwritten, to get focus on root and attach eventFilters for the keys.
-    */
-    override fun onDock() {
-        root.requestFocus()
-    }
 }
