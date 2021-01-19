@@ -1,28 +1,25 @@
 package de.tuchemnitz.se.exercise.core.graphics.dataanalyzer
 
-import de.tuchemnitz.se.exercise.core.graphics.MainApp
 import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import de.tuchemnitz.se.exercise.dataanalyzer.CodeCharts
-import de.tuchemnitz.se.exercise.dataanalyzer.Coordinates
 import de.tuchemnitz.se.exercise.dataanalyzer.DataAnalyst
 import de.tuchemnitz.se.exercise.dataanalyzer.DataRenderDiagram
 import de.tuchemnitz.se.exercise.dataanalyzer.DataRenderHeatMap
 import de.tuchemnitz.se.exercise.dataanalyzer.IMethod
 import de.tuchemnitz.se.exercise.dataanalyzer.ITool
 import de.tuchemnitz.se.exercise.dataanalyzer.ZoomMaps
+import javafx.beans.property.SimpleStringProperty
+import javafx.collections.FXCollections
 import javafx.geometry.Insets
-import javafx.scene.layout.BorderPane
-import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.FontWeight
 import javafx.scene.text.TextAlignment
-import tornadofx.View
 import tornadofx.action
 import tornadofx.button
-import tornadofx.item
-import tornadofx.menu
-import tornadofx.menubar
+import tornadofx.combobox
+import tornadofx.hbox
+import tornadofx.onChange
 import tornadofx.paddingAll
 import tornadofx.style
 import tornadofx.text
@@ -44,16 +41,25 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
         var zoomMapsTool = ZoomMaps()
         var heatMapMethod = DataRenderHeatMap()
         var diagramMethod = DataRenderDiagram()
-        val client = DataAnalyst()
     }
+
     lateinit var tool: ITool
     lateinit var method: IMethod
     var ageRangeLower: Number = 0
     var ageRangeUpper: Number = 0
     var gender: String = ""
-    var ctr = 0
-    lateinit var processed: MutableList<Coordinates>
+    val toolList = FXCollections.observableArrayList("Code Charts", "Zoom Maps")
+    val selectedTool = SimpleStringProperty()
+    val renderMethodList = FXCollections.observableArrayList("Heat Map", "Diagram")
+    val selectedRenderMethod = SimpleStringProperty()
+    val ageRangeList = FXCollections.observableArrayList("10-20", "20-40", "40-60", "60 +")
+    val selectedAgeRage = SimpleStringProperty()
+    val genderList = FXCollections.observableArrayList("Male", "Female", "Others")
+    val selectedGender = SimpleStringProperty()
 
+    /**
+     * View
+     */
     init {
         with(contentBox) {
             vbox {
@@ -72,61 +78,74 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                 /**
                  * Get user input
                  */
-                menubar {
-                    menu("Tool") {
-                        item("Code Charts").action {
-                            println("Code Charts selected!")
-                            tool = codeChartsTool
-                        }
-                        item("Zoom Maps").action {
-                            println("Zoom Maps selected!")
-                            tool = zoomMapsTool
-                        }
-                    }
-                    menu("Render Method") {
-                        item("Heat Map").action {
-                            println("Heat Map selected!")
-                            method = heatMapMethod
-                        }
-                        item("Diagram").action {
-                            println("Diagram selected!")
-                            method = diagramMethod
+                hbox {
+                    spacing = 5.0
+                    combobox(selectedTool, toolList)
+                    selectedTool.onChange {
+                        when ("$it") {
+                            "Code Charts" -> {
+                                println("Code Charts selected!")
+                                tool = codeChartsTool
+                            }
+                            "Zoom Maps" -> {
+                                println("Zoom Maps selected!")
+                                tool = zoomMapsTool
+                            }
                         }
                     }
-                    menu("Age Range") {
-                        item("10-20").action {
-                            println("Age Range 10-20 selected!")
-                            ageRangeLower = 10
-                            ageRangeUpper = 20
-                        }
-                        item("20-40").action {
-                            println("Age Range 20-40 selected!")
-                            ageRangeLower = 20
-                            ageRangeUpper = 40
-                        }
-                        item("40-60").action {
-                            println("Age Range 40-60 selected!")
-                            ageRangeLower = 40
-                            ageRangeUpper = 60
-                        }
-                        item("60+").action {
-                            println("Age Range 60+ selected!")
-                            ageRangeLower = 60
-                            ageRangeUpper = 100
+                    combobox(selectedRenderMethod, renderMethodList)
+                    selectedRenderMethod.onChange {
+                        when ("$it") {
+                            "Heat Map" -> {
+                                println("Heat Map selected!")
+                                method = heatMapMethod
+                            }
+                            "Diagram" -> {
+                                println("Diagram selected!")
+                                method = diagramMethod
+                            }
                         }
                     }
-                    menu("Gender") {
-                        item("Male").action {
-                            println("Gender Male selected!")
-                            gender = "Male"
+                    combobox(selectedAgeRage, ageRangeList)
+                    selectedAgeRage.onChange {
+                        when ("$it") {
+                            "10-20" -> {
+                                println("Age Range 10-20 selected!")
+                                ageRangeLower = 10
+                                ageRangeUpper = 20
+                            }
+                            "20-40" -> {
+                                println("Age Range 20-40 selected!")
+                                ageRangeLower = 20
+                                ageRangeUpper = 40
+                            }
+                            "40-60" -> {
+                                println("Age Range 40-60 selected!")
+                                ageRangeLower = 40
+                                ageRangeUpper = 60
+                            }
+                            "60+" -> {
+                                println("Age Range 60+ selected!")
+                                ageRangeLower = 60
+                                ageRangeUpper = 100
+                            }
                         }
-                        item("Female").action {
-                            println("Gender Female selected!")
-                            gender = "Female"
-                        }
-                        item("Other").action {
-                            println("Gender Other selected!")
-                            gender = "Other"
+                    }
+                    combobox(selectedGender, genderList)
+                    selectedGender.onChange {
+                        when ("$it") {
+                            "Male" -> {
+                                println("Gender Male selected!")
+                                gender = "Male"
+                            }
+                            "Female" -> {
+                                println("Gender Female selected!")
+                                gender = "Female"
+                            }
+                            "Other" -> {
+                                println("Gender Other selected!")
+                                gender = "Other"
+                            }
                         }
                     }
                 }
@@ -143,18 +162,23 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                         println(gender)
 
                         /**
+                         * Create new Data Analyst
+                         */
+                        val client = DataAnalyst()
+
+                        /**
                          * Query database for data corresponding to filter params
                          * Receives a list of datasets
                          */
                         val data = client.getData(tool, ageRangeLower, ageRangeUpper, gender)
                         println("received data")
-                        // println(data)
+                        println(data)
 
                         /**
                          * Process the data according to render method specified by user
                          * Receivers a list of coordinates
                          */
-                        processed = client.process(method, data)
+                        val processed = client.process(method, data)
                         println("processed data")
                         println(processed)
 
@@ -163,8 +187,12 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                          * Create viusal representation/ rendered image of eye tracking data
                          * Open a new view with the rendered image
                          */
-
-                        replaceWith(DataClientOutputView::class)
+                        for (coordinates in processed) {
+                            if (client.render(method, coordinates)) {
+                                // display output.bmp -> change view
+                                replaceWith(DataClientOutputView::class)
+                            }
+                        }
                     }
                     style {
                         fontWeight = FontWeight.EXTRA_BOLD
@@ -181,9 +209,5 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                 paddingAll = 5.0
             }
         }
-    }
-
-    // needed for git button
-    fun printGitButton() {
     }
 }
