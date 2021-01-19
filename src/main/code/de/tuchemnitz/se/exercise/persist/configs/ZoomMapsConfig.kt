@@ -12,6 +12,6 @@ import java.time.Instant
 data class ZoomMapsConfig(
     @Transient override val _id: Id<ZoomMapsConfig> = newId(),
     @Transient override val savedAt: Instant = now(),
-    val zoomSpeed: Float,
+    val zoomSpeed: Double,
     val zoomKey: KeyCode
 ) : IConfig

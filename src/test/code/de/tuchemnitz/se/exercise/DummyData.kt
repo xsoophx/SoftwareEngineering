@@ -94,17 +94,17 @@ object DummyData : Controller() {
     @get: JvmStatic
     val zoomMapsConfigs = setOf(
         ZoomMapsConfig(
-            zoomSpeed = 1F,
+            zoomSpeed = 1.0,
             zoomKey = KeyCode.C,
             savedAt = baseTime.plusSeconds(1L)
         ),
         ZoomMapsConfig(
-            zoomSpeed = 2F,
+            zoomSpeed = 2.0,
             zoomKey = KeyCode.A,
             savedAt = baseTime.plusSeconds(2L)
         ),
         ZoomMapsConfig(
-            zoomSpeed = 10F,
+            zoomSpeed = 10.0,
             zoomKey = KeyCode.B,
             savedAt = baseTime.plusSeconds(3L)
         )

@@ -22,3 +22,5 @@ out/
 !src/main/resources/views
 !src/main/resources/cross.png
 
+!build/dokka/
+
