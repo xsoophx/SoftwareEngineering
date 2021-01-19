@@ -3,9 +3,9 @@ package de.tuchemnitz.se.exercise.persist
 import assertk.assertThat
 import assertk.assertions.isInstanceOf
 import de.tuchemnitz.se.exercise.DATABASE
+import de.tuchemnitz.se.exercise.DummyData
 import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.EyeTrackingConfigCollection
-import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.data.EyeTrackingData
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
@@ -13,6 +13,8 @@ import de.tuchemnitz.se.exercise.persist.data.collections.CodeChartsDataCollecti
 import de.tuchemnitz.se.exercise.persist.data.collections.EyeTrackingDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.UserDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.ZoomMapsDataCollection
+import javafx.geometry.Point2D
+import javafx.scene.input.KeyCode
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -38,10 +40,10 @@ class InstantiationTest : Controller() {
     @Suppress("SpellCheckingInspection")
     private val savables = listOf(
         EyeTrackingConfig(dummyVal = "eye"),
-        CodeChartsData(dummyData = "dummy"),
+        DummyData.codeChartsData.first(),
         EyeTrackingData(dummyData = "dummy"),
         UserData(firstName = "test", surName = "user", age = 25),
-        ZoomMapsData(dummyData = "dummy")
+        ZoomMapsData(zoomSpeed = 1.0, zoomKey = KeyCode.K, zoomPosition = Point2D(1.0, 1.0))
     )
 
     @Test

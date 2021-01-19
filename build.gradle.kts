@@ -1,3 +1,4 @@
+import org.jetbrains.dokka.DokkaDefaults.reportUndocumented
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -8,9 +9,10 @@ plugins {
     id("org.openjfx.javafxplugin") version "0.0.9"
     id("org.jlleitschuh.gradle.ktlint-idea") version "9.4.1"
     id("com.diffplug.spotless") version "5.8.2"
+    id("org.jetbrains.dokka") version "1.4.20"
 }
 
-group = "de.tu_chemnitz"
+group = "de.tuchemnitz"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -18,11 +20,12 @@ repositories {
     maven {
         url = uri("https://oss.sonatype.org/content/repositories/snapshots")
     }
+    jcenter()
 }
 
 javafx {
     version = "15.0.1"
-    modules = listOf("javafx.controls", "javafx.graphics", "javafx.fxml")
+    modules = listOf("javafx.controls", "javafx.graphics", "javafx.fxml", "javafx.media")
 }
 
 object Version {
@@ -39,6 +42,7 @@ object Version {
     const val SPOTLESS = "5.8.2"
     const val KTLINT = "9.4.1"
     const val TESTFX = "4.0.16-alpha"
+    const val DOKKA = "1.4.20"
 }
 
 dependencies {
@@ -72,6 +76,8 @@ dependencies {
 
     testImplementation("org.testfx:testfx-core:${Version.TESTFX}")
     testImplementation("org.testfx:testfx-junit5:${Version.TESTFX}")
+
+    dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:${Version.DOKKA}")
 }
 
 project.sourceSets {
@@ -97,7 +103,7 @@ tasks {
 
     withType<KotlinCompile> {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = "11"
             freeCompilerArgs = listOf(
                 "-Xjvm-default=enable"
             )
@@ -108,3 +114,14 @@ tasks {
         useJUnitPlatform()
     }
 }
+tasks.dokkaHtml.configure {
+    outputDirectory.set(buildDir.resolve("dokka"))
+    dokkaSourceSets {
+        configureEach {
+            reportUndocumented.set(false)
+        }
+    }
+}
+
+apply(plugin = "org.jetbrains.dokka")
+

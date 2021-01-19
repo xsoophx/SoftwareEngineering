@@ -1,6 +1,6 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.Companion.codeChartsData
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.Dimension
 import de.tuchemnitz.se.exercise.core.graphics.Style
 import javafx.animation.PauseTransition
@@ -23,17 +23,20 @@ import java.awt.Toolkit
 class CodeChartsPictureView(
     private val cssRule: CssRule = Style.ccPictureWrapper
 ) : View("Software Praktikum - CodeCharts Picture") {
+
+    private val screenWidth = Toolkit.getDefaultToolkit().screenSize.getWidth()
+    private val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
+    private val screenSize = Dimension(x = screenWidth, y = screenHeight)
+
     override val root = vbox {
+        primaryStage.isFullScreen = true
         addClass(cssRule)
         imageview {
-            val screenWidth = Toolkit.getDefaultToolkit().screenSize.getWidth()
-            val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
-            val screenSize = Dimension(x = screenWidth, y = screenHeight)
-
-            image = Image(codeChartsData.getImagePath())
+            image = Image(codeChartsData.imagePath)
             val scaledImageSize = scaleImageSize(image, screenSize)
             val scaledImageWidth = scaledImageSize.x
             val scaledImageHeight = scaledImageSize.y
+
             fitWidthProperty().bind(scaledImageWidth.toProperty())
             fitHeightProperty().bind(scaledImageHeight.toProperty())
 
@@ -41,6 +44,9 @@ class CodeChartsPictureView(
         }
     }
 
+    /**
+     * scales [image] to the user's [screenSize] maintaining the aspect ratio of the [image].
+     */
     private fun scaleImageSize(image: Image, screenSize: Dimension): Dimension {
         val screenWidth = screenSize.x
         val screenHeight = screenSize.y
@@ -63,18 +69,33 @@ class CodeChartsPictureView(
         return Dimension(x = newImageWidth, y = newImageHeight)
     }
 
+    /**
+     * Calls a timer using [PauseTransition].
+     * Replaces CodeChartsPictureView with CodeChartsGridView when timer is ready.
+     */
     private fun goToGridView() {
-        val delay = PauseTransition(Duration.seconds(codeChartsData.getPictureViewTime()))
+        val delay = PauseTransition(Duration.seconds(codeChartsData.pictureViewTime))
         delay.onFinished = EventHandler {
             replaceWith(CodeChartsGridView::class)
         }
         delay.play()
     }
 
-    private fun setDataValues(originalImageWidth: Double, originalImageHeight: Double, scaledImageSize: Dimension, screenSize: Dimension) {
-        codeChartsData.setOriginalImageSize(Dimension(x = originalImageWidth, y = originalImageHeight))
-        codeChartsData.setScaledImageSize(scaledImageSize)
-        codeChartsData.setScreenSize(screenSize)
+    /**
+     * Sets values that will be saved to database.
+     * These are [originalImageWidth] which contains the width of the original image in pixels,
+     * [originalImageHeight] which contains the height of the original image in pixels,
+     * [scaledImageSize] which contains the width and height of the image after scaling it to the user's [screenSize].
+     */
+    private fun setDataValues(
+        originalImageWidth: Double,
+        originalImageHeight: Double,
+        scaledImageSize: Dimension,
+        screenSize: Dimension
+    ) {
+        codeChartsData.originalImageSize = (Dimension(x = originalImageWidth, y = originalImageHeight))
+        codeChartsData.scaledImageSize = scaledImageSize
+        codeChartsData.screenSize = screenSize
     }
 
     /**

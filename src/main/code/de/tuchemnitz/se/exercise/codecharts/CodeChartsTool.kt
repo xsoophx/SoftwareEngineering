@@ -1,63 +1,60 @@
 package de.tuchemnitz.se.exercise.codecharts
 
-import de.tuchemnitz.se.exercise.core.graphics.Style
-import de.tuchemnitz.se.exercise.core.graphics.codecharts.CodeChartsDialogView
-import javafx.stage.Stage
-import tornadofx.App
-import tornadofx.importStylesheet
-
 /**
- * Starts a new stage for CodeCharts and configures it.
- * First view to be shown is CodeChartsDialogView.
+ * Dummy values that we will replace later.
  */
-class CodeChartsTool : App() {
-    override val primaryView = CodeChartsDialogView::class
+const val IMAGE_PATH = "/Chameleon.jpg"
+const val GRID_WIDTH = 50
+const val GRID_HEIGHT = 50
+const val MATRIX_VIEW_TIME = 2.0
+const val PICTURE_VIEW_TIME = 2.0
 
-    companion object {
-        const val IMAGE_PATH = "/Chameleon.jpg"
-        const val GRID_WIDTH = 20
-        const val GRID_HEIGHT = 20
-        const val P_VIEW_TIME = 5.0
-        const val M_VIEW_TIME = 10.0
-        val allowedCharacters = StringCharacters(upperCase = true, lowerCase = true, numbers = true)
-        val codeChartsData = CodeChartsDataValues()
-        val handleStrings = CodeChartsStringHandler()
-    }
+object CodeChartsTool {
+    /**
+     * [allowedCharacters] describes characters that can be used to generate random strings for grid
+     */
+    private val allowedCharacters = StringCharacters(upperCase = true, lowerCase = true, numbers = true)
 
     /**
-     * Starts [stage] used for CodeCharts and configures some settings.
+     * [gridDimension] contains number of fields in height and width direction.
      */
-    override fun start(stage: Stage) {
-        stage.title = "CodeCharts"
-        stage.isFullScreen = true
-        stage.isResizable = false
-        stage.fullScreenExitHint = ""
+    private val gridDimension = Dimension(x = GRID_WIDTH.toDouble(), y = GRID_HEIGHT.toDouble())
 
-        editData()
-        super.start(stage)
-    }
+    /**
+     * [codeChartsData] contains all needed values to execute CodeCharts.
+     * More Information can be found in [CodeChartsValues]
+     */
+    val codeChartsData = CodeChartsValues(
+        gridDimension = gridDimension,
+        allowedChars = allowedCharacters,
+        imagePath = IMAGE_PATH,
+        matrixViewTime = MATRIX_VIEW_TIME,
+        pictureViewTime = PICTURE_VIEW_TIME,
+        sorted = true,
+        eyePos = Interval2D(0.0, 0.0, 0.0, 0.0),
+        originalImageSize = Dimension(0.0, 0.0),
+        scaledImageSize = Dimension(0.0, 0.0),
+        screenSize = Dimension(0.0, 0.0)
+    )
 
-    init {
-        importStylesheet(Style::class)
-    }
-
-    // dummy data, will be replaced with data from configmanager
-    private fun editData() {
-        val gridDimension = Dimension(x = GRID_WIDTH.toDouble(), y = GRID_HEIGHT.toDouble())
-        codeChartsData.setGridDimension(gridDimension)
-        codeChartsData.setAllowedChars(allowedCharacters)
-        codeChartsData.setImagePath(IMAGE_PATH)
-        codeChartsData.setPictureViewTime(P_VIEW_TIME)
-        codeChartsData.setMatrixViewTime(M_VIEW_TIME)
-        codeChartsData.setToOrder(true)
-
-        // generate needed number of Strings
-        val gridWidth = codeChartsData.getGridDimension().x
-        val gridHeight = codeChartsData.getGridDimension().y
+    /**
+     * [codeChartsStringHandler]: StringHandler holds and generates Strings. Able to validate whether given String is element of generated Strings.
+     */
+    val codeChartsStringHandler = CodeChartsStringHandler().apply {
+        /**
+         * @param gridWidth contains number of grid cells in width dimension.
+         * @param gridHeight contains number of grid cells in height dimension.
+         * @param gridSize contains total number of grid cells in grid.
+         */
+        val gridWidth = codeChartsData.gridDimension.x
+        val gridHeight = codeChartsData.gridDimension.y
         val gridSize = (gridWidth * gridHeight).toInt()
-        handleStrings.setStrings(input = gridSize, allowedChars = codeChartsData.getAllowedChars())
-        if (codeChartsData.getToOrder()) {
-            handleStrings.orderList()
+        setStrings(
+            input = gridSize,
+            allowedChars = codeChartsData.allowedChars
+        )
+        if (codeChartsData.sorted) {
+            orderList()
         }
     }
 }
