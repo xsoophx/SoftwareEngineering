@@ -4,16 +4,13 @@ import de.tuchemnitz.se.exercise.codecharts.CodeChartsConfigMapper
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsStringHandler
 import de.tuchemnitz.se.exercise.codecharts.Interval2D
-import de.tuchemnitz.se.exercise.core.graphics.MainApp
+import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import javafx.geometry.Pos
 import javafx.scene.control.TextField
-import javafx.scene.layout.BorderPane
-import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.TextAlignment
 import org.slf4j.LoggerFactory
-import tornadofx.View
 import tornadofx.action
 import tornadofx.button
 import tornadofx.label
@@ -28,10 +25,10 @@ import tornadofx.vbox
  * Saves collected data.
  * Is replaced after user confirms input by pressing button.
  */
-class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
-    override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
-
-    private val contentBox: VBox by fxid("content")
+class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
+    /**
+     * [inputString] is the string that the user enters into the textfield.
+     */
     private var inputString: TextField by singleAssign()
 
     companion object {
@@ -41,6 +38,7 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
     init {
         with(contentBox) {
             vbox {
+                spacing = 20.0
                 alignment = Pos.CENTER
                 text("Welchen String haben Sie gerade als erstes gesehen?") {
                     fill = Color.MEDIUMSPRINGGREEN
@@ -60,6 +58,9 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
         }
     }
 
+    /**
+     * Calculates the grid cell the user looked at from the [userInput] given by the user.
+     */
     private fun calculateEyePosition(userInput: String) {
         val listPosition = codeChartsStringHandler.getStrings().indexOf(userInput)
         val xFieldNumber = listPosition % (codeChartsData.gridDimension.x)
@@ -79,6 +80,12 @@ class CodeChartsInputValidatorView : View("CodeCharts - Eingabe") {
         logger.info("${codeChartsData.scaledImageSize.x}, ${codeChartsData.scaledImageSize.y}")
     }
 
+    /**
+     * Checks whether input provided by the user is valid.
+     * Replaces CodeChartsInputValidatorView with either CodeChartsThankfulView if the input is valid or
+     * with the CodeChartsRetryView otherwise.
+     * Saves input to database if it is valid.
+     */
     private fun validateInput() {
         val userInput = inputString.text
         if (codeChartsStringHandler.getStrings().contains(userInput)) {

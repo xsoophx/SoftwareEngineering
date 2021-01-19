@@ -1,5 +1,8 @@
 package de.tuchemnitz.se.exercise.codecharts
 
+/**
+ * Dummy values that we will replace later.
+ */
 const val IMAGE_PATH = "/Chameleon.jpg"
 const val GRID_WIDTH = 50
 const val GRID_HEIGHT = 50
@@ -7,9 +10,20 @@ const val MATRIX_VIEW_TIME = 2.0
 const val PICTURE_VIEW_TIME = 2.0
 
 object CodeChartsTool {
-
+    /**
+     * [allowedCharacters] describes characters that can be used to generate random strings for grid
+     */
     private val allowedCharacters = StringCharacters(upperCase = true, lowerCase = true, numbers = true)
+
+    /**
+     * [gridDimension] contains number of fields in height and width direction.
+     */
     private val gridDimension = Dimension(x = GRID_WIDTH.toDouble(), y = GRID_HEIGHT.toDouble())
+
+    /**
+     * [codeChartsData] contains all needed values to execute CodeCharts.
+     * More Information can be found in [CodeChartsValues]
+     */
     val codeChartsData = CodeChartsValues(
         gridDimension = gridDimension,
         allowedChars = allowedCharacters,
@@ -22,8 +36,16 @@ object CodeChartsTool {
         scaledImageSize = Dimension(0.0, 0.0),
         screenSize = Dimension(0.0, 0.0)
     )
+
+    /**
+     * [codeChartsStringHandler]: StringHandler holds and generates Strings. Able to validate whether given String is element of generated Strings.
+     */
     val codeChartsStringHandler = CodeChartsStringHandler().apply {
-        // generate needed number of Strings
+        /*
+         * @param gridWidth contains number of grid cells in width dimension.
+         * @param gridHeight contains number of grid cells in height dimension.
+         * @param gridSize contains total number of grid cells in grid.
+         */
         val gridWidth = codeChartsData.gridDimension.x
         val gridHeight = codeChartsData.gridDimension.y
         val gridSize = (gridWidth * gridHeight).toInt()
