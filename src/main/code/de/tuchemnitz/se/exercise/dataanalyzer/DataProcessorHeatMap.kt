@@ -28,12 +28,10 @@ class DataProcessorHeatMap : DataProcessor(), IMethod {
             // translate position for output view: Data is assuming that 0|0 is left upper corner but in output view
             // 0|0 is center -> shift coordinates accordingly
             // then scale to new image dimensions
-            val xStart = (viewFocusPoint.xMin ) * (outputWidth / currWidth) - (outputWidth/2)
-            val yStart = (viewFocusPoint.yMin) * (outputHeight / currHeight) -(outputHeight/2)
-            val xEnd = (viewFocusPoint.xMax)  * (outputWidth / currWidth)- (outputWidth/2)
-            val yEnd = (viewFocusPoint.yMax )  * (outputHeight / currHeight) -(outputHeight/2)
-
-
+            val xStart = (viewFocusPoint.xMin) * (outputWidth / currWidth) - (outputWidth / 2)
+            val yStart = (viewFocusPoint.yMin) * (outputHeight / currHeight) - (outputHeight / 2)
+            val xEnd = (viewFocusPoint.xMax) * (outputWidth / currWidth) - (outputWidth / 2)
+            val yEnd = (viewFocusPoint.yMax) * (outputHeight / currHeight) - (outputHeight / 2)
 
             coordinatesList.add(
                 Coordinates(
