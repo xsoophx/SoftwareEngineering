@@ -1,6 +1,7 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
-import org.litote.kmongo.newId
+import de.tuchemnitz.se.exercise.persist.IPersist
+import javafx.scene.input.KeyCode
 import org.slf4j.LoggerFactory
 
 // for demo use
@@ -11,14 +12,15 @@ const val img = "/kitten.jpeg"
  * Handles the flow of data
  */
 
-class DataAnalyst() {
+class DataAnalyst(private val dataClientQuery: DataClientQuery) {
 
     companion object {
         val logger = LoggerFactory.getLogger("DataAnalyst Logger")
         var processor: DataProcessor = DataProcessor()
         var renderer: DataRenderer = DataRenderer()
-
     }
+
+    private val query = Query()
 
     /**
      * Takes filter parameters which the user input
@@ -26,55 +28,56 @@ class DataAnalyst() {
      * Returns a list of datasets which match the given filters
      */
 
-    fun getData(
-        tool: ITool,
-        ageLowerLimit: Number,
-        ageUpperLimit: Number,
-        gender: String
-    ): List<DummyData> {
+    fun getData(): List<IPersist> = query.queryAllElementsSeparately(createQueryFilter())
 
-        when (tool) {
-            is CodeCharts -> {
+    private fun createQueryFilter() = Query.QueryFilter(
+        userDataFilter = userDataFilter(),
+        codeChartsDataFilter = codeChartsDataFilter(),
+        zoomMapsFilter = zoomMapsDataFilter(),
+        pictureDataFilter = pictureDataFilter()
+    )
 
-                val dummyDataList: MutableList<DummyData> = mutableListOf()
-                val dummyDataset = DummyData(
-                    newId(), img,
-                    Dimension(400.0, 600.0),
-                    Dimension(800.0, 1200.0),
-                    Interval2D(170.0, 200.0, 150.0, 180.0),
-                )
-                val dummyDataset1 = DummyData(
-                    newId(), img,
-                    Dimension(200.0, 300.0),
-                    Dimension(800.0, 1200.0),
-                    Interval2D(10.0, 40.0, 50.0, 80.0),
-                )
+    private fun userDataFilter() = Filter<UserDataFilter>(
+        taken = dataClientQuery.age != null || dataClientQuery.gender != null,
+        value = UserDataFilter(
+            firstName = Filter(taken = false, value = ""),
+            lastName = Filter(taken = false, value = ""),
+            age = Filter(taken = dataClientQuery.age != null, value = dataClientQuery.age),
+            gender = Filter(taken = dataClientQuery.gender != null, value = dataClientQuery.gender)
+        )
+    )
 
-                dummyDataList.add(dummyDataset)
-                dummyDataList.add(dummyDataset1)
+    private fun codeChartsDataFilter() = Filter<CodeChartsDataFilter>(
+        taken = dataClientQuery.codeCharts,
+        value = CodeChartsDataFilter(
+            pictureViewTime = Filter(taken = false, value = -1),
+            matrixViewTime = Filter(taken = false, value = -1),
+        )
+    )
 
-                return dummyDataList
-            }
-            // is ZoomMaps -> return QueryBuilder("ZoomMaps").find(ageLowerLimit, ageUpperLimit, gender)
-        }
-        return emptyList()
-    }
+    private fun zoomMapsDataFilter() = Filter<ZoomMapsDataFilter>(
+        taken = dataClientQuery.zoomMaps,
+        value = ZoomMapsDataFilter(
+            keyCode = Filter(taken = false, value = KeyCode.A)
+        )
+    )
+
+    private fun pictureDataFilter() = Filter<PictureDataFilter>(
+        taken = false,
+        value = PictureDataFilter(
+            imagePath = Filter(taken = false, value = "")
+        )
+    )
 
     /**
      * Extracts the necessary values from the data, depending on the render method specified by the user
      */
-    fun process(method: IMethod, data: List<DummyData>): MutableList<Coordinates> {
-
-        when (method) {
-            is DataRenderHeatMap -> {
-                processor = DataProcessorHeatMap()
-            }
-            is DataRenderDiagram -> {
-                processor = DataProcessorDiagram()
-            }
+    fun process(): MutableList<Coordinates> {
+        when (dataClientQuery.method) {
+            Method.Heatmap -> processor = DataProcessorHeatMap()
+            Method.Diagram -> processor =  DataProcessorDiagram()
         }
-        // return processor.process(data)
-        return processor.processMany(data)
+        return processor.processMany(getData())
     }
 
     /**

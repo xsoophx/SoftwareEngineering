@@ -23,9 +23,14 @@ enum class Gender {
     Other
 }
 
-enum class Tool {
+enum class ActiveTools {
     CodeCharts,
     ZoomMaps
+}
+
+enum class Method {
+    Heatmap,
+    Diagram
 }
 
 data class Age(
@@ -36,8 +41,8 @@ data class Age(
 data class UserDataFilter(
     val firstName: Filter<String>,
     val lastName: Filter<String>,
-    val age: Filter<Age>,
-    val gender: Filter<Gender>
+    val age: Filter<Age?>,
+    val gender: Filter<Gender?>
 ) : DataFilters
 
 data class CodeChartsDataFilter(
