@@ -7,7 +7,7 @@ import javax.imageio.ImageIO
 /**
  * Creates a visual representation of the subject's eye position
  */
-class DataRenderHeatMap : DataRenderer(), IMethod {
+class DataRenderHeatMap : DataRenderer() {
     private val colorList: MutableList<Int> = mutableListOf()
     /**
      * Creates a new image containing the image which the subject was looking at

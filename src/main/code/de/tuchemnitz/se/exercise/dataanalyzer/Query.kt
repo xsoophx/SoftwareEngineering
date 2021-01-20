@@ -1,6 +1,5 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
-import de.tuchemnitz.se.exercise.persist.AbstractCollection
 import de.tuchemnitz.se.exercise.persist.IPersist
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.PictureData
@@ -14,9 +13,9 @@ import org.litote.kmongo.div
 import org.litote.kmongo.eq
 import org.litote.kmongo.gt
 import org.litote.kmongo.lt
-import org.slf4j.LoggerFactory
+import tornadofx.Controller
 
-class Query : AbstractCollection<IPersist>(IPersist::class) {
+class Query : Controller() {
 
     data class QueryFilter(
         val userDataFilter: Filter<UserDataFilter>?,
@@ -24,10 +23,6 @@ class Query : AbstractCollection<IPersist>(IPersist::class) {
         val zoomMapsFilter: Filter<ZoomMapsDataFilter>?,
         val pictureDataFilter: Filter<PictureDataFilter>?
     )
-
-    companion object {
-        val logger = LoggerFactory.getLogger(this::class.java)
-    }
 
     val userDataCollection: UserDataCollection by inject()
     private val codeChartsConfigCollection: CodeChartsConfigCollection by inject()
@@ -52,8 +47,8 @@ class Query : AbstractCollection<IPersist>(IPersist::class) {
             and(
                 (UserData::firstName eq filter.firstName.value).takeIf { filter.firstName.taken },
                 (UserData::lastName eq filter.lastName.value).takeIf { filter.lastName.taken },
-                (UserData::age gt filter.age.value.minimumAge - 1).takeIf { filter.age.taken },
-                (UserData::age lt filter.age.value.minimumAge + 1).takeIf { filter.age.taken },
+                (UserData::age gt (filter.age.value!!.minimumAge?.minus(1) ?: 0)).takeIf { filter.age.taken },
+                (UserData::age lt (filter.age.value.minimumAge?.plus(1) ?: 0)).takeIf { filter.age.taken },
             )
         ).toList()
     }
@@ -62,14 +57,16 @@ class Query : AbstractCollection<IPersist>(IPersist::class) {
         return codeChartsConfigCollection.find(
             and(
                 (CodeChartsConfig::pictures / PictureData::pictureViewTime eq filter.pictureViewTime.value).takeIf { filter.pictureViewTime.taken },
-                (CodeChartsConfig::pictures / PictureData::matrixViewTime eq filter.matrixViewTime.value).takeIf { filter.matrixViewTime.taken })
+                (CodeChartsConfig::pictures / PictureData::matrixViewTime eq filter.matrixViewTime.value).takeIf { filter.matrixViewTime.taken }
+            )
         ).toList()
     }
 
     private fun queryZoomMapsData(filter: ZoomMapsDataFilter): List<ZoomMapsData> {
         return zoomMapsDataCollection.find(
             and(
-                (ZoomMapsData::zoomKey eq filter.keyCode.value).takeIf { filter.keyCode.taken })
+                (ZoomMapsData::zoomKey eq filter.keyCode.value).takeIf { filter.keyCode.taken }
+            )
         ).toList()
     }
 }

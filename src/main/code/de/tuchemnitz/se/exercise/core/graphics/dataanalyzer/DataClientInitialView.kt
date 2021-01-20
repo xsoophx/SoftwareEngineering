@@ -4,10 +4,10 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView
 import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import de.tuchemnitz.se.exercise.dataanalyzer.DataAnalyst
+import de.tuchemnitz.se.exercise.dataanalyzer.DataClientQueryModel
+import de.tuchemnitz.se.exercise.dataanalyzer.DataProcessorHeatMap
 import de.tuchemnitz.se.exercise.dataanalyzer.Gender
 import de.tuchemnitz.se.exercise.dataanalyzer.Method
-import de.tuchemnitz.se.exercise.dataanalyzer.ActiveTools
-import de.tuchemnitz.se.exercise.dataanalyzer.DataClientQueryModel
 import javafx.geometry.Insets
 import javafx.geometry.Orientation
 import javafx.geometry.Pos
@@ -28,8 +28,6 @@ import tornadofx.form
 import tornadofx.hbox
 import tornadofx.isInt
 import tornadofx.paddingAll
-import tornadofx.radiobutton
-import tornadofx.required
 import tornadofx.separator
 import tornadofx.style
 import tornadofx.text
@@ -44,15 +42,18 @@ import tornadofx.vboxConstraints
 
 class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
     object Ids {
-        const val age = "DataClientInitialView_age"
+        const val maximumAge = "DataClientInitialView_maximumAge"
+        const val minimumAge = "DataClientInitialView_minimumAge"
         const val gender = "DataClientInitialView_gender"
         const val add = "DataClientInitialView_add"
         const val method = "DataClientInitialView_method"
-        const val tool = "DataClientInitialView_tool"
+        const val codeCharts = "DataClientInitialView_codeCharts"
+        const val zoomMaps = "DataClientInitialView_zoomMaps"
     }
 
     // model to pass information to (entered by the user)
     private val dataClientQueryModel = DataClientQueryModel()
+    private val dataAnalyst: DataAnalyst by inject()
 
     init {
         with(contentBox) {
@@ -78,133 +79,107 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                     fieldset("Tool Selection", FontAwesomeIconView(FontAwesomeIcon.COG), Orientation.HORIZONTAL) {
                         spacing = 20.0
                         paddingAll = 20.0
-                        field("Tool:") {
-                            radiobutton(ActiveTools.CodeCharts.name){
-                                action {
-
-                                }
-                            }
-                            (
-                                property = dataClientQueryModel.activeTool,
-                                values = ActiveTools.values().toList()
+                        field("Codechartstool:") {
+                            combobox(
+                                property = dataClientQueryModel.codeChartsActivated,
+                                values = listOf(true, false)
                             ) {
-                                id = Ids.tool
-                            }.required()
-                        }
-
-                        fieldset(
-                            "Diagram Type",
-                            FontAwesomeIconView(FontAwesomeIcon.DATABASE),
-                            Orientation.HORIZONTAL
-                        ) {
-                            spacing = 20.0
-                            paddingAll = 20.0
-
-                            field("Method:") {
-                                combobox<Method>(
-                                    property = dataClientQueryModel.method,
-                                    values = Method.values().toList()
-                                ) {
-                                    id = Ids.method
-                                }.required()
-                            }
-
-                            fieldset(
-                                "Age of the User",
-                                FontAwesomeIconView(FontAwesomeIcon.USER),
-                                Orientation.HORIZONTAL
-                            ) {
-                                spacing = 20.0
-                                paddingAll = 20.0
-                                alignment = Pos.CENTER
-
-                                field("minimum Age") {
-                                    textfield{
-                                        id = Ids.age
-                                        filterInput { it.controlNewText.isInt() }
-                                        bind(dataClientQueryModel.age)
-                                    }.required()
-                                }
-                                field("maximum Age") {
-                                    textfield { filterInput { it.controlNewText.isInt() } }.bind(maximumAge)
-                                    // textfield(maximumAge).required()
-
-                                }
-                            }.apply {
-                                if (minimumAge > maximumAge)
-                                    minimumAge = maximumAge.also { maximumAge = minimumAge }
-
-                            }
-
-                            fieldset(
-                                "Gender of the User",
-                                FontAwesomeIconView(FontAwesomeIcon.FEMALE),
-                                Orientation.HORIZONTAL
-                            ) {
-                                spacing = 20.0
-                                paddingAll = 20.0
-                                field("Gender:") {
-                                    combobox<Gender>(
-                                        property = dataClientQueryModel.gender,
-                                        values = Gender.values().toList()
-                                    ) {
-                                        id = Ids.gender
-                                    }.required()
-
-                                }
-                            }
-
-                            /**
-                             * Submit filter params and start rendering data
-                             */
-                            buttonbar {
-                                button("START", ButtonBar.ButtonData.OK_DONE) {
-                                    action {
-
-                                        /**
-                                         * Create new Data Analyst
-                                         */
-                                        val dataAnalyst = DataAnalyst()
-
-                                        /**
-                                         * Query database for data corresponding to filter params
-                                         * Receives a list of datasets
-                                         */
-                                        val data = client.getData(tool, ageRangeLower, ageRangeUpper, gender)
-                                        println("received data")
-                                        println(data)
-
-                                        /**
-                                         * Process the data according to render method specified by user
-                                         * Receivers a list of coordinates
-                                         */
-                                        val processed = client.process(method, data)
-                                        println("processed data")
-                                        println(processed)
-
-                                        /**
-                                         * For every set of coordinates :
-                                         * Create viusal representation/ rendered image of eye tracking data
-                                         * Open a new view with the rendered image
-                                         */
-                                        for (coordinates in processed) {
-                                            if (client.render(method, coordinates)) {
-                                                // display output.bmp -> change view
-                                                replaceWith(DataClientOutputView::class)
-                                            }
-                                        }
-                                    }
-                                    style {
-                                        fontWeight = FontWeight.EXTRA_BOLD
-                                    }
-                                }
+                                id = Ids.codeCharts
                             }
                         }
-                        vboxConstraints {
-                            margin = Insets(50.0)
-                            paddingAll = 5.0
+                        field("Zoommaps:") {
+                            combobox(
+                                property = dataClientQueryModel.zoomMapsActivated,
+                                values = listOf(true, false)
+                            ) {
+                                id = Ids.zoomMaps
+                            }
                         }
                     }
+
+                    fieldset(
+                        "Diagram Type",
+                        FontAwesomeIconView(FontAwesomeIcon.DATABASE),
+                        Orientation.HORIZONTAL
+                    ) {
+                        spacing = 20.0
+                        paddingAll = 20.0
+
+                        field("Method:") {
+                            combobox<Method>(
+                                property = dataClientQueryModel.method,
+                                values = Method.values().toList()
+                            ) {
+                                id = Ids.method
+                            }
+                        }
+                    }
+
+                    fieldset(
+                        "Age of the User",
+                        FontAwesomeIconView(FontAwesomeIcon.USER),
+                        Orientation.HORIZONTAL
+                    ) {
+                        spacing = 20.0
+                        paddingAll = 20.0
+                        alignment = Pos.CENTER
+
+                        field("minimum Age") {
+                            textfield {
+                                id = Ids.minimumAge
+                                filterInput { it.controlNewText.isInt() }
+                                bind(dataClientQueryModel.minimumAge)
+                            }
+                        }
+                        field("maximum Age") {
+                            textfield {
+                                id = Ids.maximumAge
+                                filterInput { it.controlNewText.isInt() }
+                                bind(dataClientQueryModel.maximumAge)
+                            }
+                        }
+                    }
+
+                    fieldset(
+                        "Gender of the User",
+                        FontAwesomeIconView(FontAwesomeIcon.FEMALE),
+                        Orientation.HORIZONTAL
+                    ) {
+                        spacing = 20.0
+                        paddingAll = 20.0
+                        field("Gender:") {
+                            combobox<Gender>(
+                                property = dataClientQueryModel.gender,
+                                values = Gender.values().toList()
+                            ) {
+                                id = Ids.gender
+                            }
+                        }
+                    }
+
+                    /**
+                     * Submit filter params and start rendering data
+                     */
+                    buttonbar {
+                        button("START", ButtonBar.ButtonData.OK_DONE) {
+                            action {
+                                /**
+                                 * Create new Data Analyst
+                                 */
+                                dataClientQueryModel.commit()
+                                val data = dataAnalyst.getData(dataClientQueryModel.item)
+                                val zoomMapsData = DataProcessorHeatMap().process(data)
+                                replaceWith(find<DataClientHeatMapView>("zoomMapsDataList" to zoomMapsData))
+                            }
+                            style {
+                                fontWeight = FontWeight.EXTRA_BOLD
+                            }
+                        }
+                    }
+                }
+                vboxConstraints {
+                    margin = Insets(50.0)
+                    paddingAll = 5.0
                 }
             }
         }

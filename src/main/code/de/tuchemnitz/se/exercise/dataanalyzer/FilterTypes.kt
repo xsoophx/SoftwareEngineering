@@ -34,8 +34,8 @@ enum class Method {
 }
 
 data class Age(
-    val minimumAge: Int,
-    val maximumAge: Int
+    val minimumAge: Int?,
+    val maximumAge: Int?
 )
 
 data class UserDataFilter(
@@ -43,7 +43,7 @@ data class UserDataFilter(
     val lastName: Filter<String>,
     val age: Filter<Age?>,
     val gender: Filter<Gender?>
-) : DataFilters
+)
 
 data class CodeChartsDataFilter(
     val pictureViewTime: Filter<Int>,
@@ -52,7 +52,7 @@ data class CodeChartsDataFilter(
 
 data class PictureDataFilter(
     val imagePath: Filter<String>
-) : DataFilters
+)
 
 data class ZoomMapsDataFilter(
     val keyCode: Filter<KeyCode>

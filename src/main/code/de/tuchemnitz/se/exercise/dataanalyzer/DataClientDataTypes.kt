@@ -1,6 +1,7 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
 import javafx.beans.property.SimpleBooleanProperty
+import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleObjectProperty
 import tornadofx.ItemViewModel
 import tornadofx.getValue
@@ -11,7 +12,8 @@ class DataClientQuery(
     zoomMapsActivated: Boolean = false,
     activeMethod: Method? = null,
     gender: Gender? = null,
-    age: Age? = null
+    minimumAge: Int = 0,
+    maximumAge: Int = 120
 ) {
     val codeChartsProperty = SimpleBooleanProperty(this, "codeChartsActivated", codeChartsActivated)
     var codeCharts by codeChartsProperty
@@ -19,8 +21,11 @@ class DataClientQuery(
     val zoomMapsProperty = SimpleBooleanProperty(this, "codeChartsActivated", zoomMapsActivated)
     var zoomMaps by zoomMapsProperty
 
-    val ageProperty = SimpleObjectProperty<Age>(this, "age", age)
-    var age: Age? by ageProperty
+    val minimumAgeProperty = SimpleIntegerProperty(this, "age", minimumAge)
+    var minimumAge by minimumAgeProperty
+
+    val maximumAgeProperty = SimpleIntegerProperty(this, "age", maximumAge)
+    var maximumAge by maximumAgeProperty
 
     val genderProperty = SimpleObjectProperty<Gender>(this, "gender", gender)
     var gender: Gender? by genderProperty
@@ -35,6 +40,7 @@ class DataClientQueryModel(dataClientQuery: DataClientQuery = DataClientQuery())
     val codeChartsActivated = bind(DataClientQuery::codeChartsProperty)
     val zoomMapsActivated = bind(DataClientQuery::zoomMapsProperty)
     val gender = bind(DataClientQuery::genderProperty)
-    val age = bind(DataClientQuery::ageProperty)
+    val maximumAge = bind(DataClientQuery::maximumAgeProperty)
+    val minimumAge = bind(DataClientQuery::minimumAgeProperty)
     val method = bind(DataClientQuery::methodProperty)
 }
