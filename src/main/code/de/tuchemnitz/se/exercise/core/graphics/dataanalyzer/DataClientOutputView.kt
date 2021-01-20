@@ -132,4 +132,3 @@ class DataClientOutputView : MainBarView("Data Client Output") {
         return colorList
     }
 }
-

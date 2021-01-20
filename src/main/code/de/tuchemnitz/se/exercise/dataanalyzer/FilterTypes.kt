@@ -47,7 +47,7 @@ data class UserDataFilter(
 
 data class CodeChartsDataFilter(
     val pictureViewTime: Filter<Int>,
-    val matrixViewTime: Filter<Int>,
+    val matrixViewTime: Filter<Int>
 )
 
 data class PictureDataFilter(

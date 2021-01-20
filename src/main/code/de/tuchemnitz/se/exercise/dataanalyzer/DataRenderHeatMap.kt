@@ -52,7 +52,7 @@ class DataRenderHeatMap : DataRenderer() {
 
         val imagePath = "src/main/code/de/tuchemnitz/se/exercise/dataanalyzer/kitten.jpeg"
         var myPicture = ImageIO.read(File(imagePath)) as BufferedImage
-        myPicture = BufferedImage( 400, 600, myPicture.type)
+        myPicture = BufferedImage(400, 600, myPicture.type)
         println(coordinatesList)
         // var resized = resize(buffered, 300, 200)
 

@@ -8,8 +8,6 @@ import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.paint.Color
 import org.slf4j.LoggerFactory
-import tornadofx.borderpane
-import tornadofx.center
 import tornadofx.circle
 import tornadofx.group
 import tornadofx.imageview

@@ -48,7 +48,7 @@ class Query : Controller() {
                 (UserData::firstName eq filter.firstName.value).takeIf { filter.firstName.taken },
                 (UserData::lastName eq filter.lastName.value).takeIf { filter.lastName.taken },
                 (UserData::age gt (filter.age.value!!.minimumAge?.minus(1) ?: 0)).takeIf { filter.age.taken },
-                (UserData::age lt (filter.age.value.minimumAge?.plus(1) ?: 0)).takeIf { filter.age.taken },
+                (UserData::age lt (filter.age.value.minimumAge?.plus(1) ?: 0)).takeIf { filter.age.taken }
             )
         ).toList()
     }

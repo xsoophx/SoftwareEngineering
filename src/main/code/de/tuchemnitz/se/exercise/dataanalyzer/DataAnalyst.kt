@@ -46,7 +46,7 @@ class DataAnalyst : Controller() {
         taken = codeCharts,
         value = CodeChartsDataFilter(
             pictureViewTime = Filter(taken = false, value = -1),
-            matrixViewTime = Filter(taken = false, value = -1),
+            matrixViewTime = Filter(taken = false, value = -1)
         )
     )
 

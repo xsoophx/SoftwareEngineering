@@ -15,4 +15,3 @@ data class CoordinatesZoomMaps(
     val zoomPosition: javafx.geometry.Point2D,
     val radius: Int
 )
-
