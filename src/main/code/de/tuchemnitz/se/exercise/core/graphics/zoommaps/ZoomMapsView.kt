@@ -181,7 +181,7 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
      * @receiver ImageView: ImageView of the current view, which shows the picture.
      * The function calculates the relative position of the zoom event, because the original size of the image might
      * be distorted by the zoom.
-     * [position]: current Position of the Zoom Event
+     * @param position: current Position of the Zoom Event
      */
     private fun ImageView.imageViewToImage(position: Point2D) = Point2D(
         viewport.minX + position.x * viewport.width / boundsInLocal.width,

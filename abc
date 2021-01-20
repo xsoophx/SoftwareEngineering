@@ -1,0 +1,38 @@
+{
+    "general": {
+        "selectionMenuEnabled": true,
+        "activatedTool": null,
+        "path": ""
+    },
+    "bubbleView": {
+        "pictures": [
+            {
+                "path": "",
+                "filter": {
+                    "gradient": 1,
+                    "type": "gaussianBlur"
+                }
+            }
+        ]
+    },
+    "zoomMaps": null,
+    "codeCharts": null,
+    "eyeTracking": {
+        "dummyVal": ""
+    },
+    "dataClient": {
+        "colorSampleBoard": [
+            {
+                "red": 1,
+                "green": 2,
+                "blue": 3
+            }
+        ],
+        "exportPath": "exportPath"
+    },
+    "database": {
+        "dataBaseName": "test",
+        "dataBasePath": "databasePath",
+        "username": "root"
+    }
+}

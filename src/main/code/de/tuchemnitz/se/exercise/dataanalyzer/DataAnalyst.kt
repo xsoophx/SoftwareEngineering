@@ -1,45 +1,66 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
-class DataAnalyst(val state: Boolean, val dataRenderer: List<RenderData>) {
-    companion object {
-        private val queryBuilder = Query()
-    }
+import de.tuchemnitz.se.exercise.persist.IPersist
+import javafx.scene.input.KeyCode
+import tornadofx.Controller
 
-    private fun validate() {
-        // should chek if tool matches method
-        // should return true if (tool == codeCharts || tool == zoomMaps) && (method == heatMap || method == Diagram)
-        // should return true if (tool == webcam && method == timeline)
-        // else return false
-    }
+/**
+ * Holds main logic of the data analyst application
+ * Handles the flow of data
+ */
 
-    private fun getData() {
-        // should create new query object
-        // should return data
-    }
+class DataAnalyst : Controller() {
 
-    private fun processData(data: Any) {
-        // should create new data processor
-        // should return processed data
-    }
+    private val query: Query by inject()
 
-    private fun newColor() {
-        // should return an unused color
-    }
+    /**
+     * Takes filter parameters which the user input
+     * Queries database collection depending on the tool asked for by the user
+     * Returns a list of datasets which match the given filters
+     */
 
-    private fun renderData(coordinates: Array<Number>, image: Any, color: String) {
-        // should create a new data renderer
-        // should return rendered data
-    }
+    fun getData(dataClientQuery: DataClientQuery): List<IPersist> =
+        query.queryAllElementsSeparately(dataClientQuery.createQueryFilter())
 
-    fun createWindow(size: Pair<Number, Number>) {
-        // should create new window of specified size
-    }
+    private fun DataClientQuery.createQueryFilter() = Query.QueryFilter(
+        userDataFilter = userDataFilter(),
+        codeChartsDataFilter = codeChartsDataFilter(),
+        zoomMapsFilter = zoomMapsDataFilter(),
+        pictureDataFilter = pictureDataFilter()
+    )
 
-    fun display(image: Array<DataAnalystPicture>) {
+    private fun DataClientQuery.userDataFilter() = Filter<UserDataFilter>(
+        taken = maximumAge != 120 || minimumAge != 0 || gender != null,
+        value = UserDataFilter(
+            firstName = Filter(taken = false, value = ""),
+            lastName = Filter(taken = false, value = ""),
+            age = Filter(
+                taken = maximumAge == 120 && minimumAge == 0,
+                value = Age(minimumAge = minimumAge, maximumAge = maximumAge)
+            ),
+            gender = Filter(taken = gender != null, value = gender)
+        )
+    )
 
-        // create new de.tuchemnitz.se.exercise.dataanalyzer.Displayer and pass array of images with rendered data overlay
-    }
+    private fun DataClientQuery.codeChartsDataFilter() = Filter<CodeChartsDataFilter>(
+        taken = codeCharts,
+        value = CodeChartsDataFilter(
+            pictureViewTime = Filter(taken = false, value = -1),
+            matrixViewTime = Filter(taken = false, value = -1)
+        )
+    )
 
-    fun close() {
-    }
+    private fun DataClientQuery.zoomMapsDataFilter() = Filter<ZoomMapsDataFilter>(
+        taken = zoomMaps,
+        value = ZoomMapsDataFilter(
+            keyCode = Filter(taken = false, value = KeyCode.A)
+        )
+    )
+
+    private fun DataClientQuery.pictureDataFilter() = Filter<PictureDataFilter>(
+        taken = false,
+        value = PictureDataFilter(
+            imagePath = Filter(taken = false, value = "")
+        )
+    )
 }
