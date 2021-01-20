@@ -2,7 +2,15 @@ package de.tuchemnitz.se.exercise.dataanalyzer
 
 import de.tuchemnitz.se.exercise.codecharts.Dimension
 import de.tuchemnitz.se.exercise.codecharts.Interval2D
+import de.tuchemnitz.se.exercise.codecharts.StringCharacters
 import de.tuchemnitz.se.exercise.persist.IPersist
+import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
+import de.tuchemnitz.se.exercise.persist.configs.Grid
+import de.tuchemnitz.se.exercise.persist.configs.PictureData
+import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
+import de.tuchemnitz.se.exercise.persist.data.IData
+import de.tuchemnitz.se.exercise.persist.now
+import org.litote.kmongo.newId
 import org.slf4j.LoggerFactory
 
 // for demo use
@@ -35,16 +43,16 @@ class DataAnalyst() {
         tool: ITool,
         ageLowerLimit: Int,
         ageUpperLimit: Int,
-        gender: String
-    ): List<IPersist> {
+        gender: Gender,
+        imgPath: String
+    ): List<IData> {
 
+        /*
         when (tool) {
             is CodeCharts -> {
                 val cc = CodeChartsDataFilter(
-                    originalImageSize = Filter(taken = false, Dimension(x = 0.0, y = 0.0)),
-                    scaledImageSize = Filter(taken = false, Dimension(x = 0.0, y = 0.0)),
-                    screenSize = Filter(taken = false, Dimension(x = 0.0, y = 0.0)),
-                    stringPosition = Filter(taken = false, Interval2D(0.0, 0.0, 0.0, 0.0))
+                   Filter(taken = false, value = 0),
+                    Filter(taken = false, value = 0)
                 )
                 val codeChartsDataFilter = Filter(taken = true, value = cc)
                 val userdata: Filter<UserDataFilter> = Filter(
@@ -52,24 +60,81 @@ class DataAnalyst() {
                     UserDataFilter(
                         Filter(taken = false, value = ""),
                         Filter(taken = false, value = ""),
-                        Filter(taken = true, value = ageLowerLimit),
-                        Filter(taken = true, value = ageUpperLimit),
+                        Filter(taken = true, value = Age(ageLowerLimit, ageUpperLimit)),
                         Filter(taken = true, value = gender)
                     )
                 )
+#
+                val pictureDataFilter = PictureDataFilter( Filter(taken = true, value= imgPath))
+                val pic = Filter(taken=true, value= pictureDataFilter)
 
-                val user = Query.UserFilter(userdata, codeChartsDataFilter = codeChartsDataFilter)
+                val queryFilter = Query.QueryFilter(userdata, codeChartsDataFilter = codeChartsDataFilter,
+                zoomMapsFilter = null, pictureDataFilter = pic)
 
-                return query.queryAllElementsSeparately(user) // list ipersist
+                return query.queryAllElementsSeparately(queryFilter) // list ipersist
             }
-        }
-        return emptyList()
+        }*/
+
+        var dummyDataList = mutableListOf<CodeChartsData>()
+        dummyDataList.add(
+            CodeChartsData(
+                newId(),
+                CodeChartsConfig(
+                    newId(),
+                    now(),
+                    0,
+                    StringCharacters(true, true, false),
+                    listOf(
+                        PictureData(
+                            "Pinguin.jpg",
+                            Grid(50, 50),
+                            5,
+                            5,
+                            false,
+                            false,
+                            1
+                        )
+                    )
+                ),
+                Dimension(800.0, 600.0),
+                Dimension(700.0, 500.0),
+                Dimension(1200.0, 900.0),
+                Interval2D(100.0, 150.0, 100.0, 150.0)
+            )
+        )
+        dummyDataList.add(
+            CodeChartsData(
+                newId(),
+                CodeChartsConfig(
+                    newId(),
+                    now(),
+                    0,
+                    StringCharacters(true, true, false),
+                    listOf(
+                        PictureData(
+                            "Pinguin.jpg",
+                            Grid(50, 50),
+                            5,
+                            5,
+                            false,
+                            false,
+                            1
+                        )
+                    )
+                ),
+                Dimension(700.0, 500.0),
+                Dimension(1400.0, 1000.0),
+                Dimension(1600.0, 1200.0),
+                Interval2D(700.0, 750.0, 500.0, 550.0)
+            )
+        )
+        return dummyDataList
     }
 
     /**
      * Extracts the necessary values from the data, depending on the render method specified by the user
      */
-    fun process(method: IMethod, data: List<IPersist>): MutableList<Coordinates> {
+    fun process(tool: ITool, method: IMethod, data: List<IPersist>): MutableList<Coordinates> {
 
         when (method) {
             is DataRenderHeatMap -> {
@@ -79,21 +144,10 @@ class DataAnalyst() {
                 processor = DataProcessorDiagram()
             }
         }
-        return processor.process(data)
-    }
-
-    /**
-     * Creates the visual representation of the data, according to the render method specified by the user
-     */
-    fun render(method: IMethod, coordinates: Coordinates): Boolean {
-        when (method) {
-            is DataRenderHeatMap -> {
-                renderer = DataRenderHeatMap()
-            }
-            is DataRenderDiagram -> {
-                renderer = DataRenderDiagram()
-            }
+        when (tool) {
+            is CodeCharts -> return processor.processCodeCharts(data as List<CodeChartsData>)
         }
-        return renderer.render(coordinates)
+
+        return emptyList<Coordinates>().toMutableList()
     }
 }

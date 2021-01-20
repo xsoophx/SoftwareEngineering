@@ -1,14 +1,11 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
-import java.awt.Dimension
-import java.awt.Image
-import java.awt.image.BufferedImage
-import java.io.File
-import javax.imageio.ImageIO
 
 /**
  * Creates a visual representation of the subject's eye position
  */
-class DataRenderHeatMap : DataRenderer(), IMethod {
+class DataRenderHeatMap : DataRenderer(), IMethod
+/*
+{
 
     /**
      * Creates a new image containing the image which the subject was looking at
@@ -39,3 +36,4 @@ class DataRenderHeatMap : DataRenderer(), IMethod {
         return true
     }
 }
+*/

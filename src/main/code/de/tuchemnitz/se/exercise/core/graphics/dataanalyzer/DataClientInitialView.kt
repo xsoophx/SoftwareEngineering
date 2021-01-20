@@ -1,13 +1,7 @@
 package de.tuchemnitz.se.exercise.core.graphics.dataanalyzer
 
 import de.tuchemnitz.se.exercise.core.graphics.MainApp
-import de.tuchemnitz.se.exercise.dataanalyzer.CodeCharts
-import de.tuchemnitz.se.exercise.dataanalyzer.DataAnalyst
-import de.tuchemnitz.se.exercise.dataanalyzer.DataRenderDiagram
-import de.tuchemnitz.se.exercise.dataanalyzer.DataRenderHeatMap
-import de.tuchemnitz.se.exercise.dataanalyzer.IMethod
-import de.tuchemnitz.se.exercise.dataanalyzer.ITool
-import de.tuchemnitz.se.exercise.dataanalyzer.ZoomMaps
+import de.tuchemnitz.se.exercise.dataanalyzer.*
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
 import javafx.geometry.Insets
@@ -35,6 +29,8 @@ import tornadofx.vboxConstraints
  * Allows user to select how the data should be visualized
  */
 
+var PROCESSED_DATA: MutableList<Coordinates> = mutableListOf()
+
 class DataClientInitialView : View("Willkommen beim Data Client!") {
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
     private val contentBox: VBox by fxid("content")
@@ -53,7 +49,8 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
     lateinit var method: IMethod
     var ageRangeLower: Number = 0
     var ageRangeUpper: Number = 0
-    var gender: String = ""
+    lateinit var gender: Gender
+    var picturePath: String = ""
     val toolList = FXCollections.observableArrayList("Code Charts", "Zoom Maps")
     val selectedTool = SimpleStringProperty()
     val renderMethodList = FXCollections.observableArrayList("Heat Map", "Diagram")
@@ -62,7 +59,8 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
     val selectedAgeRage = SimpleStringProperty()
     val genderList = FXCollections.observableArrayList("Male", "Female", "Others")
     val selectedGender = SimpleStringProperty()
-
+    val imageList = FXCollections.observableArrayList("Chameleon", "Penguin", "Kitten")
+    val selectedImage = SimpleStringProperty()
     /**
      * View
      */
@@ -90,11 +88,9 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
                     selectedTool.onChange {
                         when ("$it") {
                             "Code Charts" -> {
-                                println("Code Charts selected!")
                                 tool = codeChartsTool
                             }
                             "Zoom Maps" -> {
-                                println("Zoom Maps selected!")
                                 tool = zoomMapsTool
                             }
                         }
@@ -103,11 +99,9 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
                     selectedRenderMethod.onChange {
                         when ("$it") {
                             "Heat Map" -> {
-                                println("Heat Map selected!")
                                 method = heatMapMethod
                             }
                             "Diagram" -> {
-                                println("Diagram selected!")
                                 method = diagramMethod
                             }
                         }
@@ -116,22 +110,18 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
                     selectedAgeRage.onChange {
                         when ("$it") {
                             "10-20" -> {
-                                println("Age Range 10-20 selected!")
                                 ageRangeLower = 10
                                 ageRangeUpper = 20
                             }
                             "20-40" -> {
-                                println("Age Range 20-40 selected!")
                                 ageRangeLower = 20
                                 ageRangeUpper = 40
                             }
                             "40-60" -> {
-                                println("Age Range 40-60 selected!")
                                 ageRangeLower = 40
                                 ageRangeUpper = 60
                             }
                             "60+" -> {
-                                println("Age Range 60+ selected!")
                                 ageRangeLower = 60
                                 ageRangeUpper = 100
                             }
@@ -141,16 +131,27 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
                     selectedGender.onChange {
                         when ("$it") {
                             "Male" -> {
-                                println("Gender Male selected!")
-                                gender = "Male"
+                                gender = Gender(true, false, false)
                             }
                             "Female" -> {
-                                println("Gender Female selected!")
-                                gender = "Female"
+                                gender = Gender(false, true, false)
                             }
                             "Other" -> {
-                                println("Gender Other selected!")
-                                gender = "Other"
+                                gender = Gender(false, false, true)
+                            }
+                        }
+                    }
+                    combobox(selectedImage, imageList)
+                    selectedGender.onChange {
+                        when ("$it") {
+                            "Chameleon" -> {
+                                picturePath = "Chameleon.jpg"
+                            }
+                            "Penguin" -> {
+                                picturePath = "Pinguin.jpg"
+                            }
+                            "Kitten" -> {
+                                picturePath = "kitten.jpg"
                             }
                         }
                     }
@@ -166,6 +167,7 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
                         println(ageRangeLower)
                         println(ageRangeUpper)
                         println(gender)
+                        println(picturePath)
 
                         /**
                          * Create new Data Analyst
@@ -176,7 +178,7 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
                          * Query database for data corresponding to filter params
                          * Receives a list of datasets
                          */
-                        val data = client.getData(tool, ageRangeLower, ageRangeUpper, gender)
+                        val data = client.getData(tool, ageRangeLower as Int, ageRangeUpper as Int, gender, picturePath)
                         println("received data")
                         println(data)
 
@@ -184,21 +186,15 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
                          * Process the data according to render method specified by user
                          * Receivers a list of coordinates
                          */
-                        val processed = client.process(method, data)
-                        println("processed data")
-                        println(processed)
+
+                        PROCESSED_DATA = client.process(tool, method, data)
+                        println(PROCESSED_DATA)
 
                         /**
-                         * For every set of coordinates :
-                         * Create viusal representation/ rendered image of eye tracking data
                          * Open a new view with the rendered image
+                         * pass in the list of coordinates
                          */
-                        for (coordinates in processed) {
-                            if (client.render(method, coordinates)) {
-                                // display output.bmp -> change view
-                                replaceWith(DataClientOutputView::class)
-                            }
-                        }
+                        replaceWith(DataClientOutputView::class)
                     }
                     style {
                         fontWeight = FontWeight.EXTRA_BOLD
