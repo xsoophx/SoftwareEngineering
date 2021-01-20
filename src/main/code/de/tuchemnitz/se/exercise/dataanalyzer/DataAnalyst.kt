@@ -13,12 +13,9 @@ import de.tuchemnitz.se.exercise.persist.now
 import org.litote.kmongo.newId
 import org.slf4j.LoggerFactory
 
-// for demo use
-const val img = "/Chameleon.jpg"
-
 /**
  * Holds main logic of the data analyst application
- * Handles the flow of data
+ * Handles data flow
  */
 
 class DataAnalyst() {
@@ -26,17 +23,12 @@ class DataAnalyst() {
     companion object {
         val logger = LoggerFactory.getLogger("DataAnalyst Logger")
         var processor: DataProcessor = DataProcessor()
-        var renderer: DataRenderer = DataRenderer()
-        val query = Query()
-
-        // val colors: Set<ColorSampleBoard> 
-        // val query: QueryBuilder = QueryBuilder("")
     }
 
     /**
-     * Takes filter parameters which the user input
-     * Queries database collection depending on the tool asked for by the user
-     * Returns a list of datasets which match the given filters
+     * Takes filter parameters which the user selected in initial view
+     * Queries database collection depending corresponding to the selected tool
+     * Returns a list of datasets corresponding to filters
      */
 
     fun getData(
@@ -132,7 +124,7 @@ class DataAnalyst() {
     }
 
     /**
-     * Extracts the necessary values from the data, depending on the render method specified by the user
+     * Extracts the necessary values from the data, depending selected render method
      */
     fun process(tool: ITool, method: IMethod, data: List<IPersist>): MutableList<Coordinates> {
 

@@ -15,9 +15,13 @@ import tornadofx.*
 class DataClientOutputView : View("Data Client Output") {
 
     val data = PROCESSED_DATA
+
+    // for trial purposes 
     // val data = createData()
 
-    // get path for selected picture: Should be the same for all datasets in list
+    /**
+     * get path for selected picture: Should be the same for all datasets in list
+     */
     val imagePath = data[0].picturePath
 
     override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
@@ -25,7 +29,10 @@ class DataClientOutputView : View("Data Client Output") {
     var counter = 0
     lateinit var rectangle: Rectangle
 
-    // initialize color list
+    /**
+     * initialize list of colors
+     * to visualize different datasets
+     */
     var colors = createColorList()
 
     init {
@@ -37,7 +44,9 @@ class DataClientOutputView : View("Data Client Output") {
                         imagePath
                     )
 
-                    // scale image to scaled image size
+                    /**
+                     * scale image to scaled image size to have correct dimensions
+                     */
                     fitWidthProperty().bind(data[0].scaledImageSize.x.toProperty())
                     fitHeightProperty().bind(data[0].scaledImageSize.y.toProperty())
                 }
@@ -53,7 +62,9 @@ class DataClientOutputView : View("Data Client Output") {
             // render next image and display
             button("NEXT") {
                 action {
-                    // iterate over datasets and move rectangle to according coordinates
+                    /**
+                     * iterate over datasets and move rectangle to according coordinates
+                     */
                     counter++
                     rectangle.fill = colors[counter]
                     rectangle.translateX = data[counter].xStart
@@ -76,6 +87,7 @@ class DataClientOutputView : View("Data Client Output") {
     }
 
     /*
+    //for trial purposes
     fun createData(): MutableList<Coordinates> {
         var coordinates: MutableList<Coordinates> = mutableListOf()
 

@@ -51,6 +51,10 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
     var ageRangeUpper: Number = 0
     lateinit var gender: Gender
     var picturePath: String = ""
+
+    /**
+     * for getting user input in the View
+     */
     val toolList = FXCollections.observableArrayList("Code Charts", "Zoom Maps")
     val selectedTool = SimpleStringProperty()
     val renderMethodList = FXCollections.observableArrayList("Heat Map", "Diagram")
@@ -162,12 +166,6 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
                  */
                 button("START") {
                     action {
-                        println(tool)
-                        println(method)
-                        println(ageRangeLower)
-                        println(ageRangeUpper)
-                        println(gender)
-                        println(picturePath)
 
                         /**
                          * Create new Data Analyst
@@ -175,23 +173,22 @@ class DataClientInitialView : View("Willkommen beim Data Client!") {
                         val client = DataAnalyst()
 
                         /**
-                         * Query database for data corresponding to filter params
-                         * Receives a list of datasets
+                         * Query database by filter params
+                         * data:  list of datasets
                          */
                         val data = client.getData(tool, ageRangeLower as Int, ageRangeUpper as Int, gender, picturePath)
-                        println("received data")
-                        println(data)
 
                         /**
                          * Process the data according to render method specified by user
-                         * Receivers a list of coordinates
+                         * Processed_Data receives a list of coordinates
+                         * coordinates hold: image path, scaled image size and pixel coordinates of the area that was viewed
                          */
 
                         PROCESSED_DATA = client.process(tool, method, data)
-                        println(PROCESSED_DATA)
 
                         /**
-                         * Open a new view with the rendered image
+                         * Open a new view
+                         * display selected image and render areas that were focused by subjects
                          * pass in the list of coordinates
                          */
                         replaceWith(DataClientOutputView::class)
