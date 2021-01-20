@@ -7,8 +7,10 @@ import de.tuchemnitz.se.exercise.dataanalyzer.CodeCharts
 import de.tuchemnitz.se.exercise.dataanalyzer.DataAnalyst
 import de.tuchemnitz.se.exercise.dataanalyzer.DataRenderDiagram
 import de.tuchemnitz.se.exercise.dataanalyzer.DataRenderHeatMap
+import de.tuchemnitz.se.exercise.dataanalyzer.Gender
 import de.tuchemnitz.se.exercise.dataanalyzer.IMethod
 import de.tuchemnitz.se.exercise.dataanalyzer.ITool
+import de.tuchemnitz.se.exercise.dataanalyzer.Tool
 import de.tuchemnitz.se.exercise.dataanalyzer.ZoomMaps
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
@@ -61,7 +63,7 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
     lateinit var method: IMethod
     var ageRangeLower: Number = 0
     var ageRangeUpper: Number = 0
-    var gender: String = ""
+    private lateinit var gender: Gender
     val toolList = FXCollections.observableArrayList("Code Charts", "Zoom Maps")
     val selectedTool = SimpleStringProperty()
     val renderMethodList = FXCollections.observableArrayList("Heat Map", "Diagram")
@@ -120,7 +122,7 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                         spacing = 20.0
                         padding = Insets(20.0)
 
-                        combobox(selectedRenderMethod, renderMethodList)
+                        combobox<Tool>(values = Tool.values().toList())
                         selectedRenderMethod.onChange {
                             when ("$it") {
                                 "Heat Map" -> {
@@ -140,12 +142,12 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                         padding = Insets(20.0)
 
                         field("minimum Age") {
-                            textfield { filterInput { it.controlNewText.isInt() } }.bind(minimumAge)
-                            textfield(minimumAge).required()
+                            textfield { filterInput { it.controlNewText.isInt() } }.bind(minimumAge).required()
+                            //textfield(minimumAge).required()
                         }
                         field("maximum Age") {
                             textfield { filterInput { it.controlNewText.isInt() } }.bind(maximumAge)
-                            textfield(maximumAge).required()
+                            // textfield(maximumAge).required()
 
                         }
                     }.apply {
@@ -160,22 +162,16 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                     ) {
                         spacing = 20.0
                         padding = Insets(20.0)
-                        combobox(selectedGender, genderList)
+                        field("Gender:") {
+                          //  combobox(property = person.gender, values = Gender.values().toList()) {
+                           //     id = Ids.gender
+                          //  }.required()
+                        }
+                        combobox<Gender>(values = Gender.values().toList())
                         selectedGender.onChange {
-                            when ("$it") {
-                                "Male" -> {
-                                    println("Gender Male selected!")
-                                    gender = "Male"
-                                }
-                                "Female" -> {
-                                    println("Gender Female selected!")
-                                    gender = "Female"
-                                }
-                                "Other" -> {
-                                    println("Gender Other selected!")
-                                    gender = "Other"
-                                }
-                            }
+
+                      //      gender = it
+
                         }
                     }
                 }
