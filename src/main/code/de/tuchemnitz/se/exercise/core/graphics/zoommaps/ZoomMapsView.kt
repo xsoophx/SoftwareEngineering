@@ -129,12 +129,13 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
                     }
 
                     val mouseLocation = imageViewToImage(Point2D(e.x, e.y))
+                    val absolutePosition = Point2D(e.x, e.y)
                     if (zoomPosition == null || mouseLocation.isEqualTo(zoomPosition!!))
                         configManager.savePersistable(
                             ZoomMapsData(
                                 zoomSpeed = zoomSpeed,
                                 zoomKey = zoomKey,
-                                zoomPosition = mouseLocation
+                                zoomPosition = absolutePosition
                             )
                         )
                     zoomPosition = mouseLocation
