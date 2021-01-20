@@ -1,16 +1,6 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
-import de.tuchemnitz.se.exercise.codecharts.Dimension
-import de.tuchemnitz.se.exercise.codecharts.Interval2D
-import de.tuchemnitz.se.exercise.codecharts.StringCharacters
-import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
-import de.tuchemnitz.se.exercise.persist.configs.Grid
-import de.tuchemnitz.se.exercise.persist.configs.PictureData
-import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
-import de.tuchemnitz.se.exercise.persist.data.UserData
 import javafx.scene.input.KeyCode
-import org.litote.kmongo.Id
-import org.litote.kmongo.newId
 
 data class Filter<T>(
     val taken: Boolean,
@@ -57,4 +47,3 @@ data class PictureDataFilter(
 data class ZoomMapsDataFilter(
     val keyCode: Filter<KeyCode>
 )
-
