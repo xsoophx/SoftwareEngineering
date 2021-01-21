@@ -14,7 +14,6 @@ class DataRenderHeatMap : DataRenderer() {
      * with the eye position marked in color
      * returns true if new image was successfully created
      */
-
     override fun render(coordinates: Coordinates): Boolean {
 
         // val size = coordinates.scaledImageSize
