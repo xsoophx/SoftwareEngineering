@@ -14,12 +14,23 @@ import tornadofx.imageview
 import tornadofx.pane
 import java.awt.Toolkit
 
+/**
+ * Current HeatMap Diagram to show data
+ */
 class DataClientHeatMapView : MainBarView("Data Client Heat Map") {
 
     companion object {
         private val logger = LoggerFactory.getLogger(this::class.java)
     }
 
+    /**
+     *  @param zoomMapsDataList contains positions of viewpoints of zoomMaps
+     *  @param codeChartsDataList contains positions of viewpoints of codeCharts
+     *  @param colors contains colorpalette, which will be extendable later
+     *  @param zoomMapsColor current color, selected for zoomMaps
+     *  @param screenWidth current screenWidth
+     *  @param screenHeight current screenHeight
+     */
     private val zoomMapsDataList: List<Point2D> by param()
     private val codeChartsDataList: List<Point2D> by inject()
     private val colors =
@@ -28,6 +39,9 @@ class DataClientHeatMapView : MainBarView("Data Client Heat Map") {
     private val screenWidth = Toolkit.getDefaultToolkit().screenSize.getWidth()
     private val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
 
+    /**
+     *  shows the image selected (currently default image) and draws circles with the viewpoints.
+     */
     init {
         with(contentBox) {
             pane {
@@ -57,8 +71,13 @@ class DataClientHeatMapView : MainBarView("Data Client Heat Map") {
         }
     }
 
+    /**
+     * Converts the image points of the 2DPoint into screencoordinates.
+     * @param position is the ImageCoordinate, taken in another tool
+     * @receiver ImageView contains the shapes and the image itself
+     */
     private fun ImageView.imageToImageView(position: Point2D) = Point2D(
-        boundsInLocal.width * position.x / viewport.width,
-        boundsInLocal.height * position.y / viewport.height
+        screenWidth * position.x / image.width,
+        screenHeight * position.y / image.height
     )
 }

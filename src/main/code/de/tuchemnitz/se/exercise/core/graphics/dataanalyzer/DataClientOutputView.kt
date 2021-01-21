@@ -15,10 +15,8 @@ import tornadofx.toProperty
 /**
  * Displays the rendered data
  */
-
 class DataClientOutputView : MainBarView("Data Client Output") {
 
-    // val data: MutableList<Coordinates> by inject()
     val data = createData()
     val imagePath = data[0].picturePath
     val size = data[0].scaledImageSize

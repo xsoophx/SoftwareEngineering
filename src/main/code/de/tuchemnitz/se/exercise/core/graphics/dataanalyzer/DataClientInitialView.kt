@@ -39,7 +39,6 @@ import tornadofx.vboxConstraints
  * Allows user to select filter parameters
  * Allows user to select how the data should be visualized
  */
-
 class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
     object Ids {
         const val maximumAge = "DataClientInitialView_maximumAge"
@@ -51,7 +50,9 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
         const val zoomMaps = "DataClientInitialView_zoomMaps"
     }
 
-    // model to pass information to (entered by the user)
+    /** @param dataClientQueryModel is to pass information to (entered by the user)
+     * @param dataAnalyst analyzes data and initializes query object
+     */
     private val dataClientQueryModel = DataClientQueryModel()
     private val dataAnalyst: DataAnalyst by inject()
 
@@ -73,7 +74,7 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                 separator(Orientation.HORIZONTAL)
 
                 /**
-                 * Get user input
+                 * Get user input, with the help of combo boxes
                  */
                 hbox {
                     fieldset("Tool Selection", FontAwesomeIconView(FontAwesomeIcon.COG), Orientation.HORIZONTAL) {
@@ -159,13 +160,11 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
 
                     /**
                      * Submit filter params and start rendering data
+                     * Use injected @param dataAnalyst to get matching data from the db.
                      */
                     buttonbar {
                         button("START", ButtonBar.ButtonData.OK_DONE) {
                             action {
-                                /**
-                                 * Create new Data Analyst
-                                 */
                                 dataClientQueryModel.commit()
                                 val data = dataAnalyst.getData(dataClientQueryModel.item)
                                 val zoomMapsData = DataProcessorHeatMap().process(data)

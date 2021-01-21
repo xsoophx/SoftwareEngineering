@@ -7,6 +7,9 @@ import tornadofx.ItemViewModel
 import tornadofx.getValue
 import tornadofx.setValue
 
+/**
+ * Holds the information of the query created by the user.
+ */
 class DataClientQuery(
     codeChartsActivated: Boolean = false,
     zoomMapsActivated: Boolean = false,
@@ -15,6 +18,9 @@ class DataClientQuery(
     minimumAge: Int = 0,
     maximumAge: Int = 120
 ) {
+    /**
+     * Injection from the responsible Model, to get data into the class.
+     */
     val codeChartsProperty = SimpleBooleanProperty(this, "codeChartsActivated", codeChartsActivated)
     var codeCharts by codeChartsProperty
 
@@ -34,9 +40,15 @@ class DataClientQuery(
     var method: Method? by methodProperty
 }
 
+/**
+ * Responsible for injection into the [DataClientQuery] class
+ */
 class DataClientQueryModel(dataClientQuery: DataClientQuery = DataClientQuery()) :
     ItemViewModel<DataClientQuery>(dataClientQuery) {
 
+    /**
+     * Parameters are accessed in the Main View, to map User input to the responsible [DataClientQuery]
+     */
     val codeChartsActivated = bind(DataClientQuery::codeChartsProperty)
     val zoomMapsActivated = bind(DataClientQuery::zoomMapsProperty)
     val gender = bind(DataClientQuery::genderProperty)
