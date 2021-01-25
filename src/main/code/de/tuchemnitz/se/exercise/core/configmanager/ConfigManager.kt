@@ -135,6 +135,10 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
         // return decodeConfig()?.zoomMapsConfig
     }
 
+    fun getCodeChartsConfig(): CodeChartsConfig? {
+        return codeChartsConfigCollection.findMostRecent()
+    }
+
     /**
      * Saves the Configs, created  in the Tools, into the database
      * @param config specifies the config which is currently being saved.
