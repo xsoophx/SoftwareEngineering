@@ -26,9 +26,9 @@ class ZoomMapsConfigCollectionTest : Controller() {
 
     companion object {
         private val configs = listOf(
-            ZoomMapsConfig(zoomSpeed = 0.5F, zoomKey = KeyCode.A),
-            ZoomMapsConfig(zoomSpeed = 0.1F, zoomKey = KeyCode.CONTROL),
-            ZoomMapsConfig(zoomSpeed = 2.3F, zoomKey = KeyCode.SPACE)
+            ZoomMapsConfig(zoomSpeed = 0.5, zoomKey = KeyCode.A),
+            ZoomMapsConfig(zoomSpeed = 0.1, zoomKey = KeyCode.CONTROL),
+            ZoomMapsConfig(zoomSpeed = 2.3, zoomKey = KeyCode.SPACE)
         )
     }
 

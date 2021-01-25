@@ -13,6 +13,8 @@ import de.tuchemnitz.se.exercise.persist.data.collections.CodeChartsDataCollecti
 import de.tuchemnitz.se.exercise.persist.data.collections.EyeTrackingDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.UserDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.ZoomMapsDataCollection
+import javafx.geometry.Point2D
+import javafx.scene.input.KeyCode
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -40,8 +42,8 @@ class InstantiationTest : Controller() {
         EyeTrackingConfig(dummyVal = "eye"),
         DummyData.codeChartsData.first(),
         EyeTrackingData(dummyData = "dummy"),
-        UserData(firstName = "test", surname = "user", age = 25),
-        ZoomMapsData(dummyData = "dummy")
+        UserData(firstName = "test", lastName = "user", age = 25),
+        ZoomMapsData(zoomSpeed = 1.0, zoomKey = KeyCode.K, zoomPosition = Point2D(1.0, 1.0))
     )
 
     @Test

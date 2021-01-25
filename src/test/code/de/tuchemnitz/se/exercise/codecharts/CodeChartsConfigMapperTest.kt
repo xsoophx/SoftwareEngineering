@@ -91,9 +91,9 @@ class CodeChartsConfigMapperTest : Controller() {
 
         val saved = mutableListOf<IPersist>()
 
-        every { mockedConfigManager.saveConfig(config = capture(saved)) } just Runs
+        every { mockedConfigManager.savePersistable(config = capture(saved)) } just Runs
         codeChartsConfigMapper.saveCodeChartsDatabaseConfig(inputValues)
-        verify(exactly = 2) { mockedConfigManager.saveConfig(any()) }
+        verify(exactly = 2) { mockedConfigManager.savePersistable(any()) }
 
         val savedConfig =
             (saved[1] as CodeChartsConfig).copy(_id = expectedConfig._id, savedAt = expectedConfig.savedAt)

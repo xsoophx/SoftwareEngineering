@@ -2,7 +2,6 @@ package de.tuchemnitz.se.exercise.codecharts
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -33,10 +32,6 @@ class CodeChartsStringHandlerTest {
     fun `check whether strings are duplicate`(inputNumber: Int, conditions: StringCharacters) {
         handleMyStrings.setStrings(inputNumber, conditions)
         assertThat(handleMyStrings.getStrings()).isEqualTo(handleMyStrings.getStrings())
-    }
-
-    @Test
-    fun `check whether generated strings have the right format - utf8 ascii etc-`() {
     }
 
     @MethodSource("permutations")

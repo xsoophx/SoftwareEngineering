@@ -11,7 +11,7 @@ class CodeChartsConfigMapper : Controller() {
     private val configManager: ConfigManager by inject()
 
     fun saveCodeChartsDatabaseConfig(codeChartsValues: CodeChartsValues) {
-        configManager.saveConfig(
+        configManager.savePersistable(
             CodeChartsConfig(
                 minViewsToSubdivide = 0,
                 stringCharacters = codeChartsValues.allowedChars,
@@ -27,7 +27,7 @@ class CodeChartsConfigMapper : Controller() {
                     )
                 )
             ).also {
-                configManager.saveConfig(
+                configManager.savePersistable(
                     CodeChartsData(
                         codeChartsConfig = it,
                         originalImageSize = codeChartsValues.originalImageSize,
