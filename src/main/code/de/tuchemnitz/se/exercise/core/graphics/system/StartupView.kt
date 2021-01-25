@@ -33,6 +33,7 @@ class StartupView : View("Software Praktikum - Gruppe 4") {
         val logger = LoggerFactory.getLogger(LoginView::class.java)
     }
 
+    private val configManager: ConfigManager by inject()
     val contentBox: VBox by fxid("content")
     var firstNameField: TextField by singleAssign()
     var surnameField: TextField by singleAssign()
@@ -110,8 +111,6 @@ class StartupView : View("Software Praktikum - Gruppe 4") {
         }
     }
 
-    private val configManager: ConfigManager by inject()
-
     fun confirmInput() {
         val userConfig = UserData(
             firstName = firstNameField.text,
@@ -120,6 +119,7 @@ class StartupView : View("Software Praktikum - Gruppe 4") {
             gender = genderField.value,
             visionImpaired = visionField.value
         )
+        configManager.saveConfig(userConfig)
         replaceWith(ToolSelectionView::class)
     }
 
