@@ -118,12 +118,13 @@ class StartupView : View("Software Praktikum - Gruppe 4") {
 
     fun confirmInput() {
         startupControllerModel.commit()
+        val data = startupControllerModel.item
         val userConfig = UserData(
-            firstName = startupControllerModel.firstName.get(),
-            lastName = startupControllerModel.lastName.get(),
-            age = startupControllerModel.age.get(),
-            gender = startupControllerModel.gender.get(),
-            visionImpaired = startupControllerModel.visionImpaired.get()
+            firstName = data.firstNameValue,
+            lastName = data.lastNameValue,
+            age = data.ageValue,
+            gender = data.genderValue,
+            visionImpaired = data.visionImpairedValue
         )
         configManager.savePersistable(userConfig)
         replaceWith(ToolSelectionView::class)
