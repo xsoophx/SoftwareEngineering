@@ -3,6 +3,7 @@ package de.tuchemnitz.se.exercise.core.graphics.system
 import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
 import de.tuchemnitz.se.exercise.persist.data.Gender
 import de.tuchemnitz.se.exercise.persist.data.UserData
+import de.tuchemnitz.se.exercise.core.system.StartupControllerModel
 import javafx.collections.FXCollections
 import javafx.geometry.Pos
 import javafx.scene.control.ComboBox
@@ -18,7 +19,6 @@ import tornadofx.action
 import tornadofx.button
 import tornadofx.combobox
 import tornadofx.gridpane
-import tornadofx.hbox
 import tornadofx.label
 import tornadofx.px
 import tornadofx.row
@@ -34,6 +34,7 @@ class StartupView : View("Software Praktikum - Gruppe 4") {
     }
 
     private val configManager: ConfigManager by inject()
+    private val startupControllerModel = StartupControllerModel()
     val contentBox: VBox by fxid("content")
     var firstNameField: TextField by singleAssign()
     var surnameField: TextField by singleAssign()
@@ -45,54 +46,58 @@ class StartupView : View("Software Praktikum - Gruppe 4") {
         with(contentBox) {
             alignment = Pos.CENTER
             spacing = 64.0
-            label("Please enter your data") {
+            label("Bitte geben Sie ihre Daten an") {
                 style {
                     fontSize = 32.px
                 }
             }
             gridpane {
                 alignment = Pos.CENTER
-                style{
+                style {
                     fontSize = 16.px
                 }
                 row {
-                    label("First Name: ")
-                    firstNameField = textfield()
+                    label("Vorname: ")
+                    textfield(
+                        property = startupControllerModel.firstName
+                    )
                 }
                 row {
-                    label("Surname: ")
-                    surnameField = textfield()
+                    label("Nachname: ")
+                    textfield(
+                        property = startupControllerModel.lastName
+                    )
                 }
                 row {
-                    label("Age*:")
-                    ageField = combobox<Int> {
-                        items = FXCollections.observableArrayList((1..99).toList())
-                        this.value = items[0] //has to be initialized to avoid reading errors
-                    }
+                    label("Alter*:")
+                    combobox(
+                        property = startupControllerModel.age,
+                        values = FXCollections.observableArrayList((1..99).toList())
+                    )
                 }
                 row {
-                    label("Gender*:")
-                    genderField = combobox<Gender> {
-                        items = FXCollections.observableArrayList(Gender.values().toList())
-                        this.value = items[0] //has to be initialized to avoid reading errors
-                    }
+                    label("Geschlecht*:")
+                    combobox<Gender>(
+                        property = startupControllerModel.gender,
+                        values = Gender.values().toList()
+                    )
                 }
                 row {
-                    label("Impaired Vision*:")
-                    visionField = combobox<Boolean> {
-                        items = FXCollections.observableArrayList(false, true)
-                        this.value = items[0] //has to be initialized to avoid reading errors
-                    }
+                    label("Seeschwäche*:")
+                    combobox(
+                        property = startupControllerModel.visionImpaired,
+                        values = listOf(true, false)
+                    )
                 }
                 row {
-                    button("Confirm") {
+                    button("Bestätigen") {
                         action {
                             confirmInput()
                         }
                     }
                 }
                 row {
-                    label("*: mandatory"){
+                    label("*: notwendig") {
                         style {
                             fontSize = 12.px
                         }
@@ -112,14 +117,15 @@ class StartupView : View("Software Praktikum - Gruppe 4") {
     }
 
     fun confirmInput() {
+        startupControllerModel.commit()
         val userConfig = UserData(
-            firstName = firstNameField.text,
-            surname = surnameField.text,
-            age = ageField.value,
-            gender = genderField.value,
-            visionImpaired = visionField.value
+            firstName = startupControllerModel.firstName.get(),
+            lastName = startupControllerModel.lastName.get(),
+            age = startupControllerModel.age.get(),
+            gender = startupControllerModel.gender.get(),
+            visionImpaired = startupControllerModel.visionImpaired.get()
         )
-        configManager.saveConfig(userConfig)
+        configManager.savePersistable(userConfig)
         replaceWith(ToolSelectionView::class)
     }
 
