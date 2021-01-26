@@ -5,6 +5,7 @@ import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsStringHandler
 import de.tuchemnitz.se.exercise.codecharts.Interval2D
 import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
+import de.tuchemnitz.se.exercise.persist.datatool.DataTool
 import javafx.geometry.Pos
 import javafx.scene.control.TextField
 import javafx.scene.paint.Color
@@ -91,6 +92,7 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
         if (codeChartsStringHandler.getStrings().contains(userInput)) {
             calculateEyePosition(userInput)
             CodeChartsConfigMapper().saveCodeChartsDatabaseConfig(codeChartsData)
+            DataTool()
             replaceWith(CodeChartsThankfulView::class)
             inputString.text = ""
         } else {
