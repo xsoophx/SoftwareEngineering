@@ -12,6 +12,7 @@ import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
 import de.tuchemnitz.se.exercise.persist.configs.IConfig
 import de.tuchemnitz.se.exercise.persist.configs.PictureData
+import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.data.IData
 import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
@@ -31,8 +32,8 @@ import java.nio.file.Path
 
 class DataTool : Controller() {
     private val configManager: ConfigManager by inject()
-    val configs = configManager.configFile()
-    val configFileJson = File("data.json").writeText(configs)
+    val data = dataFile()
+    val dataFileJson = File("data.json").writeText(data)
 
     data class DataCollections(
         val codeChartsDataCollection: CodeChartsDataCollection,
@@ -57,57 +58,62 @@ class DataTool : Controller() {
     }
 
     fun dataFile(): String {
-        val tools = assembleAllData(2)
         return Json { prettyPrint = true }.encodeToString(
-            ToolData.serializer(),
-            ToolData(
-                time = 0.0,
-                xPos =,
-                yPos =,
-            )
+            DataFile.serializer(),
+            assembleAllData(2)
         )
     }
 
     fun assembleAllData(n: Int): DataFile {
         return DataFile(
-            codeChartsConfig = dataCollections.codeChartsDataCollection.findMostRecents(n).toDataFile(),
+            codeChartsConfig = dataCollections.codeChartsDataCollection.findMostRecents("Chameleon.jpg", 1).toDataFile<CodeChartsData>(),
+            zoomMapsConfig = dataCollections.zoomMapsDataCollection.findMostRecents("Chameleon.jpg", n).toDataFile<ZoomMapsData>(),
+            // TODO
+            eyeTrackingConfig = listOf(ToolData("", listOf(ExperimentData(time= 0.0, xPos = 1.0, yPos=2.0)))),
+            // TODO
+            bubbleViewConfig = listOf(ToolData("", listOf(ExperimentData(time= 0.0, xPos = 1.0, yPos=2.0)))),
+        )
+    }
 
-            zoomMapsConfig = dataCollections.zoomMapsDataCollection.findMostRecents(n).toDataFile(),
-            // TODO
-            eyeTrackingConfig = EyeTrackingConfig(dummyVal = ""),
-            // TODO
-            bubbleViewConfig = BubbleViewConfig(
-                filter = setOf(
-                    FilterInformation(
-                        path = "",
-                        Filter(gradient = 1, type = "gaussianBlur")
-                    )
+    private fun <T : IData> AbstractCollection<T>.findMostRecents(imagePath: String, n: Int): List<T?> =
+        find(
+            and(
+                (CodeChartsConfig::pictures / PictureData::imagePath eq imagePath)
+            )).sort(descending(IConfig::savedAt)).take(n)
+
+    private fun <T : IData> List<IData?>.toDataFile(): List<ToolData?> {
+        return this.mapNotNull {
+            when (it) {
+                is CodeChartsData -> codeChartsToolData(it)
+                is ZoomMapsData -> zoomMapsToolData(it)
+                else -> null
+            }
+        }
+    }
+
+    private fun codeChartsToolData(codeChartsData: CodeChartsData): ToolData {
+        return ToolData(
+            picturePath = codeChartsData.codeChartsConfig.pictures.first().imagePath,
+            listOf(
+                ExperimentData(
+                    time = 0.0,
+                    xPos = (codeChartsData.stringPosition.xMax - codeChartsData.stringPosition.xMin) / 2,
+                    yPos = (codeChartsData.stringPosition.yMax - codeChartsData.stringPosition.yMin) / 2
                 )
             )
         )
     }
 
-    private fun <T : IData> AbstractCollection<T>.findMostRecents(n: Int): List<T?> =
-        find(BsonDocument()).sort(descending(IConfig::savedAt)).take(n)
-
-    private fun <T : IData> List<IData?>.toDataFile(): List<ToolData?> {
-        return this.forEach {
-            when(it) {
-                is CodeChartsData -> codeChartsToolData(it)
-            }
-        }
-    }
-    private fun codeChartsToolData(codeChartsData: CodeChartsData): List<ToolData?> {
-        return this.map { it?.codeChartsConfig?.pictures?.first()?.imagePath?.let { it1 -> ToolData(picturePath = it1, data = listOf<ExperimentData>()) } }
-    }
-
-    private fun queryCodeChartsData(filter: CodeChartsDataFilter): List<CodeChartsConfig> {
-        return codeChartsConfigCollection.find(
-            and(
-                (CodeChartsConfig::pictures / PictureData::pictureViewTime eq filter.pictureViewTime.value).takeIf { filter.pictureViewTime.taken },
-                (CodeChartsConfig::pictures / PictureData::matrixViewTime eq filter.matrixViewTime.value).takeIf { filter.matrixViewTime.taken }
+    private fun zoomMapsToolData(zoomMapsData: ZoomMapsData): ToolData {
+        return ToolData(
+            picturePath = "Chameleon.jpg",
+            listOf(
+                ExperimentData(
+                    time = 0.0,
+                    xPos = zoomMapsData.zoomPosition.x,
+                    yPos = zoomMapsData.zoomPosition.y,
+                )
             )
-        ).toList()
+        )
     }
-
 }
