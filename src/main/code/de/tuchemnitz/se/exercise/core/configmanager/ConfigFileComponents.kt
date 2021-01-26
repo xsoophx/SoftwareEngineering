@@ -41,24 +41,6 @@ data class ToolConfigs(
     val eyeTrackingConfig: EyeTrackingConfig?
 )
 
-data class ToolConfigs1(
-    val bubbleViewConfig: BubbleViewConfig,
-    val zoomMapsConfig: List<ZoomMapsConfig?>,
-    val codeChartsConfig: List<CodeChartsConfig?>,
-    val eyeTrackingConfig: EyeTrackingConfig?
-)
-
-@Serializable
-data class ConfigFile1(
-    val general: General,
-    @SerialName("bubbleView") val bubbleViewConfig: BubbleViewConfig,
-    @SerialName("zoomMaps") val zoomMapsConfig: List<ZoomMapsConfig?>,
-    @SerialName("codeCharts") val codeChartsConfig: List<CodeChartsConfig?>,
-    @SerialName("eyeTracking") val eyeTrackingConfig: EyeTrackingConfig?,
-    @SerialName("dataClient") val dataClientConfig: DataClientConfig,
-    val database: DatabaseConfig
-)
-
 @Serializable
 data class ConfigFile(
     val general: General,

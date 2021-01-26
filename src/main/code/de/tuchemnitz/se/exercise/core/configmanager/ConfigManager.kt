@@ -15,6 +15,7 @@ import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
 import de.tuchemnitz.se.exercise.persist.data.collections.CodeChartsDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.EyeTrackingDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.ZoomMapsDataCollection
+import de.tuchemnitz.se.exercise.persist.datatool.ToolData
 import javafx.scene.input.KeyCode
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -173,8 +174,8 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
     fun configFile(): String {
         val tools = assembleAllConfigurations()
         return Json { prettyPrint = true }.encodeToString(
-            ConfigFile1.serializer(),
-            ConfigFile1(
+            ConfigFile.serializer(),
+            ConfigFile(
                 general = generalSettings,
                 bubbleViewConfig = tools.bubbleViewConfig,
                 zoomMapsConfig = tools.zoomMapsConfig,
@@ -190,10 +191,10 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
      * This function finds the most recent configs out of the database
      * and puts them together to be saved in the config file
      */
-    fun assembleAllConfigurations(): ToolConfigs1 {
-        return ToolConfigs1(
-            codeChartsConfig = configCollections.codeChartsConfigCollection.findMostRecents(2),
-            zoomMapsConfig = configCollections.zoomMapsConfigCollection.findMostRecents(2),
+    fun assembleAllConfigurations(): ToolConfigs {
+        return ToolConfigs(
+            codeChartsConfig = configCollections.codeChartsConfigCollection.findMostRecent(),
+            zoomMapsConfig = configCollections.zoomMapsConfigCollection.findMostRecent(),
             // TODO
             eyeTrackingConfig = EyeTrackingConfig(dummyVal = ""),
             // TODO
@@ -207,9 +208,6 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
             )
         )
     }
-
-    private fun <T : IConfig> AbstractCollection<T>.findMostRecents(n: Int): List<T?> =
-        find(BsonDocument()).sort(descending(IConfig::savedAt)).take(n)
 
     /**
      * Finds the most recent config of a specified type of config.
