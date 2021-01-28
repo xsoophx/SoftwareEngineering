@@ -23,7 +23,7 @@ class QueryIntegrationTest : Controller() {
                 lastName = Filter(taken = false, value = ""),
                 age = Filter(taken = false, value = Age(minimumAge = 20, maximumAge = 50)),
                 gender = Filter(
-                    taken = false, value = Gender(male = true, female = false, other = false)
+                    taken = false, value = Gender.Male
                 )
             )
         )
