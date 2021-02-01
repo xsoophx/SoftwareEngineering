@@ -5,6 +5,8 @@ import de.tuchemnitz.se.exercise.codecharts.IMAGE_PATH
 import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
 import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import de.tuchemnitz.se.exercise.core.graphics.system.ToolSelectionView
+import de.tuchemnitz.se.exercise.persist.configs.DEFAULT_ZOOM_KEY
+import de.tuchemnitz.se.exercise.persist.configs.DEFAULT_ZOOM_SPEED
 import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleDoubleProperty
@@ -50,13 +52,13 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
      * [zoomKey]: the zoomKey is retrieved from the settings of the configManager,
      * in case an error is occurring, it is being set to the char "E"
      */
-    private val zoomKey = configManager.getZoomMapsConfig()?.zoomKey ?: KeyCode.E
+    private val zoomKey = configManager.getZoomMapsConfig()?.zoomKey ?: DEFAULT_ZOOM_KEY
 
     /**
      * [zoomSpeed]: the speed is retrieved from the settings of the configManager,
      * in case an error is occurring, the zoomSpeed is set to 1.0
      */
-    private val zoomSpeed = configManager.getZoomMapsConfig()?.zoomSpeed ?: 1.0
+    private val zoomSpeed = configManager.getZoomMapsConfig()?.zoomSpeed ?: DEFAULT_ZOOM_SPEED
 
     /**
      * [zoomPosition]: will be initialized while zooming, to only save different positions.
@@ -91,13 +93,14 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
              */
             addEventFilter(KeyEvent.KEY_PRESSED) { d ->
                 keyboard {
-                    logger.info("onKeyPressed: $d")
-                    zoomEnabled = d.code == zoomKey
+                    logger.info("onKeyPressed: key=${d.code}")
+                    if (d.code == zoomKey)
+                        zoomEnabled = true
                 }
             }
             addEventFilter(KeyEvent.KEY_RELEASED) { d ->
                 keyboard {
-                    logger.info("onKeyReleased: $d")
+                    logger.info("onKeyReleased: key=${d.code}")
                     if (d.code == zoomKey)
                         zoomEnabled = false
                 }

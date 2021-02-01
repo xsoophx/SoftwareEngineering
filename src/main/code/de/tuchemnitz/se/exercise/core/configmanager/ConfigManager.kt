@@ -131,7 +131,7 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
     }
 
     fun getZoomMapsConfig(): ZoomMapsConfig? {
-        return ZoomMapsConfig(zoomSpeed = 1.0, zoomKey = KeyCode.C)
+        return ZoomMapsConfig()
         // return decodeConfig()?.zoomMapsConfig
     }
 
