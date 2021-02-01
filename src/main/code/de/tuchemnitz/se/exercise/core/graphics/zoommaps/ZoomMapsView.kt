@@ -79,26 +79,6 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
          */
         with(contentBox) {
             /**
-             * @receiver root/BorderPane: an EventFilter to the root is added. It is detecting key presses and
-             * key releases. If the Key of the config is pressed, zooming is being enabled. Is it released,
-             * zooming gets disabled.
-             */
-            addEventFilter(KeyEvent.KEY_PRESSED) { d ->
-                keyboard {
-                    logger.info("onKeyPressed: key=${d.code}")
-                    if (d.code == zoomKey)
-                        zoomEnabled = true
-                }
-            }
-            addEventFilter(KeyEvent.KEY_RELEASED) { d ->
-                keyboard {
-                    logger.info("onKeyReleased: key=${d.code}")
-                    if (d.code == zoomKey)
-                        zoomEnabled = false
-                }
-            }
-
-            /**
              * [imageview]: the imageview is initialized with all its settings. Its bound to the root
              * properties width and height, thus, the image scales with the screen size while zooming in and out.
              */
@@ -113,6 +93,28 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
                 val zoomMapsConfig = configManager.getZoomMapsConfig()
                 viewport = Rectangle2D(0.0, 0.0, image.width, image.height)
                 logger.info("$zoomMapsConfig")
+
+                isFocusTraversable = true
+
+                /**
+                 * An EventFilter to the imageview is added. It is detecting key presses and
+                 * key releases. If the Key of the config is pressed, zooming is being enabled. Is it released,
+                 * zooming gets disabled.
+                 */
+                addEventFilter(KeyEvent.KEY_PRESSED) { d ->
+                    keyboard {
+                        logger.info("onKeyPressed: key=${d.code}")
+                        if (d.code == zoomKey)
+                            zoomEnabled = true
+                    }
+                }
+                addEventFilter(KeyEvent.KEY_RELEASED) { d ->
+                    keyboard {
+                        logger.info("onKeyReleased: key=${d.code}")
+                        if (d.code == zoomKey)
+                            zoomEnabled = false
+                    }
+                }
 
                 /**
                  * registers the mouseLocation of the zoom. This is being used to save the location
