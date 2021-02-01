@@ -73,6 +73,8 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
         val logger: Logger = LoggerFactory.getLogger("ZoomMapsView Logger")
     }
 
+    var imageCycle = IMAGE_PATH to "/cross.png"
+
     init {
         /**
          * the contentBox is being filled with the image, on which the user is supposed to zoom in and out.
@@ -113,6 +115,14 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
                         logger.info("onKeyReleased: key=${d.code}")
                         if (d.code == zoomKey)
                             zoomEnabled = false
+
+                        // just a proof of concept for replacing image on key press
+                        // would work similarly with button
+                        if (d.code == KeyCode.S) {
+                            val (nextImage, currentImage) = imageCycle
+                            imageCycle = currentImage to nextImage
+                            image = Image(currentImage)
+                        }
                     }
                 }
 
