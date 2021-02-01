@@ -78,14 +78,6 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
          * the contentBox is being filled with the image, on which the user is supposed to zoom in and out.
          */
         with(contentBox) {
-            button("Hauptmenü") {
-                action {
-                    replaceWith(ToolSelectionView::class)
-                }
-                prefWidthProperty().bind(root.widthProperty())
-                prefHeightProperty().bind(root.heightProperty())
-            }
-
             /**
              * @receiver root/BorderPane: an EventFilter to the root is added. It is detecting key presses and
              * key releases. If the Key of the config is pressed, zooming is being enabled. Is it released,
