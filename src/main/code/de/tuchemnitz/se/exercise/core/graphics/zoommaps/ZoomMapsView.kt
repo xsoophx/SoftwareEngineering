@@ -4,7 +4,6 @@ import com.sun.javafx.util.Utils.clamp
 import de.tuchemnitz.se.exercise.codecharts.IMAGE_PATH
 import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
 import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
-import de.tuchemnitz.se.exercise.core.graphics.system.ToolSelectionView
 import de.tuchemnitz.se.exercise.persist.configs.DEFAULT_ZOOM_KEY
 import de.tuchemnitz.se.exercise.persist.configs.DEFAULT_ZOOM_SPEED
 import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
@@ -14,7 +13,6 @@ import javafx.geometry.Point2D
 import javafx.geometry.Rectangle2D
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
-import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -24,6 +22,7 @@ import tornadofx.getValue
 import tornadofx.imageview
 import tornadofx.keyboard
 import tornadofx.setValue
+import tornadofx.singleAssign
 
 /**
  * This view is responsible for zooming in and out on a picture.
@@ -66,6 +65,8 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
      */
     private var zoomPosition: Point2D? = null
 
+    var imageView: ImageView by singleAssign()
+
     /**
      * Contains Logger, which is logging scroll and zoom Events.
      */
@@ -73,19 +74,32 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
         val logger: Logger = LoggerFactory.getLogger("ZoomMapsView Logger")
     }
 
-    var imageCycle = IMAGE_PATH to "/cross.png"
+    private val imageCycle = mutableListOf(IMAGE_PATH, "/cross.png")
+
+    fun ImageView.replaceImage(path: String) {
+        image = Image(path)
+        viewport = Rectangle2D(0.0, 0.0, image.width, image.height)
+    }
 
     init {
         /**
          * the contentBox is being filled with the image, on which the user is supposed to zoom in and out.
          */
         with(contentBox) {
+            button(text = "Switch image") {
+                action {
+                    imageCycle.add(imageCycle.removeAt(0))
+                    imageView.replaceImage(imageCycle.first())
+                }
+                prefWidthProperty().bind(root.widthProperty())
+            }
+
             /**
              * [imageview]: the imageview is initialized with all its settings. Its bound to the root
              * properties width and height, thus, the image scales with the screen size while zooming in and out.
              */
-            imageview {
-                image = Image(IMAGE_PATH)
+            imageView = imageview {
+                replaceImage(imageCycle.first())
                 maxWidthProperty().bind(root.widthProperty())
                 fitHeightProperty().bind(root.heightProperty())
                 isPreserveRatio = true
@@ -93,7 +107,6 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
                 isSmooth = false // this does not disable anti-aliasing though :(
 
                 val zoomMapsConfig = configManager.getZoomMapsConfig()
-                viewport = Rectangle2D(0.0, 0.0, image.width, image.height)
                 logger.info("$zoomMapsConfig")
 
                 isFocusTraversable = true
@@ -115,14 +128,6 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
                         logger.info("onKeyReleased: key=${d.code}")
                         if (d.code == zoomKey)
                             zoomEnabled = false
-
-                        // just a proof of concept for replacing image on key press
-                        // would work similarly with button
-                        if (d.code == KeyCode.S) {
-                            val (nextImage, currentImage) = imageCycle
-                            imageCycle = currentImage to nextImage
-                            image = Image(currentImage)
-                        }
                     }
                 }
 
