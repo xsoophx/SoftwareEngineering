@@ -1,6 +1,5 @@
 package de.tuchemnitz.se.exercise.core.graphics.dataanalyzer
 
-import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool
 import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import javafx.geometry.Point2D
 import javafx.geometry.Rectangle2D
@@ -31,8 +30,9 @@ class DataClientHeatMapView : MainBarView("Data Client Heat Map") {
      *  @param screenWidth current screenWidth
      *  @param screenHeight current screenHeight
      */
-    private val zoomMapsDataList: List<Point2D> by param()
-    private val codeChartsDataList: List<Point2D> by inject()
+    private val dataList: List<Point2D> by param()
+    private val imagePath: String by param()
+    // private val codeChartsDataList: List<Point2D> by inject()
     private val colors =
         listOf(Color.BLUE, Color.BURLYWOOD, Color.CORAL, Color.CRIMSON, Color.DARKORANGE, Color.GREENYELLOW)
     private val zoomMapsColor = Color.BLUEVIOLET
@@ -46,7 +46,7 @@ class DataClientHeatMapView : MainBarView("Data Client Heat Map") {
         with(contentBox) {
             pane {
                 val iv = imageview {
-                    image = Image(CodeChartsTool.codeChartsData.imagePath)
+                    image = Image(imagePath)
                     viewport = Rectangle2D(0.0, 0.0, image.width, image.height)
                     isPreserveRatio = true
                     fitWidthProperty().bind(contentBox.widthProperty())
@@ -55,7 +55,7 @@ class DataClientHeatMapView : MainBarView("Data Client Heat Map") {
                     logger.info("height: $fitHeight")
                 }
                 group {
-                    zoomMapsDataList.forEach {
+                    dataList.forEach {
                         val position = iv.imageToImageView(it)
                         circle {
                             logger.info("$position")

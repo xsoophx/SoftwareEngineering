@@ -28,6 +28,7 @@ import tornadofx.form
 import tornadofx.hbox
 import tornadofx.isInt
 import tornadofx.paddingAll
+import tornadofx.property
 import tornadofx.separator
 import tornadofx.style
 import tornadofx.text
@@ -48,7 +49,16 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
         const val method = "DataClientInitialView_method"
         const val codeCharts = "DataClientInitialView_codeCharts"
         const val zoomMaps = "DataClientInitialView_zoomMaps"
+        const val picturePath = "DataClientInitialView_picturePath"
     }
+
+    /**
+     * Variables to allow the user to choose the image on which the data was collected
+     */
+    data class ImagePath(
+        val imagePath: String
+    )
+    private val image: ImagePath = ImagePath("")
 
     /** @param dataClientQueryModel is to pass information to (entered by the user)
      * @param dataAnalyst analyzes data and initializes query object
@@ -158,6 +168,8 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                         }
                     }
 
+                    // TODO select image!!!
+
                     /**
                      * Submit filter params and start rendering data
                      * Use injected @param dataAnalyst to get matching data from the db.
@@ -167,19 +179,35 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                             action {
                                 dataClientQueryModel.commit()
                                 val data = dataAnalyst.getData(dataClientQueryModel.item)
-                                val zoomMapsData = DataProcessorHeatMap().process(data)
-                                replaceWith(find<DataClientHeatMapView>("zoomMapsDataList" to zoomMapsData))
-                            }
-                            style {
-                                fontWeight = FontWeight.EXTRA_BOLD
+
+                                // if neither zoom maps nor code charts was selected
+                                val processedData = DataProcessorHeatMap().process(data)
+
+                                // if zoom maps or code charts was selected: override processedData value
+                                when (dataClientQueryModel.codeChartsActivated) {
+                                    processedData -> DataProcessorHeatMap().processCodeCharts(data)
+                                }
+                                when (dataClientQueryModel.zoomMapsActivated) {
+                                    processedData -> DataProcessorHeatMap().processZoomMaps(data)
+                                }
+
+                                replaceWith(
+                                    find<DataClientHeatMapView>(
+                                        "dataList" to processedData,
+                                        "imagePath" to image
+                                    )
+                                )
                             }
                         }
                     }
+                    style {
+                        fontWeight = FontWeight.EXTRA_BOLD
+                    }
                 }
-                vboxConstraints {
-                    margin = Insets(50.0)
-                    paddingAll = 5.0
-                }
+            }
+            vboxConstraints {
+                margin = Insets(50.0)
+                paddingAll = 5.0
             }
         }
     }
