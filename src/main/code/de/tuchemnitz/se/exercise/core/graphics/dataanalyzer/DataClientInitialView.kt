@@ -168,7 +168,9 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                                 dataClientQueryModel.commit()
                                 val data = dataAnalyst.getData(dataClientQueryModel.item)
                                 val zoomMapsData = DataProcessorHeatMap().process(data)
-                                replaceWith(find<DataClientHeatMapView>("zoomMapsDataList" to zoomMapsData))
+                                val view = find<DataClientHeatMapView>("zoomMapsDataList" to zoomMapsData)
+                                view.generateContent()
+                                replaceWith(view)
                             }
                             style {
                                 fontWeight = FontWeight.EXTRA_BOLD

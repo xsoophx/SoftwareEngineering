@@ -12,6 +12,7 @@ import tornadofx.circle
 import tornadofx.group
 import tornadofx.imageview
 import tornadofx.pane
+import tornadofx.replaceChildren
 import java.awt.Toolkit
 
 /**
@@ -42,8 +43,8 @@ class DataClientHeatMapView : MainBarView("Data Client Heat Map") {
     /**
      *  shows the image selected (currently default image) and draws circles with the viewpoints.
      */
-    init {
-        with(contentBox) {
+    fun generateContent() {
+        contentBox.replaceChildren {
             pane {
                 val iv = imageview {
                     image = Image(CodeChartsTool.codeChartsData.imagePath)
