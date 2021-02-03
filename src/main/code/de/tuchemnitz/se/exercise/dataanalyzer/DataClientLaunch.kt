@@ -1,6 +1,7 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
 import de.tuchemnitz.se.exercise.core.graphics.Style
+import de.tuchemnitz.se.exercise.core.graphics.dataanalyzer.DataClientInitialView
 import de.tuchemnitz.se.exercise.core.graphics.dataanalyzer.DataClientMetaDataView
 import de.tuchemnitz.se.exercise.core.graphics.system.ToolSelectionView
 import javafx.stage.Stage
@@ -12,7 +13,8 @@ class DataClientLaunch : App(primaryView = ToolSelectionView::class) {
     companion object {
         const val MAIN_VIEW_TEMPLATE_PATH = "/views/MainViewTemplate.fxml"
     }
-    override val primaryView = DataClientMetaDataView::class
+    //override val primaryView = DataClientMetaDataView::class
+    override val primaryView = DataClientInitialView::class
 
     override fun start(stage: Stage) {
         stage.isFullScreen = true

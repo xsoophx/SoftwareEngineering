@@ -3,6 +3,7 @@ package de.tuchemnitz.se.exercise.dataanalyzer
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleObjectProperty
+import javafx.beans.property.SimpleStringProperty
 import tornadofx.ItemViewModel
 import tornadofx.getValue
 import tornadofx.setValue
@@ -13,10 +14,11 @@ import tornadofx.setValue
 class DataClientQuery(
     codeChartsActivated: Boolean = false,
     zoomMapsActivated: Boolean = false,
-    activeMethod: Method? = null,
     gender: Gender? = null,
     minimumAge: Int = 0,
-    maximumAge: Int = 120
+    maximumAge: Int = 120,
+    imagePath: String = ""
+
 ) {
     /**
      * Injection from the responsible Model, to get data into the class.
@@ -24,7 +26,7 @@ class DataClientQuery(
     val codeChartsProperty = SimpleBooleanProperty(this, "codeChartsActivated", codeChartsActivated)
     var codeCharts by codeChartsProperty
 
-    val zoomMapsProperty = SimpleBooleanProperty(this, "codeChartsActivated", zoomMapsActivated)
+    val zoomMapsProperty = SimpleBooleanProperty(this, "zoomMapsActivated", zoomMapsActivated)
     var zoomMaps by zoomMapsProperty
 
     val minimumAgeProperty = SimpleIntegerProperty(this, "age", minimumAge)
@@ -36,8 +38,8 @@ class DataClientQuery(
     val genderProperty = SimpleObjectProperty<Gender>(this, "gender", gender)
     var gender: Gender? by genderProperty
 
-    val methodProperty = SimpleObjectProperty<Method>(this, "method", activeMethod)
-    var method: Method? by methodProperty
+    val imageProperty = SimpleStringProperty(this, "imagePath", imagePath)
+    var imagePath: String by imageProperty
 }
 
 /**
@@ -54,5 +56,5 @@ class DataClientQueryModel(dataClientQuery: DataClientQuery = DataClientQuery())
     val gender = bind(DataClientQuery::genderProperty)
     val maximumAge = bind(DataClientQuery::maximumAgeProperty)
     val minimumAge = bind(DataClientQuery::minimumAgeProperty)
-    val method = bind(DataClientQuery::methodProperty)
+    val imagePath = bind(DataClientQuery::imageProperty)
 }

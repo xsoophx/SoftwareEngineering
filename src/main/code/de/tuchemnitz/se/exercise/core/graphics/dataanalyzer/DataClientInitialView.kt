@@ -26,6 +26,7 @@ import tornadofx.fieldset
 import tornadofx.filterInput
 import tornadofx.form
 import tornadofx.hbox
+import tornadofx.hboxConstraints
 import tornadofx.isInt
 import tornadofx.paddingAll
 import tornadofx.property
@@ -46,19 +47,15 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
         const val minimumAge = "DataClientInitialView_minimumAge"
         const val gender = "DataClientInitialView_gender"
         const val add = "DataClientInitialView_add"
-        const val method = "DataClientInitialView_method"
         const val codeCharts = "DataClientInitialView_codeCharts"
         const val zoomMaps = "DataClientInitialView_zoomMaps"
-        const val picturePath = "DataClientInitialView_picturePath"
+        const val imagePath = "DataClientInitialView_imagePath"
     }
 
     /**
      * Variables to allow the user to choose the image on which the data was collected
      */
-    data class ImagePath(
-        val imagePath: String
-    )
-    private val image: ImagePath = ImagePath("")
+
 
     /** @param dataClientQueryModel is to pass information to (entered by the user)
      * @param dataAnalyst analyzes data and initializes query object
@@ -108,23 +105,7 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                         }
                     }
 
-                    fieldset(
-                        "Diagram Type",
-                        FontAwesomeIconView(FontAwesomeIcon.DATABASE),
-                        Orientation.HORIZONTAL
-                    ) {
-                        spacing = 20.0
-                        paddingAll = 20.0
 
-                        field("Method:") {
-                            combobox<Method>(
-                                property = dataClientQueryModel.method,
-                                values = Method.values().toList()
-                            ) {
-                                id = Ids.method
-                            }
-                        }
-                    }
 
                     fieldset(
                         "Age of the User",
@@ -170,6 +151,28 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
 
                     // TODO select image!!!
 
+                    fieldset(
+                        "Image Path",
+                        FontAwesomeIconView(FontAwesomeIcon.FOLDER),
+                        Orientation.HORIZONTAL
+                    ) {
+                        spacing = 20.0
+                        paddingAll = 20.0
+                        field("Image Path:") {
+                            combobox<String>(
+                                property = dataClientQueryModel.imagePath,
+                                values = listOf(
+                                    "Chameleon.jpg",
+                                    "Pinguin.jpg",
+                                    "kitten.jpg"
+                                )
+                            ) {
+                                id = Ids.imagePath
+                            }
+                        }
+                    }
+
+
                     /**
                      * Submit filter params and start rendering data
                      * Use injected @param dataAnalyst to get matching data from the db.
@@ -181,20 +184,23 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                                 val data = dataAnalyst.getData(dataClientQueryModel.item)
 
                                 // if neither zoom maps nor code charts was selected
-                                val processedData = DataProcessorHeatMap().process(data)
+                                var processedData = DataProcessorHeatMap().process(data)
 
                                 // if zoom maps or code charts was selected: override processedData value
-                                when (dataClientQueryModel.codeChartsActivated) {
-                                    processedData -> DataProcessorHeatMap().processCodeCharts(data)
+                                when (dataClientQueryModel.codeChartsActivated.value) {
+                                    true -> processedData = DataProcessorHeatMap().processCodeCharts(data)
                                 }
-                                when (dataClientQueryModel.zoomMapsActivated) {
-                                    processedData -> DataProcessorHeatMap().processZoomMaps(data)
+                                when (dataClientQueryModel.zoomMapsActivated.value) {
+                                    true -> processedData = DataProcessorHeatMap().processZoomMaps(data)
                                 }
 
+                                println(data)
+                                println(processedData)
+                                println(dataClientQueryModel.imagePath.value)
                                 replaceWith(
                                     find<DataClientHeatMapView>(
                                         "dataList" to processedData,
-                                        "imagePath" to image
+                                        "imagePath" to dataClientQueryModel.imagePath.value
                                     )
                                 )
                             }
@@ -202,6 +208,22 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                     }
                     style {
                         fontWeight = FontWeight.EXTRA_BOLD
+                    }
+                }
+
+                hbox {
+                    text("View Metadata"){
+                        fill = Color.BLACK
+                        font = Font(18.0)
+                        textAlignment = TextAlignment.CENTER
+                        spacing = 20.0
+                    }
+                    button("Meta") {
+                        font = Font(15.0)
+
+                        action{
+                            replaceWith<DataClientMetaDataView>()
+                        }
                     }
                 }
             }

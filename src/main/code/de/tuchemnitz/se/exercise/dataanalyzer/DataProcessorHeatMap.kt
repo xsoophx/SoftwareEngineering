@@ -29,6 +29,7 @@ class DataProcessorHeatMap : DataProcessor() {
      * Calculates mid point of grid square which the subject focused on
      */
     fun processCodeCharts(data: List<IPersist>,): List<Point2D> {
+        println("processing cc")
         return data.mapNotNull {
             when (it) {
                 is CodeChartsData -> Point2D(
@@ -45,6 +46,7 @@ class DataProcessorHeatMap : DataProcessor() {
      */
 
     override fun process(data: List<IPersist>,): List<Point2D> {
+        println("processing")
         return data.mapNotNull {
             when (it) {
                 is ZoomMapsData -> it.zoomPosition
