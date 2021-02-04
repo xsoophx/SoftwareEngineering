@@ -67,3 +67,11 @@ class DataClientMetadataZoomMaps(
     val zoomGenderOther: Int = zoomGenderOther
     val zoomTotalNumberOfDatasets: Int = zoomTotalNumberOfDatasets
 }
+
+class DataClientMetadataToolUse(
+    codeChartsTool: Int,
+    zoomMapsTool: Int
+) {
+    val codeChartsTool = codeChartsTool
+    val zoomMapsTool = zoomMapsTool
+}

@@ -4,6 +4,7 @@ import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import de.tuchemnitz.se.exercise.dataanalyzer.DataClientMetadataCodeCharts
 import de.tuchemnitz.se.exercise.dataanalyzer.DataClientMetadataTotal
 import de.tuchemnitz.se.exercise.dataanalyzer.DataClientMetadataZoomMaps
+import de.tuchemnitz.se.exercise.dataanalyzer.MetaDataQuery
 import javafx.collections.ObservableList
 import javafx.scene.chart.PieChart
 import javafx.scene.paint.Color
@@ -21,11 +22,15 @@ import tornadofx.useMaxWidth
 
 class DataClientMetaDataView : MainBarView("Data Client Metadata") {
 
+    private val metaDataQuery: MetaDataQuery = MetaDataQuery()
+
+    //private var totalMetaData: DataClientMetadataTotal = metaDataQuery.queryMetadataTotal()
     private var totalMetaData: DataClientMetadataTotal = initiateMetaData()
     private val ccMetaData: DataClientMetadataCodeCharts = initiateCCMetaData()
     private val zoomMetaData: DataClientMetadataZoomMaps = initiateZoomMetaData()
     var genderPieItems = createGenderPie()
     var agePieItems = createAgePie()
+    var toolPieItems = createToolPie()
 
     init {
         with(contentBox) {
@@ -50,6 +55,7 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
 
                 piechart("Distribution By Gender: ", genderPieItems)
                 piechart("Distribution By Age:", agePieItems)
+                piechart("Tool Use Distribution", toolPieItems)
             }
 
             hbox {
@@ -132,6 +138,14 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
             PieChart.Data("20-40", totalMetaData.totalAgeGroup2.toDouble()),
             PieChart.Data("40-60", totalMetaData.totalAgeGroup3.toDouble()),
             PieChart.Data("60+", totalMetaData.totalAgeGroup4.toDouble())
+        ).asObservable()
+    }
+
+    private fun createToolPie(): ObservableList<PieChart.Data> {
+        val tools =  metaDataQuery.queryMetadataToolUse()
+        return listOf(
+            PieChart.Data("Code Charts", tools.codeChartsTool.toDouble()),
+            PieChart.Data("Zoom Maps", tools.zoomMapsTool.toDouble())
         ).asObservable()
     }
 
