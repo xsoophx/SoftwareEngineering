@@ -4,12 +4,14 @@ import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import de.tuchemnitz.se.exercise.dataanalyzer.DataClientMetadataCodeCharts
 import de.tuchemnitz.se.exercise.dataanalyzer.DataClientMetadataTotal
 import de.tuchemnitz.se.exercise.dataanalyzer.DataClientMetadataZoomMaps
+import de.tuchemnitz.se.exercise.dataanalyzer.DataClientPictureDistribution
 import de.tuchemnitz.se.exercise.dataanalyzer.MetaDataQuery
 import javafx.collections.ObservableList
 import javafx.scene.chart.PieChart
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.TextAlignment
+import org.litote.kmongo.MongoOperator
 import tornadofx.action
 import tornadofx.asObservable
 import tornadofx.button
@@ -24,7 +26,7 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
 
     private val metaDataQuery: MetaDataQuery = MetaDataQuery()
 
-    //private var totalMetaData: DataClientMetadataTotal = metaDataQuery.queryMetadataTotal()
+    // private var totalMetaData: DataClientMetadataTotal = metaDataQuery.queryMetadataTotal()
     private var totalMetaData: DataClientMetadataTotal = initiateMetaData()
     private val ccMetaData: DataClientMetadataCodeCharts = initiateCCMetaData()
     private val zoomMetaData: DataClientMetadataZoomMaps = initiateZoomMetaData()
@@ -84,8 +86,10 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
                             }
                         }
                         dataBox.replaceChildren {
-                            piechart("Distribution CODE CHARTS by gender", genderPieItems)
-                            piechart("Distribution CODE CHARTS by age", agePieItems)
+                            //piechart("Distribution CODE CHARTS by gender", genderPieItems)
+                           // piechart("Distribution CODE CHARTS by age", agePieItems)
+                            val picDistributionCC = createPicturePieCC()
+                            piechart ("Picture distribution for CODE CHARTS", picDistributionCC)
                         }
                     }
                 }
@@ -142,7 +146,7 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
     }
 
     private fun createToolPie(): ObservableList<PieChart.Data> {
-        val tools =  metaDataQuery.queryMetadataToolUse()
+        val tools = metaDataQuery.queryMetadataToolUse()
         return listOf(
             PieChart.Data("Code Charts", tools.codeChartsTool.toDouble()),
             PieChart.Data("Zoom Maps", tools.zoomMapsTool.toDouble())
@@ -150,6 +154,15 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
     }
 
     // Pie Charts for CODE CHARTS
+    private fun createPicturePieCC(): ObservableList<PieChart.Data>{
+        val pictureDistributionCC = metaDataQuery.queryPictureDistributionCC()
+        val dataList = mutableListOf<PieChart.Data>()
+        for(item in pictureDistributionCC){
+            dataList.add(PieChart.Data(item.imagePath, item.count.toDouble()))
+        }
+        return dataList.asObservable()
+    }
+
     private fun createGenderPieCC(): ObservableList<PieChart.Data> {
         return listOf(
             PieChart.Data("Male", ccMetaData.ccGenderMale.toDouble()),

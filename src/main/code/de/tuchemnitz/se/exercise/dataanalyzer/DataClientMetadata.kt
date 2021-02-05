@@ -75,3 +75,11 @@ class DataClientMetadataToolUse(
     val codeChartsTool = codeChartsTool
     val zoomMapsTool = zoomMapsTool
 }
+
+class DataClientPictureDistribution(
+    imagePath: String,
+    count: Int
+) {
+    val imagePath = imagePath
+    val count = count
+}

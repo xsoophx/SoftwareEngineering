@@ -1,9 +1,11 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
+import com.mongodb.client.model.Filters.eq
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.data.collections.CodeChartsDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.UserDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.ZoomMapsDataCollection
+import org.litote.kmongo.MongoOperator
 import org.litote.kmongo.and
 import org.litote.kmongo.eq
 import org.litote.kmongo.gte
@@ -40,6 +42,28 @@ class MetaDataQuery : Controller() {
         return DataClientMetadataToolUse(cc, zoom)
     }
 
+    fun queryPictureDistributionCC(): List<DataClientPictureDistribution> {
+        val dataList = mutableListOf<DataClientPictureDistribution>()
+
+        val chameleon = codeChartsDataCollection.find(
+            eq("CodeChartsConfig.pictures[0].imagePath", "Chameleon.jpg")
+        ).count()
+        dataList.add(DataClientPictureDistribution("Chameleon.jpg", chameleon))
+        val pinguin = codeChartsDataCollection.find(
+            eq("CodeChartsConfig.pictures[0].imagePath", "Pinguin.jpg")
+        ).count()
+        dataList.add(DataClientPictureDistribution("Pinguin.jpg", pinguin))
+        val kitten  = codeChartsDataCollection.find(
+            eq("CodeChartsConfig.pictures[0].imagePath", "kitten.jpg")
+        ).count()
+        dataList.add(DataClientPictureDistribution("kitten.jpg", kitten))
+
+        return dataList
+    }
+
+    // TODO
+    // At the moment Code Charts and Zoom Maps data don't contain reference to the user, so it is not possible to 
+    // show user metadata by tool
     /*
     fun queryMetadataCodeCharts() : DataClientMetadataCodeCharts {
 

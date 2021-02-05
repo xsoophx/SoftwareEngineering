@@ -1,5 +1,6 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
+import com.mongodb.client.model.Filters.eq
 import de.tuchemnitz.se.exercise.persist.IPersist
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.data.UserData
@@ -32,7 +33,9 @@ class Query : Controller() {
             list.addAll(queryUserData(queryFilter.userDataFilter.value))
 
         if (queryFilter.codeChartsDataFilter?.taken == true)
-            list.addAll(queryCodeChartsData(queryFilter.codeChartsDataFilter.value))
+            list.addAll(queryCodeChartsData(queryFilter.codeChartsDataFilter.value,
+                queryFilter.pictureDataFilter?.value
+            ))
 
         if (queryFilter.zoomMapsFilter?.taken == true)
             list.addAll(queryZoomMapsData(queryFilter.zoomMapsFilter.value))
@@ -52,12 +55,17 @@ class Query : Controller() {
     }
 
     // TODO add functionality to filter by image: how to access CodeChartsData::codeChartsConfig::pictures[0].imagePath??
-    // right now queries return all images in CC data collection and zoom Maps data collection
-    private fun queryCodeChartsData(filter: CodeChartsDataFilter): List<CodeChartsData> {
-        return codeChartsDataCollection.find(
-        ).toList()
+    private fun queryCodeChartsData(filter: CodeChartsDataFilter, picFilter: PictureDataFilter?): List<CodeChartsData> {
+        if (picFilter != null) {
+            return codeChartsDataCollection.find(
+                eq("CodeChartsConfig.pictures[0].imagePath", picFilter.imagePath.value)
+
+            ).toList()
+        }
+        return emptyList()
     }
 
+    //TODO query by image path
     private fun queryZoomMapsData(filter: ZoomMapsDataFilter): List<ZoomMapsData> {
         return zoomMapsDataCollection.find(
             and(
