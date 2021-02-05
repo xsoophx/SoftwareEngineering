@@ -1,41 +1,41 @@
 package de.tuchemnitz.se.exercise.core.graphics.system
 
 import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
+import de.tuchemnitz.se.exercise.core.system.StartupControllerModel
 import de.tuchemnitz.se.exercise.persist.data.Gender
 import de.tuchemnitz.se.exercise.persist.data.UserData
-import de.tuchemnitz.se.exercise.core.system.StartupControllerModel
 import javafx.collections.FXCollections
 import javafx.geometry.Pos
 import javafx.scene.control.ComboBox
 import javafx.scene.control.TextField
 import javafx.scene.layout.BorderPane
-import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.TextAlignment
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import tornadofx.View
 import tornadofx.action
 import tornadofx.button
 import tornadofx.combobox
 import tornadofx.gridpane
 import tornadofx.label
 import tornadofx.px
+import tornadofx.required
 import tornadofx.row
 import tornadofx.singleAssign
 import tornadofx.style
 import tornadofx.textfield
 
-class StartupView : View("Software Praktikum - Gruppe 4") {
+class StartupView : MainBarView("Software Praktikum - Gruppe 4") {
     override val root: BorderPane by fxml("/views/MainViewTemplate.fxml")
 
+
     companion object {
-        val logger = LoggerFactory.getLogger(LoginView::class.java)
+        val logger: Logger = LoggerFactory.getLogger(LoginView::class.java)
     }
 
     private val configManager: ConfigManager by inject()
     private val startupControllerModel = StartupControllerModel()
-    val contentBox: VBox by fxid("content")
     var firstNameField: TextField by singleAssign()
     var surnameField: TextField by singleAssign()
     var ageField: ComboBox<Int> by singleAssign()
@@ -44,6 +44,7 @@ class StartupView : View("Software Praktikum - Gruppe 4") {
 
     init {
         with(contentBox) {
+            mainMenuButton.isDisabled
             alignment = Pos.CENTER
             spacing = 64.0
             label("Bitte geben Sie ihre Daten an") {
@@ -60,30 +61,30 @@ class StartupView : View("Software Praktikum - Gruppe 4") {
                     label("Vorname: ")
                     textfield(
                         property = startupControllerModel.firstName
-                    )
+                    ).required(message = "Please enter your first Name.")
                 }
                 row {
                     label("Nachname: ")
                     textfield(
                         property = startupControllerModel.lastName
-                    )
+                    ).required(message = "Please enter your second Name.")
                 }
                 row {
                     label("Alter*:")
                     combobox(
                         property = startupControllerModel.age,
                         values = FXCollections.observableArrayList((1..99).toList())
-                    )
+                    ).required(message = "Please enter your age.")
                 }
                 row {
                     label("Geschlecht*:")
                     combobox<Gender>(
                         property = startupControllerModel.gender,
                         values = Gender.values().toList()
-                    )
+                    ).required(message = "Please enter your gender.")
                 }
                 row {
-                    label("Seeschwäche*:")
+                    label("Sehschwäche*:")
                     combobox(
                         property = startupControllerModel.visionImpaired,
                         values = listOf(true, false)
@@ -116,7 +117,7 @@ class StartupView : View("Software Praktikum - Gruppe 4") {
         }
     }
 
-    fun confirmInput() {
+    private fun confirmInput() {
         startupControllerModel.commit()
         val data = startupControllerModel.item
         val userConfig = UserData(
@@ -128,10 +129,6 @@ class StartupView : View("Software Praktikum - Gruppe 4") {
         )
         configManager.savePersistable(userConfig)
         replaceWith(ToolSelectionView::class)
-    }
-
-    fun printGitButton() {
-        logger.info("GIT Button pressed")
     }
 
     override fun onDock() {

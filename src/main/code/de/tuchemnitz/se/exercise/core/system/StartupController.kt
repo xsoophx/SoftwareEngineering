@@ -16,10 +16,10 @@ class StartupController(
     visionImpaired: Boolean = false
 ) {
     val firstNameProperty = SimpleStringProperty(this, "firstName", firstName)
-    val firstNameValue by firstNameProperty
+    val firstNameValue: String by firstNameProperty
 
     val lastNameProperty = SimpleStringProperty(this, "surname", surname)
-    val lastNameValue by lastNameProperty
+    val lastNameValue: String by lastNameProperty
 
     val ageProperty = SimpleIntegerProperty(this, "age", age)
     val ageValue by ageProperty
