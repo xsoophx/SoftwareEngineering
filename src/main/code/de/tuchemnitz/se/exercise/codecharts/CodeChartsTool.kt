@@ -4,10 +4,10 @@ package de.tuchemnitz.se.exercise.codecharts
  * Dummy values that we will replace later.
  */
 const val IMAGE_PATH = "/Chameleon.jpg"
-const val GRID_WIDTH = 50
-const val GRID_HEIGHT = 50
-const val MATRIX_VIEW_TIME = 2.0
-const val PICTURE_VIEW_TIME = 2.0
+const val GRID_WIDTH = 10
+const val GRID_HEIGHT = 10
+const val MATRIX_VIEW_TIME = 5.0
+const val PICTURE_VIEW_TIME = 5.0
 
 object CodeChartsTool {
     /**
