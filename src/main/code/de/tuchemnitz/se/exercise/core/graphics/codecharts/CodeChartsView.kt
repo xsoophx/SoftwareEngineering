@@ -1,7 +1,10 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsClickCounter
 import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import javafx.geometry.Pos
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
 import javafx.scene.paint.Color.BLACK
 import javafx.scene.paint.Color.MEDIUMSPRINGGREEN
 import javafx.scene.text.Font
@@ -37,6 +40,9 @@ class CodeChartsView : MainBarView("Willkommen bei CodeCharts!") {
                 }
                 button("START") {
                     action {
+                        if (codeChartsClickCounter.clickList.contains(codeChartsClickCounter.recurseAt)) {
+                            changeImageSettings()
+                        }
                         replaceWith(CodeChartsPictureView::class)
                     }
                 }
@@ -44,3 +50,5 @@ class CodeChartsView : MainBarView("Willkommen bei CodeCharts!") {
         }
     }
 }
+
+

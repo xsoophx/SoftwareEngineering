@@ -1,6 +1,7 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsConfigMapper
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsClickCounter
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsStringHandler
 import de.tuchemnitz.se.exercise.codecharts.Interval2D
@@ -80,6 +81,14 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
         logger.info("${codeChartsData.scaledImageSize.x}, ${codeChartsData.scaledImageSize.y}")
     }
 
+    private fun calculateRecursionCounter(userInput: String) {
+        // logger.info("$codeChartsClickCounter.clickList")
+        val listPosition = codeChartsStringHandler.getStrings().indexOf(userInput)
+        ++codeChartsClickCounter.clickList[listPosition]
+        print(codeChartsClickCounter.clickList)
+        // logger.info("$codeChartsClickCounter.clickList")
+    }
+
     /**
      * Checks whether input provided by the user is valid.
      * Replaces CodeChartsInputValidatorView with either CodeChartsThankfulView if the input is valid or
@@ -90,6 +99,7 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
         val userInput = inputString.text
         if (codeChartsStringHandler.getStrings().contains(userInput)) {
             calculateEyePosition(userInput)
+            calculateRecursionCounter(userInput)
             CodeChartsConfigMapper().saveCodeChartsDatabaseConfig(codeChartsData)
             replaceWith(CodeChartsThankfulView::class)
             inputString.text = ""

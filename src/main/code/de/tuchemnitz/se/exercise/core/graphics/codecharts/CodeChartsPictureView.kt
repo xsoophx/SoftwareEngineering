@@ -1,16 +1,20 @@
 package de.tuchemnitz.se.exercise.core.graphics.codecharts
 
+import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsClickCounter
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.Dimension
 import de.tuchemnitz.se.exercise.core.graphics.Style
 import javafx.animation.PauseTransition
 import javafx.event.EventHandler
+import javafx.geometry.Rectangle2D
 import javafx.scene.image.Image
+import javafx.scene.image.ImageView
 import javafx.util.Duration
 import tornadofx.CssRule
 import tornadofx.View
 import tornadofx.addClass
 import tornadofx.imageview
+import tornadofx.singleAssign
 import tornadofx.toProperty
 import tornadofx.vbox
 import java.awt.Toolkit
@@ -27,12 +31,13 @@ class CodeChartsPictureView(
     private val screenWidth = Toolkit.getDefaultToolkit().screenSize.getWidth()
     private val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
     private val screenSize = Dimension(x = screenWidth, y = screenHeight)
+    var pictureViewImageView: ImageView by singleAssign()
 
     override val root = vbox {
         primaryStage.isFullScreen = true
         addClass(cssRule)
-        imageview {
-            image = Image(codeChartsData.imagePath)
+        pictureViewImageView = imageview {
+            replaceImage(codeChartsData.imagePath)
             val scaledImageSize = scaleImageSize(image, screenSize)
             val scaledImageWidth = scaledImageSize.x
             val scaledImageHeight = scaledImageSize.y
@@ -42,6 +47,15 @@ class CodeChartsPictureView(
 
             setDataValues(image.width, image.height, scaledImageSize, screenSize)
         }
+    }
+
+    fun changeImageSettings() {
+        codeChartsClickCounter.pictureImageView.replaceImage("/cross.png")
+    }
+
+    fun ImageView.replaceImage(path: String) {
+        image = Image(path)
+        viewport = Rectangle2D(0.0, 0.0, image.width, image.height)
     }
 
     /**
@@ -76,6 +90,7 @@ class CodeChartsPictureView(
     private fun goToGridView() {
         val delay = PauseTransition(Duration.seconds(codeChartsData.pictureViewTime))
         delay.onFinished = EventHandler {
+            codeChartsClickCounter.pictureImageView = pictureViewImageView
             replaceWith(CodeChartsGridView::class)
         }
         delay.play()

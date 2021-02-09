@@ -1,5 +1,7 @@
 package de.tuchemnitz.se.exercise.codecharts
 
+import javafx.scene.image.ImageView
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 data class CodeChartsValues(
@@ -71,4 +73,14 @@ data class Interval2D(
     val xMax: Double,
     val yMin: Double,
     val yMax: Double
+)
+
+@Serializable
+data class ClickCounter(
+    val clickList: MutableList<Int>,
+    val recursionCounter: Int = 0,
+    @Contextual
+    var pictureImageView: ImageView,
+    val viewPort: Interval2D,
+    val recurseAt: Int,
 )
