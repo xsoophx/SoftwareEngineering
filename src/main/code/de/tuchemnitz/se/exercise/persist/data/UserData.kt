@@ -6,7 +6,8 @@ import org.litote.kmongo.newId
 enum class Gender {
     diverse,
     male,
-    female
+    female,
+    unselected
 }
 
 data class UserData(

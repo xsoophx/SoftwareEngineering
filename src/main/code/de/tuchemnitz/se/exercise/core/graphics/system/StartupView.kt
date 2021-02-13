@@ -1,117 +1,97 @@
 package de.tuchemnitz.se.exercise.core.graphics.system
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView
 import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
 import de.tuchemnitz.se.exercise.core.system.StartupControllerModel
 import de.tuchemnitz.se.exercise.persist.data.Gender
 import de.tuchemnitz.se.exercise.persist.data.UserData
-import javafx.collections.FXCollections
-import javafx.geometry.Pos
-import javafx.scene.control.ComboBox
-import javafx.scene.control.TextField
-import javafx.scene.layout.BorderPane
+import javafx.geometry.Orientation
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.TextAlignment
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import tornadofx.action
+import tornadofx.bind
 import tornadofx.button
+import tornadofx.buttonbar
 import tornadofx.combobox
-import tornadofx.gridpane
-import tornadofx.label
-import tornadofx.px
-import tornadofx.required
-import tornadofx.row
-import tornadofx.singleAssign
-import tornadofx.style
+import tornadofx.field
+import tornadofx.fieldset
+import tornadofx.form
+import tornadofx.hbox
+import tornadofx.paddingAll
+import tornadofx.text
 import tornadofx.textfield
 
 class StartupView : MainBarView("Software Praktikum - Gruppe 4") {
-    override val root: BorderPane by fxml("/views/MainViewTemplate.fxml")
+    private val configManager: ConfigManager by inject()
 
-
-    companion object {
-        val logger: Logger = LoggerFactory.getLogger(LoginView::class.java)
+    object Ids {
+        const val firstName = "StartupView_firstName"
+        const val lastName = "StartupView_lastName"
+        const val age = "StartupView_age"
+        const val gender = "StartupView_gender"
     }
 
-    private val configManager: ConfigManager by inject()
     private val startupControllerModel = StartupControllerModel()
-    var firstNameField: TextField by singleAssign()
-    var surnameField: TextField by singleAssign()
-    var ageField: ComboBox<Int> by singleAssign()
-    var genderField: ComboBox<Gender> by singleAssign()
-    var visionField: ComboBox<Boolean> by singleAssign()
 
     init {
         with(contentBox) {
-            mainMenuButton.isDisabled
-            alignment = Pos.CENTER
-            spacing = 64.0
-            label("Bitte geben Sie ihre Daten an") {
-                style {
-                    fontSize = 32.px
+            form {
+                text("Please enter your data:") {
+                    fill = Color.BLACK
+                    font = Font(20.0)
+                    textAlignment = TextAlignment.CENTER
+                    spacing = 20.0
                 }
-            }
-            gridpane {
-                alignment = Pos.CENTER
-                style {
-                    fontSize = 16.px
-                }
-                row {
-                    label("Vorname: ")
-                    textfield(
-                        property = startupControllerModel.firstName
-                    ).required(message = "Please enter your first Name.")
-                }
-                row {
-                    label("Nachname: ")
-                    textfield(
-                        property = startupControllerModel.lastName
-                    ).required(message = "Please enter your second Name.")
-                }
-                row {
-                    label("Alter*:")
-                    combobox(
-                        property = startupControllerModel.age,
-                        values = FXCollections.observableArrayList((1..99).toList())
-                    ).required(message = "Please enter your age.")
-                }
-                row {
-                    label("Geschlecht*:")
-                    combobox<Gender>(
-                        property = startupControllerModel.gender,
-                        values = Gender.values().toList()
-                    ).required(message = "Please enter your gender.")
-                }
-                row {
-                    label("Sehschwäche*:")
-                    combobox(
-                        property = startupControllerModel.visionImpaired,
-                        values = listOf(true, false)
-                    )
-                }
-                row {
-                    button("Bestätigen") {
-                        action {
-                            confirmInput()
+                hbox {
+                    fieldset(
+                        "Firstname and Lastname",
+                        FontAwesomeIconView(FontAwesomeIcon.COG),
+                        Orientation.HORIZONTAL
+                    ) {
+                        spacing = 20.0
+                        paddingAll = 20.0
+                        field("Firstname") {
+                            textfield {
+                                id = Ids.firstName
+                                bind(startupControllerModel.firstName)
+                            }
+                        }
+                        field("Lastname: ") {
+                            textfield {
+                                id = Ids.lastName
+                                bind(startupControllerModel.lastName)
+                            }
+                        }
+                        field("Age:") {
+                            textfield {
+                                id = Ids.age
+                                bind(startupControllerModel.age)
+                            }
+                        }
+                        field("Gender:") {
+                            combobox<Gender>(
+                                property = startupControllerModel.gender,
+                                values = Gender.values().toList()
+                            ) {
+                                id = Ids.gender
+                            }
+                        }
+                        field("Vision impaired:") {
+                            combobox(
+                                property = startupControllerModel.visionImpaired,
+                                values = listOf(true, false)
+                            )
+                        }
+                        buttonbar {
+                            button("Confirm") {
+                                action {
+                                    confirmInput()
+                                }
+                            }
                         }
                     }
-                }
-                row {
-                    label("*: notwendig") {
-                        style {
-                            fontSize = 12.px
-                        }
-                    }
-                }
-            }
-            button("Beenden") {
-                textFill = Color.BLACK
-                font = Font(22.0)
-                textAlignment = TextAlignment.CENTER
-                alignment = Pos.BOTTOM_CENTER
-                action {
-                    primaryStage.close()
                 }
             }
         }
@@ -129,13 +109,5 @@ class StartupView : MainBarView("Software Praktikum - Gruppe 4") {
         )
         configManager.savePersistable(userConfig)
         replaceWith(ToolSelectionView::class)
-    }
-
-    override fun onDock() {
-        logger.info("Docking Startup Page!")
-    }
-
-    override fun onUndock() {
-        logger.info("Undocking Startup Page!")
     }
 }

@@ -11,8 +11,8 @@ import tornadofx.getValue
 class StartupController(
     firstName: String = "",
     surname: String = "",
-    age: Int = 1,
-    gender: Gender = Gender.diverse,
+    age: Int = 0,
+    gender: Gender = Gender.unselected,
     visionImpaired: Boolean = false
 ) {
     val firstNameProperty = SimpleStringProperty(this, "firstName", firstName)
