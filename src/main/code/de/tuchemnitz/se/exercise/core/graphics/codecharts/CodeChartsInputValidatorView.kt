@@ -92,7 +92,6 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
         if (codeChartsStringHandler.getStrings().contains(userInput)) {
             calculateEyePosition(userInput)
             CodeChartsConfigMapper().saveCodeChartsDatabaseConfig(codeChartsData)
-            DataTool()
             replaceWith(CodeChartsThankfulView::class)
             inputString.text = ""
         } else {

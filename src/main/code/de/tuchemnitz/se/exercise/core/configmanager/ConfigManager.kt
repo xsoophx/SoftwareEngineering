@@ -15,7 +15,6 @@ import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
 import de.tuchemnitz.se.exercise.persist.data.collections.CodeChartsDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.EyeTrackingDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.ZoomMapsDataCollection
-import de.tuchemnitz.se.exercise.persist.datatool.ToolData
 import javafx.scene.input.KeyCode
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json

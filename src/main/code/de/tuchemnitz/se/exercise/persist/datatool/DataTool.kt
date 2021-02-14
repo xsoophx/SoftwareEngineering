@@ -1,18 +1,10 @@
 package de.tuchemnitz.se.exercise.persist.datatool
 
-import de.tuchemnitz.se.exercise.core.configmanager.BubbleViewConfig
 import de.tuchemnitz.se.exercise.core.configmanager.ConfigFile
-import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
-import de.tuchemnitz.se.exercise.core.configmanager.Filter
-import de.tuchemnitz.se.exercise.core.configmanager.FilterInformation
-import de.tuchemnitz.se.exercise.core.configmanager.ToolConfigs
-import de.tuchemnitz.se.exercise.dataanalyzer.CodeChartsDataFilter
 import de.tuchemnitz.se.exercise.persist.AbstractCollection
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
-import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
 import de.tuchemnitz.se.exercise.persist.configs.IConfig
 import de.tuchemnitz.se.exercise.persist.configs.PictureData
-import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.data.IData
 import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
@@ -20,20 +12,15 @@ import de.tuchemnitz.se.exercise.persist.data.collections.CodeChartsDataCollecti
 import de.tuchemnitz.se.exercise.persist.data.collections.EyeTrackingDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.ZoomMapsDataCollection
 import kotlinx.serialization.json.Json
-import org.bson.BsonDocument
 import org.litote.kmongo.and
 import org.litote.kmongo.descending
 import org.litote.kmongo.div
 import org.litote.kmongo.eq
 import tornadofx.Controller
 import java.io.File
-import java.nio.file.Path
-
 
 class DataTool : Controller() {
-    private val configManager: ConfigManager by inject()
-    val data = dataFile()
-    val dataFileJson = File("data.json").writeText(data)
+    fun writeDataExportFile() = File("data.json").writeText(dataFile())
 
     data class DataCollections(
         val codeChartsDataCollection: CodeChartsDataCollection,
@@ -45,7 +32,7 @@ class DataTool : Controller() {
     private val zoomMapsDataCollection: ZoomMapsDataCollection by inject()
     private val eyeTrackingDataCollection: EyeTrackingDataCollection by inject()
 
-    private val dataCollections = ConfigManager.DataCollections(
+    private val dataCollections = DataCollections(
         codeChartsDataCollection,
         zoomMapsDataCollection,
         eyeTrackingDataCollection
@@ -54,7 +41,7 @@ class DataTool : Controller() {
     fun configFileToDB(path: String) {
         val file = File(path)
         val jsonText = file.readText()
-        jsonText?.let { Json.decodeFromString(ConfigFile.serializer(), it) }
+        jsonText.let { Json.decodeFromString(ConfigFile.serializer(), it) }
     }
 
     fun dataFile(): String {
@@ -64,25 +51,28 @@ class DataTool : Controller() {
         )
     }
 
-    fun assembleAllData(n: Int): DataFile {
+    private fun assembleAllData(n: Int): DataFile {
         return DataFile(
-            codeChartsConfig = dataCollections.codeChartsDataCollection.findMostRecents("Chameleon.jpg", 1).toDataFile<CodeChartsData>(),
-            zoomMapsConfig = dataCollections.zoomMapsDataCollection.findMostRecents("Chameleon.jpg", n).toDataFile<ZoomMapsData>(),
+            codeChartsConfigs = dataCollections.codeChartsDataCollection.findMostRecents("Chameleon.jpg", 1)
+                .toDataFile(),
+            zoomMapsConfigs = dataCollections.zoomMapsDataCollection.findMostRecents("Chameleon.jpg", n)
+                .toDataFile(),
             // TODO
-            eyeTrackingConfig = listOf(ToolData("", listOf(ExperimentData(time= 0.0, xPos = 1.0, yPos=2.0)))),
+            eyeTrackingConfigs = listOf(PictureData("", listOf(EyeTrackingData(time = 0.0, xPos = 1.0, yPos = 2.0)))),
             // TODO
-            bubbleViewConfig = listOf(ToolData("", listOf(ExperimentData(time= 0.0, xPos = 1.0, yPos=2.0)))),
+            bubbleViewConfigs = listOf(PictureData("", listOf(EyeTrackingData(time = 0.0, xPos = 1.0, yPos = 2.0)))),
         )
     }
 
-    private fun <T : IData> AbstractCollection<T>.findMostRecents(imagePath: String, n: Int): List<T?> =
+    private fun <T : IData> AbstractCollection<T>.findMostRecents(imagePath: String, n: Int): List<T> =
         find(
             and(
                 (CodeChartsConfig::pictures / PictureData::imagePath eq imagePath)
-            )).sort(descending(IConfig::savedAt)).take(n)
+            )
+        ).sort(descending(IConfig::savedAt)).take(n)
 
-    private fun <T : IData> List<IData?>.toDataFile(): List<ToolData?> {
-        return this.mapNotNull {
+    private fun List<IData>.toDataFile(): List<de.tuchemnitz.se.exercise.persist.datatool.PictureData> {
+        return mapNotNull {
             when (it) {
                 is CodeChartsData -> codeChartsToolData(it)
                 is ZoomMapsData -> zoomMapsToolData(it)
@@ -91,11 +81,11 @@ class DataTool : Controller() {
         }
     }
 
-    private fun codeChartsToolData(codeChartsData: CodeChartsData): ToolData {
-        return ToolData(
+    private fun codeChartsToolData(codeChartsData: CodeChartsData): de.tuchemnitz.se.exercise.persist.datatool.PictureData {
+        return PictureData(
             picturePath = codeChartsData.codeChartsConfig.pictures.first().imagePath,
             listOf(
-                ExperimentData(
+                EyeTrackingData(
                     time = 0.0,
                     xPos = (codeChartsData.stringPosition.xMax - codeChartsData.stringPosition.xMin) / 2,
                     yPos = (codeChartsData.stringPosition.yMax - codeChartsData.stringPosition.yMin) / 2
@@ -104,11 +94,11 @@ class DataTool : Controller() {
         )
     }
 
-    private fun zoomMapsToolData(zoomMapsData: ZoomMapsData): ToolData {
-        return ToolData(
+    private fun zoomMapsToolData(zoomMapsData: ZoomMapsData): de.tuchemnitz.se.exercise.persist.datatool.PictureData {
+        return PictureData(
             picturePath = "Chameleon.jpg",
             listOf(
-                ExperimentData(
+                EyeTrackingData(
                     time = 0.0,
                     xPos = zoomMapsData.zoomPosition.x,
                     yPos = zoomMapsData.zoomPosition.y,

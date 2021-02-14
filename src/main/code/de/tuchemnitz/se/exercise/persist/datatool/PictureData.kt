@@ -4,13 +4,13 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ToolData(
+data class PictureData(
     @SerialName("pic") val picturePath: String,
-    val data: List<ExperimentData>,
+    val data: List<EyeTrackingData>,
 )
 
 @Serializable
-data class ExperimentData(
+data class EyeTrackingData(
     @SerialName("time") val time: Double,
     @SerialName("x_pos") val xPos: Double,
     @SerialName("y_pos") val yPos: Double,
@@ -18,8 +18,8 @@ data class ExperimentData(
 
 @Serializable
 data class DataFile(
-    @SerialName("bubbleView") val bubbleViewConfig: List<ToolData?>,
-    @SerialName("zoomMaps") val zoomMapsConfig: List<ToolData?>,
-    @SerialName("codeCharts") val codeChartsConfig: List<ToolData?>,
-    @SerialName("eyeTracking") val eyeTrackingConfig: List<ToolData?>,
+    @SerialName("bubbleView") val bubbleViewConfigs: List<PictureData>,
+    @SerialName("zoomMaps") val zoomMapsConfigs: List<PictureData>,
+    @SerialName("codeCharts") val codeChartsConfigs: List<PictureData>,
+    @SerialName("eyeTracking") val eyeTrackingConfigs: List<PictureData>,
 )
