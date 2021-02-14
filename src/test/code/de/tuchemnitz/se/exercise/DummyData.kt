@@ -14,6 +14,7 @@ import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigColle
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.data.Gender
 import de.tuchemnitz.se.exercise.persist.data.UserData
+import de.tuchemnitz.se.exercise.persist.data.VisionImpaired
 import de.tuchemnitz.se.exercise.persist.now
 import javafx.scene.input.KeyCode
 import tornadofx.Controller
@@ -98,21 +99,21 @@ object DummyData : Controller() {
             lastName = "Nikolaus",
             age = 61,
             gender = Gender.Male,
-            visionImpaired = true
+            visionImpaired = VisionImpaired.Yes
         ),
         UserData(
             firstName = "Winter",
             lastName = "Kind",
             age = 14,
             gender = Gender.Diverse,
-            visionImpaired = false
+            visionImpaired = VisionImpaired.Unselected
         ),
         UserData(
             firstName = "Klaus",
             lastName = "Kek",
             age = 25,
             gender = Gender.Female,
-            visionImpaired = false
+            visionImpaired = VisionImpaired.No
         )
     )
 

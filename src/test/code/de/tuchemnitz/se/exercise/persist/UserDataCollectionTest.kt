@@ -9,6 +9,7 @@ import com.mongodb.client.model.Filters
 import de.tuchemnitz.se.exercise.DATABASE
 import de.tuchemnitz.se.exercise.persist.data.Gender
 import de.tuchemnitz.se.exercise.persist.data.UserData
+import de.tuchemnitz.se.exercise.persist.data.VisionImpaired
 import de.tuchemnitz.se.exercise.persist.data.collections.UserDataCollection
 import org.bson.conversions.Bson
 import org.junit.jupiter.api.AfterEach
@@ -32,21 +33,21 @@ class UserDataCollectionTest : Controller() {
                 lastName = "Kotlin",
                 age = 45,
                 gender = Gender.Diverse,
-                visionImpaired = true
+                visionImpaired = VisionImpaired.Unselected
             ),
             UserData(
                 firstName = "anotherUser",
                 lastName = "Java",
                 age = 25,
                 gender = Gender.Female,
-                visionImpaired = false
+                visionImpaired = VisionImpaired.No
             ),
             UserData(
                 firstName = "Santa",
                 lastName = "Claus",
                 age = 65,
                 gender = Gender.Male,
-                visionImpaired = true
+                visionImpaired = VisionImpaired.Yes
             )
         )
     }

@@ -6,6 +6,7 @@ import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
 import de.tuchemnitz.se.exercise.core.system.StartupControllerModel
 import de.tuchemnitz.se.exercise.persist.data.Gender
 import de.tuchemnitz.se.exercise.persist.data.UserData
+import de.tuchemnitz.se.exercise.persist.data.VisionImpaired
 import javafx.geometry.Orientation
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
@@ -81,7 +82,7 @@ class StartupView : MainBarView("Software Praktikum - Gruppe 4") {
                         field("Vision impaired:") {
                             combobox(
                                 property = startupControllerModel.visionImpaired,
-                                values = listOf(true, false)
+                                values = VisionImpaired.values().toList()
                             )
                         }
                         buttonbar {

@@ -9,6 +9,7 @@ import de.tuchemnitz.se.exercise.persist.configs.collections.EyeTrackingConfigCo
 import de.tuchemnitz.se.exercise.persist.data.EyeTrackingData
 import de.tuchemnitz.se.exercise.persist.data.Gender
 import de.tuchemnitz.se.exercise.persist.data.UserData
+import de.tuchemnitz.se.exercise.persist.data.VisionImpaired
 import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
 import de.tuchemnitz.se.exercise.persist.data.collections.CodeChartsDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.EyeTrackingDataCollection
@@ -43,7 +44,13 @@ class InstantiationTest : Controller() {
         EyeTrackingConfig(dummyVal = "eye"),
         DummyData.codeChartsData.first(),
         EyeTrackingData(dummyData = "dummy", currentUser = DummyData.userData.last()),
-        UserData(firstName = "test", lastName = "user", age = 25, gender = Gender.Female, visionImpaired = false),
+        UserData(
+            firstName = "test",
+            lastName = "user",
+            age = 25,
+            gender = Gender.Female,
+            visionImpaired = VisionImpaired.No
+        ),
         ZoomMapsData(
             zoomSpeed = 1.0,
             zoomKey = KeyCode.K,

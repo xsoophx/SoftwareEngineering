@@ -75,13 +75,7 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
         userDataCollection
     )
 
-    var currentUser = UserData(
-        firstName = "default",
-        lastName = "default",
-        age = -1,
-        gender = Gender.Unselected,
-        visionImpaired = false
-    )
+    var currentUser = UserData()
 
     companion object {
         val logger: Logger = LoggerFactory.getLogger(ConfigManager::class.java)

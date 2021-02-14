@@ -1,6 +1,7 @@
 package de.tuchemnitz.se.exercise.core.system
 
 import de.tuchemnitz.se.exercise.persist.data.Gender
+import de.tuchemnitz.se.exercise.persist.data.VisionImpaired
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleObjectProperty
@@ -13,7 +14,7 @@ class StartupController(
     surname: String = "",
     age: Int = 0,
     gender: Gender = Gender.Unselected,
-    visionImpaired: Boolean = false
+    visionImpaired: VisionImpaired = VisionImpaired.Unselected
 ) {
     val firstNameProperty = SimpleStringProperty(this, "firstName", firstName)
     val firstNameValue: String by firstNameProperty
@@ -27,8 +28,8 @@ class StartupController(
     val genderProperty = SimpleObjectProperty(this, "gender", gender)
     val genderValue: Gender by genderProperty
 
-    val visionImpairedProperty = SimpleBooleanProperty(this, "visionImpaired", visionImpaired)
-    val visionImpairedValue by visionImpairedProperty
+    val visionImpairedProperty = SimpleObjectProperty(this, "visionImpaired", visionImpaired)
+    val visionImpairedValue: VisionImpaired by visionImpairedProperty
 }
 
 class StartupControllerModel(startupController: StartupController = StartupController()) :
