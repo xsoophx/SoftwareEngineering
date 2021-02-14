@@ -7,7 +7,9 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
 import com.mongodb.client.model.Filters
 import de.tuchemnitz.se.exercise.DATABASE
+import de.tuchemnitz.se.exercise.persist.data.Gender
 import de.tuchemnitz.se.exercise.persist.data.UserData
+import de.tuchemnitz.se.exercise.persist.data.VisionImpaired
 import de.tuchemnitz.se.exercise.persist.data.collections.UserDataCollection
 import org.bson.conversions.Bson
 import org.junit.jupiter.api.AfterEach
@@ -26,9 +28,27 @@ class UserDataCollectionTest : Controller() {
     @Suppress("SpellCheckingInspection")
     companion object {
         private val configs = listOf(
-            UserData(firstName = "Testuser", lastName = "Kotlin", age = 45),
-            UserData(firstName = "anotherUser", lastName = "Java", age = 25),
-            UserData(firstName = "Santa", lastName = "Claus", age = 65)
+            UserData(
+                firstName = "Testuser",
+                lastName = "Kotlin",
+                age = 45,
+                gender = Gender.Diverse,
+                visionImpaired = VisionImpaired.Unselected
+            ),
+            UserData(
+                firstName = "anotherUser",
+                lastName = "Java",
+                age = 25,
+                gender = Gender.Female,
+                visionImpaired = VisionImpaired.No
+            ),
+            UserData(
+                firstName = "Santa",
+                lastName = "Claus",
+                age = 65,
+                gender = Gender.Male,
+                visionImpaired = VisionImpaired.Yes
+            )
         )
     }
 
