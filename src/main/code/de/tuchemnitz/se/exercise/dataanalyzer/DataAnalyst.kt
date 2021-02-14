@@ -26,18 +26,17 @@ class DataAnalyst : Controller() {
 
     /**
      * Creates the mapped filter for the database (queryModel is mapped to databaseQueryModel)
-     * @receiver DataClientQuery holds the requested input of the user
+     * @receiver holds the requested input of the user
      */
     private fun DataClientQuery.createQueryFilter() = Query.QueryFilter(
         userDataFilter = userDataFilter(),
         codeChartsDataFilter = codeChartsDataFilter(),
-        zoomMapsFilter = zoomMapsDataFilter(),
-        pictureDataFilter = pictureDataFilter()
+        zoomMapsFilter = zoomMapsDataFilter()
     )
 
     /**
      * Creates the mapped filter for the userDataFilter (subtype of [QueryFilter])
-     * @receiver DataClientQuery holds the requested input of the user
+     * @receiver holds the requested input of the user
      */
     private fun DataClientQuery.userDataFilter() = Filter<UserDataFilter>(
         taken = maximumAge != 120 || minimumAge != 0 || gender != null,
@@ -54,34 +53,25 @@ class DataAnalyst : Controller() {
 
     /**
      * Creates the mapped filter for the codeChartsDataFilter (subtype of [QueryFilter])
-     * @receiver DataClientQuery holds the requested input of the user
+     * @receiver holds the requested input of the user
      */
     private fun DataClientQuery.codeChartsDataFilter() = Filter<CodeChartsDataFilter>(
         taken = codeCharts,
         value = CodeChartsDataFilter(
             pictureViewTime = Filter(taken = false, value = -1),
-            matrixViewTime = Filter(taken = false, value = -1)
+            matrixViewTime = Filter(taken = false, value = -1),
+            imagePath = Filter(taken = false, value = "")
         )
     )
 
     /**
      * Creates the mapped filter for the zoomMapsDataFilter (subtype of [QueryFilter])
-     * @receiver DataClientQuery holds the requested input of the user
+     * @receiver holds the requested input of the user
      */
     private fun DataClientQuery.zoomMapsDataFilter() = Filter<ZoomMapsDataFilter>(
         taken = zoomMaps,
         value = ZoomMapsDataFilter(
-            keyCode = Filter(taken = false, value = KeyCode.A)
-        )
-    )
-
-    /**
-     * Creates the mapped filter for the pictureDataFilter (subtype of [QueryFilter])
-     * @receiver DataClientQuery holds the requested input of the user
-     */
-    private fun DataClientQuery.pictureDataFilter() = Filter<PictureDataFilter>(
-        taken = false,
-        value = PictureDataFilter(
+            keyCode = Filter(taken = false, value = KeyCode.A),
             imagePath = Filter(taken = false, value = "")
         )
     )
