@@ -1,5 +1,6 @@
 package de.tuchemnitz.se.exercise.codecharts
 
+import javafx.geometry.Rectangle2D
 import javafx.scene.image.ImageView
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
@@ -81,6 +82,7 @@ data class ClickCounter(
     val recursionCounter: Int = 0,
     @Contextual
     var pictureImageView: ImageView,
-    val viewPort: Interval2D,
+    @Contextual
+    var viewPort: Rectangle2D,
     val recurseAt: Int,
 )

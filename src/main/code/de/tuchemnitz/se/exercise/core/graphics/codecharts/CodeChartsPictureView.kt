@@ -3,6 +3,7 @@ package de.tuchemnitz.se.exercise.core.graphics.codecharts
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsClickCounter
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.Dimension
+import de.tuchemnitz.se.exercise.codecharts.IMAGE_PATH
 import de.tuchemnitz.se.exercise.core.graphics.Style
 import javafx.animation.PauseTransition
 import javafx.event.EventHandler
@@ -37,25 +38,15 @@ class CodeChartsPictureView(
         primaryStage.isFullScreen = true
         addClass(cssRule)
         pictureViewImageView = imageview {
-            replaceImage(codeChartsData.imagePath)
+            image = Image(codeChartsData.imagePath)
             val scaledImageSize = scaleImageSize(image, screenSize)
             val scaledImageWidth = scaledImageSize.x
             val scaledImageHeight = scaledImageSize.y
 
             fitWidthProperty().bind(scaledImageWidth.toProperty())
             fitHeightProperty().bind(scaledImageHeight.toProperty())
-
             setDataValues(image.width, image.height, scaledImageSize, screenSize)
         }
-    }
-
-    fun changeImageSettings() {
-        codeChartsClickCounter.pictureImageView.replaceImage("/cross.png")
-    }
-
-    fun ImageView.replaceImage(path: String) {
-        image = Image(path)
-        viewport = Rectangle2D(0.0, 0.0, image.width, image.height)
     }
 
     /**

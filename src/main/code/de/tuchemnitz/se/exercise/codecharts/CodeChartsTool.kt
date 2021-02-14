@@ -1,5 +1,6 @@
 package de.tuchemnitz.se.exercise.codecharts
 
+import javafx.geometry.Rectangle2D
 import javafx.scene.image.ImageView
 
 /**
@@ -61,11 +62,11 @@ object CodeChartsTool {
     }
     val codeChartsClickCounter = ClickCounter(
         clickList = MutableList((codeChartsData.gridDimension.x * codeChartsData.gridDimension.y).toInt()) { 0 },
-        viewPort = Interval2D(
-            xMin = 0.0,
-            xMax = 0.0,
-            yMin = 0.0,
-            yMax = 0.0,
+        viewPort = Rectangle2D(
+            0.0,
+            0.0,
+            0.0,
+        0.0,
         ),
         recurseAt = 2,
         pictureImageView = ImageView()

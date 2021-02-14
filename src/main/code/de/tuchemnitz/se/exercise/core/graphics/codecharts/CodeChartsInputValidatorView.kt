@@ -7,7 +7,9 @@ import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsStringHandl
 import de.tuchemnitz.se.exercise.codecharts.Interval2D
 import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import javafx.geometry.Pos
+import javafx.geometry.Rectangle2D
 import javafx.scene.control.TextField
+import javafx.scene.image.ImageView
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.TextAlignment
@@ -66,7 +68,7 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
         val listPosition = codeChartsStringHandler.getStrings().indexOf(userInput)
         val xFieldNumber = listPosition % (codeChartsData.gridDimension.x)
         val yFieldNumber = (listPosition / (codeChartsData.gridDimension.y).toInt())
-        val cellWidth = codeChartsData.scaledImageSize.y / codeChartsData.gridDimension.x
+        val cellWidth = codeChartsData.scaledImageSize.x / codeChartsData.gridDimension.x
         val cellHeight = codeChartsData.scaledImageSize.y / codeChartsData.gridDimension.y
         val xMinPos = xFieldNumber * cellWidth
         val yMinPos = yFieldNumber * cellHeight
@@ -82,11 +84,10 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
     }
 
     private fun calculateRecursionCounter(userInput: String) {
-        // logger.info("$codeChartsClickCounter.clickList")
+        logger.info("$codeChartsClickCounter.clickList")
         val listPosition = codeChartsStringHandler.getStrings().indexOf(userInput)
         ++codeChartsClickCounter.clickList[listPosition]
-        print(codeChartsClickCounter.clickList)
-        // logger.info("$codeChartsClickCounter.clickList")
+        logger.info("$codeChartsClickCounter.clickList")
     }
 
     /**
@@ -103,9 +104,40 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
             CodeChartsConfigMapper().saveCodeChartsDatabaseConfig(codeChartsData)
             replaceWith(CodeChartsThankfulView::class)
             inputString.text = ""
+
+            if (codeChartsClickCounter.clickList.contains(codeChartsClickCounter.recurseAt)) {
+                print(codeChartsData.eyePos)
+                codeChartsClickCounter.viewPort = intervalToRectangle(codeChartsData.eyePos)
+                codeChartsClickCounter.pictureImageView.replaceViewPort(codeChartsClickCounter.viewPort)
+                //TODO:reset clickList
+                //TODO: increase recursionDepth
+                //TODO: adapt scaledImageSize
+            }
         } else {
             replaceWith(CodeChartsRetryView::class)
             inputString.text = ""
         }
+    }
+
+    fun ImageView.replaceViewPort(zoomedView: Rectangle2D) {
+        val factorX = image.width / codeChartsData.scaledImageSize.x
+        val factorY = image.height / codeChartsData.scaledImageSize.y
+        var newViewPortScaled = Rectangle2D(
+            zoomedView.minX * factorX,
+            zoomedView.minY * factorY,
+            zoomedView.width * factorX,
+            zoomedView.height * factorY
+        )
+        viewport = newViewPortScaled
+    }
+    private fun intervalToRectangle(interval: Interval2D): Rectangle2D {
+        var rect = Rectangle2D(
+            interval.xMin,
+            interval.yMin,
+            interval.xMax - interval.xMin,
+            interval.yMax - interval.yMin
+        )
+        print(rect)
+        return rect
     }
 }
