@@ -11,7 +11,6 @@ import de.tuchemnitz.se.exercise.persist.configs.collections.EyeTrackingConfigCo
 import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.data.EyeTrackingData
-import de.tuchemnitz.se.exercise.persist.data.Gender
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
 import de.tuchemnitz.se.exercise.persist.data.collections.CodeChartsDataCollection
