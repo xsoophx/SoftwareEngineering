@@ -55,7 +55,8 @@ class InstantiationTest : Controller() {
             zoomSpeed = 1.0,
             zoomKey = KeyCode.K,
             zoomPosition = Point2D(1.0, 1.0),
-            currentUser = DummyData.userData.first()
+            currentUser = DummyData.userData.first(),
+            imagePath = "somePath"
         )
     )
 
