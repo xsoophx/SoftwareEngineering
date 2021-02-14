@@ -4,14 +4,12 @@ import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import de.tuchemnitz.se.exercise.dataanalyzer.DataClientMetadataCodeCharts
 import de.tuchemnitz.se.exercise.dataanalyzer.DataClientMetadataTotal
 import de.tuchemnitz.se.exercise.dataanalyzer.DataClientMetadataZoomMaps
-import de.tuchemnitz.se.exercise.dataanalyzer.DataClientPictureDistribution
 import de.tuchemnitz.se.exercise.dataanalyzer.MetaDataQuery
 import javafx.collections.ObservableList
 import javafx.scene.chart.PieChart
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.TextAlignment
-import org.litote.kmongo.MongoOperator
 import tornadofx.action
 import tornadofx.asObservable
 import tornadofx.button
@@ -28,7 +26,7 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
 
     // private var totalMetaData: DataClientMetadataTotal = metaDataQuery.queryMetadataTotal()
     private var totalMetaData: DataClientMetadataTotal = initiateMetaData()
-    private val ccMetaData: DataClientMetadataCodeCharts = initiateCCMetaData()
+    private val codeChartsMetaData: DataClientMetadataCodeCharts = initiateCodeChartsMetaData()
     private val zoomMetaData: DataClientMetadataZoomMaps = initiateZoomMetaData()
     var genderPieItems = createGenderPie()
     var agePieItems = createAgePie()
@@ -36,7 +34,7 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
 
     init {
         with(contentBox) {
-            var headerBox = hbox {
+            val headerBox = hbox {
                 text(
                     "Total number of registered users: ${totalMetaData.totalNumberOfUsers} - " +
                         "Total number of datasets: ${totalMetaData.totalNumberOfDatasets}"
@@ -53,8 +51,7 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
                 }
             }
 
-            var dataBox = hbox {
-
+            val dataBox = hbox {
                 piechart("Distribution By Gender: ", genderPieItems)
                 piechart("Distribution By Age:", agePieItems)
                 piechart("Tool Use Distribution", toolPieItems)
@@ -72,7 +69,7 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
                         agePieItems = createAgePieCC()
                         headerBox.replaceChildren {
                             text(
-                                "Total number of datasets for CODE CHARTS tool: ${ccMetaData.ccTotalNumberOfDatasets}"
+                                "Total number of datasets for CODE CHARTS tool: ${codeChartsMetaData.ccTotalNumberOfDatasets}"
                             ) {
                                 fill = Color.BLACK
                                 font = Font(18.0)
@@ -87,9 +84,9 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
                         }
                         dataBox.replaceChildren {
                             //piechart("Distribution CODE CHARTS by gender", genderPieItems)
-                           // piechart("Distribution CODE CHARTS by age", agePieItems)
-                            val picDistributionCC = createPicturePieCC()
-                            piechart ("Picture distribution for CODE CHARTS", picDistributionCC)
+                            // piechart("Distribution CODE CHARTS by age", agePieItems)
+                            val pictureDistributionCodeCharts = createPicturePieCC()
+                            piechart("Picture distribution for CODE CHARTS", pictureDistributionCodeCharts)
                         }
                     }
                 }
@@ -127,23 +124,19 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
     }
 
     // Pie Charts for TOTAL
-    private fun createGenderPie(): ObservableList<PieChart.Data> {
-        return listOf(
-            PieChart.Data("Male", totalMetaData.totalGenderMale.toDouble()),
-            PieChart.Data("Female", totalMetaData.totalGenderFemale.toDouble()),
-            PieChart.Data("Other", totalMetaData.totalGenderOther.toDouble())
-        ).asObservable()
-    }
+    private fun createGenderPie(): ObservableList<PieChart.Data> = listOf(
+        PieChart.Data("Male", totalMetaData.totalGenderMale.toDouble()),
+        PieChart.Data("Female", totalMetaData.totalGenderFemale.toDouble()),
+        PieChart.Data("Other", totalMetaData.totalGenderOther.toDouble())
+    ).asObservable()
 
-    private fun createAgePie(): ObservableList<PieChart.Data> {
-        return listOf(
-            PieChart.Data("0-10", totalMetaData.totalAgeGroup0.toDouble()),
-            PieChart.Data("10-20", totalMetaData.totalAgeGroup1.toDouble()),
-            PieChart.Data("20-40", totalMetaData.totalAgeGroup2.toDouble()),
-            PieChart.Data("40-60", totalMetaData.totalAgeGroup3.toDouble()),
-            PieChart.Data("60+", totalMetaData.totalAgeGroup4.toDouble())
-        ).asObservable()
-    }
+    private fun createAgePie(): ObservableList<PieChart.Data> = listOf(
+        PieChart.Data("0-10", totalMetaData.totalAgeGroup0.toDouble()),
+        PieChart.Data("10-20", totalMetaData.totalAgeGroup1.toDouble()),
+        PieChart.Data("20-40", totalMetaData.totalAgeGroup2.toDouble()),
+        PieChart.Data("40-60", totalMetaData.totalAgeGroup3.toDouble()),
+        PieChart.Data("60+", totalMetaData.totalAgeGroup4.toDouble())
+    ).asObservable()
 
     private fun createToolPie(): ObservableList<PieChart.Data> {
         val tools = metaDataQuery.queryMetadataToolUse()
@@ -154,32 +147,28 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
     }
 
     // Pie Charts for CODE CHARTS
-    private fun createPicturePieCC(): ObservableList<PieChart.Data>{
+    private fun createPicturePieCC(): ObservableList<PieChart.Data> {
         val pictureDistributionCC = metaDataQuery.queryPictureDistributionCC()
         val dataList = mutableListOf<PieChart.Data>()
-        for(item in pictureDistributionCC){
+        for (item in pictureDistributionCC) {
             dataList.add(PieChart.Data(item.imagePath, item.count.toDouble()))
         }
         return dataList.asObservable()
     }
 
-    private fun createGenderPieCC(): ObservableList<PieChart.Data> {
-        return listOf(
-            PieChart.Data("Male", ccMetaData.ccGenderMale.toDouble()),
-            PieChart.Data("Female", ccMetaData.ccGenderFemale.toDouble()),
-            PieChart.Data("Other", ccMetaData.ccGenderOther.toDouble())
-        ).asObservable()
-    }
+    private fun createGenderPieCC(): ObservableList<PieChart.Data> = listOf(
+        PieChart.Data("Male", codeChartsMetaData.ccGenderMale.toDouble()),
+        PieChart.Data("Female", codeChartsMetaData.ccGenderFemale.toDouble()),
+        PieChart.Data("Other", codeChartsMetaData.ccGenderOther.toDouble())
+    ).asObservable()
 
-    private fun createAgePieCC(): ObservableList<PieChart.Data> {
-        return listOf(
-            PieChart.Data("0-10", ccMetaData.ccAgeGroup0.toDouble()),
-            PieChart.Data("10-20", ccMetaData.ccAgeGroup1.toDouble()),
-            PieChart.Data("20-40", ccMetaData.ccAgeGroup2.toDouble()),
-            PieChart.Data("40-60", ccMetaData.ccAgeGroup3.toDouble()),
-            PieChart.Data("60+", ccMetaData.ccAgeGroup4.toDouble())
-        ).asObservable()
-    }
+    private fun createAgePieCC(): ObservableList<PieChart.Data> = listOf(
+        PieChart.Data("0-10", codeChartsMetaData.ccAgeGroup0.toDouble()),
+        PieChart.Data("10-20", codeChartsMetaData.ccAgeGroup1.toDouble()),
+        PieChart.Data("20-40", codeChartsMetaData.ccAgeGroup2.toDouble()),
+        PieChart.Data("40-60", codeChartsMetaData.ccAgeGroup3.toDouble()),
+        PieChart.Data("60+", codeChartsMetaData.ccAgeGroup4.toDouble())
+    ).asObservable()
 
     // Pie Charts for ZOOM MAPS
     private fun createGenderPieZoom(): ObservableList<PieChart.Data> {
@@ -205,7 +194,7 @@ fun initiateMetaData(): DataClientMetadataTotal {
     return DataClientMetadataTotal(0, 2, 5, 10, 6, 7, 16, 0, 22, 23)
 }
 
-fun initiateCCMetaData(): DataClientMetadataCodeCharts {
+fun initiateCodeChartsMetaData(): DataClientMetadataCodeCharts {
     return DataClientMetadataCodeCharts(0, 2, 3, 1, 4, 2, 6, 1, 12)
 }
 

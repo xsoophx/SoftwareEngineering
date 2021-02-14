@@ -1,7 +1,8 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
-import com.mongodb.client.model.Filters.eq
 import de.tuchemnitz.se.exercise.persist.IPersist
+import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
+import de.tuchemnitz.se.exercise.persist.configs.PictureData
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
@@ -9,6 +10,7 @@ import de.tuchemnitz.se.exercise.persist.data.collections.CodeChartsDataCollecti
 import de.tuchemnitz.se.exercise.persist.data.collections.UserDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.ZoomMapsDataCollection
 import org.litote.kmongo.and
+import org.litote.kmongo.div
 import org.litote.kmongo.eq
 import org.litote.kmongo.gt
 import org.litote.kmongo.lt
@@ -20,7 +22,6 @@ class Query : Controller() {
         val userDataFilter: Filter<UserDataFilter>?,
         val codeChartsDataFilter: Filter<CodeChartsDataFilter>?,
         val zoomMapsFilter: Filter<ZoomMapsDataFilter>?,
-        val pictureDataFilter: Filter<PictureDataFilter>?
     )
 
     val userDataCollection: UserDataCollection by inject()
@@ -33,9 +34,11 @@ class Query : Controller() {
             list.addAll(queryUserData(queryFilter.userDataFilter.value))
 
         if (queryFilter.codeChartsDataFilter?.taken == true)
-            list.addAll(queryCodeChartsData(queryFilter.codeChartsDataFilter.value,
-                queryFilter.pictureDataFilter?.value
-            ))
+            list.addAll(
+                queryCodeChartsData(
+                    queryFilter.codeChartsDataFilter.value,
+                )
+            )
 
         if (queryFilter.zoomMapsFilter?.taken == true)
             list.addAll(queryZoomMapsData(queryFilter.zoomMapsFilter.value))
@@ -54,22 +57,27 @@ class Query : Controller() {
         ).toList()
     }
 
-    // TODO add functionality to filter by image: how to access CodeChartsData::codeChartsConfig::pictures[0].imagePath??
-    private fun queryCodeChartsData(filter: CodeChartsDataFilter, picFilter: PictureDataFilter?): List<CodeChartsData> {
-        if (picFilter != null) {
-            return codeChartsDataCollection.find(
-                eq("CodeChartsConfig.pictures[0].imagePath", picFilter.imagePath.value)
-
-            ).toList()
-        }
-        return emptyList()
+    private fun queryCodeChartsData(
+        codeChartsFilter: CodeChartsDataFilter
+    ): List<CodeChartsData> {
+        return codeChartsDataCollection.find(
+            and(
+                (CodeChartsData::codeChartsConfig / CodeChartsConfig::pictures / PictureData::imagePath
+                    eq codeChartsFilter.imagePath.value).takeIf { codeChartsFilter.imagePath.taken },
+                (CodeChartsData::codeChartsConfig / CodeChartsConfig::pictures / PictureData::pictureViewTime
+                    eq codeChartsFilter.pictureViewTime.value).takeIf { codeChartsFilter.pictureViewTime.taken },
+                (CodeChartsData::codeChartsConfig / CodeChartsConfig::pictures / PictureData::matrixViewTime
+                    eq codeChartsFilter.matrixViewTime.value).takeIf { codeChartsFilter.matrixViewTime.taken }
+            )).toList()
     }
 
-    //TODO query by image path
-    private fun queryZoomMapsData(filter: ZoomMapsDataFilter): List<ZoomMapsData> {
+    private fun queryZoomMapsData(
+        zoomMapsFilter: ZoomMapsDataFilter
+    ): List<ZoomMapsData> {
         return zoomMapsDataCollection.find(
             and(
-                (ZoomMapsData::zoomKey eq filter.keyCode.value).takeIf { filter.keyCode.taken }
+                (ZoomMapsData::zoomKey eq zoomMapsFilter.keyCode.value).takeIf { zoomMapsFilter.keyCode.taken },
+                (ZoomMapsData::imagePath eq zoomMapsFilter.imagePath.value).takeIf { zoomMapsFilter.imagePath.taken },
             )
         ).toList()
     }

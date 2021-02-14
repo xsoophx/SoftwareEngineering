@@ -13,5 +13,6 @@ data class ZoomMapsData(
     val zoomSpeed: Double,
     val zoomKey: KeyCode,
     @JsonDeserialize(using = Point2DDeserializer::class)
-    val zoomPosition: Point2D
+    val zoomPosition: Point2D,
+    val imagePath: String
 ) : IData
