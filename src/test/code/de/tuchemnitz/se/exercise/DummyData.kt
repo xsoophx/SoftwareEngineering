@@ -12,7 +12,9 @@ import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
+import de.tuchemnitz.se.exercise.persist.data.Gender
 import de.tuchemnitz.se.exercise.persist.data.UserData
+import de.tuchemnitz.se.exercise.persist.data.VisionImpaired
 import de.tuchemnitz.se.exercise.persist.now
 import javafx.scene.input.KeyCode
 import tornadofx.Controller
@@ -91,6 +93,30 @@ object DummyData : Controller() {
     @Suppress("unused")
     fun codeChartsConfigsSource() = codeChartsConfigs.stream()
 
+    val userData = listOf(
+        UserData(
+            firstName = "Klaus",
+            lastName = "Nikolaus",
+            age = 61,
+            gender = Gender.Male,
+            visionImpaired = VisionImpaired.Yes
+        ),
+        UserData(
+            firstName = "Winter",
+            lastName = "Kind",
+            age = 14,
+            gender = Gender.Diverse,
+            visionImpaired = VisionImpaired.Unselected
+        ),
+        UserData(
+            firstName = "Klaus",
+            lastName = "Kek",
+            age = 25,
+            gender = Gender.Female,
+            visionImpaired = VisionImpaired.No
+        )
+    )
+
     @get: JvmStatic
     val zoomMapsConfigs = setOf(
         ZoomMapsConfig(
@@ -120,32 +146,16 @@ object DummyData : Controller() {
             originalImageSize = Dimension(x = 3.0, y = 4.0),
             scaledImageSize = Dimension(x = 100.0, y = 200.0),
             screenSize = Dimension(x = 1920.0, y = 1080.0),
-            stringPosition = Interval2D(xMin = 0.0, xMax = 3.0, yMin = 0.0, yMax = 3.0)
+            stringPosition = Interval2D(xMin = 0.0, xMax = 3.0, yMin = 0.0, yMax = 3.0),
+            currentUser = userData.first()
         ),
         CodeChartsData(
             codeChartsConfig = codeChartsConfigs.last(),
             originalImageSize = Dimension(x = 123.0, y = 456.0),
             scaledImageSize = Dimension(x = 125.0, y = 500.0),
             screenSize = Dimension(x = 1920.0, y = 1080.0),
-            stringPosition = Interval2D(xMin = 10.0, xMax = 4.0, yMin = 6.2, yMax = 7.55)
-        )
-    )
-
-    val userData = listOf(
-        UserData(
-            firstName = "Klaus",
-            lastName = "Nikolaus",
-            age = 61
-        ),
-        UserData(
-            firstName = "Winter",
-            lastName = "Kind",
-            age = 14
-        ),
-        UserData(
-            firstName = "Klaus",
-            lastName = "Kek",
-            age = 25
+            stringPosition = Interval2D(xMin = 10.0, xMax = 4.0, yMin = 6.2, yMax = 7.55),
+            currentUser = userData.last()
         )
     )
 }
