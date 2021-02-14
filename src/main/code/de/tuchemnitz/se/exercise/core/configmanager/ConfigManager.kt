@@ -11,6 +11,7 @@ import de.tuchemnitz.se.exercise.persist.configs.collections.EyeTrackingConfigCo
 import de.tuchemnitz.se.exercise.persist.configs.collections.ZoomMapsConfigCollection
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.data.EyeTrackingData
+import de.tuchemnitz.se.exercise.persist.data.Gender
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
 import de.tuchemnitz.se.exercise.persist.data.collections.CodeChartsDataCollection
@@ -74,6 +75,14 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
         userDataCollection
     )
 
+    var currentUser = UserData(
+        firstName = "default",
+        lastName = "default",
+        age = -1,
+        gender = Gender.Unselected,
+        visionImpaired = false
+    )
+
     companion object {
         val logger: Logger = LoggerFactory.getLogger(ConfigManager::class.java)
 
@@ -126,16 +135,9 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
 
     /**
      * Depending on which tool is requiring a config, this function is returning it.
-     * @param tool specifies the tool which requires a config
+     * In this case a ZoomMapsConfig.
      */
-    fun getConfig(tool: Int) {
-        when (tool) {
-            1 -> decodeConfig()?.codeChartsConfig
-            else -> logger.error("Couldn't fetch this Config type.")
-        }
-    }
-
-    fun getZoomMapsConfig(): ZoomMapsConfig? {
+    fun getZoomMapsConfig(): ZoomMapsConfig {
         return ZoomMapsConfig(zoomSpeed = 1.0, zoomKey = KeyCode.C)
         // return decodeConfig()?.zoomMapsConfig
     }
@@ -152,7 +154,6 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
             is CodeChartsData -> dataCollections.codeChartsDataCollection.saveOne(config)
             is ZoomMapsData -> dataCollections.zoomMapsDataCollection.saveOne(config)
             is EyeTrackingData -> dataCollections.eyeTrackingDataCollection.saveOne(config)
-            is UserData -> dataCollections.userDataCollection.saveOne(config)
             else -> logger.error("Couldn't fetch this Config type.")
         }
     }

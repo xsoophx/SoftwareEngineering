@@ -90,6 +90,11 @@ class StartupView : MainBarView("Software Praktikum - Gruppe 4") {
                                     confirmInput()
                                 }
                             }
+                            button("Continue without providing data.") {
+                                action {
+                                    replaceWith(ToolSelectionView::class)
+                                }
+                            }
                         }
                     }
                 }
@@ -100,14 +105,13 @@ class StartupView : MainBarView("Software Praktikum - Gruppe 4") {
     private fun confirmInput() {
         startupControllerModel.commit()
         val data = startupControllerModel.item
-        val userConfig = UserData(
+        configManager.currentUser = UserData(
             firstName = data.firstNameValue,
             lastName = data.lastNameValue,
             age = data.ageValue,
             gender = data.genderValue,
             visionImpaired = data.visionImpairedValue
         )
-        configManager.savePersistable(userConfig)
         replaceWith(ToolSelectionView::class)
     }
 }

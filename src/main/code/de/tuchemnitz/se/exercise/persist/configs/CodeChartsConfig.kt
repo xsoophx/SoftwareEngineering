@@ -1,7 +1,10 @@
 package de.tuchemnitz.se.exercise.persist.configs
 
 import de.tuchemnitz.se.exercise.codecharts.StringCharacters
+import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
+import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.now
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient

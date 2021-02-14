@@ -12,7 +12,7 @@ class StartupController(
     firstName: String = "",
     surname: String = "",
     age: Int = 0,
-    gender: Gender = Gender.unselected,
+    gender: Gender = Gender.Unselected,
     visionImpaired: Boolean = false
 ) {
     val firstNameProperty = SimpleStringProperty(this, "firstName", firstName)

@@ -2,6 +2,7 @@ package de.tuchemnitz.se.exercise.codecharts
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import de.tuchemnitz.se.exercise.DummyData
 import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
 import de.tuchemnitz.se.exercise.persist.IPersist
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
@@ -86,7 +87,8 @@ class CodeChartsConfigMapperTest : Controller() {
             originalImageSize = Dimension(x = 1.0, y = 2.0),
             scaledImageSize = Dimension(x = 1.0, y = 2.0),
             screenSize = Dimension(x = 1.0, y = 2.0),
-            stringPosition = Interval2D(xMax = 2.0, xMin = 0.0, yMax = 9.0, yMin = 0.0)
+            stringPosition = Interval2D(xMax = 2.0, xMin = 0.0, yMax = 9.0, yMin = 0.0),
+            currentUser = DummyData.userData.first()
         )
 
         val saved = mutableListOf<IPersist>()
@@ -94,13 +96,15 @@ class CodeChartsConfigMapperTest : Controller() {
         every { mockedConfigManager.savePersistable(config = capture(saved)) } just Runs
         codeChartsConfigMapper.saveCodeChartsDatabaseConfig(inputValues)
         verify(exactly = 2) { mockedConfigManager.savePersistable(any()) }
+        verify(exactly = 1) { mockedConfigManager.currentUser }
 
         val savedConfig =
             (saved[1] as CodeChartsConfig).copy(_id = expectedConfig._id, savedAt = expectedConfig.savedAt)
         val savedData = (saved[0] as CodeChartsData).let {
             it.copy(
                 _id = expectedData._id,
-                codeChartsConfig = it.codeChartsConfig.copy(_id = expectedConfig._id, savedAt = expectedConfig.savedAt)
+                codeChartsConfig = it.codeChartsConfig.copy(_id = expectedConfig._id, savedAt = expectedConfig.savedAt),
+                currentUser = expectedData.currentUser
 
             )
         }
