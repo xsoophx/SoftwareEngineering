@@ -25,7 +25,7 @@ class Query : Controller() {
     )
 
     val userDataCollection: UserDataCollection by inject()
-    private val codeChartsDataCollection: CodeChartsDataCollection by inject()
+    val codeChartsDataCollection: CodeChartsDataCollection by inject()
     private val zoomMapsDataCollection: ZoomMapsDataCollection by inject()
 
     fun queryAllElementsSeparately(queryFilter: QueryFilter): List<IPersist> {

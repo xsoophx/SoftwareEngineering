@@ -52,6 +52,14 @@ object DummyData : Controller() {
                     ordered = true,
                     relative = false,
                     maxRecursionDepth = 3
+                ), PictureData(
+                    imagePath = "abc",
+                    matrixViewTime = 2,
+                    grid = Grid(100, 200),
+                    pictureViewTime = 2,
+                    ordered = false,
+                    relative = false,
+                    maxRecursionDepth = 2
                 )
             )
         ),
@@ -68,6 +76,15 @@ object DummyData : Controller() {
                     ordered = false,
                     relative = false,
                     maxRecursionDepth = 0
+                ),
+                PictureData(
+                    imagePath = "abc",
+                    matrixViewTime = 2,
+                    grid = Grid(100, 200),
+                    pictureViewTime = 2,
+                    ordered = false,
+                    relative = false,
+                    maxRecursionDepth = 2
                 )
             )
         ),
@@ -99,21 +116,24 @@ object DummyData : Controller() {
             lastName = "Nikolaus",
             age = 61,
             gender = Gender.Male,
-            visionImpaired = VisionImpaired.Yes
+            visionImpaired = VisionImpaired.Yes,
+            default = false
         ),
         UserData(
             firstName = "Winter",
             lastName = "Kind",
             age = 14,
             gender = Gender.Diverse,
-            visionImpaired = VisionImpaired.Unselected
+            visionImpaired = VisionImpaired.Unselected,
+            default = false
         ),
         UserData(
             firstName = "Klaus",
             lastName = "Kek",
             age = 25,
             gender = Gender.Female,
-            visionImpaired = VisionImpaired.No
+            visionImpaired = VisionImpaired.No,
+            default = false
         )
     )
 
@@ -140,7 +160,7 @@ object DummyData : Controller() {
     fun zoomMapsConfigs() = zoomMapsConfigs.stream()
 
     @get: JvmStatic
-    val codeChartsData = setOf(
+    val codeChartsData = listOf(
         CodeChartsData(
             codeChartsConfig = codeChartsConfigs.first(),
             originalImageSize = Dimension(x = 3.0, y = 4.0),
