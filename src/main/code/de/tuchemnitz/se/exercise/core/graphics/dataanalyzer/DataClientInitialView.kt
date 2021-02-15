@@ -7,7 +7,6 @@ import de.tuchemnitz.se.exercise.dataanalyzer.DataAnalyst
 import de.tuchemnitz.se.exercise.dataanalyzer.DataClientQueryModel
 import de.tuchemnitz.se.exercise.dataanalyzer.DataProcessorHeatMap
 import de.tuchemnitz.se.exercise.dataanalyzer.Gender
-import de.tuchemnitz.se.exercise.dataanalyzer.Method
 import javafx.geometry.Insets
 import javafx.geometry.Orientation
 import javafx.geometry.Pos
@@ -26,10 +25,8 @@ import tornadofx.fieldset
 import tornadofx.filterInput
 import tornadofx.form
 import tornadofx.hbox
-import tornadofx.hboxConstraints
 import tornadofx.isInt
 import tornadofx.paddingAll
-import tornadofx.property
 import tornadofx.separator
 import tornadofx.style
 import tornadofx.text
@@ -55,7 +52,6 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
     /**
      * Variables to allow the user to choose the image on which the data was collected
      */
-
 
     /** @param dataClientQueryModel is to pass information to (entered by the user)
      * @param dataAnalyst analyzes data and initializes query object
@@ -172,7 +168,6 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                         }
                     }
 
-
                     /**
                      * Submit filter params and start rendering data
                      * Use injected @param dataAnalyst to get matching data from the db.
@@ -212,7 +207,7 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                 }
 
                 hbox {
-                    text("View Metadata"){
+                    text("View Metadata") {
                         fill = Color.BLACK
                         font = Font(18.0)
                         textAlignment = TextAlignment.CENTER
@@ -221,7 +216,7 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                     button("Meta") {
                         font = Font(15.0)
 
-                        action{
+                        action {
                             replaceWith<DataClientMetaDataView>()
                         }
                     }

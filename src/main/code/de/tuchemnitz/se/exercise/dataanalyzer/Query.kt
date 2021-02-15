@@ -13,7 +13,9 @@ import org.litote.kmongo.and
 import org.litote.kmongo.div
 import org.litote.kmongo.eq
 import org.litote.kmongo.gt
+import org.litote.kmongo.gte
 import org.litote.kmongo.lt
+import org.litote.kmongo.lte
 import tornadofx.Controller
 
 class Query : Controller() {
@@ -28,8 +30,21 @@ class Query : Controller() {
     val codeChartsDataCollection: CodeChartsDataCollection by inject()
     private val zoomMapsDataCollection: ZoomMapsDataCollection by inject()
 
+    private val dummyUserDataFilter =
+        Filter<UserDataFilter>(
+            taken = false,
+            value = UserDataFilter(
+                firstName = Filter(taken = false, value = ""),
+                lastName = Filter(taken = false, value = ""),
+                age = Filter(taken = false, value = Age(minimumAge = 0, maximumAge = 0)),
+                gender = Filter(taken = false, value = Gender.Male)
+            )
+        )
+
     fun queryAllElementsSeparately(queryFilter: QueryFilter): List<IPersist> {
         val list = mutableListOf<IPersist>()
+        val userDataFilter = queryFilter.userDataFilter ?: dummyUserDataFilter
+
         if (queryFilter.userDataFilter?.taken == true)
             list.addAll(queryUserData(queryFilter.userDataFilter.value))
 
@@ -37,11 +52,12 @@ class Query : Controller() {
             list.addAll(
                 queryCodeChartsData(
                     queryFilter.codeChartsDataFilter.value,
+                    userDataFilter.value
                 )
             )
 
         if (queryFilter.zoomMapsFilter?.taken == true)
-            list.addAll(queryZoomMapsData(queryFilter.zoomMapsFilter.value))
+            list.addAll(queryZoomMapsData(queryFilter.zoomMapsFilter.value, userDataFilter.value))
 
         return list
     }
@@ -51,14 +67,15 @@ class Query : Controller() {
             and(
                 (UserData::firstName eq filter.firstName.value).takeIf { filter.firstName.taken },
                 (UserData::lastName eq filter.lastName.value).takeIf { filter.lastName.taken },
-                (UserData::age gt (filter.age.value!!.minimumAge?.minus(1) ?: 0)).takeIf { filter.age.taken },
-                (UserData::age lt (filter.age.value.minimumAge?.plus(1) ?: 0)).takeIf { filter.age.taken }
+                (UserData::age gte (filter.age.value!!.minimumAge ?: 0)).takeIf { filter.age.taken },
+                (UserData::age lte (filter.age.value.minimumAge ?: 0)).takeIf { filter.age.taken }
             )
         ).toList()
     }
 
     private fun queryCodeChartsData(
-        codeChartsFilter: CodeChartsDataFilter
+        codeChartsFilter: CodeChartsDataFilter,
+        userDataFilter: UserDataFilter
     ): List<CodeChartsData> {
         return codeChartsDataCollection.find(
             and(
@@ -67,17 +84,35 @@ class Query : Controller() {
                 (CodeChartsData::codeChartsConfig / CodeChartsConfig::pictures / PictureData::pictureViewTime
                     eq codeChartsFilter.pictureViewTime.value).takeIf { codeChartsFilter.pictureViewTime.taken },
                 (CodeChartsData::codeChartsConfig / CodeChartsConfig::pictures / PictureData::matrixViewTime
-                    eq codeChartsFilter.matrixViewTime.value).takeIf { codeChartsFilter.matrixViewTime.taken }
-            )).toList()
+                    eq codeChartsFilter.matrixViewTime.value).takeIf { codeChartsFilter.matrixViewTime.taken },
+                (CodeChartsData::currentUser / UserData::firstName eq
+                    userDataFilter.firstName.value).takeIf { userDataFilter.firstName.taken },
+                (CodeChartsData::currentUser / UserData::lastName eq
+                    userDataFilter.lastName.value).takeIf { userDataFilter.firstName.taken },
+                (CodeChartsData::currentUser / UserData::age gte
+                    (userDataFilter.age.value!!.minimumAge ?: 0)).takeIf { userDataFilter.age.taken },
+                (CodeChartsData::currentUser / UserData::age lt
+                    (userDataFilter.age.value.maximumAge ?: 0)).takeIf { userDataFilter.age.taken },
+            )
+        ).toList()
     }
 
     private fun queryZoomMapsData(
-        zoomMapsFilter: ZoomMapsDataFilter
+        zoomMapsFilter: ZoomMapsDataFilter,
+        userDataFilter: UserDataFilter
     ): List<ZoomMapsData> {
         return zoomMapsDataCollection.find(
             and(
                 (ZoomMapsData::zoomKey eq zoomMapsFilter.keyCode.value).takeIf { zoomMapsFilter.keyCode.taken },
                 (ZoomMapsData::imagePath eq zoomMapsFilter.imagePath.value).takeIf { zoomMapsFilter.imagePath.taken },
+                (ZoomMapsData::currentUser / UserData::firstName eq
+                    userDataFilter.firstName.value).takeIf { userDataFilter.firstName.taken },
+                (CodeChartsData::currentUser / UserData::lastName eq
+                    userDataFilter.lastName.value).takeIf { userDataFilter.firstName.taken },
+                (CodeChartsData::currentUser / UserData::age gte
+                    (userDataFilter.age.value!!.minimumAge ?: 0)).takeIf { userDataFilter.age.taken },
+                (CodeChartsData::currentUser / UserData::age lt
+                    (userDataFilter.age.value.maximumAge ?: 0)).takeIf { userDataFilter.age.taken },
             )
         ).toList()
     }

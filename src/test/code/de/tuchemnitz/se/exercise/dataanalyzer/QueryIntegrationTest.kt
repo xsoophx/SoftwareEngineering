@@ -1,29 +1,19 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
-import assertk.Assert
-import assertk.assertAll
 import assertk.assertThat
 import assertk.assertions.contains
-import assertk.assertions.containsAll
-import assertk.assertions.containsExactly
 import assertk.assertions.isEqualTo
-import assertk.assertions.prop
-import com.mongodb.client.FindIterable
 import de.tuchemnitz.se.exercise.DummyData
-import de.tuchemnitz.se.exercise.persist.IPersist
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
-import de.tuchemnitz.se.exercise.persist.configs.IConfig
 import de.tuchemnitz.se.exercise.persist.configs.PictureData
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
-import io.mockk.InternalPlatformDsl.toArray
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.litote.kmongo.div
 import org.litote.kmongo.eq
 import tornadofx.Controller
-import kotlin.test.assertEquals
 
 class QueryIntegrationTest : Controller() {
 
