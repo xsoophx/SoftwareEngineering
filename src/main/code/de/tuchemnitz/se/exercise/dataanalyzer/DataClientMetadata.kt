@@ -1,28 +1,17 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
 class DataClientMetadataTotal(
-    totalAgeGroup0: Int,
-    totalAgeGroup1: Int,
-    totalAgeGroup2: Int,
-    totalAgeGroup3: Int,
-    totalAgeGroup4: Int,
-    totalGenderMale: Int,
-    totalGenderFemale: Int,
-    totalGenderOther: Int,
-    totalNumberOfUsers: Int,
-    totalNumberOfDatasets: Int
-) {
-    val totalAgeGroup0: Int = totalAgeGroup0
-    val totalAgeGroup1: Int = totalAgeGroup1
-    val totalAgeGroup2: Int = totalAgeGroup2
-    val totalAgeGroup3: Int = totalAgeGroup3
-    val totalAgeGroup4: Int = totalAgeGroup4
-    val totalGenderMale: Int = totalGenderMale
-    val totalGenderFemale: Int = totalGenderFemale
-    val totalGenderOther: Int = totalGenderOther
-    val totalNumberOfUsers: Int = totalNumberOfUsers
-    val totalNumberOfDatasets: Int = totalNumberOfDatasets
-}
+    val totalAgeGroup0: Int,
+    val totalAgeGroup1: Int,
+    val totalAgeGroup2: Int,
+    val totalAgeGroup3: Int,
+    val totalAgeGroup4: Int,
+    val totalGenderMale: Int,
+    val totalGenderFemale: Int,
+    val totalGenderOther: Int,
+    val totalNumberOfUsers: Int,
+    val totalNumberOfDatasets: Int
+)
 
 class DataClientMetadataCodeCharts(
     ccAgeGroup0: Int = 0,
@@ -76,10 +65,4 @@ class DataClientMetadataToolUse(
     val zoomMapsTool = zoomMapsTool
 }
 
-class DataClientPictureDistribution(
-    imagePath: String,
-    count: Int
-) {
-    val imagePath = imagePath
-    val count = count
-}
+class DataClientPictureDistribution(val imagePath: String, val count: Int)

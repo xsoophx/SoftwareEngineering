@@ -21,13 +21,23 @@ import tornadofx.text
 import tornadofx.useMaxWidth
 
 class DataClientMetaDataView : MainBarView("Data Client Metadata") {
-
+    /**
+     * query database for metadata, general and split by tool use
+     */
     private val metaDataQuery: MetaDataQuery = MetaDataQuery()
 
-    // private var totalMetaData: DataClientMetadataTotal = metaDataQuery.queryMetadataTotal()
-    private var totalMetaData: DataClientMetadataTotal = initiateMetaData()
-    private val codeChartsMetaData: DataClientMetadataCodeCharts = initiateCodeChartsMetaData()
-    private val zoomMetaData: DataClientMetadataZoomMaps = initiateZoomMetaData()
+    private var totalMetaData: DataClientMetadataTotal = metaDataQuery.queryMetadataTotal()
+
+    private val codeChartsMetaData: DataClientMetadataCodeCharts = metaDataQuery.queryMetadataCodeCharts()
+    private val pictureDistributionCodeCharts = createPicturePieCC()
+
+    private val zoomMetaData: DataClientMetadataZoomMaps = metaDataQuery.queryMetadataZoomMaps()
+    private val pictureDistributionZoom = createPicturePieZoom()
+
+    /**
+     * Populate pie charts with initial data. They can later be exchanged to display other data
+     * relevant to more specific queries
+     */
     var genderPieItems = createGenderPie()
     var agePieItems = createAgePie()
     var toolPieItems = createToolPie()
@@ -65,8 +75,12 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
                         marginLeft = 50.0
                     }
                     action {
+                        /**
+                         * replace pie charts with pie charts containing metadata for Code Charts Tool
+                         */
                         genderPieItems = createGenderPieCC()
                         agePieItems = createAgePieCC()
+
                         headerBox.replaceChildren {
                             text(
                                 "Total number of datasets for CODE CHARTS tool: ${codeChartsMetaData.ccTotalNumberOfDatasets}"
@@ -83,9 +97,8 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
                             }
                         }
                         dataBox.replaceChildren {
-                            //piechart("Distribution CODE CHARTS by gender", genderPieItems)
-                            // piechart("Distribution CODE CHARTS by age", agePieItems)
-                            val pictureDistributionCodeCharts = createPicturePieCC()
+                            piechart("Distribution CODE CHARTS by gender", genderPieItems)
+                            piechart("Distribution CODE CHARTS by age", agePieItems)
                             piechart("Picture distribution for CODE CHARTS", pictureDistributionCodeCharts)
                         }
                     }
@@ -96,6 +109,9 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
                         marginLeft = 30.0
                     }
                     action {
+                        /**
+                         * replace pie charts with pie charts containing metadata for Zoom Maps Tool
+                         */
                         genderPieItems = createGenderPieZoom()
                         agePieItems = createAgePieZoom()
                         headerBox.replaceChildren {
@@ -116,6 +132,7 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
                         dataBox.replaceChildren {
                             piechart("Distribution ZOOM MAPS by gender", genderPieItems)
                             piechart("Distribution ZOOM MAPS by age", agePieItems)
+                            piechart("Picture distribution for ZOOM MAPS tool", pictureDistributionZoom)
                         }
                     }
                 }
@@ -123,11 +140,14 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
         }
     }
 
-    // Pie Charts for TOTAL
+    /**
+     *  Create Pie Charts for overview over all datasets
+     *  One pie chart for each: distribution by gender of users, age of users and tools used
+     */
     private fun createGenderPie(): ObservableList<PieChart.Data> = listOf(
         PieChart.Data("Male", totalMetaData.totalGenderMale.toDouble()),
         PieChart.Data("Female", totalMetaData.totalGenderFemale.toDouble()),
-        PieChart.Data("Other", totalMetaData.totalGenderOther.toDouble())
+        PieChart.Data("Diverse", totalMetaData.totalGenderOther.toDouble())
     ).asObservable()
 
     private fun createAgePie(): ObservableList<PieChart.Data> = listOf(
@@ -146,10 +166,13 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
         ).asObservable()
     }
 
-    // Pie Charts for CODE CHARTS
+    /**
+     *  Create pie charts for CODE CHARTS: Gender, age and viewed picture distribution
+     */
     private fun createPicturePieCC(): ObservableList<PieChart.Data> {
         val pictureDistributionCC = metaDataQuery.queryPictureDistributionCC()
         val dataList = mutableListOf<PieChart.Data>()
+        println(pictureDistributionCC)
         for (item in pictureDistributionCC) {
             dataList.add(PieChart.Data(item.imagePath, item.count.toDouble()))
         }
@@ -159,7 +182,7 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
     private fun createGenderPieCC(): ObservableList<PieChart.Data> = listOf(
         PieChart.Data("Male", codeChartsMetaData.ccGenderMale.toDouble()),
         PieChart.Data("Female", codeChartsMetaData.ccGenderFemale.toDouble()),
-        PieChart.Data("Other", codeChartsMetaData.ccGenderOther.toDouble())
+        PieChart.Data("Diverse", codeChartsMetaData.ccGenderOther.toDouble())
     ).asObservable()
 
     private fun createAgePieCC(): ObservableList<PieChart.Data> = listOf(
@@ -170,12 +193,15 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
         PieChart.Data("60+", codeChartsMetaData.ccAgeGroup4.toDouble())
     ).asObservable()
 
-    // Pie Charts for ZOOM MAPS
+    /**
+     *  Create pie charts for ZOOM MAPS: Gender, age and viewed picture distribution
+     */
     private fun createGenderPieZoom(): ObservableList<PieChart.Data> {
+        println(zoomMetaData)
         return listOf(
             PieChart.Data("Male", zoomMetaData.zoomGenderMale.toDouble()),
             PieChart.Data("Female", zoomMetaData.zoomGenderFemale.toDouble()),
-            PieChart.Data("Other", zoomMetaData.zoomGenderOther.toDouble())
+            PieChart.Data("Diverse", zoomMetaData.zoomGenderOther.toDouble())
         ).asObservable()
     }
 
@@ -188,16 +214,14 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
             PieChart.Data("60+", zoomMetaData.zoomAgeGroup4.toDouble())
         ).asObservable()
     }
-}
 
-fun initiateMetaData(): DataClientMetadataTotal {
-    return DataClientMetadataTotal(0, 2, 5, 10, 6, 7, 16, 0, 22, 23)
-}
-
-fun initiateCodeChartsMetaData(): DataClientMetadataCodeCharts {
-    return DataClientMetadataCodeCharts(0, 2, 3, 1, 4, 2, 6, 1, 12)
-}
-
-fun initiateZoomMetaData(): DataClientMetadataZoomMaps {
-    return DataClientMetadataZoomMaps(0, 3, 5, 8, 0, 4, 10, 0, 14)
+    private fun createPicturePieZoom(): ObservableList<PieChart.Data> {
+        val pictureDistributionCC = metaDataQuery.queryPictureDistributionZoom()
+        val dataList = mutableListOf<PieChart.Data>()
+        println(pictureDistributionCC)
+        for (item in pictureDistributionCC) {
+            dataList.add(PieChart.Data(item.imagePath, item.count.toDouble()))
+        }
+        return dataList.asObservable()
+    }
 }

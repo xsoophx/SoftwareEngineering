@@ -7,8 +7,10 @@ import de.tuchemnitz.se.exercise.dataanalyzer.DataAnalyst
 import de.tuchemnitz.se.exercise.dataanalyzer.DataClientQueryModel
 import de.tuchemnitz.se.exercise.dataanalyzer.DataProcessorHeatMap
 import de.tuchemnitz.se.exercise.dataanalyzer.Gender
+import de.tuchemnitz.se.exercise.persist.IPersist
 import javafx.geometry.Insets
 import javafx.geometry.Orientation
+import javafx.geometry.Point2D
 import javafx.geometry.Pos
 import javafx.scene.control.ButtonBar
 import javafx.scene.paint.Color
@@ -58,6 +60,8 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
      */
     private val dataClientQueryModel = DataClientQueryModel()
     private val dataAnalyst: DataAnalyst by inject()
+    lateinit var data: List<IPersist>
+    lateinit var processedData: List<Point2D>
 
     init {
         with(contentBox) {
@@ -100,8 +104,6 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                             }
                         }
                     }
-
-
 
                     fieldset(
                         "Age of the User",
@@ -176,10 +178,10 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                         button("START", ButtonBar.ButtonData.OK_DONE) {
                             action {
                                 dataClientQueryModel.commit()
-                                val data = dataAnalyst.getData(dataClientQueryModel.item)
+                                data = dataAnalyst.getData(dataClientQueryModel.item)
 
                                 // if neither zoom maps nor code charts was selected
-                                var processedData = DataProcessorHeatMap().process(data)
+                                processedData = DataProcessorHeatMap().process(data)
 
                                 // if zoom maps or code charts was selected: override processedData value
                                 when (dataClientQueryModel.codeChartsActivated.value) {
@@ -191,7 +193,7 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
 
                                 println(data)
                                 println(processedData)
-                                println(dataClientQueryModel.imagePath.value)
+
                                 replaceWith(
                                     find<DataClientHeatMapView>(
                                         "dataList" to processedData,
