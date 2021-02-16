@@ -30,13 +30,20 @@ class MetaDataController : Controller() {
     data class GenderPieChartData(
         val totalMale: Int = 0,
         val totalFemale: Int = 0,
-        val totalDiverse: Int = 0
+        val totalDiverse: Int = 0,
+        val totalUnselected: Int = 0
     )
 
-    private val pictures = listOf(
-        "/Chameleon.jpg",
-        "/Pinguin.jpg",
-        "/kitten.jpg"
+    val codeChartsPictures = listOf(
+        "/Chameleon.jpg" to query.queryCodeChartsImage("/Chameleon.jpg"),
+        "/Pinguin.jpg" to query.queryCodeChartsImage("/Pinguin.jpg"),
+        "/kitten.jpg" to query.queryCodeChartsImage("/kitten.jpg"),
+    )
+
+    val zoomMapsPictures = listOf(
+        "/Chameleon.jpg" to query.queryZoomMapsImage("/Chameleon.jpg"),
+        "/Pinguin.jpg" to query.queryZoomMapsImage("/Pinguin.jpg"),
+        "/kitten.jpg" to query.queryZoomMapsImage("/kitten.jpg"),
     )
 
     fun createGenderPie(userList: List<UserData>): ObservableList<PieChart.Data> =
@@ -45,23 +52,33 @@ class MetaDataController : Controller() {
                 Gender.Male -> piechartdata.copy(totalMale = piechartdata.totalMale + 1)
                 Gender.Female -> piechartdata.copy(totalFemale = piechartdata.totalFemale + 1)
                 Gender.Diverse -> piechartdata.copy(totalDiverse = piechartdata.totalDiverse + 1)
-                else -> piechartdata
+                Gender.Unselected -> piechartdata.copy(totalUnselected = piechartdata.totalUnselected + 1)
             }
-        }.let { (totalMale, totalFemale, totalDiverse) ->
+        }.let { (totalMale, totalFemale, totalDiverse, totalUnselected) ->
             observableListOf(
                 PieChart.Data("Male", totalMale.toDouble()),
                 PieChart.Data("Female", totalFemale.toDouble()),
-                PieChart.Data("Diverse", totalDiverse.toDouble())
+                PieChart.Data("Diverse", totalDiverse.toDouble()),
+                PieChart.Data("Unknown Age", totalUnselected.toDouble())
             )
         }
 
     fun createAgePie(userList: List<UserData>): ObservableList<PieChart.Data> =
-        userList.fold(IntArray(7)) { piechartdata, userdata ->
-            val ageGroup = (userdata.age / 10).coerceAtMost(6)
-            ++piechartdata[ageGroup]
+        userList.fold(IntArray(8)) { piechartdata, userdata ->
+            if (userdata.age == 0) {
+                ++piechartdata[7]
+            } else {
+                val ageGroup = (userdata.age / 10).coerceAtMost(7)
+                ++piechartdata[ageGroup]
+            }
             piechartdata
         }.mapIndexed { ageGroup, total ->
-            val description = if (ageGroup == 6) "60+" else "${ageGroup * 10}-${ageGroup * 10 + 9}"
+            val description =
+                when (ageGroup) {
+                    6 -> "60+"
+                    7 -> "unknown Age"
+                    else -> "${ageGroup * 10}-${ageGroup * 10 + 9}"
+                }
             PieChart.Data(description, total.toDouble())
         }.asObservable()
 
@@ -72,27 +89,14 @@ class MetaDataController : Controller() {
         ).asObservable()
     }
 
-    fun createGenderPieCodeCharts(): ObservableList<PieChart.Data> = listOf(
-        PieChart.Data("Male", query.codeChartsGenderCount(Gender.Male).toDouble()),
-        PieChart.Data("Female", query.codeChartsGenderCount(Gender.Female).toDouble()),
-        PieChart.Data("Diverse", query.codeChartsGenderCount(Gender.Diverse).toDouble())
-    ).asObservable()
-
     /**
      * query database for metadata specific to CODE CHARTS tool
      */
-    fun queryPictureDistributionCodeCharts(): ObservableList<PieChart.Data> = observableListOf(
-        pictures.map {
-            PieChart.Data(it, query.queryCodeChartsImage(it).toDouble())
-        }.asObservable().toList()
-    )
-
-    /**
-     * Query database for metadata specific to ZOOM MAPS Tool
-     */
-    fun queryPictureDistributionZoom(): ObservableList<PieChart.Data> = observableListOf(
-        pictures.map {
-            PieChart.Data(it, query.queryZoomMapsImage(it).toDouble())
+    fun queryPictureDistribution(pictures: List<Pair<String, Int>>): ObservableList<PieChart.Data> = observableListOf(
+        pictures.filter { (_, count) ->
+            count != 0
+        }.map { (path, count) ->
+            PieChart.Data(path, count.toDouble())
         }.asObservable().toList()
     )
 }

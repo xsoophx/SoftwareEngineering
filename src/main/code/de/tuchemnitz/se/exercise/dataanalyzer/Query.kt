@@ -41,7 +41,7 @@ class Query : Controller() {
 
     fun queryZoomMapsImage(imagePath: String): Int {
         return zoomMapsDataCollection.find(
-            CodeChartsData::codeChartsConfig / CodeChartsConfig::pictures / PictureData::imagePath
+            ZoomMapsData::imagePath
                 eq imagePath
         ).count()
     }
