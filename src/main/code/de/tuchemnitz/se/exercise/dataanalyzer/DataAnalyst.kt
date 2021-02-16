@@ -28,7 +28,7 @@ class DataAnalyst : Controller() {
      * Creates the mapped filter for the database (queryModel is mapped to databaseQueryModel)
      * @receiver holds the requested input of the user
      */
-    private fun DataClientQuery.createQueryFilter() = Query.QueryFilter(
+    private fun DataClientQuery.createQueryFilter() = QueryFilter(
         userDataFilter = userDataFilter(),
         codeChartsDataFilter = codeChartsDataFilter(),
         zoomMapsFilter = zoomMapsDataFilter()

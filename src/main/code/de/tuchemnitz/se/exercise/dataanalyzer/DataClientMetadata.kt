@@ -65,4 +65,7 @@ class DataClientMetadataToolUse(
     val zoomMapsTool = zoomMapsTool
 }
 
-class DataClientPictureDistribution(val imagePath: String, val count: Int)
+data class DataClientPictureDistribution(
+    val imagePath: String,
+    val count: Int
+)

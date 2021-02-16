@@ -1,17 +1,12 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
+import de.tuchemnitz.se.exercise.persist.data.Gender
 import javafx.scene.input.KeyCode
 
 data class Filter<T>(
     val taken: Boolean,
     val value: T
 )
-
-enum class Gender {
-    Male,
-    Female,
-    Other
-}
 
 enum class ActiveTools {
     CodeCharts,

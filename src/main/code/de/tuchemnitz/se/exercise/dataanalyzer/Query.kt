@@ -4,6 +4,7 @@ import de.tuchemnitz.se.exercise.persist.IPersist
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.PictureData
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
+import de.tuchemnitz.se.exercise.persist.data.Gender
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
 import de.tuchemnitz.se.exercise.persist.data.collections.CodeChartsDataCollection
@@ -19,26 +20,43 @@ import tornadofx.Controller
 
 class Query : Controller() {
 
-    data class QueryFilter(
-        val userDataFilter: Filter<UserDataFilter>?,
-        val codeChartsDataFilter: Filter<CodeChartsDataFilter>?,
-        val zoomMapsFilter: Filter<ZoomMapsDataFilter>?,
-    )
-
     val userDataCollection: UserDataCollection by inject()
     val codeChartsDataCollection: CodeChartsDataCollection by inject()
-    private val zoomMapsDataCollection: ZoomMapsDataCollection by inject()
+    val zoomMapsDataCollection: ZoomMapsDataCollection by inject()
 
-    private val dummyUserDataFilter =
-        Filter<UserDataFilter>(
-            taken = false,
-            value = UserDataFilter(
-                firstName = Filter(taken = false, value = ""),
-                lastName = Filter(taken = false, value = ""),
-                age = Filter(taken = false, value = Age(minimumAge = 0, maximumAge = 0)),
-                gender = Filter(taken = false, value = Gender.Male)
-            )
-        )
+    fun codeChartsGenderCount(gender: Gender): Int {
+        return codeChartsDataCollection.countDocuments(CodeChartsData::currentUser / UserData::gender eq gender)
+    }
+
+    fun zoomMapsGenderCount(gender: Gender): Int {
+        return zoomMapsDataCollection.countDocuments(ZoomMapsData::currentUser / UserData::gender eq gender)
+    }
+
+    fun queryCodeChartsImage(imagePath: String): Int {
+        return codeChartsDataCollection.find(
+            CodeChartsData::codeChartsConfig / CodeChartsConfig::pictures / PictureData::imagePath
+                eq imagePath
+        ).count()
+    }
+
+    fun queryZoomMapsImage(imagePath: String): Int {
+        return zoomMapsDataCollection.find(
+            CodeChartsData::codeChartsConfig / CodeChartsConfig::pictures / PictureData::imagePath
+                eq imagePath
+        ).count()
+    }
+
+    fun codeChartsUsers(): List<UserData> {
+        return codeChartsDataCollection.find().map {
+            it.currentUser
+        }.toList()
+    }
+
+    fun zoomMapsUsers(): List<UserData> {
+        return zoomMapsDataCollection.find().map {
+            it.currentUser
+        }.toList()
+    }
 
     fun queryAllElementsSeparately(queryFilter: QueryFilter): List<IPersist> {
         val list = mutableListOf<IPersist>()
@@ -106,6 +124,10 @@ class Query : Controller() {
                     CodeChartsData::currentUser / UserData::age lt
                         (userDataFilter.age.value.maximumAge ?: 0)
                     ).takeIf { userDataFilter.age.taken },
+                (
+                    CodeChartsData::currentUser / UserData::gender eq
+                        userDataFilter.gender.value
+                    ).takeIf { userDataFilter.firstName.taken }
             )
         ).toList()
     }
@@ -123,17 +145,21 @@ class Query : Controller() {
                         userDataFilter.firstName.value
                     ).takeIf { userDataFilter.firstName.taken },
                 (
-                    CodeChartsData::currentUser / UserData::lastName eq
+                    ZoomMapsData::currentUser / UserData::lastName eq
                         userDataFilter.lastName.value
                     ).takeIf { userDataFilter.firstName.taken },
                 (
-                    CodeChartsData::currentUser / UserData::age gte
+                    ZoomMapsData::currentUser / UserData::age gte
                         (userDataFilter.age.value!!.minimumAge ?: 0)
                     ).takeIf { userDataFilter.age.taken },
                 (
-                    CodeChartsData::currentUser / UserData::age lt
+                    ZoomMapsData::currentUser / UserData::age lt
                         (userDataFilter.age.value.maximumAge ?: 0)
                     ).takeIf { userDataFilter.age.taken },
+
+                (ZoomMapsData::currentUser / UserData::gender eq
+                    (userDataFilter.gender.value)
+                    ).takeIf { userDataFilter.gender.taken },
             )
         ).toList()
     }

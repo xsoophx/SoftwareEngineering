@@ -5,12 +5,12 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView
 import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import de.tuchemnitz.se.exercise.dataanalyzer.DataAnalyst
 import de.tuchemnitz.se.exercise.dataanalyzer.DataClientQueryModel
-import de.tuchemnitz.se.exercise.dataanalyzer.DataProcessorHeatMap
-import de.tuchemnitz.se.exercise.dataanalyzer.Gender
-import de.tuchemnitz.se.exercise.persist.IPersist
+import de.tuchemnitz.se.exercise.dataanalyzer.dataprocessors.DataProcessorHeatMap
+import de.tuchemnitz.se.exercise.dataanalyzer.MetaDataController
+import de.tuchemnitz.se.exercise.dataanalyzer.dataprocessors.DataProcessorMetaData
+import de.tuchemnitz.se.exercise.persist.data.Gender
 import javafx.geometry.Insets
 import javafx.geometry.Orientation
-import javafx.geometry.Point2D
 import javafx.geometry.Pos
 import javafx.scene.control.ButtonBar
 import javafx.scene.paint.Color
@@ -60,8 +60,6 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
      */
     private val dataClientQueryModel = DataClientQueryModel()
     private val dataAnalyst: DataAnalyst by inject()
-    lateinit var data: List<IPersist>
-    lateinit var processedData: List<Point2D>
 
     init {
         with(contentBox) {
@@ -178,49 +176,31 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                         button("START", ButtonBar.ButtonData.OK_DONE) {
                             action {
                                 dataClientQueryModel.commit()
-                                data = dataAnalyst.getData(dataClientQueryModel.item)
-
-                                // if neither zoom maps nor code charts was selected
-                                processedData = DataProcessorHeatMap().process(data)
-
-                                // if zoom maps or code charts was selected: override processedData value
-                                when (dataClientQueryModel.codeChartsActivated.value) {
-                                    true -> processedData = DataProcessorHeatMap().processCodeCharts(data)
-                                }
-                                when (dataClientQueryModel.zoomMapsActivated.value) {
-                                    true -> processedData = DataProcessorHeatMap().processZoomMaps(data)
-                                }
-
-                                println(data)
-                                println(processedData)
+                                val data = dataAnalyst.getData(dataClientQueryModel.item)
+                                val processedData = DataProcessorHeatMap().process(data)
 
                                 replaceWith(
                                     find<DataClientHeatMapView>(
-                                        "dataList" to processedData,
-                                        "imagePath" to dataClientQueryModel.imagePath.value
+                                        "dataList" to processedData
                                     )
                                 )
+                            }
+                        }
+                        button("View Metadata") {
+                            action {
+                                dataClientQueryModel.commit()
+                                val data = dataAnalyst.getData(dataClientQueryModel.item)
+                                val processedData = DataProcessorMetaData().process(data)
+
+                                find<MetaDataController>(
+                                    "dataList" to processedData
+                                )
+                                replaceWith(DataClientMetaDataView::class)
                             }
                         }
                     }
                     style {
                         fontWeight = FontWeight.EXTRA_BOLD
-                    }
-                }
-
-                hbox {
-                    text("View Metadata") {
-                        fill = Color.BLACK
-                        font = Font(18.0)
-                        textAlignment = TextAlignment.CENTER
-                        spacing = 20.0
-                    }
-                    button("Meta") {
-                        font = Font(15.0)
-
-                        action {
-                            replaceWith<DataClientMetaDataView>()
-                        }
                     }
                 }
             }

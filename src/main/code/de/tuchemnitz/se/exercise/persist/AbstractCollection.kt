@@ -66,4 +66,12 @@ abstract class AbstractCollection<T : IPersist>(
     open fun deleteMany(filter: Bson = BsonDocument()) {
         collection.deleteMany(filter)
     }
+
+    /**
+     * Counts elements of a collection with a certain filter.
+     * @param filter of type Bson, which is used to set filters for search
+     */
+    open fun countDocuments(filter: Bson): Int {
+        return collection.countDocuments(filter).toInt()
+    }
 }

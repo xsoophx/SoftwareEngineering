@@ -1,5 +1,6 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
+import de.tuchemnitz.se.exercise.persist.data.Gender
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleObjectProperty

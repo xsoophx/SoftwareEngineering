@@ -8,6 +8,7 @@ import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.PictureData
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
+import de.tuchemnitz.se.exercise.persist.data.Gender
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -36,7 +37,7 @@ class QueryIntegrationTest : Controller() {
             imagePath = Filter(taken = true, value = "abc")
         )
 
-        private val filter = Query.QueryFilter(
+        private val filter = QueryFilter(
             userDataFilter = Filter(taken = true, value = userDataFilter),
             codeChartsDataFilter = Filter(
                 taken = true,
@@ -44,12 +45,12 @@ class QueryIntegrationTest : Controller() {
             ),
             zoomMapsFilter = null
         )
-        private val onlyUserDataFilter = Query.QueryFilter(
+        private val onlyUserDataFilter = QueryFilter(
             userDataFilter = Filter(taken = true, value = userDataFilter),
             codeChartsDataFilter = null,
             zoomMapsFilter = null
         )
-        private val onlyCodeChartsDataFilter = Query.QueryFilter(
+        private val onlyCodeChartsDataFilter = QueryFilter(
             userDataFilter = null,
             codeChartsDataFilter = Filter(
                 taken = true,
