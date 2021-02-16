@@ -75,6 +75,7 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
     )
 
     var currentUser = UserData(default = true)
+    private fun userSavable() = userDataCollection.findOneById(currentUser._id) == null
 
     companion object {
         val logger: Logger = LoggerFactory.getLogger(ConfigManager::class.java)
@@ -145,13 +146,16 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
             is ZoomMapsConfig -> configCollections.zoomMapsConfigCollection.saveOne(config)
             is EyeTrackingConfig -> configCollections.eyeTrackingConfigCollection.saveOne(config)
             is CodeChartsData -> dataCollections.codeChartsDataCollection.saveOne(config).also {
-                (dataCollections.userDataCollection.saveOne(config.currentUser)).takeIf { !currentUser.default }
+                if (!currentUser.default && userSavable())
+                    dataCollections.userDataCollection.saveOne(config.currentUser)
             }
             is ZoomMapsData -> dataCollections.zoomMapsDataCollection.saveOne(config).also {
-                dataCollections.userDataCollection.saveOne(config.currentUser).takeIf { !currentUser.default }
+                if (!currentUser.default && userSavable())
+                    dataCollections.userDataCollection.saveOne(config.currentUser)
             }
             is EyeTrackingData -> dataCollections.eyeTrackingDataCollection.saveOne(config).also {
-                dataCollections.userDataCollection.saveOne(config.currentUser).takeIf { !currentUser.default }
+                if (!currentUser.default && userSavable())
+                    dataCollections.userDataCollection.saveOne(config.currentUser)
             }
             else -> logger.error("Couldn't fetch this Config type.")
         }

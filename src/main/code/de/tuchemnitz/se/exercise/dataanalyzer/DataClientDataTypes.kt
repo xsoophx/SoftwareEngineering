@@ -13,9 +13,9 @@ import tornadofx.setValue
  * Holds the information of the query created by the user.
  */
 class DataClientQuery(
-    codeChartsActivated: Boolean = false,
-    zoomMapsActivated: Boolean = false,
-    gender: Gender? = null,
+    codeChartsActivated: Boolean = true,
+    zoomMapsActivated: Boolean = true,
+    gender: Gender = Gender.Unselected,
     minimumAge: Int = 0,
     maximumAge: Int = 120,
     imagePath: String = ""

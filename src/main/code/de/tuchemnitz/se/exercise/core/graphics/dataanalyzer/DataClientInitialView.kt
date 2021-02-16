@@ -192,10 +192,12 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                                 val data = dataAnalyst.getData(dataClientQueryModel.item)
                                 val processedData = DataProcessorMetaData().process(data)
 
-                                find<MetaDataController>(
-                                    "dataList" to processedData
+                                replaceWith(
+                                    find<DataClientMetaDataView>(
+                                        "dataList" to processedData
+                                    )
                                 )
-                                replaceWith(DataClientMetaDataView::class)
+
                             }
                         }
                     }

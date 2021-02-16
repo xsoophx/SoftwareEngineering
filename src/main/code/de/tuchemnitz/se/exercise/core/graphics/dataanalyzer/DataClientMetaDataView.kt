@@ -3,7 +3,9 @@ package de.tuchemnitz.se.exercise.core.graphics.dataanalyzer
 import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import de.tuchemnitz.se.exercise.dataanalyzer.DataClientMetadataZoomMaps
 import de.tuchemnitz.se.exercise.dataanalyzer.MetaDataController
+import de.tuchemnitz.se.exercise.persist.data.UserData
 import javafx.collections.ObservableList
+import javafx.geometry.Point2D
 import javafx.scene.chart.PieChart
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
@@ -23,6 +25,7 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
      * query database for metadata, general and split by tool use
      */
     private val metaDataController: MetaDataController by inject()
+    private val dataList: List<UserData> by param()
 
     init {
         with(contentBox) {
@@ -44,8 +47,8 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
             }
 
             val dataBox = hbox {
-                piechart("Distribution By Gender: ", metaDataController.createGenderPie(metaDataController.dataList))
-                piechart("Distribution By Age:", metaDataController.createAgePie(metaDataController.dataList))
+                piechart("Distribution By Gender: ", metaDataController.createGenderPie(dataList))
+                piechart("Distribution By Age:", metaDataController.createAgePie(dataList))
                 piechart("Tool Use Distribution", metaDataController.createToolPie())
             }
 

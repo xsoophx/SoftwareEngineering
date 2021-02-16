@@ -13,8 +13,6 @@ class MetaDataController : Controller() {
     /**
      * Contains all Users which match the selected Filter
      */
-    val dataList: List<UserData> by param()
-
     private val query: Query by inject()
     val totalCodeChartsUsers = query.codeChartsUsers()
     val totalZoomMapsUsers = query.zoomMapsUsers()
