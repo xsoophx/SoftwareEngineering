@@ -70,16 +70,16 @@ data class StringCharacters(
  */
 @Serializable
 data class Interval2D(
-    val xMin: Double,
-    val xMax: Double,
-    val yMin: Double,
-    val yMax: Double
+    var xMin: Double,
+    var xMax: Double,
+    var yMin: Double,
+    var yMax: Double
 )
 
 @Serializable
 data class ClickCounter(
-    val clickList: MutableList<Int>,
-    val recursionCounter: Int = 0,
+    var clickList: MutableList<Int>,
+    var recursionCounter: Int = 0,
     @Contextual
     var pictureImageView: ImageView,
     @Contextual

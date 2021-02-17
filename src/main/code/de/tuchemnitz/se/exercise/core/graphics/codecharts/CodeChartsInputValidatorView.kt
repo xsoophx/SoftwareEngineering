@@ -68,15 +68,30 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
         val listPosition = codeChartsStringHandler.getStrings().indexOf(userInput)
         val xFieldNumber = listPosition % (codeChartsData.gridDimension.x)
         val yFieldNumber = (listPosition / (codeChartsData.gridDimension.y).toInt())
-        val cellWidth = codeChartsData.scaledImageSize.x / codeChartsData.gridDimension.x
-        val cellHeight = codeChartsData.scaledImageSize.y / codeChartsData.gridDimension.y
+        var cellWidth = 0.0
+        var cellHeight = 0.0
+
+        if (codeChartsClickCounter.recursionCounter == 0) {
+            cellWidth = codeChartsData.scaledImageSize.x / codeChartsData.gridDimension.x
+            cellHeight = codeChartsData.scaledImageSize.y / codeChartsData.gridDimension.y
+        }
+        else {
+            cellWidth = codeChartsClickCounter.viewPort.width / codeChartsData.gridDimension.x
+            cellHeight = codeChartsClickCounter.viewPort.height / codeChartsData.gridDimension.y
+        }
         val xMinPos = xFieldNumber * cellWidth
         val yMinPos = yFieldNumber * cellHeight
         val xMaxPos = xMinPos + cellWidth
         val yMaxPos = yMinPos + cellHeight
 
         // interval will later be used for data analysis
-        val eyePos = Interval2D(xMin = xMinPos, xMax = xMaxPos, yMin = yMinPos, yMax = yMaxPos)
+        var eyePos = Interval2D(xMin = xMinPos, xMax = xMaxPos, yMin = yMinPos, yMax = yMaxPos)
+        if (codeChartsClickCounter.recursionCounter > 0) {
+            eyePos.xMin += codeChartsClickCounter.viewPort.minX
+            eyePos.xMax += codeChartsClickCounter.viewPort.minX
+            eyePos.yMin += codeChartsClickCounter.viewPort.minY
+            eyePos.yMax += codeChartsClickCounter.viewPort.minY
+        }
         codeChartsData.eyePos = eyePos
 
         logger.info("${codeChartsData.eyePos.xMin}, ${codeChartsData.eyePos.xMax}, ${codeChartsData.eyePos.yMin}, ${codeChartsData.eyePos.yMax}")
@@ -99,18 +114,20 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
     private fun validateInput() {
         val userInput = inputString.text
         if (codeChartsStringHandler.getStrings().contains(userInput)) {
+
             calculateEyePosition(userInput)
             calculateRecursionCounter(userInput)
             CodeChartsConfigMapper().saveCodeChartsDatabaseConfig(codeChartsData)
             replaceWith(CodeChartsThankfulView::class)
             inputString.text = ""
 
-            if (codeChartsClickCounter.clickList.contains(codeChartsClickCounter.recurseAt)) {
+            if (codeChartsClickCounter.clickList.contains(codeChartsClickCounter.recurseAt) && codeChartsData.recursionDepth > codeChartsClickCounter.recursionCounter && codeChartsData.relative == true) {
                 print(codeChartsData.eyePos)
                 codeChartsClickCounter.viewPort = intervalToRectangle(codeChartsData.eyePos)
                 codeChartsClickCounter.pictureImageView.replaceViewPort(codeChartsClickCounter.viewPort)
-                //TODO:reset clickList
-                //TODO: increase recursionDepth
+                codeChartsClickCounter.clickList = MutableList((codeChartsData.gridDimension.x * codeChartsData.gridDimension.y).toInt()) { 0 }
+                logger.info("$codeChartsClickCounter.clickList")
+                ++codeChartsClickCounter.recursionCounter
                 //TODO: adapt scaledImageSize
             }
         } else {
@@ -129,6 +146,7 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
             zoomedView.height * factorY
         )
         viewport = newViewPortScaled
+
     }
     private fun intervalToRectangle(interval: Interval2D): Rectangle2D {
         var rect = Rectangle2D(

@@ -37,7 +37,9 @@ object CodeChartsTool {
         eyePos = Interval2D(0.0, 0.0, 0.0, 0.0),
         originalImageSize = Dimension(0.0, 0.0),
         scaledImageSize = Dimension(0.0, 0.0),
-        screenSize = Dimension(0.0, 0.0)
+        screenSize = Dimension(0.0, 0.0),
+        relative = true,
+        recursionDepth = 2
     )
 
     /**
