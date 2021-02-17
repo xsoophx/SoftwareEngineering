@@ -63,19 +63,19 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
 
     /**
      * Calculates the grid cell the user looked at from the [userInput] given by the user.
+     * If the picture is already zoomed in it will use the viewport dimensions instead of the original scaled image dimensions
      */
     private fun calculateEyePosition(userInput: String) {
         val listPosition = codeChartsStringHandler.getStrings().indexOf(userInput)
         val xFieldNumber = listPosition % (codeChartsData.gridDimension.x)
         val yFieldNumber = (listPosition / (codeChartsData.gridDimension.y).toInt())
-        var cellWidth = 0.0
-        var cellHeight = 0.0
+        val cellWidth: Double
+        val cellHeight: Double
 
         if (codeChartsClickCounter.recursionCounter == 0) {
             cellWidth = codeChartsData.scaledImageSize.x / codeChartsData.gridDimension.x
             cellHeight = codeChartsData.scaledImageSize.y / codeChartsData.gridDimension.y
-        }
-        else {
+        } else {
             cellWidth = codeChartsClickCounter.viewPort.width / codeChartsData.gridDimension.x
             cellHeight = codeChartsClickCounter.viewPort.height / codeChartsData.gridDimension.y
         }
@@ -85,7 +85,7 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
         val yMaxPos = yMinPos + cellHeight
 
         // interval will later be used for data analysis
-        var eyePos = Interval2D(xMin = xMinPos, xMax = xMaxPos, yMin = yMinPos, yMax = yMaxPos)
+        val eyePos = Interval2D(xMin = xMinPos, xMax = xMaxPos, yMin = yMinPos, yMax = yMaxPos)
         if (codeChartsClickCounter.recursionCounter > 0) {
             eyePos.xMin += codeChartsClickCounter.viewPort.minX
             eyePos.xMax += codeChartsClickCounter.viewPort.minX
@@ -98,6 +98,9 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
         logger.info("${codeChartsData.scaledImageSize.x}, ${codeChartsData.scaledImageSize.y}")
     }
 
+    /**
+     * Adds one to the cell containing the  [userInput]
+     */
     private fun calculateRecursionCounter(userInput: String) {
         logger.info("$codeChartsClickCounter.clickList")
         val listPosition = codeChartsStringHandler.getStrings().indexOf(userInput)
@@ -110,6 +113,8 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
      * Replaces CodeChartsInputValidatorView with either CodeChartsThankfulView if the input is valid or
      * with the CodeChartsRetryView otherwise.
      * Saves input to database if it is valid.
+     * Checks whether the relative feature is active and if so it checks whether all conditions to zoom into the picture are met
+     * If so, the previous viewport will be replaced with the new one
      */
     private fun validateInput() {
         val userInput = inputString.text
@@ -125,10 +130,10 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
                 print(codeChartsData.eyePos)
                 codeChartsClickCounter.viewPort = intervalToRectangle(codeChartsData.eyePos)
                 codeChartsClickCounter.pictureImageView.replaceViewPort(codeChartsClickCounter.viewPort)
-                codeChartsClickCounter.clickList = MutableList((codeChartsData.gridDimension.x * codeChartsData.gridDimension.y).toInt()) { 0 }
+                codeChartsClickCounter.clickList =
+                    MutableList((codeChartsData.gridDimension.x * codeChartsData.gridDimension.y).toInt()) { 0 }
                 logger.info("$codeChartsClickCounter.clickList")
                 ++codeChartsClickCounter.recursionCounter
-                //TODO: adapt scaledImageSize
             }
         } else {
             replaceWith(CodeChartsRetryView::class)
@@ -136,26 +141,30 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
         }
     }
 
-    fun ImageView.replaceViewPort(zoomedView: Rectangle2D) {
+    /**
+     * replaces the previous viewport of the picture with [zoomedView]
+     */
+    private fun ImageView.replaceViewPort(zoomedView: Rectangle2D) {
         val factorX = image.width / codeChartsData.scaledImageSize.x
         val factorY = image.height / codeChartsData.scaledImageSize.y
-        var newViewPortScaled = Rectangle2D(
+        val newViewPortScaled = Rectangle2D(
             zoomedView.minX * factorX,
             zoomedView.minY * factorY,
             zoomedView.width * factorX,
             zoomedView.height * factorY
         )
         viewport = newViewPortScaled
-
     }
+
+    /**
+     * converts [interval] of type Interval2D to Rectangle2D
+     */
     private fun intervalToRectangle(interval: Interval2D): Rectangle2D {
-        var rect = Rectangle2D(
+        return Rectangle2D(
             interval.xMin,
             interval.yMin,
             interval.xMax - interval.xMin,
             interval.yMax - interval.yMin
         )
-        print(rect)
-        return rect
     }
 }
