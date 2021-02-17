@@ -1,5 +1,10 @@
 <h1>Software Engineering - Eye-Tracking-Tool</h1>
-<h2> What is this about:question: </h2>
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+![Lines of code](https://img.shields.io/tokei/lines/github.com/xsoophx/SoftwareEngineering)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/xsoophx/SoftwareEngineering/Build?color=%231dbf8e&label=Build)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/xsoophx/SoftwareEngineering/CI?label=CI)
+<h2>What is this about:question: </h2>
 This is an assignment project for Software Engineering class at TU-Chemnitz.
 
 ## Table of contents :book:

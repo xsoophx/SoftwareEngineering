@@ -3,6 +3,7 @@ package de.tuchemnitz.se.exercise.persist.data
 import de.tuchemnitz.se.exercise.codecharts.Dimension
 import de.tuchemnitz.se.exercise.codecharts.Interval2D
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import org.litote.kmongo.Id
 import org.litote.kmongo.newId
@@ -14,5 +15,6 @@ data class CodeChartsData(
     val originalImageSize: Dimension,
     val scaledImageSize: Dimension,
     val screenSize: Dimension,
-    val stringPosition: Interval2D
+    val stringPosition: Interval2D,
+    @Contextual val currentUser: UserData
 ) : IData
