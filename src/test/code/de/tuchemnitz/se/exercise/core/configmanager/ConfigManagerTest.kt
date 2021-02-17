@@ -83,6 +83,10 @@ class ConfigManagerTest {
             DummyData.codeChartsConfigCollection.saveOne(it)
         }
 
+        DummyData.zoomMapsData.forEach {
+            DummyData.zoomMapsDataCollection.saveOne(it)
+        }
+
         DummyData.zoomMapsConfigs().forEach {
             DummyData.zoomMapsConfigCollection.saveOne(it)
         }
@@ -92,6 +96,7 @@ class ConfigManagerTest {
     fun tearDown() {
         DummyData.codeChartsConfigCollection.deleteMany()
         DummyData.zoomMapsConfigCollection.deleteMany()
+        DummyData.zoomMapsDataCollection.deleteMany()
     }
 
     @Test

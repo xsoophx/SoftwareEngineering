@@ -16,6 +16,7 @@ import de.tuchemnitz.se.exercise.persist.data.Gender
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.data.VisionImpaired
 import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
+import de.tuchemnitz.se.exercise.persist.data.collections.ZoomMapsDataCollection
 import de.tuchemnitz.se.exercise.persist.now
 import javafx.geometry.Point2D
 import javafx.scene.input.KeyCode
@@ -33,6 +34,7 @@ object DummyData : Controller() {
     val configManager: ConfigManager by inject()
     val codeChartsConfigCollection: CodeChartsConfigCollection by inject()
     val zoomMapsConfigCollection: ZoomMapsConfigCollection by inject()
+    val zoomMapsDataCollection: ZoomMapsDataCollection by inject()
     private val baseTime = now()
 
     init {
@@ -138,6 +140,7 @@ object DummyData : Controller() {
         )
     )
 
+    @get: JvmStatic
     val zoomMapsData = setOf(
         ZoomMapsData(
             zoomSpeed = 2.0,

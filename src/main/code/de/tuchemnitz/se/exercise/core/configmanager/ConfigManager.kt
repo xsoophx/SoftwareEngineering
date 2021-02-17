@@ -89,9 +89,9 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
                 height = java.awt.Toolkit.getDefaultToolkit().screenSize.getHeight().toInt(),
                 selectionMenuEnabled = true,
                 activatedTool = null,
-                masterPath = "",
-                exportPath = "",
-                imagePath = ""
+                masterPath = "masterPath",
+                exportPath = "exportPath",
+                imagePath = "imagePath"
             )
 
         val dataClientConfig = DataClientConfig(
@@ -232,7 +232,7 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
 
             // TODO
             eyeTrackingConfig = EyeTrackingConfig(
-                pictures = listOf(Pair("", 1))
+                pictures = emptyList()
             ),
             bubbleViewConfig = BubbleViewConfig(
                 filter = setOf(

@@ -104,7 +104,8 @@ class CodeChartsConfigMapperTest : Controller() {
             it.copy(
                 _id = expectedData._id,
                 codeChartsConfig = it.codeChartsConfig.copy(_id = expectedConfig._id, savedAt = expectedConfig.savedAt),
-                currentUser = expectedData.currentUser
+                currentUser = expectedData.currentUser,
+                savedAt = expectedData.savedAt
 
             )
         }

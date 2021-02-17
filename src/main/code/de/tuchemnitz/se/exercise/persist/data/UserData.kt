@@ -1,5 +1,6 @@
 package de.tuchemnitz.se.exercise.persist.data
 
+import de.tuchemnitz.se.exercise.persist.now
 import kotlinx.serialization.Transient
 import org.litote.kmongo.Id
 import org.litote.kmongo.newId
@@ -19,7 +20,7 @@ enum class VisionImpaired {
 }
 
 data class UserData(
-    @Transient override val savedAt: Instant = Instant.now(),
+    @Transient override val savedAt: Instant = now(),
     override val _id: Id<UserData> = newId(),
     val firstName: String = "default",
     val lastName: String = "default",

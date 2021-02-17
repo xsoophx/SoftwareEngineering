@@ -5,11 +5,13 @@ import assertk.assertions.isEqualTo
 import de.tuchemnitz.se.exercise.DummyData
 import de.tuchemnitz.se.exercise.TEST_PATH_CONFIG_FILE
 import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
+import javafx.scene.input.KeyCode
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import java.awt.Toolkit
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -23,8 +25,8 @@ class JsonConverterTest {
                 selectionMenuEnabled = true,
                 activatedTool = null,
                 fullscreen = true,
-                width = 1920,
-                height = 1080,
+                width = Toolkit.getDefaultToolkit().screenSize.width,
+                height = Toolkit.getDefaultToolkit().screenSize.height,
                 exportPath = "exportPath",
                 masterPath = "masterPath",
                 imagePath = "imagePath"
@@ -36,7 +38,17 @@ class JsonConverterTest {
                     )
                 )
             ),
-            zoomMapsConfig = null,
+            zoomMapsConfig = ConfigFileZoomMaps(
+                keyBindings = KeyBindings(
+                    up = KeyCode.C,
+                    down = KeyCode.C,
+                    left = KeyCode.C,
+                    right = KeyCode.C,
+                    inKey = KeyCode.C,
+                    out = KeyCode.C
+                ),
+                filter = setOf(ZoomInformation(name = "", zoomSpeed = 1.0))
+            ),
             codeChartsConfig = DummyData.codeChartsConfigs.first(),
             eyeTrackingConfig = EyeTrackingConfig(pictures = emptyList()),
             dataClientConfig = DataClientConfig(

@@ -2,6 +2,7 @@ package de.tuchemnitz.se.exercise.persist.data
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import de.tuchemnitz.se.exercise.persist.Point2DDeserializer
+import de.tuchemnitz.se.exercise.persist.now
 import javafx.geometry.Point2D
 import javafx.scene.input.KeyCode
 import kotlinx.serialization.Contextual
@@ -11,7 +12,7 @@ import org.litote.kmongo.newId
 import java.time.Instant
 
 data class ZoomMapsData(
-    @Transient override val savedAt: Instant = Instant.now(),
+    @Transient override val savedAt: Instant = now(),
     @Transient override val _id: Id<ZoomMapsData> = newId(),
     val zoomSpeed: Double,
     val zoomKey: KeyCode,
