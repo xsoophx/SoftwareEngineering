@@ -115,12 +115,16 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
      * @param path specifies the path where the file is written, default is the configFilePath
      * @throws IOException when writing of file goes wrong.
      */
-    fun writeFile(path: Path = Path.of(configFilePath)) {
+    fun writeFileNoThrow(path: Path = Path.of(configFilePath)) {
         try {
-            Files.writeString(path, configFile(), StandardCharsets.UTF_8)
+            writeFile(path)
         } catch (e: IOException) {
             logger.error("Could not write file.", e)
         }
+    }
+
+    fun writeFile(path: Path = Path.of(configFilePath)) {
+        Files.writeString(path, configFile(), StandardCharsets.UTF_8)
     }
 
     /**

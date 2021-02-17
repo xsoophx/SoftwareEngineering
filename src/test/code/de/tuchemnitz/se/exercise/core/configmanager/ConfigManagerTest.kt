@@ -48,7 +48,7 @@ class ConfigManagerTest {
         val testPath = Path.of("bull/shit.txt")
 
         assertDoesNotThrow {
-            DummyData.configManager.writeFile(testPath)
+            DummyData.configManager.writeFileNoThrow(testPath)
         }
     }
 

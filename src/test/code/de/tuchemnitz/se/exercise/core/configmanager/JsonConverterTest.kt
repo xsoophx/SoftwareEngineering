@@ -71,18 +71,18 @@ class JsonConverterTest {
     @Test
     fun `encoding valid config file works`() = try {
         val content = assertDoesNotThrow {
-            configManager.writeFile()
+            configManager.writeFileNoThrow()
             configManager.readFile()
         }
         assertThat(Json { prettyPrint = true }.encodeToString(ConfigFile.serializer(), configFile)).isEqualTo(content)
     } finally {
-       // Files.deleteIfExists(Path.of(TEST_PATH_CONFIG_FILE))
-        configManager.writeFile(Paths.get(TEST_PATH_CONFIG_FILE))
+        Files.deleteIfExists(Path.of(TEST_PATH_CONFIG_FILE))
+        configManager.writeFileNoThrow(Paths.get(TEST_PATH_CONFIG_FILE))
     }
 
     @Test
     fun `decoding valid config file works`() {
-        configManager.writeFile(Path.of(TEST_PATH_CONFIG_FILE))
+        configManager.writeFileNoThrow(Path.of(TEST_PATH_CONFIG_FILE))
         val expected = configFile
         val actual = configManager.decodeConfig()?.copy(
             codeChartsConfig = configFile.codeChartsConfig,
