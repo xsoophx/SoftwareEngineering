@@ -26,5 +26,6 @@ data class UserData(
     val lastName: String = "default",
     val age: Int = 0,
     val gender: Gender = Gender.Unselected,
-    val visionImpaired: VisionImpaired = VisionImpaired.Unselected
+    val visionImpaired: VisionImpaired = VisionImpaired.Unselected,
+    val default: Boolean
 ) : IData

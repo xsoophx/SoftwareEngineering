@@ -49,14 +49,15 @@ class InstantiationTest : Controller() {
             lastName = "user",
             age = 25,
             gender = Gender.Female,
-            visionImpaired = VisionImpaired.No
+            visionImpaired = VisionImpaired.No,
+            default = false
         ),
         ZoomMapsData(
             zoomSpeed = 1.0,
             zoomKey = KeyCode.K,
             zoomPosition = Point2D(1.0, 1.0),
             currentUser = DummyData.userData.first(),
-            image = "aPath"
+            imagePath = "aPath"
         )
     )
 

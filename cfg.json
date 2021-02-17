@@ -1,0 +1,77 @@
+{
+    "general": {
+        "fullscreen": true,
+        "width": 1680,
+        "height": 1050,
+        "selectionMenuEnabled": true,
+        "activatedTool": null,
+        "masterPath": "masterPath",
+        "exportPath": "exportPath",
+        "imagePath": "imagePath"
+    },
+    "bubbleView": {
+        "pictures": [
+            {
+                "name": "",
+                "filter": {
+                    "gradient": 1,
+                    "type": "gaussianBlur"
+                }
+            }
+        ]
+    },
+    "zoomMaps": {
+        "keyBindings": {
+            "up": "C",
+            "down": "C",
+            "left": "C",
+            "right": "C",
+            "in": "C",
+            "out": "C"
+        },
+        "pictures": [
+            {
+                "name": "/Chameleon.jpg",
+                "zoomSpeed": 1.0
+            }
+        ]
+    },
+    "codeCharts": {
+        "matrixViewTime": 5,
+        "minViewsToSubdivide": 0,
+        "ordered": true,
+        "stringCharacters": {
+            "upperCase": true,
+            "lowerCase": true,
+            "numbers": true
+        },
+        "pictures": [
+            {
+                "name": "/Chameleon.jpg",
+                "grid": {
+                    "width": 10,
+                    "height": 10
+                },
+                "pictureViewTime": 5,
+                "relative": false,
+                "maxRecursionDepth": 0
+            }
+        ]
+    },
+    "eyeTracking": {
+        "pictures": [
+        ]
+    },
+    "dataClient": {
+        "colorSampleBoard": [
+            {
+                "r": 1,
+                "g": 2,
+                "b": 3
+            }
+        ]
+    },
+    "database": {
+        "dataBasePath": "databasePath"
+    }
+}

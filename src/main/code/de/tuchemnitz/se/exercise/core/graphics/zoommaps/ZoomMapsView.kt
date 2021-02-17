@@ -128,8 +128,8 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
                                 zoomSpeed = zoomSpeed,
                                 zoomKey = zoomKey,
                                 zoomPosition = absolutePosition,
-                                currentUser = configManager.currentUser,
-                                image = IMAGE_PATH
+                                imagePath = IMAGE_PATH,
+                                currentUser = configManager.currentUser
                             )
                         )
                     zoomPosition = mouseLocation

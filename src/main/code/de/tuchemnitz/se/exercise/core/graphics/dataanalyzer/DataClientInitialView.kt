@@ -5,9 +5,10 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView
 import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import de.tuchemnitz.se.exercise.dataanalyzer.DataAnalyst
 import de.tuchemnitz.se.exercise.dataanalyzer.DataClientQueryModel
-import de.tuchemnitz.se.exercise.dataanalyzer.DataProcessorHeatMap
-import de.tuchemnitz.se.exercise.dataanalyzer.Gender
-import de.tuchemnitz.se.exercise.dataanalyzer.Method
+import de.tuchemnitz.se.exercise.dataanalyzer.dataprocessors.DataProcessorHeatMap
+import de.tuchemnitz.se.exercise.dataanalyzer.MetaDataController
+import de.tuchemnitz.se.exercise.dataanalyzer.dataprocessors.DataProcessorMetaData
+import de.tuchemnitz.se.exercise.persist.data.Gender
 import javafx.geometry.Insets
 import javafx.geometry.Orientation
 import javafx.geometry.Pos
@@ -45,10 +46,14 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
         const val minimumAge = "DataClientInitialView_minimumAge"
         const val gender = "DataClientInitialView_gender"
         const val add = "DataClientInitialView_add"
-        const val method = "DataClientInitialView_method"
         const val codeCharts = "DataClientInitialView_codeCharts"
         const val zoomMaps = "DataClientInitialView_zoomMaps"
+        const val imagePath = "DataClientInitialView_imagePath"
     }
+
+    /**
+     * Variables to allow the user to choose the image on which the data was collected
+     */
 
     /** @param dataClientQueryModel is to pass information to (entered by the user)
      * @param dataAnalyst analyzes data and initializes query object
@@ -99,24 +104,6 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                     }
 
                     fieldset(
-                        "Diagram Type",
-                        FontAwesomeIconView(FontAwesomeIcon.DATABASE),
-                        Orientation.HORIZONTAL
-                    ) {
-                        spacing = 20.0
-                        paddingAll = 20.0
-
-                        field("Method:") {
-                            combobox<Method>(
-                                property = dataClientQueryModel.method,
-                                values = Method.values().toList()
-                            ) {
-                                id = Ids.method
-                            }
-                        }
-                    }
-
-                    fieldset(
                         "Age of the User",
                         FontAwesomeIconView(FontAwesomeIcon.USER),
                         Orientation.HORIZONTAL
@@ -158,6 +145,29 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                         }
                     }
 
+                    // TODO select image!!!
+
+                    fieldset(
+                        "Image Path",
+                        FontAwesomeIconView(FontAwesomeIcon.FOLDER),
+                        Orientation.HORIZONTAL
+                    ) {
+                        spacing = 20.0
+                        paddingAll = 20.0
+                        field("Image Path:") {
+                            combobox<String>(
+                                property = dataClientQueryModel.imagePath,
+                                values = listOf(
+                                    "Chameleon.jpg",
+                                    "Pinguin.jpg",
+                                    "kitten.jpg"
+                                )
+                            ) {
+                                id = Ids.imagePath
+                            }
+                        }
+                    }
+
                     /**
                      * Submit filter params and start rendering data
                      * Use injected @param dataAnalyst to get matching data from the db.
@@ -167,19 +177,38 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                             action {
                                 dataClientQueryModel.commit()
                                 val data = dataAnalyst.getData(dataClientQueryModel.item)
-                                val zoomMapsData = DataProcessorHeatMap().process(data)
-                                replaceWith(find<DataClientHeatMapView>("zoomMapsDataList" to zoomMapsData))
+                                val processedData = DataProcessorHeatMap().process(data)
+
+                                replaceWith(
+                                    find<DataClientHeatMapView>(
+                                        "dataList" to processedData
+                                    )
+                                )
                             }
-                            style {
-                                fontWeight = FontWeight.EXTRA_BOLD
+                        }
+                        button("View Metadata") {
+                            action {
+                                dataClientQueryModel.commit()
+                                val data = dataAnalyst.getData(dataClientQueryModel.item)
+                                val processedData = DataProcessorMetaData().process(data)
+
+                                replaceWith(
+                                    find<DataClientMetaDataView>(
+                                        "dataList" to processedData
+                                    )
+                                )
+
                             }
                         }
                     }
+                    style {
+                        fontWeight = FontWeight.EXTRA_BOLD
+                    }
                 }
-                vboxConstraints {
-                    margin = Insets(50.0)
-                    paddingAll = 5.0
-                }
+            }
+            vboxConstraints {
+                margin = Insets(50.0)
+                paddingAll = 5.0
             }
         }
     }
