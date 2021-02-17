@@ -10,6 +10,6 @@ import java.time.Instant
 @Serializable
 data class EyeTrackingConfig(
     @Transient override val _id: Id<EyeTrackingConfig> = newId(),
-    val dummyVal: String,
-    @Transient override val savedAt: Instant = Instant.now()
+    @Transient override val savedAt: Instant = Instant.now(),
+    val pictures: List<Pair<String, Int>>
 ) : IConfig

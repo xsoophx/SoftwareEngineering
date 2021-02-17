@@ -57,7 +57,6 @@ class Query : Controller() {
         return codeChartsConfigCollection.find(
             and(
                 (CodeChartsConfig::pictures / PictureData::pictureViewTime eq filter.pictureViewTime.value).takeIf { filter.pictureViewTime.taken },
-                (CodeChartsConfig::pictures / PictureData::matrixViewTime eq filter.matrixViewTime.value).takeIf { filter.matrixViewTime.taken }
             )
         ).toList()
     }

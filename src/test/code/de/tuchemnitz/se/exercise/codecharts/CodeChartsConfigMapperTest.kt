@@ -72,14 +72,14 @@ class CodeChartsConfigMapperTest : Controller() {
             pictures = listOf(
                 PictureData(
                     imagePath = "",
-                    matrixViewTime = 1,
                     grid = Grid(1, 2),
                     pictureViewTime = 2,
-                    ordered = true,
                     relative = false,
                     maxRecursionDepth = 4
                 )
-            )
+            ),
+            matrixViewTime = 1,
+            ordered = true
         )
 
         val expectedData = CodeChartsData(

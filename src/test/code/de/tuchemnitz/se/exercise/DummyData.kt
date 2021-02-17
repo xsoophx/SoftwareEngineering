@@ -15,7 +15,9 @@ import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.data.Gender
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.data.VisionImpaired
+import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
 import de.tuchemnitz.se.exercise.persist.now
+import javafx.geometry.Point2D
 import javafx.scene.input.KeyCode
 import tornadofx.Controller
 import tornadofx.Scope
@@ -46,14 +48,14 @@ object DummyData : Controller() {
             pictures = listOf(
                 PictureData(
                     imagePath = "abc",
-                    matrixViewTime = 2,
                     grid = Grid(10, 20),
                     pictureViewTime = 2,
-                    ordered = true,
                     relative = false,
                     maxRecursionDepth = 3
                 )
-            )
+            ),
+            matrixViewTime = 2,
+            ordered = true
         ),
         CodeChartsConfig(
             savedAt = baseTime.plusSeconds(2L),
@@ -62,14 +64,14 @@ object DummyData : Controller() {
             pictures = listOf(
                 PictureData(
                     imagePath = "def",
-                    matrixViewTime = 2,
                     grid = Grid(100, 200),
                     pictureViewTime = 5,
-                    ordered = false,
                     relative = false,
                     maxRecursionDepth = 0
                 )
-            )
+            ),
+            matrixViewTime = 2,
+            ordered = false
         ),
         CodeChartsConfig(
             savedAt = baseTime.plusSeconds(3L),
@@ -80,12 +82,12 @@ object DummyData : Controller() {
                     imagePath = "",
                     grid = Grid(13, 15),
                     pictureViewTime = 3,
-                    matrixViewTime = 4,
-                    ordered = true,
                     relative = true,
                     maxRecursionDepth = 4
                 )
-            )
+            ),
+            matrixViewTime = 4,
+            ordered = true
         )
     )
 
@@ -133,6 +135,25 @@ object DummyData : Controller() {
             zoomSpeed = 10.0,
             zoomKey = KeyCode.B,
             savedAt = baseTime.plusSeconds(3L)
+        )
+    )
+
+    val zoomMapsData = setOf(
+        ZoomMapsData(
+            zoomSpeed = 2.0,
+            zoomKey = KeyCode.A,
+            savedAt = baseTime.plusSeconds(1L),
+            image = "aPath",
+            currentUser = userData.first(),
+            zoomPosition = Point2D(1.0, 1.0)
+        ),
+        ZoomMapsData(
+            zoomSpeed = 1.0,
+            zoomKey = KeyCode.C,
+            savedAt = baseTime.plusSeconds(2L),
+            image = "anotherPath",
+            currentUser = userData.first(),
+            zoomPosition = Point2D(1.0, 1.0)
         )
     )
 

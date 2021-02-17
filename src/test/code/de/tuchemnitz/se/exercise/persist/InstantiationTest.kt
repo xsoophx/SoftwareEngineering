@@ -41,7 +41,7 @@ class InstantiationTest : Controller() {
 
     @Suppress("SpellCheckingInspection")
     private val savables = listOf(
-        EyeTrackingConfig(dummyVal = "eye"),
+        EyeTrackingConfig(pictures = emptyList()),
         DummyData.codeChartsData.first(),
         EyeTrackingData(dummyData = "dummy", currentUser = DummyData.userData.last()),
         UserData(
@@ -55,7 +55,8 @@ class InstantiationTest : Controller() {
             zoomSpeed = 1.0,
             zoomKey = KeyCode.K,
             zoomPosition = Point2D(1.0, 1.0),
-            currentUser = DummyData.userData.first()
+            currentUser = DummyData.userData.first(),
+            image = "aPath"
         )
     )
 

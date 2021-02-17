@@ -5,11 +5,14 @@ import de.tuchemnitz.se.exercise.codecharts.Interval2D
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import org.litote.kmongo.Id
 import org.litote.kmongo.newId
+import java.time.Instant
 
 @Serializable
 data class CodeChartsData(
+    @Transient override val savedAt: Instant = Instant.now(),
     override val _id: Id<CodeChartsData> = newId(),
     val codeChartsConfig: CodeChartsConfig,
     val originalImageSize: Dimension,

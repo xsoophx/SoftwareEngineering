@@ -1,5 +1,6 @@
 package de.tuchemnitz.se.exercise.core.configmanager
 
+import com.sun.javafx.tk.Toolkit
 import de.tuchemnitz.se.exercise.persist.AbstractCollection
 import de.tuchemnitz.se.exercise.persist.IPersist
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
@@ -29,6 +30,7 @@ import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
+import java.security.Key
 
 /**
  * This class covers all the logic for reading and writing the config file, as well as handling
@@ -80,16 +82,25 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
         val logger: Logger = LoggerFactory.getLogger(ConfigManager::class.java)
 
         @Serializable
-        val generalSettings = General(selectionMenuEnabled = true, activatedTool = null, configPath = "")
+        val generalSettings =
+            General(
+                fullscreen = true,
+                width = java.awt.Toolkit.getDefaultToolkit().screenSize.getWidth().toInt(),
+                height = java.awt.Toolkit.getDefaultToolkit().screenSize.getHeight().toInt(),
+                selectionMenuEnabled = true,
+                activatedTool = null,
+                masterPath = "",
+                exportPath = "",
+                imagePath = ""
+            )
 
         val dataClientConfig = DataClientConfig(
             colorSampleBoard = setOf(ColorSampleBoard(red = 1, green = 2, blue = 3)),
-            exportPath = "exportPath"
         )
 
         // TODO
         val databaseConfig =
-            DatabaseConfig(dataBaseName = "test", dataBasePath = "databasePath", username = "root")
+            DatabaseConfig(dataBasePath = "databasePath")
     }
 
     /**
@@ -157,10 +168,24 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
      * @param activatedTool specifies the tool which is currently activated
      * @param configPath specifies the path where the config file is saved
      */
-    fun setGeneralSettings(selectionMenuEnabled: Boolean, activatedTool: Int?, configPath: Path) {
+    fun setGeneralSettings(
+        fullscreen: Boolean,
+        width: Int,
+        height: Int,
+        selectionMenuEnabled: Boolean,
+        activatedTool: Int?,
+        masterPath: Path,
+        exportPath: Path,
+        imagePath: Path
+    ) {
         generalSettings.activatedTool = activatedTool
         generalSettings.selectionMenuEnabled = selectionMenuEnabled
-        generalSettings.configPath = configPath.toString()
+        generalSettings.fullscreen = fullscreen
+        generalSettings.width = width
+        generalSettings.height = height
+        generalSettings.masterPath = masterPath.toString()
+        generalSettings.exportPath = exportPath.toString()
+        generalSettings.imagePath = imagePath.toString()
     }
 
     /**
@@ -187,16 +212,32 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
      * and puts them together to be saved in the config file
      */
     fun assembleAllConfigurations(): ToolConfigs {
+        val recentZoomConfig = dataCollections.zoomMapsDataCollection.findMostRecent()
+        val keyCode = recentZoomConfig?.zoomKey ?: KeyCode.C
+        val zoomImage = recentZoomConfig?.image ?: ""
+        val zoomSpeed = recentZoomConfig?.zoomSpeed ?: 1.0
         return ToolConfigs(
             codeChartsConfig = configCollections.codeChartsConfigCollection.findMostRecent(),
-            zoomMapsConfig = configCollections.zoomMapsConfigCollection.findMostRecent(),
+            zoomMapsConfig = ConfigFileZoomMaps(
+                keyBindings = KeyBindings(
+                    up = keyCode,
+                    down = keyCode,
+                    left = keyCode,
+                    right = keyCode,
+                    inKey = keyCode,
+                    out = keyCode
+                ),
+                filter = setOf(ZoomInformation(name = zoomImage, zoomSpeed = zoomSpeed))
+            ),
+
             // TODO
-            eyeTrackingConfig = EyeTrackingConfig(dummyVal = ""),
-            // TODO
+            eyeTrackingConfig = EyeTrackingConfig(
+                pictures = listOf(Pair("", 1))
+            ),
             bubbleViewConfig = BubbleViewConfig(
                 filter = setOf(
                     FilterInformation(
-                        path = "",
+                        name = "",
                         Filter(gradient = 1, type = "gaussianBlur")
                     )
                 )
@@ -208,8 +249,8 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
      * Finds the most recent config of a specified type of config.
      * @param T of type IConfig, the config type which is being searched for
      */
-    private fun <T : IConfig> AbstractCollection<T>.findMostRecent(): T? =
-        find(BsonDocument()).sort(descending(IConfig::savedAt))
+    private fun <T : IPersist> AbstractCollection<T>.findMostRecent(): T? =
+        find(BsonDocument()).sort(descending(IPersist::savedAt))
             .firstOrNull()
 
     /**

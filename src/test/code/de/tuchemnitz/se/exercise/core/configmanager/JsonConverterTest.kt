@@ -19,22 +19,30 @@ class JsonConverterTest {
         private val configManager = DummyData.configManager
 
         private val configFile = ConfigFile(
-            general = General(selectionMenuEnabled = true, activatedTool = null, configPath = ""),
+            general = General(
+                selectionMenuEnabled = true,
+                activatedTool = null,
+                fullscreen = true,
+                width = 1920,
+                height = 1080,
+                exportPath = "exportPath",
+                masterPath = "masterPath",
+                imagePath = "imagePath"
+            ),
             bubbleViewConfig = BubbleViewConfig(
                 filter = setOf(
                     FilterInformation(
-                        path = "", filter = Filter(gradient = 1, type = "gaussianBlur")
+                        name = "", filter = Filter(gradient = 1, type = "gaussianBlur")
                     )
                 )
             ),
             zoomMapsConfig = null,
             codeChartsConfig = DummyData.codeChartsConfigs.first(),
-            eyeTrackingConfig = EyeTrackingConfig(dummyVal = ""),
+            eyeTrackingConfig = EyeTrackingConfig(pictures = emptyList()),
             dataClientConfig = DataClientConfig(
                 colorSampleBoard = setOf(ColorSampleBoard(red = 1, green = 2, blue = 3)),
-                exportPath = "exportPath"
             ),
-            database = DatabaseConfig(dataBaseName = "test", dataBasePath = "databasePath", username = "root")
+            database = DatabaseConfig(dataBasePath = "databasePath")
         )
     }
 
