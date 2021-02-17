@@ -24,7 +24,7 @@ import tornadofx.Controller
 import tornadofx.Scope
 import tornadofx.set
 
-const val TEST_PATH_CONFIG_FILE = "testCfg.json"
+const val TEST_PATH_CONFIG_FILE = "src/main/resources/testconfig.json"
 
 object DummyData : Controller() {
 

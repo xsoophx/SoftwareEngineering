@@ -76,7 +76,7 @@ class JsonConverterTest {
         }
         assertThat(Json { prettyPrint = true }.encodeToString(ConfigFile.serializer(), configFile)).isEqualTo(content)
     } finally {
-        Files.deleteIfExists(Path.of(TEST_PATH_CONFIG_FILE))
+       // Files.deleteIfExists(Path.of(TEST_PATH_CONFIG_FILE))
         configManager.writeFile(Paths.get(TEST_PATH_CONFIG_FILE))
     }
 
