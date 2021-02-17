@@ -33,7 +33,8 @@ class CodeChartsConfigMapper : Controller() {
                         originalImageSize = codeChartsValues.originalImageSize,
                         scaledImageSize = codeChartsValues.scaledImageSize,
                         screenSize = codeChartsValues.screenSize,
-                        stringPosition = codeChartsValues.eyePos
+                        stringPosition = codeChartsValues.eyePos,
+                        currentUser = configManager.currentUser
                     )
                 )
             }

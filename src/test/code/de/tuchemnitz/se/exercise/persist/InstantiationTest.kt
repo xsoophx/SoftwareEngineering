@@ -7,7 +7,9 @@ import de.tuchemnitz.se.exercise.DummyData
 import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.EyeTrackingConfigCollection
 import de.tuchemnitz.se.exercise.persist.data.EyeTrackingData
+import de.tuchemnitz.se.exercise.persist.data.Gender
 import de.tuchemnitz.se.exercise.persist.data.UserData
+import de.tuchemnitz.se.exercise.persist.data.VisionImpaired
 import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
 import de.tuchemnitz.se.exercise.persist.data.collections.CodeChartsDataCollection
 import de.tuchemnitz.se.exercise.persist.data.collections.EyeTrackingDataCollection
@@ -41,9 +43,20 @@ class InstantiationTest : Controller() {
     private val savables = listOf(
         EyeTrackingConfig(dummyVal = "eye"),
         DummyData.codeChartsData.first(),
-        EyeTrackingData(dummyData = "dummy"),
-        UserData(firstName = "test", lastName = "user", age = 25),
-        ZoomMapsData(zoomSpeed = 1.0, zoomKey = KeyCode.K, zoomPosition = Point2D(1.0, 1.0))
+        EyeTrackingData(dummyData = "dummy", currentUser = DummyData.userData.last()),
+        UserData(
+            firstName = "test",
+            lastName = "user",
+            age = 25,
+            gender = Gender.Female,
+            visionImpaired = VisionImpaired.No
+        ),
+        ZoomMapsData(
+            zoomSpeed = 1.0,
+            zoomKey = KeyCode.K,
+            zoomPosition = Point2D(1.0, 1.0),
+            currentUser = DummyData.userData.first()
+        )
     )
 
     @Test

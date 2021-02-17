@@ -12,7 +12,6 @@ import javafx.geometry.Point2D
 import javafx.geometry.Rectangle2D
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
-import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -50,13 +49,13 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
      * [zoomKey]: the zoomKey is retrieved from the settings of the configManager,
      * in case an error is occurring, it is being set to the char "E"
      */
-    private val zoomKey = configManager.getZoomMapsConfig()?.zoomKey ?: KeyCode.E
+    private val zoomKey = configManager.getZoomMapsConfig().zoomKey
 
     /**
      * [zoomSpeed]: the speed is retrieved from the settings of the configManager,
      * in case an error is occurring, the zoomSpeed is set to 1.0
      */
-    private val zoomSpeed = configManager.getZoomMapsConfig()?.zoomSpeed ?: 1.0
+    private val zoomSpeed = configManager.getZoomMapsConfig().zoomSpeed
 
     /**
      * [zoomPosition]: will be initialized while zooming, to only save different positions.
@@ -135,7 +134,8 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
                             ZoomMapsData(
                                 zoomSpeed = zoomSpeed,
                                 zoomKey = zoomKey,
-                                zoomPosition = absolutePosition
+                                zoomPosition = absolutePosition,
+                                currentUser = configManager.currentUser
                             )
                         )
                     zoomPosition = mouseLocation
