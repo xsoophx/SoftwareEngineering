@@ -62,7 +62,9 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
                             metaDataController.createGenderPie(metaDataController.totalCodeChartsUsers)
                         val codeChartsAgePie = metaDataController.createAgePie(metaDataController.totalCodeChartsUsers)
                         val codeChartsPicturePie =
-                            metaDataController.queryPictureDistribution(metaDataController.codeChartsPictures)
+                            metaDataController.queryPictureDistribution(metaDataController.allImages.map {
+                                it.name to metaDataController.query.queryCodeChartsImage("\\${it.path.fileName}")
+                            }.toMap())
 
                         headerBox.replaceChildren {
                             text(
@@ -98,8 +100,9 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
                         val zoomGenderPie = metaDataController.createGenderPie(metaDataController.totalZoomMapsUsers)
                         val zoomAgePie = metaDataController.createAgePie(metaDataController.totalZoomMapsUsers)
                         val zoomPicturePie =
-                            metaDataController.queryPictureDistribution(metaDataController.zoomMapsPictures)
-
+                            metaDataController.queryPictureDistribution(metaDataController.allImages.map {
+                                it.name to metaDataController.query.queryZoomMapsImage("\\${it.path.fileName}")
+                            }.toMap())
 
                         headerBox.replaceChildren {
                             text(

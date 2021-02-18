@@ -5,11 +5,11 @@ import de.tuchemnitz.se.exercise.persist.data.Gender
 data class QueryFilter(
     val userDataFilter: Filter<UserDataFilter>?,
     val codeChartsDataFilter: Filter<CodeChartsDataFilter>?,
-    val zoomMapsFilter: Filter<ZoomMapsDataFilter>?,
+    val zoomMapsFilter: Filter<ZoomMapsDataFilter>?
 )
 
 val dummyUserDataFilter =
-    Filter<UserDataFilter>(
+    Filter(
         taken = false,
         value = UserDataFilter(
             firstName = Filter(taken = false, value = ""),

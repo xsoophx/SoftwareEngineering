@@ -17,6 +17,7 @@ import io.mockk.excludeRecords
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
+import javafx.geometry.Point2D
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -63,7 +64,10 @@ class CodeChartsConfigMapperTest : Controller() {
             recursionDepth = 4,
             allowedChars = StringCharacters(upperCase = false, lowerCase = false, numbers = true),
             sorted = true,
-            eyePos = Interval2D(xMax = 2.0, xMin = 0.0, yMax = 9.0, yMin = 0.0)
+            eyePos = Interval2D(
+                minimum = Point2D(0.0, 0.0),
+                maximum = Point2D(2.0, 9.0)
+            )
         )
 
         val expectedConfig = CodeChartsConfig(
@@ -87,7 +91,10 @@ class CodeChartsConfigMapperTest : Controller() {
             originalImageSize = Dimension(x = 1.0, y = 2.0),
             scaledImageSize = Dimension(x = 1.0, y = 2.0),
             screenSize = Dimension(x = 1.0, y = 2.0),
-            stringPosition = Interval2D(xMax = 2.0, xMin = 0.0, yMax = 9.0, yMin = 0.0),
+            stringPosition = Interval2D(
+                minimum = Point2D(0.0, 0.0),
+                maximum = Point2D(2.0, 9.0)
+            ),
             currentUser = DummyData.userData.first()
         )
 

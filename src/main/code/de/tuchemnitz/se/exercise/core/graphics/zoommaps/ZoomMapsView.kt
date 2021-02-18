@@ -124,7 +124,7 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
                             ZoomMapsData(
                                 zoomSpeed = zoomSpeed,
                                 zoomKey = zoomKey,
-                                zoomPosition = absolutePosition,
+                                zoomPosition = mouseLocation,
                                 imagePath = IMAGE_PATH,
                                 currentUser = configManager.currentUser
                             )

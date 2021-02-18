@@ -37,10 +37,10 @@ class DataClientQuery(
     val maximumAgeProperty = SimpleIntegerProperty(this, "age", maximumAge)
     var maximumAge by maximumAgeProperty
 
-    val genderProperty = SimpleObjectProperty<Gender>(this, "gender", gender)
+    val genderProperty = SimpleObjectProperty(this, "gender", gender)
     var gender: Gender? by genderProperty
 
-    val imageProperty = SimpleObjectProperty<Image>(this, "imagePath", image)
+    val imageProperty = SimpleObjectProperty(this, "imagePath", image)
     var image: Image by imageProperty
 }
 

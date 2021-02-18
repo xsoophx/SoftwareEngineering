@@ -6,25 +6,37 @@ import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
 import javafx.geometry.Point2D
 
 /**
- * Extracts neccesary data points for rendering a heat map form data which was returned by query
+ * Extracts necessary data points for rendering a heat map form data which was returned by query
  */
-class DataProcessorHeatMap : DataProcessor<Point2D>() {
+class DataProcessorHeatMap : DataProcessor<HeatMapCoordinates>() {
 
     /**
      * processes data from CodeCharts and ZoomMaps tool
      */
-    override fun process(data: List<IPersist>): List<Point2D> {
-        println("processing")
+    override fun process(data: List<IPersist>): List<HeatMapCoordinates> {
         return data.mapNotNull {
             when (it) {
-                is ZoomMapsData -> it.zoomPosition
-                is CodeChartsData -> Point2D(
-                    (it.stringPosition.xMax - it.stringPosition.xMin) / 2,
-                    (it.stringPosition.yMax - it.stringPosition.yMin) / 2
+                is ZoomMapsData -> HeatMapCoordinates(coordinate = it.zoomPosition, tool = Tools.ZoomMapsTool)
+                is CodeChartsData -> HeatMapCoordinates(
+                    coordinate = Point2D(
+                        it.stringPosition.minimum.x + (it.stringPosition.maximum.x - it.stringPosition.minimum.x) / 2,
+                        it.stringPosition.minimum.y + (it.stringPosition.maximum.y - it.stringPosition.minimum.y) / 2
+                    ),
+                    tool = Tools.CodeChartsTool
                 )
-
                 else -> null
             }
         }
     }
 }
+
+enum class Tools {
+    CodeChartsTool,
+    ZoomMapsTool
+}
+
+data class HeatMapCoordinates(
+    val coordinate: Point2D,
+    val tool: Tools
+)
+

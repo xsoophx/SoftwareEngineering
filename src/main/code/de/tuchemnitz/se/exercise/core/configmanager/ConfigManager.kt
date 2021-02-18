@@ -100,7 +100,17 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
             )
 
         val dataClientConfig = DataClientConfig(
-            colorSampleBoard = setOf(ColorSampleBoard(red = 1, green = 2, blue = 3))
+            colorSampleBoard = setOf(
+                ColorSampleBoard(
+                    red = 50,
+                    green = 168,
+                    blue = 133
+                ), ColorSampleBoard(
+                    red = 129,
+                    green = 50,
+                    blue = 168
+                )
+            )
         )
         val databaseConfig =
             DatabaseConfig(dataBasePath = "databasePath")
@@ -110,7 +120,7 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
      * Compares the most recent database entry with the config file
      */
     fun checkDBSimilarity(): Boolean {
-        //TODO:
+        // TODO:
         return true
     }
 
@@ -302,4 +312,21 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
      * Decodes the config file to data classes.
      */
     fun decodeConfig() = readFile(Path.of(configFilePath))?.let { Json.decodeFromString(ConfigFile.serializer(), it) }
+
+    /**
+     * Gets the DataAnalysts Colors out of the Config File
+     * Has default greenish and bluish colors
+     */
+    fun getConfigColours(): List<ColorSampleBoard> =
+        decodeConfig()?.dataClientConfig?.colorSampleBoard?.toList() ?: listOf(
+            ColorSampleBoard(
+                red = 50,
+                green = 168,
+                blue = 133
+            ), ColorSampleBoard(
+                red = 129,
+                green = 50,
+                blue = 168
+            )
+        )
 }

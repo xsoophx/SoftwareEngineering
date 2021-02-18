@@ -56,10 +56,8 @@ object DummyData : Controller() {
                     maxRecursionDepth = 3
                 ), PictureData(
                     imagePath = "abc",
-                    matrixViewTime = 2,
                     grid = Grid(100, 200),
                     pictureViewTime = 2,
-                    ordered = false,
                     relative = false,
                     maxRecursionDepth = 2
                 )
@@ -81,10 +79,8 @@ object DummyData : Controller() {
                 ),
                 PictureData(
                     imagePath = "abc",
-                    matrixViewTime = 2,
                     grid = Grid(100, 200),
                     pictureViewTime = 2,
-                    ordered = false,
                     relative = false,
                     maxRecursionDepth = 2
                 )
@@ -166,17 +162,17 @@ object DummyData : Controller() {
             zoomSpeed = 2.0,
             zoomKey = KeyCode.A,
             savedAt = baseTime.plusSeconds(1L),
-            image = "aPath",
             currentUser = userData.first(),
-            zoomPosition = Point2D(1.0, 1.0)
+            zoomPosition = Point2D(1.0, 1.0),
+            imagePath = "aPath"
         ),
         ZoomMapsData(
             zoomSpeed = 1.0,
             zoomKey = KeyCode.C,
             savedAt = baseTime.plusSeconds(2L),
-            image = "anotherPath",
             currentUser = userData.first(),
-            zoomPosition = Point2D(1.0, 1.0)
+            zoomPosition = Point2D(1.0, 1.0),
+            imagePath = "anotherPath"
         )
     )
 
@@ -190,7 +186,10 @@ object DummyData : Controller() {
             originalImageSize = Dimension(x = 3.0, y = 4.0),
             scaledImageSize = Dimension(x = 100.0, y = 200.0),
             screenSize = Dimension(x = 1920.0, y = 1080.0),
-            stringPosition = Interval2D(xMin = 0.0, xMax = 3.0, yMin = 0.0, yMax = 3.0),
+            stringPosition = Interval2D(
+                minimum = Point2D(0.0, 0.0),
+                maximum = Point2D(3.0, 3.0)
+            ),
             currentUser = userData.first()
         ),
         CodeChartsData(
@@ -198,7 +197,10 @@ object DummyData : Controller() {
             originalImageSize = Dimension(x = 123.0, y = 456.0),
             scaledImageSize = Dimension(x = 125.0, y = 500.0),
             screenSize = Dimension(x = 1920.0, y = 1080.0),
-            stringPosition = Interval2D(xMin = 10.0, xMax = 4.0, yMin = 6.2, yMax = 7.55),
+            stringPosition = Interval2D(
+                minimum = Point2D(10.0, 6.2),
+                maximum = Point2D(4.0, 7.55)
+            ),
             currentUser = userData.last()
         )
     )

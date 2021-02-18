@@ -1,5 +1,6 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
+import de.tuchemnitz.se.exercise.persist.ImageCollection
 import de.tuchemnitz.se.exercise.persist.data.Gender
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import javafx.collections.ObservableList
@@ -13,7 +14,9 @@ class MetaDataController : Controller() {
     /**
      * Contains all Users which match the selected Filter
      */
-    private val query: Query by inject()
+    val query: Query by inject()
+    private val imageCollection: ImageCollection by inject()
+    val allImages = imageCollection.find().distinct()
     val totalCodeChartsUsers = query.codeChartsUsers()
     val totalZoomMapsUsers = query.zoomMapsUsers()
 
@@ -32,18 +35,6 @@ class MetaDataController : Controller() {
         val totalFemale: Int = 0,
         val totalDiverse: Int = 0,
         val totalUnselected: Int = 0
-    )
-
-    val codeChartsPictures = listOf(
-        "/Chameleon.jpg" to query.queryCodeChartsImage("/Chameleon.jpg"),
-        "/Pinguin.jpg" to query.queryCodeChartsImage("/Pinguin.jpg"),
-        "/kitten.jpg" to query.queryCodeChartsImage("/kitten.jpg"),
-    )
-
-    val zoomMapsPictures = listOf(
-        "/Chameleon.jpg" to query.queryZoomMapsImage("/Chameleon.jpg"),
-        "/Pinguin.jpg" to query.queryZoomMapsImage("/Pinguin.jpg"),
-        "/kitten.jpg" to query.queryZoomMapsImage("/kitten.jpg"),
     )
 
     fun createGenderPie(userList: List<UserData>): ObservableList<PieChart.Data> =
@@ -92,7 +83,7 @@ class MetaDataController : Controller() {
     /**
      * query database for metadata specific to CODE CHARTS tool
      */
-    fun queryPictureDistribution(pictures: List<Pair<String, Int>>): ObservableList<PieChart.Data> = observableListOf(
+    fun queryPictureDistribution(pictures: Map<String, Int>): ObservableList<PieChart.Data> = observableListOf(
         pictures.filter { (_, count) ->
             count != 0
         }.map { (path, count) ->

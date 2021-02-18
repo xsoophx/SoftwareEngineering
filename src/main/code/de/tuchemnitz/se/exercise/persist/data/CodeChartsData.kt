@@ -1,7 +1,9 @@
 package de.tuchemnitz.se.exercise.persist.data
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import de.tuchemnitz.se.exercise.codecharts.Dimension
 import de.tuchemnitz.se.exercise.codecharts.Interval2D
+import de.tuchemnitz.se.exercise.persist.Point2DSerializer
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.now
 import kotlinx.serialization.Serializable

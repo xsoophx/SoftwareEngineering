@@ -2,7 +2,6 @@ package de.tuchemnitz.se.exercise.core.configmanager
 
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
-import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import javafx.scene.input.KeyCode
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

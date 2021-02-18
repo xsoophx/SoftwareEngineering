@@ -103,7 +103,7 @@ class ConfigManagerTest {
     fun `assembling all database configs should work`() { // integration test
         val recentZoomConfig = mostRecentZoomMapsData
         val keyCode = recentZoomConfig?.zoomKey ?: KeyCode.C
-        val zoomImage = recentZoomConfig?.image ?: ""
+        val zoomImage = recentZoomConfig?.imagePath ?: ""
         val zoomSpeed = recentZoomConfig?.zoomSpeed ?: 1.0
 
         val expected = ToolConfigs(

@@ -102,7 +102,6 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                         }
                         checkbox("Zoom Maps Tool", property = dataClientQueryModel.zoomMapsActivated) {
                             id = Ids.zoomMaps
-
                             action {
                                 if (!isSelected) {
                                     dataClientQueryModel.codeChartsActivated.set(true)

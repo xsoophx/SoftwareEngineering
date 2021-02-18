@@ -3,6 +3,7 @@ package de.tuchemnitz.se.exercise.dataanalyzer
 import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.isEqualTo
+import assertk.assertions.isIn
 import de.tuchemnitz.se.exercise.DummyData
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.PictureData
@@ -100,15 +101,16 @@ class QueryIntegrationTest : Controller() {
     @Test
     fun `querying with codeCharts and userData Filter should work`() {
         val queryResult = query.queryAllElementsSeparately(filter)
-        val databaseIterable =
+        val databaseIterable = setOf(
             query.codeChartsDataCollection.find(
                 CodeChartsData::codeChartsConfig / CodeChartsConfig::pictures / PictureData::imagePath
                     eq "abc"
             )
+        )
 
-        databaseIterable.forEach {
-            assertThat(queryResult).contains(it)
-        }
+
+        assertThat(queryResult).isIn(databaseIterable)
+
         assertThat(queryResult.size).isEqualTo(databaseIterable.count())
     }
 }
