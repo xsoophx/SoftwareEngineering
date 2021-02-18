@@ -17,7 +17,7 @@ abstract class AbstractCollection<T : IPersist>(
     clazz: KClass<T>
 ) : Controller() {
     private val database: Database by inject()
-    private val collection = database.getCollection(clazz)
+    protected val collection = database.getCollection(clazz)
 
     /**
      * Finds elements matching to a certain filter

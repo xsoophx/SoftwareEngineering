@@ -11,7 +11,9 @@ import tornadofx.circle
 import tornadofx.group
 import tornadofx.imageview
 import tornadofx.pane
+import tornadofx.replaceChildren
 import java.awt.Toolkit
+import java.nio.file.Path
 
 /**
  * Current HeatMap Diagram to show data
@@ -31,8 +33,7 @@ class DataClientHeatMapView : MainBarView("Data Client Heat Map") {
      *  @param screenHeight current screenHeight
      */
     private val dataList: List<Point2D> by param()
-    private val imagePath: String by param()
-    // private val codeChartsDataList: List<Point2D> by inject()
+    private val imagePath: Path by param()
     private val colors =
         listOf(Color.BLUE, Color.BURLYWOOD, Color.CORAL, Color.CRIMSON, Color.DARKORANGE, Color.GREENYELLOW)
     private val zoomMapsColor = Color.BLUEVIOLET
@@ -42,11 +43,11 @@ class DataClientHeatMapView : MainBarView("Data Client Heat Map") {
     /**
      *  shows the image selected (currently default image) and draws circles with the viewpoints.
      */
-    init {
-        with(contentBox) {
+    fun generateContent(){
+        contentBox.replaceChildren {
             pane {
                 val iv = imageview {
-                    image = Image(imagePath)
+                    image = Image("${imagePath.toAbsolutePath().toUri()}")
                     viewport = Rectangle2D(0.0, 0.0, image.width, image.height)
                     isPreserveRatio = true
                     fitWidthProperty().bind(contentBox.widthProperty())

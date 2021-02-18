@@ -5,6 +5,8 @@ import kotlinx.serialization.Transient
 import org.litote.kmongo.Id
 import org.litote.kmongo.newId
 import java.time.Instant
+import java.util.Dictionary
+import java.util.Hashtable
 
 enum class Gender {
     Diverse,
@@ -20,8 +22,8 @@ enum class VisionImpaired {
 }
 
 data class UserData(
-    @Transient override val savedAt: Instant = now(),
     override val _id: Id<UserData> = newId(),
+    @Transient override val savedAt: Instant = now(),
     val firstName: String = "default",
     val lastName: String = "default",
     val age: Int = 0,

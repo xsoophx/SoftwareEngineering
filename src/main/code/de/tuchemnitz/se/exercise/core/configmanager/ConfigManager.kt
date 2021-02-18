@@ -1,11 +1,13 @@
 package de.tuchemnitz.se.exercise.core.configmanager
 
-import com.sun.javafx.tk.Toolkit
 import de.tuchemnitz.se.exercise.persist.AbstractCollection
 import de.tuchemnitz.se.exercise.persist.IPersist
+import de.tuchemnitz.se.exercise.persist.Image
+import de.tuchemnitz.se.exercise.persist.ImageCollection
+import de.tuchemnitz.se.exercise.persist.ImageCollection.Companion.DEFAULT_IMAGES
+import de.tuchemnitz.se.exercise.persist.ImageCollection.Companion.defaultImagePath
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
-import de.tuchemnitz.se.exercise.persist.configs.IConfig
 import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.collections.EyeTrackingConfigCollection
@@ -22,6 +24,7 @@ import javafx.scene.input.KeyCode
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.bson.BsonDocument
+import org.litote.kmongo.`in`
 import org.litote.kmongo.descending
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -30,7 +33,6 @@ import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
-import java.security.Key
 
 /**
  * This class covers all the logic for reading and writing the config file, as well as handling
@@ -62,6 +64,8 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
     private val zoomMapsDataCollection: ZoomMapsDataCollection by inject()
     private val eyeTrackingDataCollection: EyeTrackingDataCollection by inject()
     private val userDataCollection: UserDataCollection by inject()
+
+    private val imageCollection: ImageCollection by inject()
 
     private val configCollections = ConfigCollections(
         codeChartsConfigCollection,
@@ -98,8 +102,6 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
         val dataClientConfig = DataClientConfig(
             colorSampleBoard = setOf(ColorSampleBoard(red = 1, green = 2, blue = 3)),
         )
-
-        // TODO
         val databaseConfig =
             DatabaseConfig(dataBasePath = "databasePath")
     }
@@ -108,7 +110,33 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
      * Compares the most recent database entry with the config file
      */
     fun checkDBSimilarity(): Boolean {
+        //TODO:
         return true
+    }
+
+    /**
+     * Checks which template Images do exist.
+     * @throws IllegalArgumentException
+     */
+    fun checkTemplateImages() {
+        val defaultPaths = DEFAULT_IMAGES.asSequence().map(::defaultImagePath).toSet()
+        val existing = imageCollection.existingDefaultImages()
+            .mapNotNull { defaultImagePath(it).takeIf(Files::exists) }
+            .toSet()
+        val missing = defaultPaths - existing
+        if (missing.isNotEmpty()) {
+            throw IOException("Required images missing: $missing")
+        }
+    }
+
+    /**
+     * Returns all paths of existing pictures.
+     */
+    fun getAllImages(): List<Image>{
+        val images = imageCollection.find().toList()
+        val missing = images.asSequence().mapNotNull { (id, _, _, path) -> id.takeUnless { Files.exists(path) } }.toSet()
+        imageCollection.deleteMany(Image::_id `in` missing)
+        return images.filter { it._id !in missing }
     }
 
     /**
@@ -180,7 +208,9 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
      * This function sets general settings for the config file.
      * @param selectionMenuEnabled specifies whether the selection menu of the config file is enabled or not
      * @param activatedTool specifies the tool which is currently activated
-     * @param configPath specifies the path where the config file is saved
+     * @param masterPath specifies toplevel path
+     * @param exportPath specifies the path where the config file is saved
+     * @param imagePath specifies the path where all the images are being saved
      */
     fun setGeneralSettings(
         fullscreen: Boolean,
@@ -228,7 +258,7 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
     fun assembleAllConfigurations(): ToolConfigs {
         val recentZoomConfig = dataCollections.zoomMapsDataCollection.findMostRecent()
         val keyCode = recentZoomConfig?.zoomKey ?: KeyCode.C
-        val zoomImage = recentZoomConfig?.image ?: ""
+        val zoomImage = recentZoomConfig?.imagePath ?: ""
         val zoomSpeed = recentZoomConfig?.zoomSpeed ?: 1.0
         return ToolConfigs(
             codeChartsConfig = configCollections.codeChartsConfigCollection.findMostRecent(),
