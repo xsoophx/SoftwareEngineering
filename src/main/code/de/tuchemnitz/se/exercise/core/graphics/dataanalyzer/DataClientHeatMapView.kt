@@ -43,7 +43,7 @@ class DataClientHeatMapView : MainBarView("Data Client Heat Map") {
     /**
      *  shows the image selected (currently default image) and draws circles with the viewpoints.
      */
-    fun generateContent(){
+    fun generateContent() {
         contentBox.replaceChildren {
             pane {
                 val iv = imageview {

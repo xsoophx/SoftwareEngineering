@@ -155,7 +155,7 @@ class Query : Controller() {
 
                 (ZoomMapsData::currentUser / UserData::gender eq
                     (userDataFilter.gender.value)
-                    ).takeIf { userDataFilter.gender.taken },
+                    ).takeIf { userDataFilter.gender.taken }
             )
         ).toList()
     }

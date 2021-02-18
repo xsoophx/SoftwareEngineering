@@ -100,7 +100,7 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
             )
 
         val dataClientConfig = DataClientConfig(
-            colorSampleBoard = setOf(ColorSampleBoard(red = 1, green = 2, blue = 3)),
+            colorSampleBoard = setOf(ColorSampleBoard(red = 1, green = 2, blue = 3))
         )
         val databaseConfig =
             DatabaseConfig(dataBasePath = "databasePath")
@@ -132,9 +132,10 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
     /**
      * Returns all paths of existing pictures.
      */
-    fun getAllImages(): List<Image>{
+    fun getAllImages(): List<Image> {
         val images = imageCollection.find().toList()
-        val missing = images.asSequence().mapNotNull { (id, _, _, path) -> id.takeUnless { Files.exists(path) } }.toSet()
+        val missing =
+            images.asSequence().mapNotNull { (id, _, _, path) -> id.takeUnless { Files.exists(path) } }.toSet()
         imageCollection.deleteMany(Image::_id `in` missing)
         return images.filter { it._id !in missing }
     }

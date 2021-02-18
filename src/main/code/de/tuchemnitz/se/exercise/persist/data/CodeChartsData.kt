@@ -19,5 +19,5 @@ data class CodeChartsData(
     val scaledImageSize: Dimension,
     val screenSize: Dimension,
     val stringPosition: Interval2D,
-    @Transient val currentUser: UserData  = UserData(default = true)
+    @Transient val currentUser: UserData = UserData(default = true)
 ) : IData

@@ -52,7 +52,7 @@ class JsonConverterTest {
             codeChartsConfig = DummyData.codeChartsConfigs.first(),
             eyeTrackingConfig = EyeTrackingConfig(pictures = emptyList()),
             dataClientConfig = DataClientConfig(
-                colorSampleBoard = setOf(ColorSampleBoard(red = 1, green = 2, blue = 3)),
+                colorSampleBoard = setOf(ColorSampleBoard(red = 1, green = 2, blue = 3))
             ),
             database = DatabaseConfig(dataBasePath = "databasePath")
         )

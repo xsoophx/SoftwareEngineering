@@ -46,7 +46,7 @@ data class KeyBindings(
     val left: KeyCode,
     val right: KeyCode,
     @SerialName("in") val inKey: KeyCode,
-    val out: KeyCode,
+    val out: KeyCode
 )
 
 @Serializable

@@ -5,8 +5,6 @@ import kotlinx.serialization.Transient
 import org.litote.kmongo.Id
 import org.litote.kmongo.newId
 import java.time.Instant
-import java.util.Dictionary
-import java.util.Hashtable
 
 enum class Gender {
     Diverse,

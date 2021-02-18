@@ -7,6 +7,3 @@ interface IPersist {
     val _id: Id<out IPersist>
     val savedAt: Instant
 }
-
-
-

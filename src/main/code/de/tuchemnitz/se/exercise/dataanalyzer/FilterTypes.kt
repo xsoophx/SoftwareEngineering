@@ -8,16 +8,6 @@ data class Filter<T>(
     val value: T
 )
 
-enum class ActiveTools {
-    CodeCharts,
-    ZoomMaps
-}
-
-enum class Method {
-    Heatmap,
-    Diagram
-}
-
 data class Age(
     val minimumAge: Int?,
     val maximumAge: Int?

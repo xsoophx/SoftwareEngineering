@@ -1,17 +1,12 @@
 package de.tuchemnitz.se.exercise.core.graphics.dataanalyzer
 
 import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
-import de.tuchemnitz.se.exercise.dataanalyzer.DataClientMetadataZoomMaps
 import de.tuchemnitz.se.exercise.dataanalyzer.MetaDataController
 import de.tuchemnitz.se.exercise.persist.data.UserData
-import javafx.collections.ObservableList
-import javafx.geometry.Point2D
-import javafx.scene.chart.PieChart
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.TextAlignment
 import tornadofx.action
-import tornadofx.asObservable
 import tornadofx.button
 import tornadofx.hbox
 import tornadofx.hboxConstraints

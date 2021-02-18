@@ -99,7 +99,6 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                                     dataClientQueryModel.zoomMapsActivated.set(true)
                                 }
                             }
-
                         }
                         checkbox("Zoom Maps Tool", property = dataClientQueryModel.zoomMapsActivated) {
                             id = Ids.zoomMaps
@@ -211,7 +210,6 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                                         "dataList" to processedData
                                     )
                                 )
-
                             }
                         }
                     }
