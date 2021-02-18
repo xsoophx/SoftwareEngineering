@@ -67,8 +67,8 @@ class DataClientHeatMapView : MainBarView("Data Client Heat Map") {
                     image = Image("${imagePath.toAbsolutePath().toUri()}")
                     viewport = Rectangle2D(0.0, 0.0, image.width, image.height)
                     isPreserveRatio = true
-                    fitHeightProperty().bind(contentBox.heightProperty())
-                    maxWidthProperty().bind(contentBox.widthProperty())
+                    maxHeightProperty().bind(contentBox.heightProperty())
+                    fitWidthProperty().bind(contentBox.widthProperty())
                     logger.info("width: $maxWidth")
                     logger.info("height: $fitHeight")
                 }
