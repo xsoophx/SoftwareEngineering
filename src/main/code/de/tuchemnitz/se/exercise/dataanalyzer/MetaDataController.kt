@@ -21,7 +21,6 @@ class MetaDataController : Controller() {
     val totalZoomMapsUsers = query.zoomMapsUsers()
 
     fun totalUsers(): Int = query.userDataCollection.find().count()
-    //TODO: inject query element
 
     fun totalDatasets(): Int =
         query.codeChartsDataCollection.find().count() + query.zoomMapsDataCollection.find().count()

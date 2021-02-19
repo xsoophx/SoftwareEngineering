@@ -3,13 +3,7 @@ package de.tuchemnitz.se.exercise.codecharts
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import de.tuchemnitz.se.exercise.persist.Point2DSerializer
 import javafx.geometry.Point2D
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.descriptors.PrimitiveKind
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
 
 data class CodeChartsValues(
     /**

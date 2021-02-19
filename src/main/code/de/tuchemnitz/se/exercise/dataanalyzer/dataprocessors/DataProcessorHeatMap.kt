@@ -39,4 +39,3 @@ data class HeatMapCoordinates(
     val coordinate: Point2D,
     val tool: Tools
 )
-

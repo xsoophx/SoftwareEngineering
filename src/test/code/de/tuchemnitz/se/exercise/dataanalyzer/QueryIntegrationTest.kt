@@ -105,6 +105,5 @@ class QueryIntegrationTest : AbstractDatabaseTest() {
         ).single()
 
         assertThat(queryResult).contains(expected)
-
     }
 }
