@@ -15,9 +15,13 @@ import tornadofx.replaceChildren
 import tornadofx.text
 import tornadofx.useMaxWidth
 
+/**
+ * Allows the user of the data client to gain insight into the statistics behind the use of the eye tracking tool
+ * Displays metadata concerning demographic of users and distribution of tool use and picture view
+ */
 class DataClientMetaDataView : MainBarView("Data Client Metadata") {
     /**
-     * query database for metadata, general and split by tool use
+     * metaDataController is get and format metadata so that it can be displayed
      */
     private val metaDataController: MetaDataController by inject()
     private val dataList: List<UserData> by param()
@@ -41,6 +45,10 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
                 }
             }
 
+            /**
+             * Create pie charts to visualize data
+             */
+
             val dataBox = hbox {
                 piechart("Distribution By Gender: ", metaDataController.createGenderPie(dataList))
                 piechart("Distribution By Age:", metaDataController.createAgePie(dataList))
@@ -62,9 +70,11 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
                             metaDataController.createGenderPie(metaDataController.totalCodeChartsUsers)
                         val codeChartsAgePie = metaDataController.createAgePie(metaDataController.totalCodeChartsUsers)
                         val codeChartsPicturePie =
-                            metaDataController.queryPictureDistribution(metaDataController.allImages.map {
-                                it.name to metaDataController.query.queryCodeChartsImage("\\${it.path.fileName}")
-                            }.toMap())
+                            metaDataController.queryPictureDistribution(
+                                metaDataController.allImages.map {
+                                    it.name to metaDataController.query.queryCodeChartsImage("\\${it.path.fileName}")
+                                }.toMap()
+                            )
 
                         headerBox.replaceChildren {
                             text(
@@ -100,9 +110,11 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
                         val zoomGenderPie = metaDataController.createGenderPie(metaDataController.totalZoomMapsUsers)
                         val zoomAgePie = metaDataController.createAgePie(metaDataController.totalZoomMapsUsers)
                         val zoomPicturePie =
-                            metaDataController.queryPictureDistribution(metaDataController.allImages.map {
-                                it.name to metaDataController.query.queryZoomMapsImage("\\${it.path.fileName}")
-                            }.toMap())
+                            metaDataController.queryPictureDistribution(
+                                metaDataController.allImages.map {
+                                    it.name to metaDataController.query.queryZoomMapsImage("\\${it.path.fileName}")
+                                }.toMap()
+                            )
 
                         headerBox.replaceChildren {
                             text(

@@ -18,12 +18,18 @@ import org.litote.kmongo.lt
 import org.litote.kmongo.lte
 import tornadofx.Controller
 
+/**
+ * Queries the database for eye tracking data and metadata
+ */
 class Query : Controller() {
 
     val userDataCollection: UserDataCollection by inject()
     val codeChartsDataCollection: CodeChartsDataCollection by inject()
     val zoomMapsDataCollection: ZoomMapsDataCollection by inject()
 
+    /**
+     * Queries for gender distribution among users of specific tools
+     */
     fun codeChartsGenderCount(gender: Gender): Int {
         return codeChartsDataCollection.countDocuments(CodeChartsData::currentUser / UserData::gender eq gender)
     }
@@ -31,6 +37,11 @@ class Query : Controller() {
     fun zoomMapsGenderCount(gender: Gender): Int {
         return zoomMapsDataCollection.countDocuments(ZoomMapsData::currentUser / UserData::gender eq gender)
     }
+
+    /**
+     * Queries for image view distribution among users of specific tools
+     * @param imagePath: path referring to the image which was used to collect eye tracking data
+     */
 
     fun queryCodeChartsImage(imagePath: String): Int {
         return codeChartsDataCollection.find(
@@ -46,6 +57,10 @@ class Query : Controller() {
         ).count()
     }
 
+    /**
+     * Finds all users of specific tool
+     */
+
     fun codeChartsUsers(): List<UserData> {
         return codeChartsDataCollection.find().map {
             it.currentUser
@@ -58,6 +73,11 @@ class Query : Controller() {
         }.toList()
     }
 
+    /**
+     * Queries datasets by filter parameters specified by the user of the data client
+     * Splits into separate queries and returns the combined result
+     * @param queryFilter: contains user specified filter parameters
+     */
     fun queryAllElementsSeparately(queryFilter: QueryFilter): List<IPersist> {
         val list = mutableListOf<IPersist>()
         val userDataFilter = queryFilter.userDataFilter ?: dummyUserDataFilter
@@ -79,6 +99,10 @@ class Query : Controller() {
         return list
     }
 
+    /**
+     * Queries for specific user or age range
+     * @param filter: contains user specified filter parameters
+     */
     private fun queryUserData(filter: UserDataFilter): List<UserData> {
         return userDataCollection.find(
             and(
@@ -90,6 +114,12 @@ class Query : Controller() {
         ).toList()
     }
 
+    /**
+     * Queries all datasets collected by the Code Charts tool for optional user defined filter parameters:
+     * image, picture view time, user name, age range and gender
+     * @param codeChartsFilter: contains user specified filter parameters
+     * @param userDataFilter: contains user specified filter parameters
+     */
     private fun queryCodeChartsData(
         codeChartsFilter: CodeChartsDataFilter,
         userDataFilter: UserDataFilter
@@ -128,6 +158,13 @@ class Query : Controller() {
         ).toList()
     }
 
+    /**
+     * Queries all datasets collected by the Zoom Maps tool for optional user defined filter parameters:
+     * image, picture view time, user name, age range and gender
+     * @param zoomMapsFilter: contains user specified filter parameters
+     * @param userDataFilter: contains user specified filter parameters
+     */
+
     private fun queryZoomMapsData(
         zoomMapsFilter: ZoomMapsDataFilter,
         userDataFilter: UserDataFilter
@@ -153,8 +190,9 @@ class Query : Controller() {
                         (userDataFilter.age.value.maximumAge ?: 0)
                     ).takeIf { userDataFilter.age.taken },
 
-                (ZoomMapsData::currentUser / UserData::gender eq
-                    (userDataFilter.gender.value)
+                (
+                    ZoomMapsData::currentUser / UserData::gender eq
+                        (userDataFilter.gender.value)
                     ).takeIf { userDataFilter.gender.taken }
             )
         ).toList()
