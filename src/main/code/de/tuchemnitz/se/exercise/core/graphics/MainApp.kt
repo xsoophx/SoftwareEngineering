@@ -17,10 +17,9 @@ class MainApp : App(primaryView = StartupView::class) {
     }
 
     override fun start(stage: Stage) {
-        stage.isFullScreen = true
+        stage.isFullScreen = configManager.decodeConfig()?.general?.fullscreen ?: true
         stage.minHeight = 850.0
         stage.minWidth = 1300.0
-        stage.fullScreenExitHint = ""
         super.start(stage)
     }
 

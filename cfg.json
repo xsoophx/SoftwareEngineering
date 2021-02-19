@@ -1,33 +1,13 @@
 {
-  "general": {
-    "fullscreen": true,
-    "width": 1680,
-    "height": 1050,
-    "selectionMenuEnabled": true,
-    "activatedTool": null,
-    "masterPath": "masterPath",
-    "exportPath": "exportPath",
-    "imagePath": "imagePath"
-  },
-  "bubbleView": {
-    "pictures": [
-      {
-        "name": "",
-        "filter": {
-          "gradient": 1,
-          "type": "gaussianBlur"
-        }
-      }
-    ]
-  },
-  "zoomMaps": {
-    "keyBindings": {
-      "up": "C",
-      "down": "C",
-      "left": "C",
-      "right": "C",
-      "in": "C",
-      "out": "C"
+    "general": {
+        "fullscreen": true,
+        "width": 1680,
+        "height": 1050,
+        "selectionMenuEnabled": true,
+        "activatedTool": null,
+        "masterPath": "masterPath",
+        "exportPath": "exportPath",
+        "imagePath": "imagePath"
     },
     "pictures": [
       {
@@ -52,31 +32,54 @@
           "width": 10,
           "height": 10
         },
-        "pictureViewTime": 5000,
-        "relative": true,
-        "maxRecursionDepth": 10
-      }
-    ]
-  },
-  "eyeTracking": {
-    "pictures": [
-    ]
-  },
-  "dataClient": {
-    "colorSampleBoard": [
-      {
-        "r": 50,
-        "g": 168,
-        "b": 133
-      },
-      {
-        "r": 129,
-        "g": 50,
-        "b": 168
-      }
-    ]
-  },
-  "database": {
-    "dataBasePath": "databasePath"
-  }
+        "pictures": [
+            {
+                "name": "/Chameleon.jpg",
+                "zoomSpeed": 1.0
+            }
+        ]
+    },
+    "codeCharts": {
+        "matrixViewTime": 5000,
+        "minViewsToSubdivide": 0,
+        "ordered": true,
+        "stringCharacters": {
+            "upperCase": true,
+            "lowerCase": true,
+            "numbers": true
+        },
+        "pictures": [
+            {
+                "name": "/Chameleon.jpg",
+                "grid": {
+                    "width": 10,
+                    "height": 10
+                },
+                "pictureViewTime": 5000,
+                "relative": true,
+                "maxRecursionDepth": 10
+            }
+        ]
+    },
+    "eyeTracking": {
+        "pictures": [
+        ]
+    },
+    "dataClient": {
+        "colorSampleBoard": [
+            {
+                "r": 50,
+                "g": 168,
+                "b": 133
+            },
+            {
+                "r": 129,
+                "g": 50,
+                "b": 168
+            }
+        ]
+    },
+    "database": {
+        "dataBasePath": "databasePath"
+    }
 }
