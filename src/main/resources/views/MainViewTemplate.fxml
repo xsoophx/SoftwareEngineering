@@ -41,6 +41,7 @@
             <children>
                 <Button fx:id="main_menu_button" mnemonicParsing="false" text="Hauptmenü"/>
                 <Button fx:id="exit_button" mnemonicParsing="false" text="Programm beenden"/>
+                <Button fx:id="create_json_button" mnemonicParsing="false" text="Generiere ConfigFile"/>
             </children>
             <padding>
                 <Insets bottom="5.0" top="5.0"/>

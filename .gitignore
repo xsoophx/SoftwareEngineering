@@ -21,6 +21,10 @@ out/
 /src/main/resources/
 !src/main/resources/views
 !src/main/resources/cross.png
+!src/main/resources/Chameleon.png
+!src/main/resources/Kitten.jpg
+!src/main/resources/Penguin.jpg
+!src/main/resources/Background.jpg
 
 !build/dokka/
 

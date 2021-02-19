@@ -1,5 +1,10 @@
 package de.tuchemnitz.se.exercise.codecharts
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import de.tuchemnitz.se.exercise.persist.Point2DSerializer
+import javafx.geometry.Point2D
+import javafx.geometry.Rectangle2D
+import javafx.scene.image.ImageView
 import kotlinx.serialization.Serializable
 
 data class CodeChartsValues(
@@ -9,23 +14,23 @@ data class CodeChartsValues(
      * [originalImageSize] contains width and height of loaded image in pixels.
      * [scaledImageSize] contains width and height of image after scaling it to user's screen.
      * [screenSize] size of users' screen which is used to scale image.
-     * [pictureViewTime] contains time the image is shown in seconds.
+     * [pictureViewTime] contains time the image is shown in milliseconds.
      */
     val imagePath: String,
     var originalImageSize: Dimension,
     var scaledImageSize: Dimension,
     var screenSize: Dimension,
-    val pictureViewTime: Double,
+    val pictureViewTime: Int,
 
     /**
      * All grid values.
      * [gridDimension] contains number of grid cells in width and height dimension.
-     * [matrixViewTime] contains time the grid is shown to the user in seconds.
+     * [matrixViewTime] contains time the grid is shown to the user in milliseconds.
      * [relative] defines whether an area of the image will have to be requested more detailed.
      * [recursionDepth] defines how often the corresponding area will be resized.
      */
     val gridDimension: Dimension,
-    val matrixViewTime: Double,
+    val matrixViewTime: Int,
     val relative: Boolean = false,
     val recursionDepth: Int = 0,
 
@@ -67,8 +72,18 @@ data class StringCharacters(
  */
 @Serializable
 data class Interval2D(
-    val xMin: Double,
-    val xMax: Double,
-    val yMin: Double,
-    val yMax: Double
+    @JsonDeserialize(using = Point2DSerializer::class)
+    @Serializable(with = Point2DSerializer::class)
+    val minimum: Point2D,
+    @JsonDeserialize(using = Point2DSerializer::class)
+    @Serializable(with = Point2DSerializer::class)
+    val maximum: Point2D
+)
+
+data class ClickCounter(
+    var clickList: MutableList<Int>,
+    var recursionCounter: Int = 0,
+    var pictureImageView: ImageView,
+    var viewPort: Rectangle2D,
+    val recurseAt: Int
 )

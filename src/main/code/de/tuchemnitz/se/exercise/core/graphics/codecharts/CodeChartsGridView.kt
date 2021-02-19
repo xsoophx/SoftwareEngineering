@@ -69,7 +69,7 @@ class CodeChartsGridView : View("SoftwarePraktikum - CodeCharts Grid") {
      * Replaces CodeChartsGridView with CodeChartsInputValidatorView when timer is ready.
      */
     private fun goToInputValidatorView() {
-        val delay = PauseTransition(Duration.seconds(codeChartsData.matrixViewTime))
+        val delay = PauseTransition(Duration.millis(codeChartsData.matrixViewTime.toDouble()))
         delay.onFinished = EventHandler { replaceWith(CodeChartsInputValidatorView::class) }
         delay.play()
     }

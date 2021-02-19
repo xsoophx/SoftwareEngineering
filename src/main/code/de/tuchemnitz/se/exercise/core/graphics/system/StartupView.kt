@@ -111,7 +111,8 @@ class StartupView : MainBarView("Software Praktikum - Gruppe 4") {
             lastName = data.lastNameValue,
             age = data.ageValue,
             gender = data.genderValue,
-            visionImpaired = data.visionImpairedValue
+            visionImpaired = data.visionImpairedValue,
+            default = false
         )
         replaceWith(ToolSelectionView::class)
     }

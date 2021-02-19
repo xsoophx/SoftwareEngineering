@@ -15,13 +15,16 @@ import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.data.Gender
 import de.tuchemnitz.se.exercise.persist.data.UserData
 import de.tuchemnitz.se.exercise.persist.data.VisionImpaired
+import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
+import de.tuchemnitz.se.exercise.persist.data.collections.ZoomMapsDataCollection
 import de.tuchemnitz.se.exercise.persist.now
+import javafx.geometry.Point2D
 import javafx.scene.input.KeyCode
 import tornadofx.Controller
 import tornadofx.Scope
 import tornadofx.set
 
-const val TEST_PATH_CONFIG_FILE = "testCfg.json"
+const val TEST_PATH_CONFIG_FILE = "src/main/resources/testconfig.json"
 
 object DummyData : Controller() {
 
@@ -31,6 +34,7 @@ object DummyData : Controller() {
     val configManager: ConfigManager by inject()
     val codeChartsConfigCollection: CodeChartsConfigCollection by inject()
     val zoomMapsConfigCollection: ZoomMapsConfigCollection by inject()
+    val zoomMapsDataCollection: ZoomMapsDataCollection by inject()
     private val baseTime = now()
 
     init {
@@ -46,14 +50,20 @@ object DummyData : Controller() {
             pictures = listOf(
                 PictureData(
                     imagePath = "abc",
-                    matrixViewTime = 2,
                     grid = Grid(10, 20),
                     pictureViewTime = 2,
-                    ordered = true,
                     relative = false,
                     maxRecursionDepth = 3
+                ), PictureData(
+                    imagePath = "abc",
+                    grid = Grid(100, 200),
+                    pictureViewTime = 2,
+                    relative = false,
+                    maxRecursionDepth = 2
                 )
-            )
+            ),
+            matrixViewTime = 2,
+            ordered = true
         ),
         CodeChartsConfig(
             savedAt = baseTime.plusSeconds(2L),
@@ -62,14 +72,21 @@ object DummyData : Controller() {
             pictures = listOf(
                 PictureData(
                     imagePath = "def",
-                    matrixViewTime = 2,
                     grid = Grid(100, 200),
                     pictureViewTime = 5,
-                    ordered = false,
                     relative = false,
                     maxRecursionDepth = 0
+                ),
+                PictureData(
+                    imagePath = "abc",
+                    grid = Grid(100, 200),
+                    pictureViewTime = 2,
+                    relative = false,
+                    maxRecursionDepth = 2
                 )
-            )
+            ),
+            matrixViewTime = 2,
+            ordered = false
         ),
         CodeChartsConfig(
             savedAt = baseTime.plusSeconds(3L),
@@ -80,12 +97,12 @@ object DummyData : Controller() {
                     imagePath = "",
                     grid = Grid(13, 15),
                     pictureViewTime = 3,
-                    matrixViewTime = 4,
-                    ordered = true,
                     relative = true,
                     maxRecursionDepth = 4
                 )
-            )
+            ),
+            matrixViewTime = 4,
+            ordered = true
         )
     )
 
@@ -99,21 +116,24 @@ object DummyData : Controller() {
             lastName = "Nikolaus",
             age = 61,
             gender = Gender.Male,
-            visionImpaired = VisionImpaired.Yes
+            visionImpaired = VisionImpaired.Yes,
+            default = false
         ),
         UserData(
             firstName = "Winter",
             lastName = "Kind",
             age = 14,
             gender = Gender.Diverse,
-            visionImpaired = VisionImpaired.Unselected
+            visionImpaired = VisionImpaired.Unselected,
+            default = false
         ),
         UserData(
             firstName = "Klaus",
             lastName = "Kek",
             age = 25,
             gender = Gender.Female,
-            visionImpaired = VisionImpaired.No
+            visionImpaired = VisionImpaired.No,
+            default = false
         )
     )
 
@@ -136,17 +156,40 @@ object DummyData : Controller() {
         )
     )
 
+    @get: JvmStatic
+    val zoomMapsData = setOf(
+        ZoomMapsData(
+            zoomSpeed = 2.0,
+            zoomKey = KeyCode.A,
+            savedAt = baseTime.plusSeconds(1L),
+            currentUser = userData.first(),
+            zoomPosition = Point2D(1.0, 1.0),
+            imagePath = "aPath"
+        ),
+        ZoomMapsData(
+            zoomSpeed = 1.0,
+            zoomKey = KeyCode.C,
+            savedAt = baseTime.plusSeconds(2L),
+            currentUser = userData.first(),
+            zoomPosition = Point2D(1.0, 1.0),
+            imagePath = "anotherPath"
+        )
+    )
+
     @JvmStatic
     fun zoomMapsConfigs() = zoomMapsConfigs.stream()
 
     @get: JvmStatic
-    val codeChartsData = setOf(
+    val codeChartsData = listOf(
         CodeChartsData(
             codeChartsConfig = codeChartsConfigs.first(),
             originalImageSize = Dimension(x = 3.0, y = 4.0),
             scaledImageSize = Dimension(x = 100.0, y = 200.0),
             screenSize = Dimension(x = 1920.0, y = 1080.0),
-            stringPosition = Interval2D(xMin = 0.0, xMax = 3.0, yMin = 0.0, yMax = 3.0),
+            stringPosition = Interval2D(
+                minimum = Point2D(0.0, 0.0),
+                maximum = Point2D(3.0, 3.0)
+            ),
             currentUser = userData.first()
         ),
         CodeChartsData(
@@ -154,7 +197,10 @@ object DummyData : Controller() {
             originalImageSize = Dimension(x = 123.0, y = 456.0),
             scaledImageSize = Dimension(x = 125.0, y = 500.0),
             screenSize = Dimension(x = 1920.0, y = 1080.0),
-            stringPosition = Interval2D(xMin = 10.0, xMax = 4.0, yMin = 6.2, yMax = 7.55),
+            stringPosition = Interval2D(
+                minimum = Point2D(10.0, 6.2),
+                maximum = Point2D(4.0, 7.55)
+            ),
             currentUser = userData.last()
         )
     )

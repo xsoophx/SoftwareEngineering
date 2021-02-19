@@ -33,21 +33,24 @@ class UserDataCollectionTest : Controller() {
                 lastName = "Kotlin",
                 age = 45,
                 gender = Gender.Diverse,
-                visionImpaired = VisionImpaired.Unselected
+                visionImpaired = VisionImpaired.Unselected,
+                default = false
             ),
             UserData(
                 firstName = "anotherUser",
                 lastName = "Java",
                 age = 25,
                 gender = Gender.Female,
-                visionImpaired = VisionImpaired.No
+                visionImpaired = VisionImpaired.No,
+                default = false
             ),
             UserData(
                 firstName = "Santa",
                 lastName = "Claus",
                 age = 65,
                 gender = Gender.Male,
-                visionImpaired = VisionImpaired.Yes
+                visionImpaired = VisionImpaired.Yes,
+                default = false
             )
         )
     }

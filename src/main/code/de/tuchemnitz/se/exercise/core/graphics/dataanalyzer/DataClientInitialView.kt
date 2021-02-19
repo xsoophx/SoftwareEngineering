@@ -2,12 +2,14 @@ package de.tuchemnitz.se.exercise.core.graphics.dataanalyzer
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView
+import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
 import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
 import de.tuchemnitz.se.exercise.dataanalyzer.DataAnalyst
 import de.tuchemnitz.se.exercise.dataanalyzer.DataClientQueryModel
-import de.tuchemnitz.se.exercise.dataanalyzer.DataProcessorHeatMap
-import de.tuchemnitz.se.exercise.dataanalyzer.Gender
-import de.tuchemnitz.se.exercise.dataanalyzer.Method
+import de.tuchemnitz.se.exercise.dataanalyzer.dataprocessors.DataProcessorHeatMap
+import de.tuchemnitz.se.exercise.dataanalyzer.dataprocessors.DataProcessorMetaData
+import de.tuchemnitz.se.exercise.persist.Image
+import de.tuchemnitz.se.exercise.persist.data.Gender
 import javafx.geometry.Insets
 import javafx.geometry.Orientation
 import javafx.geometry.Pos
@@ -16,10 +18,12 @@ import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.FontWeight
 import javafx.scene.text.TextAlignment
+import javafx.util.StringConverter
 import tornadofx.action
 import tornadofx.bind
 import tornadofx.button
 import tornadofx.buttonbar
+import tornadofx.checkbox
 import tornadofx.combobox
 import tornadofx.field
 import tornadofx.fieldset
@@ -45,13 +49,16 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
         const val minimumAge = "DataClientInitialView_minimumAge"
         const val gender = "DataClientInitialView_gender"
         const val add = "DataClientInitialView_add"
-        const val method = "DataClientInitialView_method"
         const val codeCharts = "DataClientInitialView_codeCharts"
         const val zoomMaps = "DataClientInitialView_zoomMaps"
+        const val imageName = "DataClientInitialView_imagePath"
     }
 
-    /** @param dataClientQueryModel is to pass information to (entered by the user)
-     * @param dataAnalyst analyzes data and initializes query object
+    private val configManager: ConfigManager by inject()
+    private val images = configManager.getAllImages()
+
+    /** dataClientQueryModel is used to pass information to (entered by the user)
+     * dataAnalyst analyzes data and initializes query object
      */
     private val dataClientQueryModel = DataClientQueryModel()
     private val dataAnalyst: DataAnalyst by inject()
@@ -80,38 +87,21 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                     fieldset("Tool Selection", FontAwesomeIconView(FontAwesomeIcon.COG), Orientation.HORIZONTAL) {
                         spacing = 20.0
                         paddingAll = 20.0
-                        field("Codechartstool:") {
-                            combobox(
-                                property = dataClientQueryModel.codeChartsActivated,
-                                values = listOf(true, false)
-                            ) {
-                                id = Ids.codeCharts
+                        checkbox("Codecharts Tool", property = dataClientQueryModel.codeChartsActivated) {
+                            id = Ids.codeCharts
+
+                            action {
+                                if (!isSelected) {
+                                    dataClientQueryModel.zoomMapsActivated.set(true)
+                                }
                             }
                         }
-                        field("Zoommaps:") {
-                            combobox(
-                                property = dataClientQueryModel.zoomMapsActivated,
-                                values = listOf(true, false)
-                            ) {
-                                id = Ids.zoomMaps
-                            }
-                        }
-                    }
-
-                    fieldset(
-                        "Diagram Type",
-                        FontAwesomeIconView(FontAwesomeIcon.DATABASE),
-                        Orientation.HORIZONTAL
-                    ) {
-                        spacing = 20.0
-                        paddingAll = 20.0
-
-                        field("Method:") {
-                            combobox<Method>(
-                                property = dataClientQueryModel.method,
-                                values = Method.values().toList()
-                            ) {
-                                id = Ids.method
+                        checkbox("Zoom Maps Tool", property = dataClientQueryModel.zoomMapsActivated) {
+                            id = Ids.zoomMaps
+                            action {
+                                if (!isSelected) {
+                                    dataClientQueryModel.codeChartsActivated.set(true)
+                                }
                             }
                         }
                     }
@@ -158,6 +148,33 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                         }
                     }
 
+                    fieldset(
+                        "Image",
+                        FontAwesomeIconView(FontAwesomeIcon.FOLDER),
+                        Orientation.HORIZONTAL
+                    ) {
+                        spacing = 20.0
+                        paddingAll = 20.0
+                        field("Image Path:") {
+                            combobox<Image>(
+                                property = dataClientQueryModel.image,
+                                values = images
+                            ) {
+                                id = Ids.imageName
+
+                                converter = object : StringConverter<Image>() {
+                                    override fun toString(instance: Image): String {
+                                        return instance.name
+                                    }
+
+                                    override fun fromString(name: String): Image? {
+                                        return images.find { it.name == name }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     /**
                      * Submit filter params and start rendering data
                      * Use injected @param dataAnalyst to get matching data from the db.
@@ -167,19 +184,38 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                             action {
                                 dataClientQueryModel.commit()
                                 val data = dataAnalyst.getData(dataClientQueryModel.item)
-                                val zoomMapsData = DataProcessorHeatMap().process(data)
-                                replaceWith(find<DataClientHeatMapView>("zoomMapsDataList" to zoomMapsData))
+                                val processedData = DataProcessorHeatMap().process(data)
+
+                                val view = find<DataClientHeatMapView>(
+                                    "imagePath" to dataClientQueryModel.item.image.path,
+                                    "dataList" to processedData
+                                )
+                                view.generateContent()
+                                replaceWith(view)
                             }
-                            style {
-                                fontWeight = FontWeight.EXTRA_BOLD
+                        }
+                        button("View Metadata") {
+                            action {
+                                dataClientQueryModel.commit()
+                                val data = dataAnalyst.getData(dataClientQueryModel.item)
+                                val processedData = DataProcessorMetaData().process(data)
+
+                                replaceWith(
+                                    find<DataClientMetaDataView>(
+                                        "dataList" to processedData
+                                    )
+                                )
                             }
                         }
                     }
+                    style {
+                        fontWeight = FontWeight.EXTRA_BOLD
+                    }
                 }
-                vboxConstraints {
-                    margin = Insets(50.0)
-                    paddingAll = 5.0
-                }
+            }
+            vboxConstraints {
+                margin = Insets(50.0)
+                paddingAll = 5.0
             }
         }
     }

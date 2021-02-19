@@ -32,7 +32,7 @@ import java.time.Instant
 class AbstractCollectionTest : AbstractDatabaseTest(db = mockk(relaxed = true)) {
     data class DummyConfig(
         override val _id: Id<DummyConfig> = newId(),
-        val savedAt: Instant = Instant.now(),
+        override val savedAt: Instant = Instant.now(),
         val payload: String = ""
     ) : IPersist
 
