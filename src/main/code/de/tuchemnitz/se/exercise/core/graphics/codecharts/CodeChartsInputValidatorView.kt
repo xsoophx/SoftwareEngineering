@@ -86,14 +86,20 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
         val yMaxPos = yMinPos + cellHeight
 
         // interval will later be used for data analysis
-        val eyePos = Interval2D(xMin = xMinPos, xMax = xMaxPos, yMin = yMinPos, yMax = yMaxPos)
-        if (codeChartsClickCounter.recursionCounter > 0) {
-            eyePos.xMin += codeChartsClickCounter.viewPort.minX
-            eyePos.xMax += codeChartsClickCounter.viewPort.minX
-            eyePos.yMin += codeChartsClickCounter.viewPort.minY
-            eyePos.yMax += codeChartsClickCounter.viewPort.minY
-        }
-        val eyePos = Interval2D(minimum = Point2D(xMinPos, yMinPos), maximum = Point2D(xMaxPos, yMaxPos))
+        val minMaxEyePos = Interval2D(minimum = Point2D(xMinPos, yMinPos), maximum = Point2D(xMaxPos, yMaxPos))
+        val eyePos = if (codeChartsClickCounter.recursionCounter > 0) {
+            Interval2D(
+                minimum = Point2D(
+                    minMaxEyePos.minimum.x + codeChartsClickCounter.viewPort.minX,
+                    minMaxEyePos.minimum.y + codeChartsClickCounter.viewPort.minY
+                ),
+                maximum = Point2D(
+                    minMaxEyePos.maximum.x + codeChartsClickCounter.viewPort.minX,
+                    minMaxEyePos.maximum.y + codeChartsClickCounter.viewPort.minY
+                )
+            )
+        } else minMaxEyePos
+
         codeChartsData.eyePos = eyePos
 
         logger.info("${codeChartsData.eyePos.minimum.x}, ${codeChartsData.eyePos.maximum.x}, ${codeChartsData.eyePos.minimum.y}, ${codeChartsData.eyePos.maximum.y}")
@@ -128,7 +134,7 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
             replaceWith(CodeChartsThankfulView::class)
             inputString.text = ""
 
-            if (codeChartsClickCounter.clickList.contains(codeChartsClickCounter.recurseAt) && codeChartsData.recursionDepth > codeChartsClickCounter.recursionCounter && codeChartsData.relative == true) {
+            if (codeChartsClickCounter.clickList.contains(codeChartsClickCounter.recurseAt) && codeChartsData.recursionDepth > codeChartsClickCounter.recursionCounter && codeChartsData.relative) {
                 print(codeChartsData.eyePos)
                 codeChartsClickCounter.viewPort = intervalToRectangle(codeChartsData.eyePos)
                 codeChartsClickCounter.pictureImageView.replaceViewPort(codeChartsClickCounter.viewPort)
@@ -163,10 +169,10 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
      */
     private fun intervalToRectangle(interval: Interval2D): Rectangle2D {
         return Rectangle2D(
-            interval.xMin,
-            interval.yMin,
-            interval.xMax - interval.xMin,
-            interval.yMax - interval.yMin
+            interval.minimum.x,
+            interval.minimum.y,
+            interval.maximum.x - interval.minimum.x,
+            interval.maximum.y - interval.minimum.y
         )
     }
 }

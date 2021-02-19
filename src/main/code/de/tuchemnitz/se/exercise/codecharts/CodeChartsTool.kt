@@ -4,6 +4,7 @@ import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.Grid
 import de.tuchemnitz.se.exercise.persist.configs.PictureData
+import javafx.geometry.Point2D
 import javafx.geometry.Rectangle2D
 import javafx.scene.image.ImageView
 import tornadofx.Controller
@@ -11,8 +12,9 @@ import tornadofx.Controller
 const val IMAGE_PATH = "/Chameleon.jpg"
 const val GRID_WIDTH = 10
 const val GRID_HEIGHT = 10
-const val MATRIX_VIEW_TIME = 5
-const val PICTURE_VIEW_TIME = 5
+const val MATRIX_VIEW_TIME = 5000
+const val PICTURE_VIEW_TIME = 5000
+const val MIN_VIEWS_TO_SUBDIVIDE = 5
 
 object CodeChartsTool : Controller() {
     private val configManager: ConfigManager by inject()
@@ -25,12 +27,12 @@ object CodeChartsTool : Controller() {
                 imagePath = IMAGE_PATH,
                 grid = Grid(width = GRID_WIDTH, height = GRID_HEIGHT),
                 pictureViewTime = PICTURE_VIEW_TIME,
-                matrixViewTime = MATRIX_VIEW_TIME,
-                ordered = false,
                 relative = false,
                 maxRecursionDepth = 10
             )
-        )
+        ),
+        matrixViewTime = MATRIX_VIEW_TIME,
+        ordered = true
     )
 
     /**
@@ -44,10 +46,10 @@ object CodeChartsTool : Controller() {
         ),
         allowedChars = codeChartsSettings.stringCharacters,
         imagePath = codeChartsSettings.pictures[0].imagePath,
-        matrixViewTime = codeChartsSettings.pictures[0].matrixViewTime,
+        matrixViewTime = codeChartsSettings.matrixViewTime,
         pictureViewTime = codeChartsSettings.pictures[0].pictureViewTime,
-        sorted = codeChartsSettings.pictures[0].ordered,
-        eyePos = Interval2D(0.0, 0.0, 0.0, 0.0),
+        sorted = codeChartsSettings.ordered,
+        eyePos = Interval2D(minimum = Point2D(0.0, 0.0), Point2D(0.0, 0.0)),
         originalImageSize = Dimension(0.0, 0.0),
         scaledImageSize = Dimension(0.0, 0.0),
         screenSize = Dimension(0.0, 0.0),
@@ -83,7 +85,7 @@ object CodeChartsTool : Controller() {
             0.0,
             0.0,
         ),
-        recurseAt = 2,
+        recurseAt = codeChartsSettings.minViewsToSubdivide,
         pictureImageView = ImageView()
     )
 }
