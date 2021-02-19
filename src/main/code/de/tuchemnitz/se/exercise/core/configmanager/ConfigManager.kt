@@ -329,4 +329,9 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
                 blue = 168
             )
         )
+
+    /**
+     * Returns the needed settings for the CodeChartsTool.
+     */
+    fun codeChartsSettings() = decodeConfig()?.codeChartsConfig
 }
