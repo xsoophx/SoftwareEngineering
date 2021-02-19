@@ -11,7 +11,7 @@ class ImageCollection : AbstractCollection<Image>(Image::class) {
     private data class ImageNameOnly(val name: String)
 
     companion object {
-        val DEFAULT_IMAGES = setOf("Chameleon", "Penguin", "Kitten")
+        val DEFAULT_IMAGES = setOf("Chameleon", "Penguin", "Kitten", "Background")
 
         fun defaultImagePath(imageName: String): Path = Path.of("src/main/resources/$imageName.jpg")
     }
