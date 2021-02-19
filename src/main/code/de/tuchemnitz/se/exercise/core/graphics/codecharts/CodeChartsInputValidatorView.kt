@@ -5,6 +5,7 @@ import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsData
 import de.tuchemnitz.se.exercise.codecharts.CodeChartsTool.codeChartsStringHandler
 import de.tuchemnitz.se.exercise.codecharts.Interval2D
 import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
+import javafx.geometry.Point2D
 import javafx.geometry.Pos
 import javafx.scene.control.TextField
 import javafx.scene.paint.Color
@@ -73,10 +74,10 @@ class CodeChartsInputValidatorView : MainBarView("CodeCharts - Eingabe") {
         val yMaxPos = yMinPos + cellHeight
 
         // interval will later be used for data analysis
-        val eyePos = Interval2D(xMin = xMinPos, xMax = xMaxPos, yMin = yMinPos, yMax = yMaxPos)
+        val eyePos = Interval2D(minimum = Point2D(xMinPos, yMinPos), maximum = Point2D(xMaxPos, yMaxPos))
         codeChartsData.eyePos = eyePos
 
-        logger.info("${codeChartsData.eyePos.xMin}, ${codeChartsData.eyePos.xMax}, ${codeChartsData.eyePos.yMin}, ${codeChartsData.eyePos.yMax}")
+        logger.info("${codeChartsData.eyePos.minimum.x}, ${codeChartsData.eyePos.maximum.x}, ${codeChartsData.eyePos.minimum.y}, ${codeChartsData.eyePos.maximum.y}")
         logger.info("${codeChartsData.scaledImageSize.x}, ${codeChartsData.scaledImageSize.y}")
     }
 

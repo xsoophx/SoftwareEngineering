@@ -4,7 +4,6 @@ import com.sun.javafx.util.Utils.clamp
 import de.tuchemnitz.se.exercise.codecharts.IMAGE_PATH
 import de.tuchemnitz.se.exercise.core.configmanager.ConfigManager
 import de.tuchemnitz.se.exercise.core.graphics.system.MainBarView
-import de.tuchemnitz.se.exercise.core.graphics.system.ToolSelectionView
 import de.tuchemnitz.se.exercise.persist.data.ZoomMapsData
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleDoubleProperty
@@ -15,8 +14,6 @@ import javafx.scene.image.ImageView
 import javafx.scene.input.KeyEvent
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import tornadofx.action
-import tornadofx.button
 import tornadofx.getValue
 import tornadofx.imageview
 import tornadofx.keyboard
@@ -75,14 +72,7 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
          * the contentBox is being filled with the image, on which the user is supposed to zoom in and out.
          */
         with(contentBox) {
-            button("Hauptmenü") {
-                action {
-                    replaceWith(ToolSelectionView::class)
-                }
-                prefWidthProperty().bind(root.widthProperty())
-                prefHeightProperty().bind(root.heightProperty())
-            }
-
+            isFocusTraversable = true
             /**
              * @receiver root/BorderPane: an EventFilter to the root is added. It is detecting key presses and
              * key releases. If the Key of the config is pressed, zooming is being enabled. Is it released,
@@ -134,7 +124,8 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
                             ZoomMapsData(
                                 zoomSpeed = zoomSpeed,
                                 zoomKey = zoomKey,
-                                zoomPosition = absolutePosition,
+                                zoomPosition = mouseLocation,
+                                imagePath = IMAGE_PATH,
                                 currentUser = configManager.currentUser
                             )
                         )
@@ -143,10 +134,10 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
                     logger.info("zoomed in at: $mouseLocation.")
 
                     /**
-                     * [factor]: the factor for zooming in and out is calculated.
-                     * [oldScale]: the old scale factor is temporarily saved in it.
+                     * factor: the factor for zooming in and out is calculated.
+                     * oldScale: the old scale factor is temporarily saved in it.
                      * [scale]: the new scale value is calculated.
-                     * [actualFactor]: the new actual Factor is being calculated with the current scale
+                     * actualFactor: the new actual Factor is being calculated with the current scale
                      * and the old scale.
                      */
                     val factor = if (e.deltaY > 0) 1.0 / 1.2 else 1.2

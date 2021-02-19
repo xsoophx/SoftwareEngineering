@@ -4,20 +4,24 @@ import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.isEqualTo
 import de.tuchemnitz.se.exercise.DummyData
-import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
+import de.tuchemnitz.se.exercise.persist.AbstractDatabaseTest
+import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
+import de.tuchemnitz.se.exercise.persist.configs.PictureData
+import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
+import de.tuchemnitz.se.exercise.persist.data.Gender
+import de.tuchemnitz.se.exercise.persist.data.UserData
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.litote.kmongo.div
 import org.litote.kmongo.eq
-import tornadofx.Controller
 
-class QueryIntegrationTest : Controller() {
+class QueryIntegrationTest : AbstractDatabaseTest() {
 
-    private val codeChartsConfigCollection: CodeChartsConfigCollection by inject()
+    private val query: Query by inject()
 
     companion object {
-        val query = Query()
-        private val dataFilters = setOf(
+        private val userDataFilter =
             UserDataFilter(
                 firstName = Filter(taken = true, value = "Klaus"),
                 lastName = Filter(taken = false, value = ""),
@@ -26,41 +30,80 @@ class QueryIntegrationTest : Controller() {
                     taken = false, value = Gender.Male
                 )
             )
+        private val codeChartsDataFilter = CodeChartsDataFilter(
+            pictureViewTime = Filter(taken = false, value = 0),
+            matrixViewTime = Filter(taken = false, value = 0),
+            imagePath = Filter(taken = true, value = "abc")
         )
-        val userFilter = Query.QueryFilter(
-            userDataFilter = Filter(taken = true, value = dataFilters.first()),
+
+        private val filter = QueryFilter(
+            userDataFilter = Filter(taken = true, value = userDataFilter),
             codeChartsDataFilter = Filter(
-                taken = false,
-                value = CodeChartsDataFilter(
-                    pictureViewTime = Filter(taken = false, value = 0),
-                    matrixViewTime = Filter(taken = false, value = 0)
-                )
+                taken = true,
+                value = codeChartsDataFilter
             ),
-            pictureDataFilter = null,
+            zoomMapsFilter = null
+        )
+        private val onlyUserDataFilter = QueryFilter(
+            userDataFilter = Filter(taken = true, value = userDataFilter),
+            codeChartsDataFilter = null,
+            zoomMapsFilter = null
+        )
+        private val onlyCodeChartsDataFilter = QueryFilter(
+            userDataFilter = null,
+            codeChartsDataFilter = Filter(
+                taken = true,
+                value = codeChartsDataFilter
+            ),
             zoomMapsFilter = null
         )
     }
 
     @BeforeEach
     fun setup() {
-        codeChartsConfigCollection.saveOne(DummyData.codeChartsConfigs.first())
+        query.codeChartsDataCollection.saveMany(DummyData.codeChartsData)
         query.userDataCollection.saveMany(DummyData.userData)
     }
 
     @AfterEach
     fun close() {
-        codeChartsConfigCollection.deleteMany()
+        query.codeChartsDataCollection.deleteMany()
         query.userDataCollection.deleteMany()
     }
 
     @Test
-    fun `querying database with given params should work`() {
-        val queryResult = query.queryAllElementsSeparately(userFilter)
-        val databaseIterable = query.userDataCollection.find(DummyData.userData.first()::firstName eq "Klaus")
+    fun `querying userData Filter should work`() {
+        val queryResult = query.queryAllElementsSeparately(onlyUserDataFilter)
+        val databaseIterable = query.userDataCollection.find(UserData::firstName eq "Klaus")
+        databaseIterable.forEach {
+            assertThat(queryResult).contains(it)
+        }
+        assertThat(queryResult.size).isEqualTo(databaseIterable.count())
+    }
+
+    @Test
+    fun `querying with codeCharts Filter should work`() {
+        val queryResult = query.queryAllElementsSeparately(onlyCodeChartsDataFilter)
+        val databaseIterable =
+            query.codeChartsDataCollection.find(
+                CodeChartsData::codeChartsConfig / CodeChartsConfig::pictures / PictureData::imagePath
+                    eq "abc"
+            )
 
         databaseIterable.forEach {
             assertThat(queryResult).contains(it)
         }
         assertThat(queryResult.size).isEqualTo(databaseIterable.count())
+    }
+
+    @Test
+    fun `querying with codeCharts and userData Filter should work`() {
+        val queryResult = query.queryAllElementsSeparately(filter)
+        val expected = query.codeChartsDataCollection.find(
+            CodeChartsData::codeChartsConfig / CodeChartsConfig::pictures / PictureData::imagePath
+                eq "abc"
+        ).single()
+
+        assertThat(queryResult).contains(expected)
     }
 }

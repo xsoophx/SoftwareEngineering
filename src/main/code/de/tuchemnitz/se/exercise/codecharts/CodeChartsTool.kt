@@ -1,5 +1,7 @@
 package de.tuchemnitz.se.exercise.codecharts
 
+import javafx.geometry.Point2D
+
 /**
  * Dummy values that we will replace later.
  */
@@ -31,7 +33,7 @@ object CodeChartsTool {
         matrixViewTime = MATRIX_VIEW_TIME,
         pictureViewTime = PICTURE_VIEW_TIME,
         sorted = true,
-        eyePos = Interval2D(0.0, 0.0, 0.0, 0.0),
+        eyePos = Interval2D(minimum = Point2D(0.0, 0.0), maximum = Point2D(0.0, 0.0)),
         originalImageSize = Dimension(0.0, 0.0),
         scaledImageSize = Dimension(0.0, 0.0),
         screenSize = Dimension(0.0, 0.0)
@@ -42,9 +44,9 @@ object CodeChartsTool {
      */
     val codeChartsStringHandler = CodeChartsStringHandler().apply {
         /**
-         * @param gridWidth contains number of grid cells in width dimension.
-         * @param gridHeight contains number of grid cells in height dimension.
-         * @param gridSize contains total number of grid cells in grid.
+         * gridWidth contains number of grid cells in width dimension.
+         * gridHeight contains number of grid cells in height dimension.
+         * gridSize contains total number of grid cells in grid.
          */
         val gridWidth = codeChartsData.gridDimension.x
         val gridHeight = codeChartsData.gridDimension.y
