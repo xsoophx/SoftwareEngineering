@@ -39,7 +39,7 @@
                     <ImageView pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0"
                                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                                AnchorPane.topAnchor="0.0">
-                        <Image url="@Background.jpg"/>
+                        <Image url="@/Background.jpg"/>
                     </ImageView>
                 </AnchorPane>
                 <VBox fx:id="content"/>
@@ -54,6 +54,7 @@
             </padding>
             <Button fx:id="main_menu_button" mnemonicParsing="false" text="Hauptmenü"/>
             <Button fx:id="exit_button" mnemonicParsing="false" text="Programm beenden"/>
+            <Button fx:id="create_json_button" mnemonicParsing="false" text="Generiere Config File"/>
         </HBox>
     </bottom>
 </BorderPane>
