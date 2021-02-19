@@ -37,6 +37,11 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
     private val configManager: ConfigManager by inject()
 
     /**
+     * [image]: the picture which is used for zooming
+     */
+    private val imagePath = configManager.decodeConfig()?.zoomMapsConfig?.pictures?.first()?.name ?: IMAGE_PATH
+
+    /**
      * [zoomEnabledProperty]: states whether the initial zoom is activated or not (default is false).
      */
     private val zoomEnabledProperty = SimpleBooleanProperty(false)
@@ -97,7 +102,8 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
              * properties width and height, thus, the image scales with the screen size while zooming in and out.
              */
             imageview {
-                image = Image(IMAGE_PATH)
+                val nonNullableImagePath = if (imagePath != IMAGE_PATH) "\\${imagePath}" else IMAGE_PATH
+                image = Image(nonNullableImagePath)
                 maxWidthProperty().bind(root.widthProperty())
                 fitHeightProperty().bind(root.heightProperty())
                 isPreserveRatio = true

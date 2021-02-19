@@ -29,7 +29,7 @@ data class BubbleViewConfig(
 @Serializable
 data class ConfigFileZoomMaps(
     val keyBindings: KeyBindings,
-    @SerialName("pictures") val filter: Set<ZoomInformation>
+    val pictures: List<ZoomInformation>
 )
 
 @Serializable

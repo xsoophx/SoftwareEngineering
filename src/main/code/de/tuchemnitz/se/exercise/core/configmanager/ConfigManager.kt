@@ -282,7 +282,7 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
                     inKey = keyCode,
                     out = keyCode
                 ),
-                filter = setOf(ZoomInformation(name = zoomImage, zoomSpeed = zoomSpeed))
+                pictures = listOf(ZoomInformation(name = zoomImage, zoomSpeed = zoomSpeed))
             ),
 
             // TODO

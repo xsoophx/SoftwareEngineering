@@ -47,7 +47,7 @@ class JsonConverterTest {
                     inKey = KeyCode.C,
                     out = KeyCode.C
                 ),
-                filter = setOf(ZoomInformation(name = "", zoomSpeed = 1.0))
+                pictures = listOf(ZoomInformation(name = "", zoomSpeed = 1.0))
             ),
             codeChartsConfig = DummyData.codeChartsConfigs.first(),
             eyeTrackingConfig = EyeTrackingConfig(pictures = emptyList()),
