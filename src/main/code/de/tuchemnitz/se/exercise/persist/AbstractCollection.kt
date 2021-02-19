@@ -17,7 +17,7 @@ abstract class AbstractCollection<T : IPersist>(
     clazz: KClass<T>
 ) : Controller() {
     private val database: Database by inject()
-    private val collection = database.getCollection(clazz)
+    protected val collection = database.getCollection(clazz)
 
     /**
      * Finds elements matching to a certain filter
@@ -65,5 +65,13 @@ abstract class AbstractCollection<T : IPersist>(
      */
     open fun deleteMany(filter: Bson = BsonDocument()) {
         collection.deleteMany(filter)
+    }
+
+    /**
+     * Counts elements of a collection with a certain filter.
+     * @param filter of type Bson, which is used to set filters for search
+     */
+    open fun countDocuments(filter: Bson): Int {
+        return collection.countDocuments(filter).toInt()
     }
 }

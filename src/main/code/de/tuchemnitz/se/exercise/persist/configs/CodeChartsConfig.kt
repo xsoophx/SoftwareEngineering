@@ -13,18 +13,18 @@ import java.time.Instant
 data class CodeChartsConfig(
     @Transient override val _id: Id<CodeChartsConfig> = newId(),
     @Transient override val savedAt: Instant = now(),
+    val matrixViewTime: Int,
     val minViewsToSubdivide: Int,
+    val ordered: Boolean,
     val stringCharacters: StringCharacters,
     val pictures: List<PictureData>
 ) : IConfig
 
 @Serializable
 data class PictureData(
-    @SerialName("path") val imagePath: String,
+    @SerialName("name") val imagePath: String,
     val grid: Grid,
     val pictureViewTime: Int,
-    val matrixViewTime: Int,
-    val ordered: Boolean,
     val relative: Boolean,
     val maxRecursionDepth: Int
 )

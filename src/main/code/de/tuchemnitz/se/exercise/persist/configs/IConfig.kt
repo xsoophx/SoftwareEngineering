@@ -9,5 +9,5 @@ import java.time.Instant
  */
 interface IConfig : IPersist {
     override val _id: Id<out IConfig>
-    val savedAt: Instant
+    override val savedAt: Instant
 }

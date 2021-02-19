@@ -12,6 +12,7 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import javafx.scene.input.KeyCode
 import org.bson.BsonDocument
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -47,7 +48,7 @@ class ConfigManagerTest {
         val testPath = Path.of("bull/shit.txt")
 
         assertDoesNotThrow {
-            DummyData.configManager.writeFile(testPath)
+            DummyData.configManager.writeFileNoThrow(testPath)
         }
     }
 
@@ -82,6 +83,10 @@ class ConfigManagerTest {
             DummyData.codeChartsConfigCollection.saveOne(it)
         }
 
+        DummyData.zoomMapsData.forEach {
+            DummyData.zoomMapsDataCollection.saveOne(it)
+        }
+
         DummyData.zoomMapsConfigs().forEach {
             DummyData.zoomMapsConfigCollection.saveOne(it)
         }
@@ -91,20 +96,36 @@ class ConfigManagerTest {
     fun tearDown() {
         DummyData.codeChartsConfigCollection.deleteMany()
         DummyData.zoomMapsConfigCollection.deleteMany()
+        DummyData.zoomMapsDataCollection.deleteMany()
     }
 
     @Test
     fun `assembling all database configs should work`() { // integration test
+        val recentZoomConfig = mostRecentZoomMapsData
+        val keyCode = recentZoomConfig?.zoomKey ?: KeyCode.C
+        val zoomImage = recentZoomConfig?.imagePath ?: ""
+        val zoomSpeed = recentZoomConfig?.zoomSpeed ?: 1.0
+
         val expected = ToolConfigs(
             codeChartsConfig = mostRecentCodeChartsConfig,
-            zoomMapsConfig = mostRecentZoomMapsConfig,
+            zoomMapsConfig = ConfigFileZoomMaps(
+                keyBindings = KeyBindings(
+                    up = keyCode,
+                    down = keyCode,
+                    left = keyCode,
+                    right = keyCode,
+                    inKey = keyCode,
+                    out = keyCode
+                ),
+                filter = setOf(ZoomInformation(name = zoomImage, zoomSpeed = zoomSpeed))
+            ),
             // TODO
-            eyeTrackingConfig = EyeTrackingConfig(dummyVal = ""),
+            eyeTrackingConfig = EyeTrackingConfig(pictures = emptyList()),
             // TODO
             bubbleViewConfig = BubbleViewConfig(
                 filter = setOf(
                     FilterInformation(
-                        path = "", filter = Filter(
+                        name = "", filter = Filter(
                             gradient = 1, type = "gaussianBlur"
                         )
                     )
@@ -122,6 +143,6 @@ class ConfigManagerTest {
     private val mostRecentCodeChartsConfig =
         DummyData.codeChartsConfigs.maxByOrNull { it.savedAt }
 
-    private val mostRecentZoomMapsConfig =
-        DummyData.zoomMapsConfigs.maxByOrNull { it.savedAt }
+    private val mostRecentZoomMapsData =
+        DummyData.zoomMapsData.maxByOrNull { it.savedAt }
 }

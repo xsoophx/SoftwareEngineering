@@ -1,27 +1,12 @@
 package de.tuchemnitz.se.exercise.dataanalyzer
 
+import de.tuchemnitz.se.exercise.persist.data.Gender
 import javafx.scene.input.KeyCode
 
 data class Filter<T>(
     val taken: Boolean,
     val value: T
 )
-
-enum class Gender {
-    Male,
-    Female,
-    Other
-}
-
-enum class ActiveTools {
-    CodeCharts,
-    ZoomMaps
-}
-
-enum class Method {
-    Heatmap,
-    Diagram
-}
 
 data class Age(
     val minimumAge: Int?,
@@ -37,13 +22,11 @@ data class UserDataFilter(
 
 data class CodeChartsDataFilter(
     val pictureViewTime: Filter<Int>,
-    val matrixViewTime: Filter<Int>
-)
-
-data class PictureDataFilter(
+    val matrixViewTime: Filter<Int>,
     val imagePath: Filter<String>
 )
 
 data class ZoomMapsDataFilter(
-    val keyCode: Filter<KeyCode>
+    val keyCode: Filter<KeyCode>,
+    val imagePath: Filter<String>
 )

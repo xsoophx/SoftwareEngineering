@@ -1,8 +1,8 @@
 package de.tuchemnitz.se.exercise.codecharts
 
-import javafx.geometry.Rectangle2D
-import javafx.scene.image.ImageView
-import kotlinx.serialization.Contextual
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import de.tuchemnitz.se.exercise.persist.Point2DSerializer
+import javafx.geometry.Point2D
 import kotlinx.serialization.Serializable
 
 data class CodeChartsValues(
@@ -69,11 +69,14 @@ data class StringCharacters(
  * [Interval2D] contains minimal and maximal width and height values to define a rectangle.
  */
 @Serializable
+
 data class Interval2D(
-    var xMin: Double,
-    var xMax: Double,
-    var yMin: Double,
-    var yMax: Double
+    @JsonDeserialize(using = Point2DSerializer::class)
+    @Serializable(with = Point2DSerializer::class)
+    val minimum: Point2D,
+    @JsonDeserialize(using = Point2DSerializer::class)
+    @Serializable(with = Point2DSerializer::class)
+    val maximum: Point2D
 )
 
 @Serializable
