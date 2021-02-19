@@ -268,35 +268,36 @@ This value contains an x- and a y- Interval in pixels, based on the scaled pictu
 The Thankful-View appears after the InputValidator-View in case the user provided a String, which is a member of the generated String list. 
 The Retry-View appears if the String, provided by the user, is not part of the list of generated Strings. Both Views give the user the opportunity to retry or to leave the program.
 
-### Overview ZoomMaps
-To implement the zoom maps-tool we created a class called "ZoomMapsView".
+### Overview ZoomMaps :mag:
+To implement the zoom maps-tool we created a class called `ZoomMapsView`.
 This view implements the functionality of zooming in and out on a picture.
 We also addressed the required functionalities. With the injected property 
-"scaleProperty" the user can choose a zoom speed and from the configuration 
-file we read the user assigned zoom key. To detect a intended zoom we added a
-"EventFilter" which detects when the assigned key is being pressed and when it is
-released. To store the location of the zoom, we initialize the variable "zoomPosition". 
-When the zoom key is being triggered the value is being saved. Beforehand we have to 
+`scaleProperty` the user can choose a zoom speed and from the configuration 
+file we read the user assigned zoom key. To detect an intended zoom we added a
+`EventFilter` which detects when the assigned key is being pressed and when it is
+released. To store the location of the zoom, we initialize the variable `zoomPosition`. 
+When the zoom key is being triggered, the value is being saved. Beforehand we have to 
 adjust the position in the picture to the applied zoom.
 
 ## Milestone :seven:
+*Deadline: 20.01.2021*
 
 ### Part :one:
-For the interaction with the database we created a class named "Abstractcollection".
+For the interaction with the database we created a class named `AbstractCollection`.
 It contains methods to allow finding elements matching one or multiple filters, to
 save or delete one or multiple entries. To ensure that each tool gets its settings 
-we also have created a "ConfigManager". This class covers everything related with the 
+we also have created a `ConfigManager`. This class covers everything related with the 
 config files of the tools.
 
 ### Part :two:
-To implement the dataanalyst we created multiple views and classes.
-In the "ClientDataIntialView" we gather user inputs for filterparameters.
-This data is being stored in the "DataClientQueryModel". When the user presses 
-the start button, the class "DataAnalyst" is being called with the passed parameters.
+To implement the Data Analyst, we created multiple views and classes.
+In the `ClientDataIntialView` we gather user inputs for filterparameters.
+This data is being stored in the `DataClientQueryModel`. When the user presses 
+the start button, the class `DataAnalyst` is being called with the passed parameters.
 This class instantiates a query and returns the data form the database back to the
-initial view. The "Query" class searches the datasets in the database for the given
+initial view. The `Query` class searches the datasets in the database for the given
 filters. To do that we divide the filter into multiple subfilters und return the 
-combined results. In the "DataProcessorHeatMap" the datasets are being processed
-to return a list of point coordinates. We need these coordinates in the "HeatMapView" 
+combined results. In the `DataProcessorHeatMap` the datasets are being processed
+to return a list of point coordinates. We need these coordinates in the `HeatMapView` 
 to draw a circle around each pair of coordinates to visualize the areas that had been 
 viewed.

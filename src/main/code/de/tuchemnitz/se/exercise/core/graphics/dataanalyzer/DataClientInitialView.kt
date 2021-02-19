@@ -10,6 +10,7 @@ import de.tuchemnitz.se.exercise.dataanalyzer.dataprocessors.DataProcessorHeatMa
 import de.tuchemnitz.se.exercise.dataanalyzer.dataprocessors.DataProcessorMetaData
 import de.tuchemnitz.se.exercise.persist.Image
 import de.tuchemnitz.se.exercise.persist.data.Gender
+import javafx.application.Platform
 import javafx.geometry.Insets
 import javafx.geometry.Orientation
 import javafx.geometry.Pos
@@ -190,8 +191,10 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
                                     "imagePath" to dataClientQueryModel.item.image.path,
                                     "dataList" to processedData
                                 )
-                                view.generateContent()
                                 replaceWith(view)
+                                Platform.runLater {
+                                    view.generateContent()
+                                }
                             }
                         }
                         button("View Metadata") {
