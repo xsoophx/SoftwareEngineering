@@ -15,7 +15,6 @@ import tornadofx.group
 import tornadofx.imageview
 import tornadofx.pane
 import tornadofx.replaceChildren
-import java.awt.Toolkit
 import java.nio.file.Path
 
 /**
@@ -53,9 +52,6 @@ class DataClientHeatMapView : MainBarView("Data Client Heat Map") {
             colors[1].green.toDouble() / 256,
             colors[1].blue.toDouble() / 256
         )
-
-    private val screenWidth = Toolkit.getDefaultToolkit().screenSize.getWidth()
-    private val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
 
     /**
      *  shows the image selected (currently default image) and draws circles with the viewpoints.
