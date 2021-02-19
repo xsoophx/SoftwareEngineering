@@ -18,6 +18,9 @@ import tornadofx.vbox
 import tornadofx.getValue
 import tornadofx.setValue
 
+/**
+ * This view is responsible for all the camera based Eye tracking depicted.
+ */
 class EyeTrackingView : View(title = "Eye-Tracking") {
     private val videoCaptureIndexProperty = SimpleIntegerProperty(this, "videoCaptureIndex", 0)
     private var videoCaptureIndex: Int by videoCaptureIndexProperty
@@ -44,6 +47,9 @@ class EyeTrackingView : View(title = "Eye-Tracking") {
         }
     }
 
+    /**
+     * The stage is being overwritten, right before its shown, to resize and capture the image.
+     */
     override fun onBeforeShow() {
         super.onBeforeShow()
 
@@ -55,6 +61,10 @@ class EyeTrackingView : View(title = "Eye-Tracking") {
         }
     }
 
+    /**
+     * The Window, the user is currently looking at is being resized to the cameras resolution.
+     *  @receiver shows the current frame of the camera.
+     */
     private fun ImageView.resizeToCamera() {
         val (width, height) = cameras[videoCaptureIndex]
         fitWidth = width
