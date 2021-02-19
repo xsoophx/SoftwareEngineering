@@ -1,9 +1,8 @@
-import org.jetbrains.dokka.DokkaDefaults.reportUndocumented
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    java
+    application
     kotlin("jvm") version "1.4.10"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.4.10"
     id("org.openjfx.javafxplugin") version "0.0.9"
@@ -28,6 +27,10 @@ javafx {
     modules = listOf("javafx.controls", "javafx.graphics", "javafx.fxml", "javafx.media")
 }
 
+application {
+    mainClass.set("src.main.code.de.tuchemnitz.se.exercise.Main.kt")
+}
+
 object Version {
     const val JUNIT = "5.7.0"
     const val KOTEST = "4.3.0"
@@ -35,6 +38,7 @@ object Version {
     const val KOTLINX_SERIALIZATION = "1.0.1"
     const val LOGBACK = "1.2.3"
     const val MOCKK = "1.10.2"
+    const val OPENCV = "4.3.0-3"
     const val SLF4J = "1.7.30"
     const val KMONGO = "4.2.3"
     const val ASSERTK = "0.23"
@@ -57,6 +61,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Version.KOTLINX_COROUTINES}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${Version.KOTLINX_COROUTINES}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-slf4j:${Version.KOTLINX_COROUTINES}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-javafx:${Version.KOTLINX_COROUTINES}")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${Version.KOTLINX_SERIALIZATION}")
 
@@ -78,6 +83,8 @@ dependencies {
     testImplementation("org.testfx:testfx-junit5:${Version.TESTFX}")
 
     dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:${Version.DOKKA}")
+
+    implementation("org.openpnp:opencv:${Version.OPENCV}")
 }
 
 project.sourceSets {

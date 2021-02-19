@@ -2,6 +2,7 @@ package de.tuchemnitz.se.exercise.core.graphics.system
 
 import de.tuchemnitz.se.exercise.core.graphics.codecharts.CodeChartsView
 import de.tuchemnitz.se.exercise.core.graphics.dataanalyzer.DataClientInitialView
+import de.tuchemnitz.se.exercise.core.graphics.eyetracking.EyeTrackingView
 import de.tuchemnitz.se.exercise.core.graphics.zoommaps.ZoomMapsView
 import javafx.geometry.Pos
 import javafx.scene.layout.Priority
@@ -55,6 +56,16 @@ class ToolSelectionView : MainBarView("Software Praktikum - Gruppe 4 - Tool Sele
                     textAlignment = TextAlignment.CENTER
                     action {
                         replaceWith(DataClientInitialView::class)
+                    }
+                }
+                button("Eye Tracking Tool") {
+                    textFill = BLACK
+                    font = Font(22.0)
+                    textAlignment = TextAlignment.CENTER
+                    action {
+                        val view = find<EyeTrackingView>()
+                        replaceWith(view)
+                        view.launchImageGrabber()
                     }
                 }
             }

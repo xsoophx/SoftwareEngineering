@@ -51,10 +51,10 @@ class Query : Controller() {
     }
 
     fun queryZoomMapsImage(imagePath: String): Int {
-        return zoomMapsDataCollection.find(
+        return zoomMapsDataCollection.countDocuments(
             ZoomMapsData::imagePath
                 eq imagePath
-        ).count()
+        )
     }
 
     /**

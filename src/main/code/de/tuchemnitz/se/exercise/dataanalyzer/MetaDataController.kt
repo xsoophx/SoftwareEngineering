@@ -60,7 +60,7 @@ class MetaDataController : Controller() {
                 PieChart.Data("Male", totalMale.toDouble()),
                 PieChart.Data("Female", totalFemale.toDouble()),
                 PieChart.Data("Diverse", totalDiverse.toDouble()),
-                PieChart.Data("Unknown Age", totalUnselected.toDouble())
+                PieChart.Data("Unknown Gender", totalUnselected.toDouble())
             )
         }
 

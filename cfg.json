@@ -9,28 +9,25 @@
         "exportPath": "exportPath",
         "imagePath": "imagePath"
     },
-    "pictures": [
-      {
-        "name": "/Chameleon.jpg",
-        "zoomSpeed": 1.0
-      }
-    ]
-  },
-  "codeCharts": {
-    "matrixViewTime": 5000,
-    "minViewsToSubdivide": 5,
-    "ordered": true,
-    "stringCharacters": {
-      "upperCase": true,
-      "lowerCase": true,
-      "numbers": true
+    "bubbleView": {
+        "pictures": [
+            {
+                "name": "",
+                "filter": {
+                    "gradient": 1,
+                    "type": "gaussianBlur"
+                }
+            }
+        ]
     },
-    "pictures": [
-      {
-        "name": "/Chameleon.jpg",
-        "grid": {
-          "width": 10,
-          "height": 10
+    "zoomMaps": {
+        "keyBindings": {
+            "up": "C",
+            "down": "C",
+            "left": "C",
+            "right": "C",
+            "in": "C",
+            "out": "C"
         },
         "pictures": [
             {
@@ -56,7 +53,7 @@
                     "height": 10
                 },
                 "pictureViewTime": 5000,
-                "relative": true,
+                "relative": false,
                 "maxRecursionDepth": 10
             }
         ]

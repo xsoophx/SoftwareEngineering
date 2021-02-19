@@ -15,7 +15,6 @@ import tornadofx.group
 import tornadofx.imageview
 import tornadofx.pane
 import tornadofx.replaceChildren
-import java.awt.Toolkit
 import java.nio.file.Path
 
 /**
@@ -54,9 +53,6 @@ class DataClientHeatMapView : MainBarView("Data Client Heat Map") {
             colors[1].blue.toDouble() / 256
         )
 
-    private val screenWidth = Toolkit.getDefaultToolkit().screenSize.getWidth()
-    private val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
-
     /**
      *  shows the image selected (currently default image) and draws circles with the viewpoints.
      */
@@ -67,13 +63,15 @@ class DataClientHeatMapView : MainBarView("Data Client Heat Map") {
                     image = Image("${imagePath.toAbsolutePath().toUri()}")
                     viewport = Rectangle2D(0.0, 0.0, image.width, image.height)
                     isPreserveRatio = true
-                    maxHeightProperty().bind(contentBox.heightProperty())
-                    fitWidthProperty().bind(contentBox.widthProperty())
+                    maxWidthProperty().bind(root.widthProperty())
+                    fitHeightProperty().bind(root.heightProperty())
                     logger.info("width: $maxWidth")
                     logger.info("height: $fitHeight")
                 }
                 group {
-                    dataList.forEach {
+                    dataList.filter {
+                        it.imagePath.fileName == imagePath.fileName
+                    }.forEach {
                         val position = iv.imageToImageView(it.coordinate)
                         circle {
                             logger.info("$position")
@@ -90,7 +88,7 @@ class DataClientHeatMapView : MainBarView("Data Client Heat Map") {
     }
 
     /**
-     * Converts the image points of the 2DPoint into screencoordinates.
+     * Converts the image points of the 2DPoint into screen coordinates.
      * @param position is the ImageCoordinate, taken in another tool
      * @receiver ImageView contains the shapes and the image itself
      */

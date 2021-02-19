@@ -72,7 +72,7 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
                         val codeChartsPicturePie =
                             metaDataController.queryPictureDistribution(
                                 metaDataController.allImages.map {
-                                    it.name to metaDataController.query.queryCodeChartsImage("\\${it.path.fileName}")
+                                    it.name to metaDataController.query.queryCodeChartsImage("/${it.path.fileName}")
                                 }.toMap()
                             )
 
@@ -112,7 +112,7 @@ class DataClientMetaDataView : MainBarView("Data Client Metadata") {
                         val zoomPicturePie =
                             metaDataController.queryPictureDistribution(
                                 metaDataController.allImages.map {
-                                    it.name to metaDataController.query.queryZoomMapsImage("\\${it.path.fileName}")
+                                    it.name to metaDataController.query.queryZoomMapsImage("/${it.path.fileName}")
                                 }.toMap()
                             )
 

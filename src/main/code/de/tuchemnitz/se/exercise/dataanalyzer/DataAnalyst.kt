@@ -11,7 +11,7 @@ import tornadofx.Controller
 class DataAnalyst : Controller() {
 
     /**
-     * @param query gets the data from the database
+     * query gets the data from the database
      */
     private val query: Query by inject()
 
