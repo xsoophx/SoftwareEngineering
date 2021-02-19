@@ -18,14 +18,14 @@ class CodeChartsConfigMapper : Controller() {
                 pictures = listOf(
                     PictureData(
                         imagePath = codeChartsValues.imagePath,
-                        matrixViewTime = codeChartsValues.matrixViewTime.toInt(),
                         grid = Grid(codeChartsValues.gridDimension.x.toInt(), codeChartsValues.gridDimension.y.toInt()),
                         pictureViewTime = codeChartsValues.pictureViewTime.toInt(),
-                        ordered = codeChartsValues.sorted,
                         relative = codeChartsValues.relative,
                         maxRecursionDepth = codeChartsValues.recursionDepth
                     )
-                )
+                ),
+                matrixViewTime = codeChartsValues.matrixViewTime.toInt(),
+                ordered = codeChartsValues.sorted
             ).also {
                 configManager.savePersistable(
                     CodeChartsData(

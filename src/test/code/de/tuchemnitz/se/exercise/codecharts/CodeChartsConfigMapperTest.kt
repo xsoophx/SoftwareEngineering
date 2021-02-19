@@ -17,6 +17,7 @@ import io.mockk.excludeRecords
 import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
+import javafx.geometry.Point2D
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -57,13 +58,16 @@ class CodeChartsConfigMapperTest : Controller() {
             scaledImageSize = Dimension(x = 1.0, y = 2.0),
             screenSize = Dimension(x = 1.0, y = 2.0),
             gridDimension = Dimension(x = 1.0, y = 2.0),
-            matrixViewTime = 1.0,
-            pictureViewTime = 2.0,
+            matrixViewTime = 1,
+            pictureViewTime = 2,
             relative = false,
             recursionDepth = 4,
             allowedChars = StringCharacters(upperCase = false, lowerCase = false, numbers = true),
             sorted = true,
-            eyePos = Interval2D(xMax = 2.0, xMin = 0.0, yMax = 9.0, yMin = 0.0)
+            eyePos = Interval2D(
+                minimum = Point2D(0.0, 0.0),
+                maximum = Point2D(2.0, 9.0)
+            )
         )
 
         val expectedConfig = CodeChartsConfig(
@@ -72,14 +76,14 @@ class CodeChartsConfigMapperTest : Controller() {
             pictures = listOf(
                 PictureData(
                     imagePath = "",
-                    matrixViewTime = 1,
                     grid = Grid(1, 2),
                     pictureViewTime = 2,
-                    ordered = true,
                     relative = false,
                     maxRecursionDepth = 4
                 )
-            )
+            ),
+            matrixViewTime = 1,
+            ordered = true
         )
 
         val expectedData = CodeChartsData(
@@ -87,7 +91,10 @@ class CodeChartsConfigMapperTest : Controller() {
             originalImageSize = Dimension(x = 1.0, y = 2.0),
             scaledImageSize = Dimension(x = 1.0, y = 2.0),
             screenSize = Dimension(x = 1.0, y = 2.0),
-            stringPosition = Interval2D(xMax = 2.0, xMin = 0.0, yMax = 9.0, yMin = 0.0),
+            stringPosition = Interval2D(
+                minimum = Point2D(0.0, 0.0),
+                maximum = Point2D(2.0, 9.0)
+            ),
             currentUser = DummyData.userData.first()
         )
 
@@ -104,7 +111,8 @@ class CodeChartsConfigMapperTest : Controller() {
             it.copy(
                 _id = expectedData._id,
                 codeChartsConfig = it.codeChartsConfig.copy(_id = expectedConfig._id, savedAt = expectedConfig.savedAt),
-                currentUser = expectedData.currentUser
+                currentUser = expectedData.currentUser,
+                savedAt = expectedData.savedAt
 
             )
         }

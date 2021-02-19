@@ -2,9 +2,12 @@ package de.tuchemnitz.se.exercise.core.configmanager
 
 import de.tuchemnitz.se.exercise.persist.AbstractCollection
 import de.tuchemnitz.se.exercise.persist.IPersist
+import de.tuchemnitz.se.exercise.persist.Image
+import de.tuchemnitz.se.exercise.persist.ImageCollection
+import de.tuchemnitz.se.exercise.persist.ImageCollection.Companion.DEFAULT_IMAGES
+import de.tuchemnitz.se.exercise.persist.ImageCollection.Companion.defaultImagePath
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.EyeTrackingConfig
-import de.tuchemnitz.se.exercise.persist.configs.IConfig
 import de.tuchemnitz.se.exercise.persist.configs.ZoomMapsConfig
 import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.configs.collections.EyeTrackingConfigCollection
@@ -21,6 +24,7 @@ import javafx.scene.input.KeyCode
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.bson.BsonDocument
+import org.litote.kmongo.`in`
 import org.litote.kmongo.descending
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -61,6 +65,8 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
     private val eyeTrackingDataCollection: EyeTrackingDataCollection by inject()
     private val userDataCollection: UserDataCollection by inject()
 
+    private val imageCollection: ImageCollection by inject()
+
     private val configCollections = ConfigCollections(
         codeChartsConfigCollection,
         zoomMapsConfigCollection,
@@ -74,29 +80,74 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
         userDataCollection
     )
 
-    var currentUser = UserData()
+    var currentUser = UserData(default = true)
+    private fun userSavable() = userDataCollection.findOneById(currentUser._id) == null
 
     companion object {
         val logger: Logger = LoggerFactory.getLogger(ConfigManager::class.java)
 
         @Serializable
-        val generalSettings = General(selectionMenuEnabled = true, activatedTool = null, configPath = "")
+        val generalSettings =
+            General(
+                fullscreen = true,
+                width = java.awt.Toolkit.getDefaultToolkit().screenSize.getWidth().toInt(),
+                height = java.awt.Toolkit.getDefaultToolkit().screenSize.getHeight().toInt(),
+                selectionMenuEnabled = true,
+                activatedTool = null,
+                masterPath = "masterPath",
+                exportPath = "exportPath",
+                imagePath = "imagePath"
+            )
 
         val dataClientConfig = DataClientConfig(
-            colorSampleBoard = setOf(ColorSampleBoard(red = 1, green = 2, blue = 3)),
-            exportPath = "exportPath"
+            colorSampleBoard = setOf(
+                ColorSampleBoard(
+                    red = 50,
+                    green = 168,
+                    blue = 133
+                ), ColorSampleBoard(
+                    red = 129,
+                    green = 50,
+                    blue = 168
+                )
+            )
         )
-
-        // TODO
         val databaseConfig =
-            DatabaseConfig(dataBaseName = "test", dataBasePath = "databasePath", username = "root")
+            DatabaseConfig(dataBasePath = "databasePath")
     }
 
     /**
      * Compares the most recent database entry with the config file
      */
     fun checkDBSimilarity(): Boolean {
+        // TODO:
         return true
+    }
+
+    /**
+     * Checks which template Images do exist.
+     * @throws IllegalArgumentException
+     */
+    fun checkTemplateImages() {
+        val defaultPaths = DEFAULT_IMAGES.asSequence().map(::defaultImagePath).toSet()
+        val existing = imageCollection.existingDefaultImages()
+            .mapNotNull { defaultImagePath(it).takeIf(Files::exists) }
+            .toSet()
+        val missing = defaultPaths - existing
+        if (missing.isNotEmpty()) {
+            throw IOException("Required images missing: $missing")
+        }
+    }
+
+    /**
+     * Returns all paths of existing pictures.
+     */
+    fun getAllImages(): List<Image> {
+        val images = imageCollection.find().toList()
+        val missing =
+            images.asSequence().mapNotNull { (id, _, _, path) -> id.takeUnless { Files.exists(path) } }.toSet()
+        imageCollection.deleteMany(Image::_id `in` missing)
+        return images.filter { it._id !in missing }
     }
 
     /**
@@ -104,12 +155,16 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
      * @param path specifies the path where the file is written, default is the configFilePath
      * @throws IOException when writing of file goes wrong.
      */
-    fun writeFile(path: Path = Path.of(configFilePath)) {
+    fun writeFileNoThrow(path: Path = Path.of(configFilePath)) {
         try {
-            Files.writeString(path, configFile(), StandardCharsets.UTF_8)
+            writeFile(path)
         } catch (e: IOException) {
             logger.error("Could not write file.", e)
         }
+    }
+
+    fun writeFile(path: Path = Path.of(configFilePath)) {
+        Files.writeString(path, configFile(), StandardCharsets.UTF_8)
     }
 
     /**
@@ -144,9 +199,18 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
             is CodeChartsConfig -> configCollections.codeChartsConfigCollection.saveOne(config)
             is ZoomMapsConfig -> configCollections.zoomMapsConfigCollection.saveOne(config)
             is EyeTrackingConfig -> configCollections.eyeTrackingConfigCollection.saveOne(config)
-            is CodeChartsData -> dataCollections.codeChartsDataCollection.saveOne(config)
-            is ZoomMapsData -> dataCollections.zoomMapsDataCollection.saveOne(config)
-            is EyeTrackingData -> dataCollections.eyeTrackingDataCollection.saveOne(config)
+            is CodeChartsData -> dataCollections.codeChartsDataCollection.saveOne(config).also {
+                if (!currentUser.default && userSavable())
+                    dataCollections.userDataCollection.saveOne(config.currentUser)
+            }
+            is ZoomMapsData -> dataCollections.zoomMapsDataCollection.saveOne(config).also {
+                if (!currentUser.default && userSavable())
+                    dataCollections.userDataCollection.saveOne(config.currentUser)
+            }
+            is EyeTrackingData -> dataCollections.eyeTrackingDataCollection.saveOne(config).also {
+                if (!currentUser.default && userSavable())
+                    dataCollections.userDataCollection.saveOne(config.currentUser)
+            }
             else -> logger.error("Couldn't fetch this Config type.")
         }
     }
@@ -155,12 +219,28 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
      * This function sets general settings for the config file.
      * @param selectionMenuEnabled specifies whether the selection menu of the config file is enabled or not
      * @param activatedTool specifies the tool which is currently activated
-     * @param configPath specifies the path where the config file is saved
+     * @param masterPath specifies toplevel path
+     * @param exportPath specifies the path where the config file is saved
+     * @param imagePath specifies the path where all the images are being saved
      */
-    fun setGeneralSettings(selectionMenuEnabled: Boolean, activatedTool: Int?, configPath: Path) {
+    fun setGeneralSettings(
+        fullscreen: Boolean,
+        width: Int,
+        height: Int,
+        selectionMenuEnabled: Boolean,
+        activatedTool: Int?,
+        masterPath: Path,
+        exportPath: Path,
+        imagePath: Path
+    ) {
         generalSettings.activatedTool = activatedTool
         generalSettings.selectionMenuEnabled = selectionMenuEnabled
-        generalSettings.configPath = configPath.toString()
+        generalSettings.fullscreen = fullscreen
+        generalSettings.width = width
+        generalSettings.height = height
+        generalSettings.masterPath = masterPath.toString()
+        generalSettings.exportPath = exportPath.toString()
+        generalSettings.imagePath = imagePath.toString()
     }
 
     /**
@@ -187,16 +267,32 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
      * and puts them together to be saved in the config file
      */
     fun assembleAllConfigurations(): ToolConfigs {
+        val recentZoomConfig = dataCollections.zoomMapsDataCollection.findMostRecent()
+        val keyCode = recentZoomConfig?.zoomKey ?: KeyCode.C
+        val zoomImage = recentZoomConfig?.imagePath ?: ""
+        val zoomSpeed = recentZoomConfig?.zoomSpeed ?: 1.0
         return ToolConfigs(
             codeChartsConfig = configCollections.codeChartsConfigCollection.findMostRecent(),
-            zoomMapsConfig = configCollections.zoomMapsConfigCollection.findMostRecent(),
+            zoomMapsConfig = ConfigFileZoomMaps(
+                keyBindings = KeyBindings(
+                    up = keyCode,
+                    down = keyCode,
+                    left = keyCode,
+                    right = keyCode,
+                    inKey = keyCode,
+                    out = keyCode
+                ),
+                filter = setOf(ZoomInformation(name = zoomImage, zoomSpeed = zoomSpeed))
+            ),
+
             // TODO
-            eyeTrackingConfig = EyeTrackingConfig(dummyVal = ""),
-            // TODO
+            eyeTrackingConfig = EyeTrackingConfig(
+                pictures = emptyList()
+            ),
             bubbleViewConfig = BubbleViewConfig(
                 filter = setOf(
                     FilterInformation(
-                        path = "",
+                        name = "",
                         Filter(gradient = 1, type = "gaussianBlur")
                     )
                 )
@@ -208,12 +304,34 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
      * Finds the most recent config of a specified type of config.
      * @param T of type IConfig, the config type which is being searched for
      */
-    private fun <T : IConfig> AbstractCollection<T>.findMostRecent(): T? =
-        find(BsonDocument()).sort(descending(IConfig::savedAt))
+    private fun <T : IPersist> AbstractCollection<T>.findMostRecent(): T? =
+        find(BsonDocument()).sort(descending(IPersist::savedAt))
             .firstOrNull()
 
     /**
      * Decodes the config file to data classes.
      */
     fun decodeConfig() = readFile(Path.of(configFilePath))?.let { Json.decodeFromString(ConfigFile.serializer(), it) }
+
+    /**
+     * Gets the DataAnalysts Colors out of the Config File
+     * Has default greenish and bluish colors
+     */
+    fun getConfigColours(): List<ColorSampleBoard> =
+        decodeConfig()?.dataClientConfig?.colorSampleBoard?.toList() ?: listOf(
+            ColorSampleBoard(
+                red = 50,
+                green = 168,
+                blue = 133
+            ), ColorSampleBoard(
+                red = 129,
+                green = 50,
+                blue = 168
+            )
+        )
+
+    /**
+     * Returns the needed settings for the CodeChartsTool.
+     */
+    fun codeChartsSettings() = decodeConfig()?.codeChartsConfig
 }
