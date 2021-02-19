@@ -12,7 +12,7 @@ import java.io.IOException
 
 open class MainBarView(viewTitle: String) : View(viewTitle) {
     private val configManager: ConfigManager by inject()
-    override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
+    final override val root: BorderPane by fxml(MainApp.MAIN_VIEW_TEMPLATE_PATH)
     val contentBox: VBox by fxid("content")
     val exitButton: Button by fxid("exit_button")
     val mainMenuButton: Button by fxid("main_menu_button")
