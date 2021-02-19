@@ -102,7 +102,7 @@ class ZoomMapsView : MainBarView("Zoom Maps") {
              * properties width and height, thus, the image scales with the screen size while zooming in and out.
              */
             imageview {
-                val nonNullableImagePath = if (imagePath != IMAGE_PATH) "\\${imagePath}" else IMAGE_PATH
+                val nonNullableImagePath = if (imagePath != IMAGE_PATH) "\\$imagePath" else IMAGE_PATH
                 image = Image(nonNullableImagePath)
                 maxWidthProperty().bind(root.widthProperty())
                 fitHeightProperty().bind(root.heightProperty())
