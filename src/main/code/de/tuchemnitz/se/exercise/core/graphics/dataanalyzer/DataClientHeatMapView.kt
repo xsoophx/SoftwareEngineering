@@ -69,7 +69,9 @@ class DataClientHeatMapView : MainBarView("Data Client Heat Map") {
                     logger.info("height: $fitHeight")
                 }
                 group {
-                    dataList.forEach {
+                    dataList.filter {
+                        it.imagePath.toString() == "/${imagePath.fileName}"
+                    }.forEach {
                         val position = iv.imageToImageView(it.coordinate)
                         circle {
                             logger.info("$position")
