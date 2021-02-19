@@ -85,5 +85,5 @@ data class ClickCounter(
     var recursionCounter: Int = 0,
     var pictureImageView: ImageView,
     var viewPort: Rectangle2D,
-    val recurseAt: Int,
+    val recurseAt: Int
 )
