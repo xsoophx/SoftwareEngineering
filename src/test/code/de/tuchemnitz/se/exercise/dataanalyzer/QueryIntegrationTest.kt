@@ -3,26 +3,24 @@ package de.tuchemnitz.se.exercise.dataanalyzer
 import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.isEqualTo
-import assertk.assertions.isIn
 import de.tuchemnitz.se.exercise.DummyData
+import de.tuchemnitz.se.exercise.persist.AbstractDatabaseTest
 import de.tuchemnitz.se.exercise.persist.configs.CodeChartsConfig
 import de.tuchemnitz.se.exercise.persist.configs.PictureData
-import de.tuchemnitz.se.exercise.persist.configs.collections.CodeChartsConfigCollection
 import de.tuchemnitz.se.exercise.persist.data.CodeChartsData
 import de.tuchemnitz.se.exercise.persist.data.Gender
+import de.tuchemnitz.se.exercise.persist.data.UserData
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.litote.kmongo.div
 import org.litote.kmongo.eq
-import tornadofx.Controller
 
-class QueryIntegrationTest : Controller() {
+class QueryIntegrationTest : AbstractDatabaseTest() {
 
-    private val codeChartsConfigCollection: CodeChartsConfigCollection by inject()
+    private val query: Query by inject()
 
     companion object {
-        val query = Query()
         private val userDataFilter =
             UserDataFilter(
                 firstName = Filter(taken = true, value = "Klaus"),
@@ -76,7 +74,7 @@ class QueryIntegrationTest : Controller() {
     @Test
     fun `querying userData Filter should work`() {
         val queryResult = query.queryAllElementsSeparately(onlyUserDataFilter)
-        val databaseIterable = query.userDataCollection.find(DummyData.userData.first()::firstName eq "Klaus")
+        val databaseIterable = query.userDataCollection.find(UserData::firstName eq "Klaus")
         databaseIterable.forEach {
             assertThat(queryResult).contains(it)
         }
@@ -101,16 +99,12 @@ class QueryIntegrationTest : Controller() {
     @Test
     fun `querying with codeCharts and userData Filter should work`() {
         val queryResult = query.queryAllElementsSeparately(filter)
-        val databaseIterable = setOf(
-            query.codeChartsDataCollection.find(
-                CodeChartsData::codeChartsConfig / CodeChartsConfig::pictures / PictureData::imagePath
-                    eq "abc"
-            )
-        )
+        val expected = query.codeChartsDataCollection.find(
+            CodeChartsData::codeChartsConfig / CodeChartsConfig::pictures / PictureData::imagePath
+                eq "abc"
+        ).single()
 
+        assertThat(queryResult).contains(expected)
 
-        assertThat(queryResult).isIn(databaseIterable)
-
-        assertThat(queryResult.size).isEqualTo(databaseIterable.count())
     }
 }

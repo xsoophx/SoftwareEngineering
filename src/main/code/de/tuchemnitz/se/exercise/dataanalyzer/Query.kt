@@ -111,7 +111,7 @@ class Query : Controller() {
                 (
                     CodeChartsData::currentUser / UserData::lastName eq
                         userDataFilter.lastName.value
-                    ).takeIf { userDataFilter.firstName.taken },
+                    ).takeIf { userDataFilter.lastName.taken },
                 (
                     CodeChartsData::currentUser / UserData::age gte
                         (userDataFilter.age.value!!.minimumAge ?: 0)
