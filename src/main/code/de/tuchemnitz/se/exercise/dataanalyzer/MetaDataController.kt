@@ -9,6 +9,11 @@ import tornadofx.Controller
 import tornadofx.asObservable
 import tornadofx.observableListOf
 
+/**
+ * Queries the database for metadata concerning number and demographic of users and statistics concerning
+ * tool use and picture view
+ */
+
 class MetaDataController : Controller() {
 
     /**
@@ -20,6 +25,9 @@ class MetaDataController : Controller() {
     val totalCodeChartsUsers = query.codeChartsUsers()
     val totalZoomMapsUsers = query.zoomMapsUsers()
 
+    /**
+     * Finds total number of users, total number of datasets and total number of datasets distinguished by tool in the database
+     */
     fun totalUsers(): Int = query.userDataCollection.find().count()
 
     fun totalDatasets(): Int =
@@ -29,6 +37,9 @@ class MetaDataController : Controller() {
 
     private fun totalZoomMapsDataSets(): Int = query.zoomMapsDataCollection.find().count()
 
+    /**
+     * Gets and formats data to illustrate distribution of gender among users
+     */
     data class GenderPieChartData(
         val totalMale: Int = 0,
         val totalFemale: Int = 0,
@@ -53,6 +64,11 @@ class MetaDataController : Controller() {
             )
         }
 
+    /**
+     * Gets and formats data to illustrate age distribution among users
+     * @param userList: Contains user data which is used to create pie chart data
+     */
+
     fun createAgePie(userList: List<UserData>): ObservableList<PieChart.Data> =
         userList.fold(IntArray(8)) { piechartdata, userdata ->
             if (userdata.age == 0) {
@@ -72,6 +88,9 @@ class MetaDataController : Controller() {
             PieChart.Data(description, total.toDouble())
         }.asObservable()
 
+    /**
+     * Formats data pertaining to tool use distribution among the total collected data
+     */
     fun createToolPie(): ObservableList<PieChart.Data> {
         return listOf(
             PieChart.Data("Code Charts", totalCodeChartsDataSets().toDouble()),
@@ -80,7 +99,8 @@ class MetaDataController : Controller() {
     }
 
     /**
-     * query database for metadata specific to CODE CHARTS tool
+     * Gets and formats data pertaining to distribution of what pictures were most viewed among the total collected data
+     * @param pictures: Contains picture path and number of occurrences in datasets
      */
     fun queryPictureDistribution(pictures: Map<String, Int>): ObservableList<PieChart.Data> = observableListOf(
         pictures.filter { (_, count) ->
