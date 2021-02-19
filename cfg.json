@@ -1,8 +1,8 @@
 {
     "general": {
         "fullscreen": true,
-        "width": 1920,
-        "height": 1080,
+        "width": 1680,
+        "height": 1050,
         "selectionMenuEnabled": true,
         "activatedTool": null,
         "masterPath": "masterPath",
@@ -37,7 +37,7 @@
         ]
     },
     "codeCharts": {
-        "matrixViewTime": 5,
+        "matrixViewTime": 5000,
         "minViewsToSubdivide": 0,
         "ordered": true,
         "stringCharacters": {
@@ -52,9 +52,9 @@
                     "width": 10,
                     "height": 10
                 },
-                "pictureViewTime": 5,
-                "relative": false,
-                "maxRecursionDepth": 0
+                "pictureViewTime": 5000,
+                "relative": true,
+                "maxRecursionDepth": 10
             }
         ]
     },
