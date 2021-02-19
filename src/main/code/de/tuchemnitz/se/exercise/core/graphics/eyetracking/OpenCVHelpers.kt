@@ -5,7 +5,8 @@ import org.opencv.core.Mat
 import org.opencv.core.MatOfByte
 import org.opencv.imgcodecs.Imgcodecs.imencode
 import org.opencv.videoio.VideoCapture
-import org.opencv.videoio.Videoio.*
+import org.opencv.videoio.Videoio.CAP_PROP_FRAME_HEIGHT
+import org.opencv.videoio.Videoio.CAP_PROP_FRAME_WIDTH
 import org.slf4j.LoggerFactory
 import java.io.ByteArrayInputStream
 

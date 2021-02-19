@@ -8,7 +8,15 @@ import javafx.beans.property.SimpleIntegerProperty
 import javafx.geometry.Pos
 import javafx.scene.Parent
 import javafx.scene.image.ImageView
-import tornadofx.*
+import tornadofx.View
+import tornadofx.combobox
+import tornadofx.hbox
+import tornadofx.imageview
+import tornadofx.label
+import tornadofx.singleAssign
+import tornadofx.vbox
+import tornadofx.getValue
+import tornadofx.setValue
 
 class EyeTrackingView : View(title = "Eye-Tracking") {
     private val videoCaptureIndexProperty = SimpleIntegerProperty(this, "videoCaptureIndex", 0)
