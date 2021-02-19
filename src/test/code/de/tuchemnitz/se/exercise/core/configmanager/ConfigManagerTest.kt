@@ -117,7 +117,7 @@ class ConfigManagerTest {
                     inKey = keyCode,
                     out = keyCode
                 ),
-                filter = setOf(ZoomInformation(name = zoomImage, zoomSpeed = zoomSpeed))
+                pictures = listOf(ZoomInformation(name = zoomImage, zoomSpeed = zoomSpeed))
             ),
             // TODO
             eyeTrackingConfig = EyeTrackingConfig(pictures = emptyList()),
