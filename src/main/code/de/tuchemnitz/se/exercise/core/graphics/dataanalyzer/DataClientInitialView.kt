@@ -57,11 +57,7 @@ class DataClientInitialView : MainBarView("Willkommen beim Data Client!") {
     private val configManager: ConfigManager by inject()
     private val images = configManager.getAllImages()
 
-    /**
-     * Variables to allow the user to choose the image on which the data was collected
-     */
-
-    /** dataClientQueryModel is to pass information to (entered by the user)
+    /** dataClientQueryModel is used to pass information to (entered by the user)
      * dataAnalyst analyzes data and initializes query object
      */
     private val dataClientQueryModel = DataClientQueryModel()
