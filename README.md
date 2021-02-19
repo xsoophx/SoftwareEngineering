@@ -68,16 +68,15 @@ tool, a functional as well as a non-functional requirement needs to be described
 
 #### Enumeration of Volere Snowcard IDs
 
-| **
-Req-ID's**  | functional | non-functional | | ------------- | :---------------------------------------------: | :
--------------------------------------------------: | | Config File | [M01-01F](docs/m01/snowcards/functional/01F.md)
-| [M01-01N](docs/m01/snowcards/non-functional/01N.md) | | Bubble View | [M01-02F](docs/m01/snowcards/functional/02F.md)
-| [M01-02N](docs/m01/snowcards/non-functional/02N.md) | | Zoom Maps | [M01-03F](docs/m01/snowcards/functional/03F.md)
-| [M01-03N](docs/m01/snowcards/non-functional/03N.md) | | Code Charts | [M01-04F](docs/m01/snowcards/functional/04F.md)
-| [M01-04N](docs/m01/snowcards/non-functional/04N.md) | | Eyetracking | [M01-05F](docs/m01/snowcards/functional/05F.md)
-| [M01-05N](docs/m01/snowcards/non-functional/05N.md) | | Data storage | [M01-06F](docs/m01/snowcards/functional/06F.md)
-| [M01-06N](docs/m01/snowcards/non-functional/06N.md) | | Data analysis
-| [M01-07F](docs/m01/snowcards/functional/07F.md) | [M01-07N](docs/m01/snowcards/non-functional/07N.md) |
+| **Req-ID's**  |                   functional                    |                   non-functional                    |
+| ------------- | :---------------------------------------------: | :-------------------------------------------------: |
+| Config File   | [M01-01F](docs/m01/snowcards/functional/01F.md) | [M01-01N](docs/m01/snowcards/non-functional/01N.md) |
+| Bubble View   | [M01-02F](docs/m01/snowcards/functional/02F.md) | [M01-02N](docs/m01/snowcards/non-functional/02N.md) |
+| Zoom Maps     | [M01-03F](docs/m01/snowcards/functional/03F.md) | [M01-03N](docs/m01/snowcards/non-functional/03N.md) |
+| Code Charts   | [M01-04F](docs/m01/snowcards/functional/04F.md) | [M01-04N](docs/m01/snowcards/non-functional/04N.md) |
+| Eyetracking   | [M01-05F](docs/m01/snowcards/functional/05F.md) | [M01-05N](docs/m01/snowcards/non-functional/05N.md) |
+| Data storage  | [M01-06F](docs/m01/snowcards/functional/06F.md) | [M01-06N](docs/m01/snowcards/non-functional/06N.md) |
+| Data analysis | [M01-07F](docs/m01/snowcards/functional/07F.md) | [M01-07N](docs/m01/snowcards/non-functional/07N.md) |
 
 <br />
 
