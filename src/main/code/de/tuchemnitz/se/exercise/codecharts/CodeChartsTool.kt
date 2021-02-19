@@ -20,7 +20,7 @@ object CodeChartsTool : Controller() {
     private val configManager: ConfigManager by inject()
 
     private val codeChartsSettings = configManager.decodeConfig()?.codeChartsConfig ?: CodeChartsConfig(
-        minViewsToSubdivide = 5,
+        minViewsToSubdivide = MIN_VIEWS_TO_SUBDIVIDE,
         stringCharacters = StringCharacters(lowerCase = true, upperCase = true, numbers = true),
         pictures = listOf(
             PictureData(
@@ -83,7 +83,7 @@ object CodeChartsTool : Controller() {
             0.0,
             0.0,
             0.0,
-            0.0,
+            0.0
         ),
         recurseAt = codeChartsSettings.minViewsToSubdivide,
         pictureImageView = ImageView()
