@@ -24,6 +24,7 @@ out/
 !src/main/resources/Chameleon.png
 !src/main/resources/Kitten.jpg
 !src/main/resources/Penguin.jpg
+!src/main/resources/Background.jpg
 
 !build/dokka/
 
