@@ -12,23 +12,23 @@ data class CodeChartsValues(
      * [originalImageSize] contains width and height of loaded image in pixels.
      * [scaledImageSize] contains width and height of image after scaling it to user's screen.
      * [screenSize] size of users' screen which is used to scale image.
-     * [pictureViewTime] contains time the image is shown in seconds.
+     * [pictureViewTime] contains time the image is shown in milliseconds.
      */
     val imagePath: String,
     var originalImageSize: Dimension,
     var scaledImageSize: Dimension,
     var screenSize: Dimension,
-    val pictureViewTime: Double,
+    val pictureViewTime: Int,
 
     /**
      * All grid values.
      * [gridDimension] contains number of grid cells in width and height dimension.
-     * [matrixViewTime] contains time the grid is shown to the user in seconds.
+     * [matrixViewTime] contains time the grid is shown to the user in milliseconds.
      * [relative] defines whether an area of the image will have to be requested more detailed.
      * [recursionDepth] defines how often the corresponding area will be resized.
      */
     val gridDimension: Dimension,
-    val matrixViewTime: Double,
+    val matrixViewTime: Int,
     val relative: Boolean = false,
     val recursionDepth: Int = 0,
 

@@ -30,7 +30,7 @@ class CodeChartsPictureView(
     private val screenWidth = Toolkit.getDefaultToolkit().screenSize.getWidth()
     private val screenHeight = Toolkit.getDefaultToolkit().screenSize.getHeight()
     private val screenSize = Dimension(x = screenWidth, y = screenHeight)
-    var pictureViewImageView: ImageView by singleAssign()
+    private var pictureViewImageView: ImageView by singleAssign()
 
     override val root = vbox {
         primaryStage.isFullScreen = true
@@ -77,7 +77,7 @@ class CodeChartsPictureView(
      * Replaces CodeChartsPictureView with CodeChartsGridView when timer is ready.
      */
     private fun goToGridView() {
-        val delay = PauseTransition(Duration.seconds(codeChartsData.pictureViewTime))
+        val delay = PauseTransition(Duration.millis(codeChartsData.pictureViewTime.toDouble()))
         delay.onFinished = EventHandler {
             codeChartsClickCounter.pictureImageView = pictureViewImageView
             replaceWith(CodeChartsGridView::class)

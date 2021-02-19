@@ -216,4 +216,9 @@ class ConfigManager(var configFilePath: String = "cfg.json") : Controller() {
      * Decodes the config file to data classes.
      */
     fun decodeConfig() = readFile(Path.of(configFilePath))?.let { Json.decodeFromString(ConfigFile.serializer(), it) }
+
+    /**
+     * Returns the needed settings for the CodeChartsTool.
+     */
+    fun codeChartsSettings() = decodeConfig()?.codeChartsConfig
 }
