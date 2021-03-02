@@ -23,11 +23,18 @@ import kotlin.math.round
  * Main logic for the Eye Tracking View is implemented here.
  */
 object OpenCVHelpers {
-    private const val CLASSIFIER_PATH = "src/main/code/de/tuchemnitz/se/exercise/core/graphics/eyetracking/classifiers/haarcascade_eye.xml"
+    private const val CLASSIFIER_PATH =
+        "src/main/resources/classifiers/haarcascade_eye.xml"
     private val logger = LoggerFactory.getLogger(OpenCVHelpers::class.java)
 
+    /**
+     * Starts video capture
+     */
     private val capture = VideoCapture()
 
+    /**
+     * Loads data for eyetracking
+     */
     private val classifier = CascadeClassifier(CLASSIFIER_PATH).apply {
         if (empty()) {
             val currentWorkingDir = Paths.get("").toAbsolutePath().toString()
@@ -35,6 +42,9 @@ object OpenCVHelpers {
         }
     }
 
+    /**
+     * Collects all camera data (how many cameras)
+     */
     val CAMERAS: List<CameraInfo> by lazy {
         val results = mutableListOf<CameraInfo>()
         var count = 0
@@ -52,9 +62,9 @@ object OpenCVHelpers {
         return@lazy results
     }
 
-    /*
-* Data class, which is holding the Resolution of the camera.
-*/
+    /**
+     * Data class, which is holding the Resolution of the camera and frames per second.
+     */
     data class CameraInfo(val width: Double = -1.0, val height: Double = -1.0, val framesPerSecond: Double = 0.0)
 
     /**
@@ -65,6 +75,12 @@ object OpenCVHelpers {
         capture.open(index)
     }
 
+    /**
+     * Neuronal net can only handle grey scales, so gery scaling is applied.
+     * Histogram is normalising the greyscale of teh image.
+     * minFaceSize - Eyes are 20% smaller than face at minimum
+     *
+     */
     private fun markEyes(frame: Mat) {
         if (!classifier.empty()) {
             val greyFrame = Mat()
@@ -87,6 +103,9 @@ object OpenCVHelpers {
 
     /**
      * One frame is being captured and returned as an Image.
+     * Mat creates an empty image. Captureread changes the image and changes the boolean.
+     * Through this boolean, a savecall chain is made.
+     * For an Image, encoding still needs to be made out of the matrice.
      */
     fun captureImage(): Image? = Mat()
         .takeIf(capture::read)

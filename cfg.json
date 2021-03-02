@@ -1,8 +1,8 @@
 {
     "general": {
         "fullscreen": true,
-        "width": 1680,
-        "height": 1050,
+        "width": 1920,
+        "height": 1080,
         "selectionMenuEnabled": true,
         "activatedTool": null,
         "masterPath": "masterPath",
@@ -52,8 +52,8 @@
                     "width": 10,
                     "height": 10
                 },
-                "pictureViewTime": 5000,
-                "relative": false,
+                "pictureViewTime": 1000,
+                "relative": true,
                 "maxRecursionDepth": 10
             }
         ]
